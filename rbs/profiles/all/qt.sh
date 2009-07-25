@@ -53,9 +53,7 @@ build(){
     -stl \
     -reduce-relocations \
     -no-separate-debug-info \
-    -release \
-    -nomake demos \
-    -nomake examples || return 1
+    -release || return 1
   make || return 1
   make install INSTALL_ROOT=$TMPROOT || return 1
   cd ../ || return 1
