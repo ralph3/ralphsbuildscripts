@@ -1,0 +1,468 @@
+#!/bin/bash
+
+cd "$(dirname $0)" || exit 1
+RBSDIR="$PWD"
+
+source "$RBSDIR/shared" || exit 1
+
+[ "$Ralphs_Build_System" != "1" ] && {
+  echo "This script can't run on a system that wasn't built by me." >/dev/stderr
+  exit 1
+}
+
+[ "$USE_SHM_SRCDIR" == "1" ] && {
+  SRCDIR=/dev/shm/rbs/work/$W/source
+  mkdir -p $SRCDIR
+}
+
+do_depends(){
+/usr/bin/env python - $1 $2 << "PYTHON_CODE" || return 1
+import glob, os, sys
+
+def iself(binary):
+  if os.path.islink(binary) or not os.path.isfile(binary):
+    return 0
+  f=open(binary, 'r')
+  head=f.read(5)[1:4]
+  f.close()
+  if head == "ELF":
+    return 1
+  else:
+    return 0
+
+def get_filelists():
+  rfilelists = glob.glob("/var/lib/packages/current/*/filelist")
+  rfilelists.sort()
+  filelists={}
+  for path in rfilelists:
+    f = open(path)
+    name = path[26:][::-1][9:][::-1]
+    filelists[name] = {}
+    for file in f.read().split('\n'):
+      filelists[name][file] = ''
+    f.close()
+  return filelists
+
+def strpos(string, char, count):
+  n=0
+  ct=0
+  for c in range(len(string)):
+    if string[c] == char:
+      if not ct == count:
+        ct += 1
+      else:
+        break
+    n += 1
+  return n
+
+def elfdeps(binary):
+  f = os.popen('ldd ' + binary + ' 2>/dev/null', 'r')
+  l = f.read().split('\n')
+  f.close()
+  deps = {}
+  for line in l:
+    if line:
+      line = line[::-1][:strpos(line[::-1], '>', 0)][::-1].replace('\t', ' ')
+      line = line[::-1][strpos(line[::-1], ' ', 0):strpos(line[::-1], ' ', 1)][::-1]
+      line = line.replace(' ', '')
+      if line:
+        deps[line] = ''
+  return deps
+
+if len(sys.argv) == 1:
+  sys.exit(1)
+
+p    = open(sys.argv[1], 'r')
+l    = p.read().split('\n')
+p.close()
+
+list = []
+for x in l:
+  if x:
+    list.append(x)
+
+if not len(list):
+  sys.exit(1)
+
+filelists = get_filelists()
+elf_deps = {}
+deps = []
+for file in list:
+  if iself(file):
+    for dep in elfdeps(file):
+      elf_deps[dep] = ''
+for name in filelists:
+  for dep in elf_deps:
+    if filelists[name].has_key(dep):
+      if os.path.isfile(sys.argv[2] + "/" + name):
+        p = open(sys.argv[2] + "/" + name, "a")
+      else:
+        p = open(sys.argv[2] + "/" + name, "w")
+      p.write(dep + "\n")
+      p.close()
+PYTHON_CODE
+}
+
+do_install(){
+  local FLIST DOUP DOINST PVNAME VERSION SYS_VERSION NOSTRIP \
+    BUILDFUNC
+  DOUP=
+  DOINST=
+  NOSTRIP=$(exec_profile $1 DISABLE_STRIP)
+  rm -rf $TMPROOT
+  mkdir -p $TMPROOT || return 1
+  >$BUILDLOG || return 1
+  
+  exec_build_func(){
+    do_build_func(){
+      exec_profile $1 build || return 1
+      ls ${TMPROOT}/* >&/dev/null || {
+        echo "TMPROOT is empty!" >/dev/stderr
+        return 1
+      }
+      if [ -n "$(find $TMPROOT/usr/$LIBSDIR/pkgconfig/*.pc 2>/dev/null)" ]; then
+        if [ -z "$(find $TMPROOT/usr/$LIBSDIR/* | sed '/\/pkgconfig/d')" ] && \
+        [ -z "$(find $TMPROOT/$LIBSDIR/* 2>/dev/null)" ]; then
+          mkdir -p $TMPROOT/usr/share || return 1
+          mv $TMPROOT/usr/$LIBSDIR/pkgconfig $TMPROOT/usr/share/ || return 1
+          rm -rf $TMPROOT/usr/$LIBSDIR || return 1
+        fi
+      fi
+    }
+    do_build_func $1 2>&1 || return 1
+    return 0
+  }
+  
+  if [ "$SYSTYPE" == "MULTILIB" ]; then
+    set_32bit_vars(){
+      BUILD="$BUILD32"
+      LIBSDIR="$LIBSDIR32"
+      BUILDTARGET="$BUILDTARGET32"
+      USE_ARCH="32"
+      PKG_CONFIG_PATH=$PKG_CONFIG_PATH32
+      export BUILD LIBSDIR USE_ARCH PKG_CONFIG_PATH BUILDTARGET
+    }
+    set_64bit_vars(){
+      BUILD="$BUILD64"
+      LIBSDIR="$LIBSDIR64"
+      BUILDTARGET="$BUILDTARGET64"
+      USE_ARCH="64"
+      PKG_CONFIG_PATH=$PKG_CONFIG_PATH64
+      export BUILD LIBSDIR USE_ARCH PKG_CONFIG_PATH BUILDTARGET
+    }
+    if [ "$(exec_profile $1 ONLY32)" == "1" ]; then
+      set_32bit_vars
+      echo -e "\nBuilding 32BIT Only ${1}...\n"
+      exec_build_func $1 || {
+        echo -e "\n32BIT build failed for ${1}...\n"
+        return 1
+      }
+    else
+      set_64bit_vars
+      echo -e "\nBuilding 64BIT (MULTILIB) ${1}...\n"
+      exec_build_func $1 || {
+        echo -e "\n64BIT build failed for ${1}...\n"
+        return 1
+      }
+      if [ "$(exec_profile $1 DISABLE_MULTILIB)" != "1" ] && \
+      [ -n "$(find $TMPROOT -name "$LIBSDIR" -type d | sed '/\/var\//d')" ] || \
+      [ "$(exec_profile $1 ENABLE_MULTILIB)" == "1" ]; then
+        rm -rf ${TMPROOT}-64 || return 1
+        mv $TMPROOT ${TMPROOT}-64 || return 1
+        mkdir -p $TMPROOT || return 1
+        set_32bit_vars
+        echo -e "\nBuilding 32BIT (MULTILIB) ${1}...\n"
+        exec_build_func $1 || {
+          echo -e "\n32BIT build failed for ${1}...\n"
+          return 1
+        }
+        HERE="$PWD" || return 1
+        if [ "$(exec_profile $1 DEFAULT32)" == "1" ]; then
+          mv $TMPROOT ${TMPROOT}-32 || return 1
+          mv ${TMPROOT}-64 $TMPROOT || return 1
+          cd ${TMPROOT}-32 || return 1
+          tar cp * | tar xp -C $TMPROOT || return 1
+          cd $HERE || return 1
+          rm -rf ${TMPROOT}-32
+        else
+          cd ${TMPROOT}-64 || return 1
+          tar cp * | tar xp -C $TMPROOT || return 1
+          cd $HERE || return 1
+          rm -rf ${TMPROOT}-64
+        fi
+      fi
+    fi
+  else
+    echo -e "\nBuilding ${1}...\n"
+    exec_build_func $1 || {
+      echo -e "\nBuild failed for ${1}...\n"
+      return 1
+    }
+  fi
+  
+  [ -z "$TMPDIR" ] && TMPDIR=/tmp
+  mkdir -p $TMPDIR || exit 1
+  VERSION=$(exec_profile $1 VERSION)
+  SYS_VERSION=$(exec_profile $1 SYS_VERSION)
+  FLIST="$ROOT/var/lib/packages/current/$1/filelist"
+  if [ -e "$ROOT/var/lib/packages/current/$1" ]; then
+    echo -n "Savin' a snapshot of current filesystem..."
+    >$TMPDIR/fssnapshot.txt
+    for file in $ROOT/var/lib/packages/current/*/filelist; do
+      cat $file >> $TMPDIR/fssnapshot.txt
+    done
+    echo "  Done."
+    echo -n "Backing up ${1}'s installed files..."
+    >${FLIST}~
+    cat $FLIST | sed "s%^/%${ROOT}&%" | while read line; do
+      [ -L "$line" ] || [ -f "$line" ] && echo "$line" >> ${FLIST}~
+    done
+    mv -f ${FLIST}~ $FLIST
+    mkdir -p $ROOT/var/lib/packages/backup
+    tar cpJT $FLIST 2>/dev/null >$ROOT/var/lib/packages/backup/${1}.tar.xz
+    DOUP=1
+    echo "  Done."
+  else
+    DOINST=1
+    mkdir -p $(dirname $FLIST)
+  fi
+  cd "$TMPROOT" || exit 1
+  for x in doc info man; do
+    [ -d "$TMPROOT/usr/$x" ] && [ ! -L "$TMPROOT/usr/$x" ] && {
+      mkdir -p $TMPROOT/usr/share
+      cp -a $TMPROOT/usr/$x $TMPROOT/usr/share/
+      rm -rf $TMPROOT/usr/$x
+    }
+    [ -d "$TMPROOT/usr/local/$x" ] && [ ! -L "$TMPROOT/usr/local/$x" ] && {
+      mkdir -p $TMPROOT/usr/local/share
+      cp -a $TMPROOT/usr/local/$x $TMPROOT/usr/local/share/
+      rm -rf $TMPROOT/usr/local/$x
+    }
+  done
+  echo -n "Compressing any manpages found..."
+  find -type f | grep "/man/" | grep -vh "\.bz2" | grep -vh "\.gz" | grep -vh "\.xz" | while read file; do
+    xz -9 "$file"
+  done
+  find -type l | grep "/man/" | grep -vh "\.bz2" | grep -vh "\.gz" | grep -vh "\.xz" | while read link; do
+    NTARG="$(readlink "$link").xz"
+    cd "$(dirname "$link")"
+    [ -e "$NTARG" ] && {
+      BLINK="$(basename "$link")"
+      ln -sfn "$NTARG" "${BLINK}.xz"
+      rm -f "$BLINK"
+    }
+    cd "$TMPROOT"
+  done
+  echo "  Done."
+  cd "$TMPROOT"
+  if [ "$NOSTRIP" != "1" ]; then
+    echo -n "Stripping any binaries found..."
+    find -type f | xargs file 2>/dev/null | grep "executable" | grep ELF | cut -f 1 -d : | while read exe; do
+      strip --strip-unneeded "$exe"
+    done
+    libs_list(){
+      find -type f | xargs file 2>/dev/null | grep "shared object" | grep ELF | cut -f 1 -d :
+      find -type f -name '*.a'
+    }
+    libs_list | while read lib; do
+      strip --strip-debug "$lib"
+    done
+    echo "  Done."
+  fi
+  if [ -n "$DOUP" ]; then
+    test_profile $1 pre_upgrade && {
+      echo "Running ${1}'s pre-upgrade script..."
+      exec_profile $1 pre_upgrade || return 1
+    }
+  elif [ -n "$DOINST" ]; then
+    test_profile $1 pre_install && {
+      echo "Running ${1}'s pre-install script..."
+      exec_profile $1 pre_install || return 1
+    }
+  fi
+  echo "Installing files..."
+  tar cp * | tar xp -C $ROOT || return 1
+  find | sed 's@^\.@@g' | grep . > $FLIST
+  cd $WORKDIR || return 1
+  rm -rf $TMPROOT || return 1
+  if [ -n "$SYS_VERSION" ]; then
+    echo "$SYS_VERSION" > $(dirname $FLIST)/version
+  else
+    echo "$VERSION" > $(dirname $FLIST)/version
+  fi
+  DEPDIR=$(dirname $FLIST)/depends
+  mkdir -p $DEPDIR
+  rm -f $DEPDIR/*
+  for dep in $(exec_profile $1 DEPENDS); do
+    >$DEPDIR/$dep
+  done
+  do_depends $FLIST $DEPDIR || return 1
+  rm -f $DEPDIR/$1
+  grep "\.new$" $FLIST | while read file; do
+    F="$(echo "${ROOT}/$file" | sed 's@\.new$@@')"
+    [ ! -e "$F" ] && {
+      mv -f "${ROOT}/$file" "$F"
+    }
+  done
+  grep "\.tmpnew$" $FLIST | while read file; do
+    F="$(echo "${ROOT}/$file" | sed 's@\.tmpnew$@@')"
+    [ ! -e "$F" ] && {
+      mv -f "${ROOT}/$file" "$F"
+    }
+    rm -f ${ROOT}/$file
+  done
+  [ -f "$TMPDIR/fssnapshot.txt" ] && {
+    >$TMPDIR/fscurrent.txt
+    for file in $ROOT/var/lib/packages/current/*/filelist; do
+      cat $file >> $TMPDIR/fscurrent.txt
+    done
+    echo "Checking for differences in filesystem..."
+    grep -vhFxf $TMPDIR/fscurrent.txt $TMPDIR/fssnapshot.txt | grep . \
+      >$TMPDIR/fsdiffs.txt
+    rm $TMPDIR/{fscurrent.txt,fssnapshot.txt}
+    [ "$(cat $TMPDIR/fsdiffs.txt | wc -l)" != "0" ] && {
+      echo "Removing Differences..."
+      trash_files $TMPDIR/fsdiffs.txt
+    }
+    rm -f $TMPDIR/fsdiffs.txt
+  }
+  if [ -n "$DOUP" ]; then
+    test_profile $1 post_upgrade && {
+      echo "Running ${1}'s post-upgrade script..."
+      exec_profile $1 post_upgrade || return 1
+    }
+    [ -x "/sbin/ldconfig" ] && {
+      ldconfig || exit 1
+    }
+  elif [ -n "$DOINST" ]; then
+    test_profile $1 post_install && {
+      echo "Running ${1}'s post-install script..."
+      exec_profile $1 post_install || return 1
+    }
+  fi
+  [ -x "/sbin/ldconfig" ] && {
+    ldconfig || return 1
+  }
+  if [ -f "$(dirname $FLIST)/reinstall_me" ]; then
+    rm -f $(dirname $FLIST)/reinstall_me || return 1
+  fi
+  echo "$1 done!"
+  exit 0
+}
+
+MYNAME=$(basename $0)
+
+if [ "$MYNAME" != "upgrade" ] && [ -z "$1" ]; then
+  echo "Nothing to do!"
+  exit 1
+fi
+
+if [ "$DO_SINGLE_INSTALL" == "yep" ]; then
+  BUILDLOG="$RBSDIR/.cache/buildlogs/$1"
+  mkdir -p $(dirname $BUILDLOG) || exit 1
+  >$BUILDLOG
+  do_install $1 | tee $BUILDLOG && exit $PIPESTATUS
+  exit 0
+fi
+
+ARGS=$*
+if [ "$MYNAME" == "upgrade" ]; then
+  if [ -z "$ARGS" ]; then
+    ARGS=
+    for x in /var/lib/packages/current/*; do
+      ARGS="$ARGS $(basename $x)"
+    done
+  fi
+fi
+
+PROFILES=
+for x in $ARGS; do
+  profile_exists $x || {
+    [ ! -d "$PROFILEDIR/$x" ] && {
+      echo "No profile exists for ${x}!"
+      exit 1
+    }
+  }
+  if [ -d "$PROFILEDIR/$x" ]; then
+    PROFILES="$PROFILES $(profile_group $x)"
+  else
+    PROFILES="$PROFILES $x"
+  fi
+done
+
+profiles_exist $PROFILES || exit 1
+
+echo -n "Looking up Dependencies..."
+for x in $(find /var/lib/packages/current/*/do_calculate_depends 2>/dev/null); do
+  d=$(dirname $x)
+  do_depends $d/filelist $d/depends || exit 1
+  rm $x || exit 1
+done
+fetch_depends $PROFILES >/dev/null || exit 1
+INSTALL_LIST=$(fetch_depends $PROFILES)
+echo "  Done."
+
+profiles_exist $INSTALL_LIST || {
+  echo "Looks like a profile has a dependency that doesn't have a profile. :/" \
+    >/dev/stderr
+  exit 1
+}
+
+if [ "$MYNAME" == "install" ] || [ "$MYNAME" == "upgrade" ]; then
+  NLIST=
+  for x in $INSTALL_LIST; do
+    if [ ! -d "$ROOT/var/lib/packages/current/$x" ] || \
+    [ -e "/var/lib/packages/current/$x/reinstall_me" ]; then
+      NLIST="$NLIST $x"
+    else
+      if [ "$MYNAME" == "upgrade" ] && [ -d "/var/lib/packages/current/$x" ] ; then
+        V=$(exec_profile $x VERSION)
+        SV=$(exec_profile $x SYS_VERSION)
+        if [ -n "$SV" ]; then
+          CHECK=$SV
+        else
+          CHECK=$V
+        fi
+        if [ "$(cat /var/lib/packages/current/$x/version)" != "$CHECK" ]; then
+          case $x in
+            binutils|gcc|glibc) ;;
+            *)
+              NLIST="$NLIST $x"
+            ;;
+          esac
+        fi
+      fi 
+    fi
+  done
+fi
+
+if [ "$(basename $0)" == "install" ] || [ "$(basename $0)" == "upgrade" ]; then
+  if [ -n "$NLIST" ]; then
+    echo "Checking for Downloaded Sources..."
+    download_sources $NLIST || exit 1
+  else
+    echo "Nothing to do!"
+    exit 1
+  fi
+  cd $RBSDIR || exit 1
+  for app in $NLIST; do
+    DO_SINGLE_INSTALL="yep" $0 $app || exit 1
+  done
+elif [ "$(basename $0)" == "reinstall" ]; then
+  if [ -n "$PROFILES" ]; then
+    echo "Checking for Downloaded Sources..."
+    download_sources $PROFILES || exit 1
+  else
+    echo "Nothing to do!"
+    exit 1
+  fi
+  cd $RBSDIR || exit 1
+  for app in $PROFILES; do
+    DO_SINGLE_INSTALL="yep" $0 $app || exit 1
+  done
+else
+  echo "Rut Row!"
+  exit 1
+fi
+
+exit 0

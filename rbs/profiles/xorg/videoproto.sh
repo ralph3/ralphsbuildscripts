@@ -1,0 +1,1 @@
+../all/videoproto.sh

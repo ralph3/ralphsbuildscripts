@@ -1,0 +1,1 @@
+../all/alsa-lib.sh

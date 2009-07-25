@@ -1,0 +1,1 @@
+../all/pango.sh

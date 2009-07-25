@@ -1,0 +1,34 @@
+#!/bin/bash
+
+[ "$(id -u)" != "0" ] && {
+  echo "Run me as root please." >/dev/stderr
+  exit 1
+}
+
+cd "$(dirname $0)" || exit 1
+RBSDIR="$PWD"
+
+source "$RBSDIR/shared" || exit 1
+
+if [ "$1" == "sync" ]; then
+  for x in $(find $DOWNLOADDIR/* | rev | cut -f1 -d'/' | rev | sed '/\.ok$/d' | grep -vhFx "$(list_sources $(profile_list))"); do
+    if [ -e "$DOWNLOADDIR/${x}" ]; then
+      echo -n "Removing <DOWNLOADDIR>/${x}..."
+      rm -f $DOWNLOADDIR/${x}{,.ok}
+      echo "  Done."
+    fi
+  done
+  exit 0
+fi
+
+if [ -z "$*" ]; then
+  echo "Nothing to do!"
+  exit 1
+else
+  PROFILES="$(resolve_profile_names $*)"
+fi
+
+profiles_exist $PROFILES || exit 1
+download_sources $PROFILES || exit 1
+
+exit 0

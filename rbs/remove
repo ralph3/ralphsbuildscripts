@@ -1,0 +1,99 @@
+#!/bin/bash
+
+is_in_list(){
+  for x in $1; do
+    [ "$x" == "$2" ] && return 0
+  done
+  return 1
+}
+
+[ "$(id -u)" != "0" ] && {
+  echo "Run me as root please." >/dev/stderr
+  exit 1
+}
+
+[ -z "$Ralphs_Build_System" ] && {
+  echo "This dist wasn't built with Ralphs Build System!" >/dev/stderr
+  echo "If I tried to remove a package on some crappy dist, I might kill it!" >/dev/stderr
+  exit 1
+}
+
+[ -z "$1" ] && {
+  echo "What am I supposed to remove?" >/dev/stderr
+  exit 1
+}
+
+cd "$(dirname $0)" || exit 1
+RBSDIR="$PWD"
+
+source "$RBSDIR/shared" || exit 1
+
+SELECTED_PROFILES=
+for pkg in $*; do
+  if [ -d "/var/lib/packages/current/$pkg" ]; then
+    SELECTED_PROFILES="$SELECTED_PROFILES $pkg"
+  else
+    echo "err: $pkg is not installed!" >/dev/stderr
+  fi
+done
+
+[ -z "$SELECTED_PROFILES" ] &&  exit 1
+
+echo -e "\nPreparing to REMOVE the following packages:\n"
+echo -e "$SELECTED_PROFILES\n"
+
+echo "Checking dependencies..."
+NOGO=
+export SELECTED_PROFILES
+python << "PYTHON_CODE" || exit 1
+import os, glob, sys
+
+packages = os.getenv("SELECTED_PROFILES").split(' ')
+doerr = 0
+for pkg in packages:
+  list = []
+  for line in glob.glob("/var/lib/packages/current/*"):
+    npkg = os.path.basename(line)
+    for nline in glob.glob(line + "/depends/*"):
+      if npkg not in packages and os.path.basename(nline) == pkg:
+        list.append(npkg)
+        break
+  if len(list):
+    print "\n" + pkg + " has the following packages that depend on it:\n"
+    list.sort()
+    print ' '.join(list)
+    print "\nI refuse to remove " + pkg + "!"
+    doerr = 1
+if doerr:
+  sys.exit(1)
+PYTHON_CODE
+
+rm -rf $TMPDIR
+mkdir -p $TMPDIR
+>$TMPDIR/removelist
+
+for pkg in $SELECTED_PROFILES; do
+  test_profile $pkg pre_remove && {
+    echo "Running ${pkg}'s pre-remove script..."
+    exec_profile $pkg pre_remove || exit 1
+  }
+  cat /var/lib/packages/current/$pkg/filelist >>$TMPDIR/removelist
+  rm -rf /var/lib/packages/current/$pkg
+done
+
+echo "Fetching Filelist..."
+>$TMPDIR/fslist
+for filelist in /var/lib/packages/current/*/filelist; do
+  cat $filelist >>$TMPDIR/fslist
+done
+grep -vhFxf $TMPDIR/fslist $TMPDIR/removelist | grep . \
+>$TMPDIR/trash
+trash_files $TMPDIR/trash
+rm -rf $TMPDIR
+for pkg in $SELECTED_PROFILES; do
+  test_profile $pkg post_remove && {
+    echo "Running ${pkg}'s post-remove script..."
+    exec_profile $pkg post_remove || exit 1
+  }
+done
+echo -e "Done removing packages!\n"

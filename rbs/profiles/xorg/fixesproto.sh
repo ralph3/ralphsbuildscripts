@@ -1,0 +1,1 @@
+../all/fixesproto.sh

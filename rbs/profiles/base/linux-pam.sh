@@ -1,0 +1,1 @@
+../all/linux-pam.sh

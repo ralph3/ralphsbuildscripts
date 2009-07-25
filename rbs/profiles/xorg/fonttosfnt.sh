@@ -1,0 +1,1 @@
+../all/fonttosfnt.sh

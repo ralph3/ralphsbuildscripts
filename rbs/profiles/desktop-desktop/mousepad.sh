@@ -1,0 +1,1 @@
+../all/mousepad.sh

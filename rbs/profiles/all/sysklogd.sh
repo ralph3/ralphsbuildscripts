@@ -1,0 +1,83 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="1.5"
+
+DIR="sysklogd-${VERSION}"
+TARBALL="sysklogd-${VERSION}.tar.gz"
+
+DEPENDS=(
+  coreutils
+)
+
+SRC1=(
+http://www.infodrom.org/projects/sysklogd/download/${TARBALL}
+)
+
+MD5SUMS=(
+e053094e8103165f98ddafe828f6ae4b
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  ##do_patch sysklogd-1.4.1-fixes-2.patch sysklogd-1.4.1-8bit-1.patch || return 1
+  sed -i -e 's/-o ${MAN_USER} -g ${MAN_GROUP}//' \
+    -e 's/500 -s/500/' Makefile || return 1
+  make RPM_OPT_FLAGS="$CFLAGS" CC="$CC $BUILD" CXX="$CXX $BUILD" || return 1
+  mkdir -p $TMPROOT/usr/{sbin,share/man/man{5,8}}
+  make install BINDIR=$TMPROOT/usr/sbin MANDIR=$TMPROOT/usr/share/man || return 1
+  mkdir -p $TMPROOT/etc/rc.d
+cat > $TMPROOT/etc/syslog.conf << "EOF"
+auth,authpriv.* -/var/log/auth.log
+*.*;auth,authpriv.none -/var/log/sys.log
+daemon.* -/var/log/daemon.log
+kern.* -/var/log/kern.log
+mail.* -/var/log/mail.log
+user.* -/var/log/user.log
+*.emerg *
+
+# log the bootscript output:
+local2.* -/var/log/boot.log
+EOF
+  
+cat << "EOF" > $TMPROOT/etc/rc.d/rc.sysklogd
+#!/bin/bash
+
+. /etc/rc.d/rc.conf
+. /etc/rc.d/rc.functions
+
+case $1 in
+  start)
+    print_msg "Starting System Log Daemon"
+    loadproc /usr/sbin/syslogd
+    print_msg "Starting Kernel Log Daemon"
+    loadproc /usr/sbin/klogd
+  ;;
+  stop)
+    print_msg "Stopping Kernel Log Daemon"
+    killproc klogd
+    print_msg "Stopping System Log Daemon"
+    killproc syslogd
+    rm -f /var/run/klogd.pid /var/run/syslogd.pid
+  ;;
+  *)
+    echo "Usage: {start}"
+    exit 1
+  ;;
+esac
+EOF
+  chmod 744 $TMPROOT/etc/rc.d/rc.sysklogd
+
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://www.infodrom.org/projects/sysklogd/download/'
+  VERSION_STRING='sysklogd-%version%.tar.gz'
+  MIRRORS=(
+    'http://www.infodrom.org/projects/sysklogd/download/sysklogd-%version%.tar.gz'
+  )
+}

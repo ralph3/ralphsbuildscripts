@@ -1,0 +1,538 @@
+#!/bin/bash
+
+[ -z "$RBSDIR" ] && {
+  echo "shared: RBSDIR not set!" >/dev/stderr
+  exit 1
+}
+
+source /etc/profile || exit 1
+
+PROFILEDIR="$RBSDIR/profiles"
+FILESDIR="$RBSDIR/files"
+WORKDIR="$RBSDIR/.work"
+TMPDIR="$WORKDIR/tmp"
+TMPROOT="$WORKDIR/tmproot"
+SRCDIR="$WORKDIR/source"
+HDSRCDIR="$SRCDIR"
+DOWNLOADDIR="$RBSDIR/.cache/downloads"
+PATCHDIR="$RBSDIR/patches"
+CONFDIR="$RBSDIR/conf"
+
+if [ -z "$ROOT" ]; then
+  ROOT="/"
+fi
+
+gnome_mirrors(){
+local V
+V=$(echo $VERSION | cut -f-2 -d'.')
+cat << EOF
+http://ftp.belnet.be/mirror/ftp.gnome.org/sources/$1/$V/$TARBALL
+http://mirror.aarnet.edu.au/pub/GNOME/sources/$1/$V/$TARBALL
+http://ftp.gnome.org/pub/GNOME/sources/$1/$V/$TARBALL
+EOF
+}
+
+gnu_mirrors(){
+cat << EOF
+http://ftp.gnu.org/gnu/$1/$TARBALL
+ftp://ftp.ibiblio.org/pub/mirrors/gnu/ftp/gnu/$1/$TARBALL
+ftp://ftp.cse.ohio-state.edu/mirror/gnu/$1/$TARBALL
+EOF
+}
+
+gnome_script(){
+  local SCHEMAS FILELIST DO MIMEDIR
+  FILELIST="$(ls -d /var/lib/packages/current/${1} 2>/dev/null | sed q)/filelist"
+  [ -z "$1" ] || [ -z "$2" ] && {
+    echo "usage: gnome_script <pkgname> {install|remove}" >/dev/stderr
+    return 1
+  }
+  [ ! -f "$FILELIST" ] && {
+    echo "err in gnome_script(): $1 isn't installed." >/dev/stderr
+    return 1
+  }
+  case $2 in
+    "install")
+      DO="install"
+    ;;
+    "remove")
+      DO="uninstall"
+    ;;
+    *)
+      echo "err in gnome_script(): \$2 should be install or remove, not ${2}." >/dev/stderr
+      return 1
+    ;;
+  esac
+  eval "SCHEMAS=($(cat $FILELIST | grep "\.schemas$" | sed 's@^@\"@g;s@$@\"@g'))"
+  [ -n "$SCHEMAS" ] && {
+    gconftool-2 --version >/dev/null || return 1
+    export GCONF_CONFIG_SOURCE="$(gconftool-2 --get-default-source)"
+    for schema in "${SCHEMAS[@]}" ; do
+      gconftool-2 --makefile-${DO}-rule "$schema" >&/dev/null
+    done
+  }
+  eval "SCROLLS=($(cat $FILELIST | grep "\.omf$" | sed 's@^@\"@g;s@$@\"@g'))"
+  [ -n "$SCROLLS" ] && {
+    for scroll in "${SCROLLS[@]}" ; do
+      scrollkeeper-${DO} -q -p /var/lib/scrollkeeper "$scroll" || return 1
+    done
+  }
+  [ -n "$(cat $FILELIST | grep "\.desktop$")" ] && {
+    update-desktop-database -q || return 1
+  }
+  MIMEDIR="$(cat $FILELIST | grep "share/mime$" | sed q)"
+  [ -d "$MIMEDIR" ] && {
+    update-mime-database $MIMEDIR || return 1
+  }
+  return 0
+}
+
+profile_realpath(){
+  find $PROFILEDIR -name ${1}.sh 2>/dev/null | sed q
+}
+
+profile_list(){
+  find $PROFILEDIR/all -name '*.sh' | rev | cut -f1 -d'/' | rev | \
+    cut -f1 -d'.' | sort
+}
+
+unset_profile(){
+  local N
+  unset VERSION DIR TARBALL SYS_VERSION MD5SUMS DEPENDS preinstall postinstall \
+    preremove postremove preupgrade postupgrade
+  N=1
+  while [ "$N" -le "50" ]; do
+    unset pass${N}_toolchain_build SRC${N} my_src${N}
+    N=$((N+1))
+  done
+}
+
+exec_profile(){
+  profile_exists $1 || {
+    echo "no profile for ${1}!" >/dev/stderr
+    return 1
+  }
+  unset_profile $1
+  source $(profile_realpath $1) || return 1
+  if [ "$2" == "DEPENDS" ]; then
+    for x in ${DEPENDS[@]}; do
+      echo $x
+    done
+    return 0
+  fi
+  case $(type -t $2) in
+    "function")
+      $2 || return 1
+    ;;
+    *)
+      if [ -n "$(eval "echo \$$2")" ]; then
+        eval "echo \$$2"
+      else
+        return 1
+      fi
+    ;;
+  esac
+}
+
+profile_exists(){
+  [ -z "$(profile_list | grep "^${1}$")" ] && return 1
+  return 0
+}
+
+profiles_exist(){
+cd $RBSDIR || return 1
+/usr/bin/env python - $* << "PYTHON_CODE" || return 1
+import glob, sys, os
+e = 1
+l = len(sys.argv)
+args = []
+while e != l:
+  args.append(sys.argv[e])
+  e += 1
+for x in args:
+  p = glob.glob("./profiles/*/"+x+".sh")
+  if p:
+    p = p[0]
+  if not p or not os.path.exists(p):
+    print "No profile exists for \""+x+"\"!"
+    sys.exit(1)
+PYTHON_CODE
+return 0
+}
+
+test_profile(){
+  unset_profile $1
+  source $(profile_realpath $1) 2>/dev/null || return 1
+  case $(type -t $2) in
+    "function")
+      return 0
+    ;;
+    *)
+      if [ -n "$(eval "echo \$$2")" ]; then
+        return 0
+      else
+        return 1
+      fi
+    ;;
+  esac
+  unset_profile $1
+}
+
+profile_group(){
+  if [ -d "$PROFILEDIR/$1" ]; then
+    find profiles/$1/*.sh -exec basename {} \; 2>/dev/null \
+      | sed 's%\.sh$%%'
+  fi
+}
+
+resolve_profile_names(){
+  for x in $*; do
+    profile_exists $x
+    if [ "$?" == "0" ]; then
+      echo $x
+    else
+      [ -d "$PROFILEDIR/$x" ] && profile_group $x
+    fi
+  done
+}
+
+trash_files(){
+  local FILELIST E
+  eval "FILELIST=($(cat $1 | sed 's@^@\"@g;s@$@\"@g'))"
+  for file in "${FILELIST[@]}"; do
+    [ -f "$file" ] && [ ! -L "$file" ] && {
+      echo "Remove File      -> $file"
+      rm -f "$file"
+    }
+    [ -L "$file" ] && {
+      echo "Remove Symlink   -> $file"
+      rm -f "$file"
+    }
+  done
+  while true; do
+    E=
+    for file in "${FILELIST[@]}"; do
+      [ -d "$file" ] && {
+        ls "${file}"/* >&/dev/null || {
+          echo "Remove Empty Dir -> $file"
+          rm -rf "$file"
+          E=1
+        }
+      }
+    done
+    [ -z "$E" ] && break
+  done
+}
+
+fetch_depends(){
+cd $RBSDIR || return 1
+/usr/bin/env python - $* << "PYTHON_CODE" || return 1
+import glob, os, sys
+
+def profile_depends():
+  list = {}
+  f = open("./shared", 'r')
+  shared = f.read()
+  f.close()
+  for x in glob.glob("./profiles/all/*.sh"):
+    n = os.path.basename(x)[::-1][3:][::-1]
+    list[n] = []
+    f = open(x,'r')
+    d = "RBSDIR=\"$PWD\"\n"+shared+"\n"+f.read()
+    d += "\nfor x in \"${DEPENDS[@]}\"; do echo $x; done; exit 0"
+    f.close()
+    f = os.popen(d,'r')
+    d = f.read().split("\n")
+    if f.close():
+      sys.exit(1)
+    for y in d:
+      if y:
+        list[n].append(y)
+  return list
+
+sys.setrecursionlimit(10000)
+
+e = 1
+l = len(sys.argv)
+args = []
+while e != l:
+  args.append(sys.argv[e])
+  e += 1
+
+list = profile_depends()
+
+newlist = []
+checked = []
+def dodep(x):
+  if x not in checked:
+    checked.append(x)
+    for y in list[x]:
+      if y and y not in newlist:
+        dodep(y)
+        newlist.append(y)
+for x in args:
+  if x and x not in newlist:
+    dodep(x)
+    newlist.append(x)
+    checked.append(x)
+
+if newlist[0] != "filesystem":
+  sys.stderr.write("""
+   A profile has a screwup in the dependency list, which causes me to loop
+ forever. The profile with the problem is likely \""""+newlist[0]+"\".\n\n")
+  sys.exit(1)
+for x in newlist:
+  print x
+PYTHON_CODE
+
+return 0
+}
+
+md5sum_file(){
+  md5sum $1 2>/dev/null | cut -f1 -d' '
+}
+
+download(){
+  local HOST URL URL SFSUF R DOWGET BN TN
+  HOST=`echo $1 | cut -f3- -d'/' | cut -f1 -d'/'`
+  BN="$(basename $1)"
+  case $HOST in
+    "prdownloads.sourceforge.net")
+      SFSUF=`echo $1 | rev | cut -f-2 -d '/' | rev`
+      for sfhost in easynews optusnet switch puzzle heanet kent jaist ovh \
+        cogent belnet nchc; do
+        URL="http://${sfhost}.dl.sourceforge.net/sourceforge/$SFSUF"
+        R=`wget --server-response --spider $TURL 2>&1 | grep "Content-Type: text/html"`
+        [ "$R" = "" ] && {
+          wget --passive-ftp -O `basename $URL` $URL && return 0
+        }
+      done
+cat << EOF >/dev/stderr
+
+  ERROR: Unable to find a sourceforge mirror for $SFSUF.
+
+EOF
+      rm -f "$BN"
+      return 1
+    ;;
+    *)
+      TN=$(mktemp)
+      wget --passive-ftp -O "$TN" $1 || {
+        rm -f "$TN"
+        return 1
+      }
+      mv -v $TN $BN || return 1
+      chmod 644 $BN || return 1
+    ;;
+  esac
+  return 0
+}
+
+list_sources(){
+  local N SRC F M TN
+  for app in $*; do
+    unset_profile
+    [ -z "$(profile_realpath $app)" ] && {
+      echo "No profile for $app exists!" >/dev/stderr
+      return 1
+    }
+    source $(profile_realpath $app) || return 1
+    echo $TARBALL
+    N=1
+    while true; do
+      eval "SRC=( \$(for x in \"\${SRC$N[@]}\"; do echo "\"\$x\""; done) )"
+      [ -z "$SRC" ] && break
+      for addr in "${SRC[@]}"; do
+        echo "$(basename "$addr")"
+        break
+      done
+      N=$((N+1))
+    done
+  done
+}
+
+download_sources(){
+  local N SRC F M TN
+  mkdir -p $DOWNLOADDIR || return 1
+  cd $DOWNLOADDIR || return 1
+  for app in $*; do
+    unset_profile
+    [ -z "$(profile_realpath $app)" ] && {
+      echo "No profile for $app exists!" >/dev/stderr
+      return 1
+    }
+    source $(profile_realpath $app) || return 1
+    N=1
+    while true; do
+      test_profile $app my_src${N} || break
+      if [ ! -e "$DOWNLOADDIR/${DIR}.tar.xz" ]; then
+        download "http://192.168.1.1/rbs-sources/${DIR}.tar.xz" || {
+          rm -rf $TMPDIR || return 1
+          mkdir -p $TMPDIR || return 1
+          cd $TMPDIR || return 1
+          echo "Running my_src${N} for ${app}..."
+          my_src${N} || return 1
+          echo "Making ${DIR}.tar.xz..."
+          tar cpfJ $DOWNLOADDIR/${DIR}.tar.xz $DIR || return 1
+          cd $DOWNLOADDIR || return 1
+          echo "Cleaning up..."
+          rm -rf $TMPDIR || return 1
+          echo "Done. :)"
+        }
+      fi
+      N=$((N+1))
+    done
+    N=1
+    while true; do
+      eval "SRC=( \$(for x in \"\${SRC$N[@]}\"; do echo "\"\$x\""; done) )"
+      [ -z "$SRC" ] && break
+      M=${MD5SUMS[$((N-1))]}
+      for addr in "${SRC[@]}"; do
+        F=$(basename "$addr")
+        [ -e "$F" ] && {
+          [ -e "${F}.ok" ] || [ "$(md5sum_file $F)" == "$M" ] || [ "$M" == "0" ] && break
+        }
+        download "http://192.168.1.1/rbs-sources/$(basename $addr)" || \
+          download "$addr"
+      done
+      [ ! -e "${F}.ok" ] && {
+        if [ -e "$F" ]; then
+          FM=$(md5sum_file $F)
+          [ "$M" == "0" ] && {
+            echo -en "Your md5sum for $F is $FM\n\nPress enter to continue..."
+            read
+          }
+          [ "$M" != "0" ] && [ "$FM" != "$M" ] && {
+            echo -e "\n\nMD5SUM Mismatch:\n\n ${F} reads ${FM}\nProper MD5SUM is ${M}" >/dev/stderr
+            return 1
+          }
+          [ "$FM" == "$M" ] && {
+            >${F}.ok
+          }
+        else
+          echo "error downloading file -> $F" >/dev/stderr
+          return 1
+        fi
+      }
+      N=$((N+1))
+    done
+  done
+}
+
+unpack_tarball(){
+  local TARBALL
+  if [ -e "$FILESDIR/$1" ]; then
+    TARBALL="$FILESDIR/$1"
+  elif [ -e "$DOWNLOADDIR/$1" ]; then
+    TARBALL="$DOWNLOADDIR/$1"
+  else
+    echo "The tarball ${1} not found!" >/dev/stderr
+    return 1
+  fi
+  echo "Unpacking $(basename $1)..."
+  mkdir -p $SRCDIR || return 1
+  tar xpfJ $TARBALL -C $SRCDIR >&/dev/null || \
+  tar xpfj $TARBALL -C $SRCDIR >&/dev/null || \
+  tar xpfz $TARBALL -C $SRCDIR || return 1
+  return 0
+}
+
+do_patch(){
+  local PATCH
+  mkdir -p $TMPDIR || return 1
+  for patch in $*; do
+    if [ -e "$PATCHDIR/$patch" ]; then
+      PATCH="$PATCHDIR/$patch"
+    elif [ -e "$DOWNLOADDIR/$patch" ]; then
+      PATCH="$DOWNLOADDIR/$patch"
+    else
+      echo "The patch file \"$patch\" not found!" >/dev/stderr
+      return 1
+    fi
+    echo -n "Applying ${patch}..."
+    if [ -n "$(echo $PATCH | grep "\.gz$")" ]; then
+      zcat $PATCH | patch -Np1 >&$TMPDIR/patchoutput || {
+        echo -e "  FAILED!\n\n"
+        cat $TMPDIR/patchoutput
+        return 1
+      }
+    elif [ -n "$(echo $PATCH | grep "\.bz2$")" ]; then
+      bzcat $PATCH | patch -Np1 >&$TMPDIR/patchoutput || {
+        echo -e "  FAILED!\n\n"
+        cat $TMPDIR/patchoutput
+        return 1
+      }
+    elif [ -n "$(echo $PATCH | grep "\.xz$")" ]; then
+      lzcat $PATCH | patch -Np1 >&$TMPDIR/patchoutput || {
+        echo -e "  FAILED!\n\n"
+        cat $TMPDIR/patchoutput
+        return 1
+      }
+    else
+      patch -Np1 -i $PATCH >&$TMPDIR/patchoutput || {
+        echo -e "  FAILED!\n\n"
+        cat $TMPDIR/patchoutput
+        return 1
+      }
+    fi
+    rm -f $TMPDIR/patchoutput
+    echo "  Done."
+  done
+  return 0
+}
+
+get_tarball_dir(){
+/usr/bin/env python - "$1" << "EOF" || return 1
+
+import os, sys, tarfile, gzip, bz2
+
+tf = sys.argv[1]
+if not os.path.exists(tf) or not tarfile.is_tarfile(tf):
+  print tf + ' not a tarball!'
+
+try:
+  foo = tarfile.open(tf, 'r:bz2')
+  t = 'bz2'
+except:
+  try:
+    foo = tarfile.open(tf, 'r:gz')
+    t = 'gz'
+  except:
+    t = 'nc'
+foo.close()
+
+if t == 'bz2':
+  h = bz2.BZ2File(tf, 'r')
+elif t == 'gz':
+  h = gzip.open(tf, 'r')
+else:
+  h = open(tf, 'r')
+d = h.read(4096)
+h.close()
+
+p = 0
+while 1:
+  p += 1
+  if d[p+1] == '\x00':
+    break
+
+print d[0:p]
+EOF
+}
+
+set_multiarch(){
+  if [ "$SYSTYPE" == "MULTILIB" ] && [ "$ONLY32" != "1" ]; then
+    if [ "$DISABLE_MULTILIB" != "1" ] || [ "$ENABLE_MULTILIB" == "1" ]; then
+      for exe in $*; do
+        n="<TMPROOT>/$(echo $exe | sed "s%^${TMPROOT}/%%")"
+        echo -n "Move: $n to ${n}-${USE_ARCH}..."
+        mv $exe ${exe}-$USE_ARCH || return 1
+        echo "  Done."
+        echo -n "Link: $n to /usr/bin/multiarch_wrapper..."
+        ln -sfn /usr/bin/multiarch_wrapper $exe || return 1
+        echo "  Done."
+      done
+    fi
+  fi
+  return 0
+}

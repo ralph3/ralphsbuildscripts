@@ -1,0 +1,100 @@
+#!/bin/bash
+
+VERSION="0.5.13"
+SYS_VERSION="0.5.13-1"
+
+DIR="hal-${VERSION}"
+TARBALL="hal-${VERSION}.tar.gz"
+
+DEPENDS=(
+  pciutils
+  policykit
+  usbutils
+  util-linux
+)
+
+SRC1=(
+http://hal.freedesktop.org/releases/${TARBALL}
+)
+
+MD5SUMS=(
+46ecc5d2e5bd964fb78099688f01bb6a
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  groupadd haldaemon
+  useradd -c "HAL Daemon User" -d /dev/null -g haldaemon \
+    -s /bin/false haldaemon
+  CC="$CC $BUILD" CXX="$CXX $BUILD" LDFLAGS="-L/usr/$LIBSDIR" \
+    ./configure --prefix=/usr \
+      --libdir=/usr/$LIBSDIR --sysconfdir=/etc \
+      --libexecdir=/usr/$LIBSDIR/hal \
+      --localstatedir=/var --without-macbook \
+      --with-udev-prefix=/$LIBSDIR || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  install -v -m755 -d $TMPROOT/var/run/hald || return 1
+  mkdir -p $TMPROOT/etc/rc.d || return 1
+cat << "EOF" > $TMPROOT/etc/rc.d/rc.hal
+#!/bin/bash
+
+. /etc/rc.d/rc.functions
+. /etc/rc.d/rc.conf
+
+DBUSRC='/etc/rc.d/rc.dbus'
+
+case $1 in
+  start)
+    [ -e "$DBUSRC" ] && {
+      [ -z "$(pidof dbus-daemon)" ] && {
+        [ -x "$DBUSRC" ] && $DBUSRC start
+      }
+      if [ -z "$(pidof dbus-daemon)" ]; then
+        print_msg "Starting the HAL Daemon"
+       print_msg_failed
+cat << "WWEOF" >/dev/stderr
+
+   dbus-daemon is not running! DBUS **MUST** be started before Hal.
+
+WWEOF
+        sleep 5
+        exit 1
+      fi
+    }
+    print_msg "Starting the HAL Daemon"
+    loadproc /usr/sbin/hald --daemon=yes
+  ;;
+  stop)
+    print_msg "Stopping the HAL Daemon"
+    killproc hald
+  ;;
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+  ;;
+  *)
+    echo Usage: $0 {start|stop|restart}
+  ;;
+esac
+EOF
+  chmod 744 $TMPROOT/etc/rc.d/rc.hal || return 1
+  
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+post_remove(){
+  userdel haldaemon
+}
+
+version_check_info(){
+  ADDRESS='http://hal.freedesktop.org/releases/'
+  VERSION_STRING='hal-%version%.tar.gz'
+  VERSION_FILTERS='rc'
+  MIRRORS=(
+    'http://hal.freedesktop.org/releases/hal-%version%.tar.gz'
+  )
+}

@@ -1,0 +1,1 @@
+../all/randrproto.sh

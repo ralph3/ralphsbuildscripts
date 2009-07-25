@@ -1,0 +1,1 @@
+../all/xf86dgaproto.sh

@@ -1,0 +1,1 @@
+../all/gtk-doc.sh

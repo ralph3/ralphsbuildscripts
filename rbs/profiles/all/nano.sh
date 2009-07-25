@@ -1,0 +1,56 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="2.0.9"
+
+DIR="nano-${VERSION}"
+TARBALL="nano-${VERSION}.tar.gz"
+
+DEPENDS=(
+  ncurses
+)
+
+SRC1=(
+http://ftp.gnu.org/pub/gnu/nano/${TARBALL}
+)
+
+MD5SUMS=(
+2be94dc43fb60fff4626a2401a977220
+)
+
+MyBuild(){
+  
+  MYDEST=$1
+  
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+    --host=$BUILDTARGET --prefix=/usr --sysconfdir=/etc \
+    --infodir=/usr/share/info --mandir=/usr/share/man --enable-color \
+    --enable-multibuffer --enable-nanorc || return 1
+  make || return 1
+  make install DESTDIR=$MYDEST || return 1
+  mkdir -p $MYDEST/{etc,usr/share/doc/nano/examples} || return 1
+  cp doc/nanorc.sample $MYDEST/usr/share/doc/nano/examples || return 1
+  cp doc/nanorc.sample $MYDEST/etc/nanorc.new
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+RBS_Tools_Build(){
+  MyBuild $ROOT || return 1
+}
+
+build(){
+  MyBuild $TMPROOT || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://ftp.gnu.org/pub/gnu/nano/'
+  VERSION_STRING="nano-%version%.tar.gz"
+  ONLY_EVEN_MINORS=1
+  MIRRORS=(
+    'http://ftp.gnu.org/pub/gnu/nano/nano-%version%.tar.gz'
+  )
+}

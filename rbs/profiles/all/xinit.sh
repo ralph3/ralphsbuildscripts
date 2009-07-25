@@ -1,0 +1,177 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="1.1.1"
+
+DIR="xinit-${VERSION}"
+TARBALL="xinit-${VERSION}.tar.bz2"
+
+DEPENDS=(
+  make
+)
+
+SRC1=(
+http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
+)
+
+MD5SUMS=(
+93c73705ed9eb1e1a6b6938405672f2b
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/usr/$LIBSDIR --sysconfdir=/etc --localstatedir=/var || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  mkdir -p $TMPROOT/etc/X11/xinit $TMPROOT/usr/share || return 1
+  mv $TMPROOT/usr/$LIBSDIR/X11 $TMPROOT/usr/share/ || return 1
+  rm -rf $TMPROOT/usr/$LIBSDIR || return 1
+cat << EOF > $TMPROOT/etc/X11/xorg.conf.new
+Section "Module"
+  Load  "dbe"
+    SubSection  "extmod"
+      Option    "omit xfree86-dga"
+    EndSubSection
+  Load  "freetype"
+  Load  "glx"
+  Load  "dri"
+EndSection
+
+Section "Files"
+  RgbPath    "/usr/share/X11/rgb"
+  FontPath   "/usr/share/X11/fonts/100dpi/"
+  FontPath   "/usr/share/X11/fonts/75dpi/"
+  FontPath   "/usr/share/X11/fonts/TTF/"
+  FontPath   "/usr/share/X11/fonts/misc/"
+  FontPath   "/usr/share/X11/fonts/cyrillic/"
+  ModulePath "/usr/${LIBSDIR}/X11/modules"
+EndSection
+
+Section "InputDevice"
+  Identifier          "Keyboard1"
+  Driver              "kbd"
+  Option "AutoRepeat" "500 30"
+  Option "XkbRules"   "xorg"
+  Option "XkbModel"   "pc104"
+  Option "XkbLayout"  "us"
+EndSection
+
+Section "InputDevice"
+  Identifier            "Mouse1"
+  Driver                "mouse"
+  Option "Protocol"     "IMPS/2"
+  Option "Device"       "/dev/psaux"
+  Option "ZAxisMapping" "4 5"
+EndSection
+
+Section "Monitor"
+  Identifier   "Monitor"
+  HorizSync    31.5 - 64.3
+  VertRefresh  50-100
+EndSection
+
+Section "Device"
+  Identifier  "Graphics_Card"
+  Driver      "vesa"
+  Option      "DPMS"
+EndSection
+
+Section "Screen"
+    Identifier  "Screen 1"
+    Device      "Graphics_Card"
+    Monitor     "Monitor"
+    DefaultDepth 24
+
+    Subsection "Display"
+        Depth       8
+        Modes       "1024x768" "800x600" "640x480"
+        ViewPort    0 0
+    EndSubsection
+    Subsection "Display"
+        Depth       16
+        Modes       "1024x768" "800x600" "640x480"
+        ViewPort    0 0
+    EndSubsection
+    Subsection "Display"
+        Depth       24
+        Modes       "1024x768" "800x600" "640x480"
+        ViewPort    0 0
+    EndSubsection
+EndSection
+
+Section "ServerLayout"
+  Identifier  "Simple Layout"
+  Screen "Screen 1"
+  InputDevice "Mouse1" "CorePointer"
+  InputDevice "Keyboard1" "CoreKeyboard"
+EndSection
+
+# Section "DRI"
+#    Mode 0666
+# EndSection
+EOF
+
+cat << "EOF" > $TMPROOT/usr/share/X11/xinit/xinitrc
+#!/bin/bash
+
+doerr(){
+  echo $1 >/dev/stderr
+  exit 1
+}
+
+userresources=$HOME/.Xresources
+usermodmap=$HOME/.Xmodmap
+sysresources=/usr/share/X11/xinit/.Xresources
+sysmodmap=/usr/share/X11/xinit/.Xmodmap
+
+xinitrc_file=
+if [ -e "/etc/X11/xinit.conf" ]; then
+  source /etc/X11/xinit.conf || exit 1
+  if [ -n "$DEFAULT_DESKTOP" ]; then
+    xinitrc_file="/etc/X11/xinit/${DEFAULT_DESKTOP}.xinitrc"
+    if [ ! -e "$xinitrc_file" ]; then
+      doerr "The configuration file \"/etc/X11/xinit/${DEFAULT_DESKTOP}.xinitrc\" doesn't exist!"
+    fi
+  else
+    doerr "The variable \"DEFAULT_DESKTOP\" isn't set in /etc/X11/xinit.conf"
+  fi
+else
+  doerr "The configuration file \"/etc/X11/xinit.conf\" doesn't exist!"
+fi
+
+if [ -f $sysresources ]; then
+    xrdb -merge $sysresources
+fi
+
+if [ -f $sysmodmap ]; then
+    xmodmap $sysmodmap
+fi
+
+if [ -f $userresources ]; then
+    xrdb -merge $userresources
+fi
+
+if [ -f $usermodmap ]; then
+    xmodmap $usermodmap
+fi
+
+. $xinitrc_file
+EOF
+
+cat << "EOF" > $TMPROOT/etc/X11/xinit.conf.new
+DEFAULT_DESKTOP=default
+EOF
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://xorg.freedesktop.org/releases/individual/app/'
+  VERSION_STRING='xinit-%version%.tar.bz2'
+  MIRRORS=(
+    'http://xorg.freedesktop.org/releases/individual/app/xinit-%version%.tar.bz2'
+  )
+}

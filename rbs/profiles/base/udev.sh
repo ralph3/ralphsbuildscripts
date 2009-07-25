@@ -1,0 +1,1 @@
+../all/udev.sh

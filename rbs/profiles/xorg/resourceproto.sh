@@ -1,0 +1,1 @@
+../all/resourceproto.sh

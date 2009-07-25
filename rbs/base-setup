@@ -1,0 +1,87 @@
+#!/bin/bash
+
+[ "$(id -u)" != "0" ] && {
+  echo "Run me as root please." >/dev/stderr
+  exit 1
+}
+
+cd "$(dirname $0)" || exit 1
+RBSDIR="$PWD"
+
+source "$RBSDIR/shared" || exit 1
+
+[ "$Ralphs_Build_System" != "1" ] && {
+  echo "This script can't run on a system that wasn't built by me." >/dev/stderr
+  exit 1
+}
+
+if [ "$RAN_FROM_SETUP" != "1" ]; then
+  echo "  base-setup is only meant to be run from the bootcd's 'setup' script"
+  echo " that I build. It wouldn't be too healthy to run me on a working system."
+  exit 1
+fi
+
+rm -f /tmp/testfile
+touch /tmp/testfile || exit 1
+if [ "/bin" -nt "/tmp/testfile" ]; then
+cat << "EOF"
+  
+  File modification time test failed! Make sure your clock is set. If your clock
+is indeed set then you may need to run (find / -exec touch -c {} \;) to update
+file modification times on all the files on this system. If I were to run as is
+you'd have crap like infinite looping configure's going on. You don't want that.
+  
+EOF
+  exit 1
+fi
+
+export USE_SHM_SRCDIR
+[ "$USE_SHM_SRCDIR" == "1" ] && {
+  SRCDIR=/dev/shm/rbs/work/source
+  mkdir -p $SRCDIR
+}
+
+mkdir -p /RBS-Tools/state || exit 1
+for x in perl python; do
+  STATE="/RBS-Tools/state/RBS_Tools__${x}"
+  [ ! -e "$STATE" ] && {
+    exec_profile $x RBS_Tools_Build || exit 1
+    >$STATE
+  }
+done
+
+cd "$RBSDIR" || exit 1
+
+STATE="/RBS-Tools/state/RBS_Tools__pre-toolchain-switch"
+[ ! -e "$STATE" ] && {
+  ./install glibc || exit 1
+  >$STATE
+}
+
+STATE="/RBS-Tools/state/RBS_Tools__toolchain-switch"
+[ ! -e "$STATE" ] && {
+  exec_profile gcc GCC_Switch_ToolChain || exit 1
+  >$STATE
+}
+
+MWRAP=
+if [ "$SYSTYPE" == "MULTILIB" ]; then
+  MWRAP="multiarch_wrapper"
+fi
+
+STATE="/RBS-Tools/state/RBS_BASE_SYSTEM_INSTALL"
+[ ! -e "$STATE" ] && {
+  ./install gcc $MWRAP $(profile_group base) lilo || exit 1
+  >$STATE
+}
+
+STATE="/RBS-Tools/state/RBS_BASE_SYSTEM_COMPLETION"
+[ ! -e "$STATE" ] && {
+  ./fsdiff rm || exit 1
+  echo "RBS:  Base system setup complete."
+  >$STATE
+}
+
+./install $*
+
+exit 0

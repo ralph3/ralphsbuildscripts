@@ -1,0 +1,14 @@
+diff -Naur mozilla/toolkit/xre/nsAppRunner.cpp mozilla.patched/toolkit/xre/nsAppRunner.cpp
+--- mozilla/toolkit/xre/nsAppRunner.cpp	2007-11-08 06:56:25.000000000 -0500
++++ mozilla.patched/toolkit/xre/nsAppRunner.cpp	2009-06-12 15:00:58.000000000 -0400
+@@ -1370,8 +1370,8 @@
+   if (NS_FAILED(rv))
+     return rv;
+ 
+-#elif
+-#error Oops, you need platform-specific code here
++//#elif
++//#error Oops, you need platform-specific code here
+ #endif
+ 
+   NS_ADDREF(*aResult = lf);

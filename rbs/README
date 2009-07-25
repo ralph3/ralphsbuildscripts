@@ -1,0 +1,24 @@
+Ralph's Build Scripts.
+
+
+ Welcome to my crazy way of making my LFS life easier. These scripts are not LFS
+compatible. This is an ongoing work so things may change at any given time.
+
+
+notes for my use:
+
+Example my_src1 function for cvs/svn:
+VERSION would look like 1.0.0-20061126
+DIR would look like foo-$VERSION
+
+my_src1(){
+  cvs -z3 -d:pserver:anonymous:@somewhere.org:/cvs/foo \
+    export -D $(echo $VERSION | cut -f2- -d'-' | sed 's%....%&-%;s%..$%-&%') \
+    -d $DIR \
+    foo || return 1
+}
+
+my_src1(){
+  svn co -r {$(echo $VERSION | cut -f2- -d'-' | sed 's%....%&-%;s%..$%-&%')} \
+    svn://somewhere.org/svn/foo $DIR || return 1
+}

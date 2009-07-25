@@ -1,0 +1,93 @@
+#!/bin/bash
+
+[ "$(id -u)" != "0" ] && {
+  echo "Run me as root please." >/dev/stderr
+  exit 1
+}
+
+cd "$(dirname $0)" || exit 1
+RBSDIR="$PWD"
+
+source "$RBSDIR/shared" || exit 1
+
+[ "$Ralphs_Build_System" != "1" ] && {
+  echo "This script can't run on a system that wasn't built by me." >/dev/stderr
+  exit 1
+}
+
+echo -n "Checking for mktemp...  "
+mktemp -V >&/dev/null || {
+  echo "Not Found!"
+  exit 1
+}
+mktemp -V
+
+cat_installed_list(){
+  for x in /var/lib/packages/current/*/filelist; do
+    cat $x
+  done
+}
+
+echo -n "Fetching list of installed files..."
+INSTLIST=$(mktemp)
+cat_installed_list | sed -e '/^\/$/d' \
+                         -e '/^\/RBS-Cross-Tools/d' \
+                         -e '/^\/RBS-Tools/d' \
+                         -e '/^\/boot/d' \
+                         -e '/^\/dev/d' \
+                         -e '/^\/etc/d' \
+                         -e '/^\/home/d' \
+                         -e '/^\/lib\/modules/d' \
+                         -e '/^\/media/d' \
+                         -e '/^\/mnt/d' \
+                         -e '/^\/proc/d' \
+                         -e '/^\/root/d' \
+                         -e '/^\/sys/d' \
+                         -e '/^\/tools/d' \
+                         -e '/\/locale-archive$/d' \
+                         -e '/^\/usr\/src/d' \
+                         -e '/^\/srv/d' \
+                         -e '/^\/tmp/d' \
+                         -e '/^\/var/d' > $INSTLIST
+echo "  Done."
+
+echo -n "Fetching list of files on the filesystem..."
+LIST=$(mktemp)
+find / | sed             -e '/^\/$/d' \
+                         -e '/^\/RBS-Cross-Tools/d' \
+                         -e '/^\/RBS-Tools/d' \
+                         -e '/^\/boot/d' \
+                         -e '/^\/dev/d' \
+                         -e '/^\/etc/d' \
+                         -e '/^\/home/d' \
+                         -e '/^\/lib\/modules/d' \
+                         -e '/^\/media/d' \
+                         -e '/^\/mnt/d' \
+                         -e '/^\/proc/d' \
+                         -e '/^\/root/d' \
+                         -e '/^\/sys/d' \
+                         -e '/^\/tools/d' \
+                         -e '/\/locale-archive$/d' \
+                         -e '/^\/usr\/src/d' \
+                         -e '/^\/srv/d' \
+                         -e '/^\/tmp/d' \
+                         -e '/^\/var/d' > $LIST
+echo "  Done."
+
+TRASH=$(mktemp)
+grep -vhFxf $INSTLIST $LIST | grep . > $TRASH
+rm -f $INSTLIST $LIST
+if [ "$(du -bs $TRASH | tr '\t' ' ' | cut -f1 -d' ')" != "0" ];then
+  if [ "$1" == "rm" ]; then
+    echo -n "Removing Differences in filesystem..."
+    trash_files $TRASH >/dev/null
+    echo "  Done."
+  else
+    echo -e "\n>>>>>>>>>>>>>DIFFS>>>>>>>>>>>>>\n"
+    cat $TRASH
+    echo -e "\n<<<<<<<<<<<<<DIFFS<<<<<<<<<<<<<\n"
+  fi
+else
+  echo -e "\n  No differences in filesystem found.\n"
+fi
+rm -f $TRASH

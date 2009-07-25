@@ -1,0 +1,112 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="2.2.11"
+
+DIR="httpd-${VERSION}"
+TARBALL="httpd-${VERSION}.tar.gz"
+
+DEPENDS=(
+  apr-util
+  shadow
+  zlib
+)
+
+SRC1=(
+http://www.reverse.net/pub/apache/httpd/${TARBALL}
+)
+
+MD5SUMS=(
+03e0a99a5de0f3f568a0087fb9993af9
+)
+
+build(){
+  unset CFLAGS CXXFLAGS
+  unpack_tarball $TARBALL
+  cd $SRCDIR/$DIR || return 1
+cat > config.layout << EOF
+
+<Layout RBS>
+    prefix:          /usr
+    exec_prefix:     /usr
+    bindir:          /usr/bin
+    sbindir:         /usr/sbin
+    libdir:          /usr/$LIBSDIR
+    libexecdir:      /usr/$LIBSDIR/httpd
+    mandir:          /usr/share/man
+    sysconfdir:      /etc/httpd
+    datadir:         /home/httpd
+    installbuilddir: /usr/$LIBSDIR/httpd/build
+    errordir:        /home/httpd/error
+    iconsdir:        /home/httpd/icons
+    htdocsdir:       /home/httpd/htdocs
+    manualdir:       /home/httpd/manual
+    cgidir:          /home/httpd/cgi-bin
+    includedir:      /usr/include/httpd
+    localstatedir:   /home/httpd
+    runtimedir:      /var/run
+    logfiledir:      /var/log/httpd
+    proxycachedir:   /var/cache/httpd/proxy
+</Layout>
+EOF
+  groupadd httpd
+  useradd -c httpd -d /home/httpd -g httpd -s /bin/false httpd
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --enable-layout=RBS \
+    --enable-mods-shared=all || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  chown -R httpd:httpd $TMPROOT/home/httpd || return 1
+  mkdir -p $TMPROOT/etc/httpd/httpd.conf.d || return 1
+  sed -i -e "s%^User daemon$%User httpd%" -e "s%^Group daemon$%Group httpd%" \
+    $TMPROOT/etc/httpd/httpd.conf || return 1
+  echo -e '\ninclude /etc/httpd/httpd.conf.d/*.conf' >> \
+    $TMPROOT/etc/httpd/httpd.conf || return 1
+  for conf in $TMPROOT/etc/httpd/*; do
+    if [ -f "$conf" ]; then
+      mv -f $conf ${conf}.new || return 1
+    fi
+  done
+  mkdir -p $TMPROOT/etc/rc.d || return 1
+cat << "EOF" > $TMPROOT/etc/rc.d/rc.httpd || return 1
+#!/bin/bash
+
+. /etc/rc.d/rc.conf
+. /etc/rc.d/rc.functions
+
+case "$1" in
+  start)
+    print_msg "Starting httpd"
+    loadproc /usr/sbin/apachectl -k start
+  ;;
+  stop)
+    print_msg "Stopping httpd"
+    loadproc /usr/sbin/apachectl -k stop
+  ;;
+  restart)
+    print_msg "Restarting httpd"
+    loadproc /usr/sbin/apachectl -k restart
+  ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+  ;;
+esac
+EOF
+  chmod 744 $TMPROOT/etc/rc.d/rc.httpd || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+post_remove(){
+  userdel httpd
+}
+
+version_check_info(){
+  ADDRESS='http://www.reverse.net/pub/apache/httpd/'
+  VERSION_STRING='httpd-%version%.tar.gz'
+  ONLY_EVEN_MINORS=1
+  MIRRORS=(
+    'http://www.reverse.net/pub/apache/httpd/httpd-%version%.tar.gz'
+  )
+}

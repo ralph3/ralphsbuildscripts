@@ -1,0 +1,1 @@
+../all/docbook-xml.sh

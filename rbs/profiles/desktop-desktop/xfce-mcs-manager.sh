@@ -1,0 +1,1 @@
+../all/xfce-mcs-manager.sh

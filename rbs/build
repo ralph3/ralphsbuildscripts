@@ -1,0 +1,793 @@
+#!/bin/bash
+
+[ "$(id -u)" != "0" ] && {
+  echo "Run me as root please." >/dev/stderr
+  exit 1
+}
+
+
+cd "$(dirname $0)" || exit 1
+RBSDIR="$PWD"
+
+source "$RBSDIR/shared" || exit 1
+echo "Reading conf/build.conf."
+source "$CONFDIR/build.conf" || exit 1
+export RBS_CFLAGS RBS_CXXFLAGS RBS_BUILDTARGET RBS_SYSTYPE RBS_BUILDTYPE
+
+[ -z "$RBS_CC" ] && {
+  echo "no RBS_CC set in rbs.conf!" >/dev/stderr
+  exit 1
+}
+
+[ -z "$RBS_CXX" ] && {
+  echo "no RBS_CXX set in rbs.conf!" >/dev/stderr
+  exit 1
+}
+
+[ -z "$RBS_BUILDTARGET" ] && {
+  echo "no RBS_BUILDTARGET set in rbs.conf!" >/dev/stderr
+  exit 1
+}
+
+[ -z "$RBS_SYSTYPE" ] && {
+  echo "no RBS_SYSTYPE set in rbs.conf!" >/dev/stderr
+  exit 1
+}
+
+CHECKAPPS=""
+if [ "$RBS_BUILDTYPE" == "BOOTCD" ]; then
+  CHECKAPPS="mknod"
+fi
+
+case $RBS_BUILDTYPE in
+  TARBALL) ;;
+  BOOTCD)
+    CHECKAPPS="${CHECKAPPS} mkisofs /dev/loop"
+  ;;
+  *)
+    echo "Unknown BUILDTYPE ($RBS_BUILDTYPE)! Set to TARBALL or BOOTCD." >/dev/stderr
+    exit 1
+  ;;
+esac
+
+for x in ${CHECKAPPS}; do
+  if [ "$x" == "/dev/loop" ] && [ "$RBS_BUILDTYPE" == "BOOTCD" ]; then
+    echo -n "checking for /dev/loop0...  "
+    [ ! -e "/dev/loop0" ] && {
+      echo "Nope!"
+      echo -e "\n  No /dev/loop0 found. This is needed for building the live cd!"
+      echo -e "Load the \"loop\" module or rebuild your kernel with support for loop devices.\n"
+      exit 1
+    }
+    echo "Yep!"
+  else
+    echo -n "checking for ${x}...  "
+    $x --version >&/dev/null
+    [ "$?" != "0" ] && {
+      echo "Not Found!"
+      exit 1
+    }
+    $x --version 2>/dev/null | sed q
+  fi
+done
+
+case $RBS_SYSTYPE in
+  32BIT | 64BIT | MULTILIB ) ;;
+  *)
+    echo "Unsupported SYSTYPE ($RBS_SYSTYPE)! Only 32BIT 64BIT MULTILIB are accepted." >/dev/stderr
+    exit 1
+  ;;
+esac
+
+BUILDHOST="`echo ${MACHTYPE} | sed -e 's/unknown/cross/g' -e 's/-pc-/-cross-/g'`"
+BUILDTARGET=$RBS_BUILDTARGET
+
+TARGETARCH=$(echo $RBS_BUILDTARGET | cut -f1 -d'-')
+
+case $RBS_BUILDTARGET in
+  i486-pc-linux-gnu | i586-pc-linux-gnu | i686-pc-linux-gnu )
+    LIBSDIR="lib"
+    BUILD="-m32"
+    [ "$RBS_SYSTYPE" != "32BIT" ] && {
+      echo "${RBS_BUILDTARGET} only can do 32BIT! Set SYSTYPE to 32BIT." >/dev/stderr
+      exit 1
+    }
+  ;;
+  x86_64-unknown-linux-gnu )
+    case $RBS_SYSTYPE in
+      64BIT)
+        LIBSDIR="lib64"
+        BUILD="-m64"
+      ;;
+      MULTILIB)
+        LIBSDIR32="lib"
+        LIBSDIR64="lib64"
+        BUILD32="-m32"
+        BUILD64="-m64"
+        BUILDTARGET32="i686-pc-linux-gnu"
+        LIBSDIR="$LIBSDIR64"
+        BUILD="$BUILD64"
+      ;;
+      *)
+        echo "Unsupported SYSTYPE for x86_64! I support 64BIT and MULTILIB only." >/dev/stderr
+        exit 1
+      ;;
+    esac
+  ;;
+  *)
+cat << EOF >/dev/stderr
+
+ Unsupported Build Target (${RBS_BUILDTARGET})!
+
+ Targets that I support are:
+   
+   i486-pc-linux-gnu
+   i586-pc-linux-gnu
+   i686-pc-linux-gnu
+   x86_64-unknown-linux-gnu (both 64Bit and Multilib)
+   
+EOF
+    exit 1
+  ;;
+esac
+
+BOOTLOADER=
+case $TARGETARCH in
+  i486|i586|i686|x86_64)
+    BOOTLOADER="bin86 lilo"
+  ;;
+esac
+
+EP=
+if [ -n "$EXTRA_PACKAGES" ]; then
+  EP="$(resolve_profile_names $EXTRA_PACKAGES)"
+fi
+
+DCB=
+if [ "$DISABLE_CHROOT_BUILD" != "1" ]; then
+  if [ "$(uname -m)" == "$TARGETARCH" ]; then
+    DCB=1
+  else
+    if [ "$RBS_BUILDTYPE" == "TARBALL" ]; then
+      echo -e "\n\n   ERROR: I can't build a tarball because the build system and target system are different. Change BUILDTYPE to BOOTCD." >/dev/stderr
+      exit 1
+    fi
+  fi
+fi
+
+PKG_PROFILES="$(profile_group base) $BOOTLOADER $EP"
+echo -n "Checking downloaded sources..."
+$RBSDIR/download $PKG_PROFILES syslinux || exit 1
+echo "  Done."
+
+WORKDIR="$RBSDIR/.work/${RBS_BUILDTARGET}__${RBS_SYSTYPE}__${RBS_BUILDTYPE}"
+ROOT="$WORKDIR/root"
+RBS_PROFILE="$ROOT/etc/profile.d/00_rbs.sh"
+STATEDIR="$ROOT/tmp/build-sysroot-state"
+
+cat_rbs_profile(){
+cat << EOF
+#!/bin/bash
+
+export Ralphs_Build_System=1
+
+export CC="gcc"
+export CXX="g++"
+export AR="ar"
+export AS="as"
+export RANLIB="ranlib"
+export LD="ld"
+export STRIP="strip"
+export CFLAGS="$RBS_CFLAGS"
+export CXXFLAGS="$RBS_CXXFLAGS"
+export SYSTYPE="$RBS_SYSTYPE"
+EOF
+
+if [ $RBS_SYSTYPE == "MULTILIB" ]; then
+cat << EOF
+export BUILD="$BUILD64"
+export BUILD32="$BUILD32"
+export BUILD64="$BUILD64"
+export LIBSDIR="$LIBSDIR64"
+export LIBSDIR32="$LIBSDIR32"
+export LIBSDIR64="$LIBSDIR64"
+export USE_ARCH="64"
+export BUILDTARGET="$BUILDTARGET"
+export BUILDTARGET64="$BUILDTARGET"
+export BUILDTARGET32="$BUILDTARGET32"
+EOF
+else
+cat << EOF
+export BUILD="$BUILD"
+export LIBSDIR="$LIBSDIR"
+export BUILDTARGET="$BUILDTARGET"
+EOF
+fi
+}
+
+SRCDIR="$WORKDIR/source"
+[ "$USE_SHM_SRCDIR" == "1" ] && {
+  SRCDIR=/dev/shm/rbs/work/$(basename $WORKDIR)/source
+}
+
+cat_cross_tools_profile(){
+cat_rbs_profile
+cat << EOF
+export BUILDHOST="$BUILDHOST"
+export PATH=/RBS-Cross-Tools/bin:$PATH
+export WORKDIR="$WORKDIR"
+export SRCDIR="$SRCDIR"
+export TMPDIR="$WORKDIR/tmp"
+export TMPROOT="$WORKDIR/tmproot"
+export ROOT="$ROOT"
+export LC_ALL=POSIX
+export STATEDIR="$STATEDIR"
+export CFLAGS=
+export CXXFLAGS=
+export USE_SHM_SRCDIR=$USE_SHM_SRCDIR
+EOF
+}
+
+cat_cross_profile(){
+cat_cross_tools_profile
+cat << EOF
+export CC="${BUILDTARGET}-gcc"
+export CXX="${BUILDTARGET}-g++"
+export AR="${BUILDTARGET}-ar"
+export AS="${BUILDTARGET}-as"
+export RANLIB="${BUILDTARGET}-ranlib"
+export LD="${BUILDTARGET}-ld"
+export STRIP="${BUILDTARGET}-strip"
+export CFLAGS="${RBS_CFLAGS}"
+export CXXFLAGS="${RBS_CXXFLAGS}"
+EOF
+}
+
+[ ! -e "$STATEDIR/RBS_TOOLS" ] && {
+  mkdir -p $SRCDIR $ROOT/{RBS-Cross-Tools,RBS-Tools/bin,etc/profile.d} \
+    $WORKDIR/tmp $STATEDIR || exit 1
+  ln -sfn bin $ROOT/RBS-Tools/sbin || exit 1
+  ln -sfn $ROOT/RBS-Tools /RBS-Tools || exit 1
+  ln -sfn $ROOT/RBS-Cross-Tools /RBS-Cross-Tools || exit 1
+  
+  cat_cross_tools_profile > $RBS_PROFILE || exit 1
+  chmod 755 $RBS_PROFILE || exit 1
+  source $RBS_PROFILE || exit 1
+  
+  for x in linux-headers file ncurses gmp mpfr ppl cloog-ppl binutils gcc_Static glibc gcc; do
+    STATE="$STATEDIR/RBS_Cross_Tools__${x}"
+    if [ "$x" == "glibc" ] && [ "$RBS_SYSTYPE" == "MULTILIB" ]; then
+      STATE="${STATE}-32"
+      [ ! -e "$STATE" ] && {
+        BUILD=$BUILD32 LIBSDIR=$LIBSDIR32 \
+          exec_profile $x RBS_Cross_Tools_Build || exit 1
+        >$STATE
+      }
+      STATE="${STATE}-64"
+      [ ! -e "$STATE" ] && {
+        exec_profile $x RBS_Cross_Tools_Build || exit 1
+        >$STATE
+      }
+    else
+      [ ! -e "$STATE" ] && {
+        exec_profile $(echo $x | cut -f1 -d'_') \
+          RBS_Cross_Tools_Build$(echo $x | cut -s -f2- -d'_') || exit 1
+        >$STATE
+      }
+    fi
+  done
+  
+  cat_cross_profile > $RBS_PROFILE || exit 1
+  chmod 755 $RBS_PROFILE || exit 1
+  source $RBS_PROFILE || exit 1
+  
+  BCDT=
+  if [ "$DCB" != "1" ]; then
+    BCDT="e2fsprogs linux udev bootscripts module-init-tools reiserfsprogs nano sysvinit"
+  fi
+  
+  for x in gmp mpfr ppl cloog-ppl zlib binutils gcc ncurses bash bzip2 coreutils diffutils \
+           findutils file gawk gettext grep gzip m4 make patch sed xz tar \
+           texinfo util-linux $BCDT; do
+    STATE="$STATEDIR/RBS_Tools__${x}"
+    [ ! -e "$STATE" ] && {
+      exec_profile $x RBS_Tools_Build || exit 1
+      >$STATE
+    }
+  done
+  
+  echo -n "Stripping any binaries found in sysroot..."
+  find $ROOT -type f | xargs file 2>/dev/null | grep "executable" | grep ELF | cut -f 1 -d : | while read exe; do
+    $STRIP --strip-unneeded "$exe" >&/dev/null
+  done
+  libs_list(){
+    find $ROOT -type f | xargs file 2>/dev/null | grep "shared object" | grep ELF | cut -f 1 -d :
+    find $ROOT -type f -name '*.a'
+  }
+  libs_list | while read lib; do
+    $STRIP --strip-debug "$lib" >&/dev/null
+  done
+  echo "  Done."
+  
+  rm -rf /RBS-Tools/{info,man,var} \
+    /RBS-Tools/share/{aclocal,awk,doc,et,getopt,gettext,i18n,info,locale,man,misc,ss,tabset,texinfo,zoneinfo}
+  
+  rm /RBS-Tools /RBS-Cross-Tools || exit 1
+  
+  find $ROOT -name '*.la' -type f -exec rm {} \;
+  
+  mkdir -p $ROOT/{bin,dev,proc,root,usr/bin} || exit 1
+  chmod 750 $ROOT/root || exit 1
+  if [ ! -L "$ROOT/bin/bash" ] && [ ! -f "$ROOT/bin/bash" ]; then
+    ln -s /RBS-Tools/bin/{bash,cat,echo,grep,pwd,stty} $ROOT/bin
+    ln -s /RBS-Tools/bin/{env,file} $ROOT/usr/bin
+    if [ -d "$ROOT/RBS-Tools/lib" ]; then
+      mkdir -p $ROOT/usr/lib
+      ln -s /RBS-Tools/lib/libgcc_s.so{,.1} $ROOT/usr/lib
+      for x in $ROOT/RBS-Tools/lib/libstd*; do
+        ln -s /RBS-Tools/lib/$(basename $x) $ROOT/usr/lib
+      done
+    fi
+    if [ -d "$ROOT/RBS-Tools/lib64" ]; then
+      mkdir -p $ROOT/usr/lib64
+      ln -s /RBS-Tools/lib64/libgcc_s.so{,.1} $ROOT/usr/lib64
+      for x in $ROOT/RBS-Tools/lib64/libstd*; do
+        ln -s /RBS-Tools/lib64/$(basename $x) $ROOT/usr/lib64
+      done
+    fi
+    ln -s bash  $ROOT/bin/sh
+  fi
+  
+  [ ! -e "$ROOT/etc/passwd" ] && {
+cat > $ROOT/etc/passwd << "EOF"
+root::0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/bin/false
+daemon:x:2:2:daemon:/sbin:/bin/false
+adm:x:3:4:adm:/var/adm:/bin/false
+lp:x:10:18:lp:/var/spool/lp:/bin/false
+mail:x:30:30:mail:/var/spool/mail:/bin/false
+news:x:31:31:news:/var/spool/news:/bin/false
+uucp:x:32:32:uucp:/var/spool/uucp:/bin/false
+operator:x:50:0:operator:/root:/bin/bash
+postmaster:x:51:30:postmaster:/var/spool/mail:/bin/false
+nobody:x:65534:65534:nobody:/:/bin/false
+EOF
+  }
+  
+  [ ! -e "$ROOT/etc/group" ] && {
+cat > $ROOT/etc/group << "EOF"
+root::0:root
+bin::1:root,bin,daemon
+daemon::2:root,bin,daemon
+sys::3:root,bin,adm
+adm::4:root,adm,daemon
+kmem::5:
+utmp::6:
+tty::10:
+video::11:root
+console::12:
+disk::13:root,adm
+floppy::14:root
+cdrom::15:
+cdrw::16:
+tape::17:root
+lp::18:lp
+usb::19:
+audio::20:
+dialout::21:root
+mail::30:mail
+news::31:news
+uucp::32:uucp
+users::100:
+nogroup::65533:
+nobody::65534:
+EOF
+  }
+  
+  mkdir -p $ROOT/var/{run,log} || exit 1
+  touch $ROOT/var/{run/utmp,log/{btmp,lastlog,wtmp}} || exit 1
+  chmod 664 $ROOT/var/{run/utmp,log/lastlog} || exit 1
+  chmod 600 $ROOT/var/log/btmp || exit 1
+  
+  cat_rbs_profile > $RBS_PROFILE || exit 1
+  chmod 755 $RBS_PROFILE || exit 1
+  
+  for x in $ROOT/RBS-Tools/bin/${BUILDTARGET}-*; do
+    y=$(echo $x | rev | cut -f1 -d'-' | rev)
+    if [ ! -e "$ROOT/RBS-Tools/bin/$y" ]; then
+      ln -sfn $(basename $x) $ROOT/RBS-Tools/bin/$y
+    fi
+  done
+  
+  >$STATEDIR/RBS_TOOLS
+}
+
+cd "$RBSDIR" || exit 1
+echo -n "RBS: Copying myself to system root..."
+rm -rf $ROOT/usr/src/rbs || exit 1
+mkdir -p $ROOT/usr/src/rbs || exit 1
+tar c --exclude={.work,.cache,.tmp,rbs_*.iso,rbs_*.tar.gz} . 2>/dev/null | \
+  tar x -C $ROOT/usr/src/rbs 2>/dev/null
+echo "  Done."
+
+mkdir -p $ROOT/{dev,proc,usr/src/rbs/.cache/downloads} || exit 1
+mknod -m 600 $ROOT/dev/console c 5 1 >&/dev/null
+mknod -m 666 $ROOT/dev/null c 1 3 >&/dev/null
+
+if [ "$DCB" == "1" ]; then
+  if [ ! -e "$STATEDIR/Chroot-Stuff" ]; then
+    echo -n "Binding <sysroot>/usr/src/rbs/.cache/downloads..."
+    mount --bind $RBSDIR/.cache/downloads \
+      $ROOT/usr/src/rbs/.cache/downloads || exit 1
+    echo "  Done"
+    echo -n "Binding <sysroot>/{dev,proc}..."
+    mount --bind /dev $ROOT/dev || exit 1
+    mount --bind /proc $ROOT/proc || exit 1
+    echo "  Done"
+    mkdir -p $ROOT/root || exit 1
+    [ -e "$ROOT/RBS-Tools" ] && {
+      chroot $ROOT /RBS-Tools/bin/env -i HOME=/root TERM="linux" \
+        PATH=/bin:/usr/bin:/sbin:/usr/sbin:/RBS-Tools/bin \
+        USE_SHM_SRCDIR=$USE_SHM_SRCDIR RAN_FROM_SETUP=1 /usr/src/rbs/base-setup
+      if [ "$?" != "0" ]; then
+        umount $ROOT/dev
+        umount $ROOT/proc
+        umount $ROOT/usr/src/rbs/.cache/downloads
+        exit 1
+      fi
+    }
+    rm -rf $ROOT/{RBS-Cross-Tools,RBS-Tools} || exit 1
+    STATE="$STATEDIR/Extra-Packages-Install"
+    if [ -n "$EP" ] && [ ! -e "$STATE" ]; then
+      chroot $ROOT /usr/bin/env -i HOME=/root TERM="linux" \
+        PATH=/bin:/usr/bin:/sbin:/usr/sbin USE_SHM_SRCDIR=$USE_SHM_SRCDIR \
+        /usr/src/rbs/install $EP
+      if [ "$?" != "0" ]; then
+        umount $ROOT/dev
+        umount $ROOT/proc
+        umount $ROOT/usr/src/rbs/.cache/downloads
+        exit 1
+      fi
+      >$STATE
+    fi
+    echo -n "Unbinding dirs..."
+    umount $ROOT/dev || exit 1
+    umount $ROOT/proc || exit 1
+    umount $ROOT/usr/src/rbs/.cache/downloads || exit 1
+    echo "  Done"
+    >$STATEDIR/Chroot-Stuff
+  fi
+else
+  echo -n "RBS: Copying needed downloaded sources to new system root..."
+  for x in $(list_sources $PKG_PROFILES); do
+    if [ ! -e "$FILESDIR/$x" ]; then
+      cp $RBSDIR/.cache/downloads/$x $ROOT/usr/src/rbs/.cache/downloads/ || exit 1
+      touch $ROOT/usr/src/rbs/.cache/downloads/${x}.ok || exit 1
+    fi
+  done
+  echo "  Done."
+fi
+
+echo -n "Rolling back timestamps in sysroot..."
+find $ROOT -exec touch -c -t 197001010000.00 {} \; >&/dev/null || exit 1
+echo "  Done!"
+
+cd $ROOT || exit 1
+echo -n "Creating sysroot.tar.gz..."
+tar czp --exclude=RBS-Cross-Tools -f $WORKDIR/sysroot.tar.gz * || exit 1
+echo "  Done."
+
+if [ "$DCB" == "1" ] && [ "$(du -bs $WORKDIR/sysroot.tar.gz | tr '\t' ' ' | cut -f1 -d' ')" -gt "760000000" ]; then
+  echo -e "\n\n#### Switching to tarball mode, sysroot to big for cd. ####\n"
+  mv $WORKDIR/sysroot.tar.gz \
+    "$RBSDIR/rbs_${TARGETARCH}_${RBS_SYSTYPE}.tar.gz" || exit 1
+  echo "Done! To cleanup remove the \".work\" directory."
+  exit 0
+fi
+
+case $RBS_BUILDTYPE in
+  TARBALL)
+    mv $WORKDIR/sysroot.tar.gz \
+      "$RBSDIR/rbs_${TARGETARCH}_${RBS_SYSTYPE}.tar.gz" || exit 1
+  ;;
+  BOOTCD)
+    echo -n "Unpacking Isolinux..."
+    cd $WORKDIR || exit 1
+    rm -rf syslinux* || exit 1
+    tar xfj $RBSDIR/.cache/downloads/$(list_sources syslinux | sed q) || exit 1
+    mv syslinux-* syslinux || exit 1
+    echo "  Done."
+    echo -n "Setting up isolinux..."
+    CDROOT="$WORKDIR/cdroot"
+    rm -rf $CDROOT || exit 1
+    mkdir -p "$CDROOT/isolinux" || exit 1
+cat << EOF > $CDROOT/isolinux/isolinux.cfg || exit 1
+default RBS_BOOTCD_${RBS_BUILDTARGET}
+label RBS_BOOTCD_${RBS_BUILDTARGET}
+  kernel vmlinuz
+  append initrd=initrd.gz root=/dev/ram0 init=/etc/rc.d/rc.initrd ramdisk_size=16384
+EOF
+    cp $ROOT/boot/vmlinuz $CDROOT/isolinux/ || exit 1
+    cp $WORKDIR/syslinux/core/isolinux.bin $CDROOT/isolinux/ || exit 1
+    rm -rf syslinux || exit 1
+    echo "  Done."
+    
+    
+    echo -n "Making Initrd Root..."
+    rm -rf $WORKDIR/initrd || exit 1
+    mkdir -p $WORKDIR/initrd/{bin,dev,lib,${LIBSDIR},proc,sys,tmp} || exit 1
+    mkdir -p $WORKDIR/initrd/{etc/rc.d,media/cdrom,mnt/root} || exit 1
+    ln -sfn bin $WORKDIR/initrd/sbin || exit 1
+    mknod -m 600 $WORKDIR/initrd/dev/console c 5 1
+    mknod -m 666 $WORKDIR/initrd/dev/null c 1 3
+    cp $ROOT/etc/rc.d/rc.{functions,udev} $WORKDIR/initrd/etc/rc.d || exit 1
+    touch $WORKDIR/initrd/etc/rc.d/rc.conf
+    
+    ROOTBINDIR=$ROOT/bin
+    ROOTUSRBINDIR=$ROOT/usr/bin
+    ROOTSBINDIR=$ROOT/sbin
+    ROOTUSRSBINDIR=$ROOT/usr/sbin
+    ROOTLIBSDIR=$ROOT/$LIBSDIR
+    ROOTUSRLIBSDIR=$ROOT/usr/$LIBSDIR
+    ROOTSHAREDIR=$ROOT/usr/share
+    if [ -e "$ROOT/RBS-Tools" ]; then
+      mkdir -p $WORKDIR/initrd/RBS-Tools/share/terminfo/l || return 1
+      ln -sfn /usr/share/terminfo/l/linux $WORKDIR/initrd/RBS-Tools/share/terminfo/l/linux || return 1
+      ln -sfn ../$LIBSDIR $WORKDIR/initrd/RBS-Tools/$LIBSDIR || return 1
+      ROOTBINDIR=$ROOT/RBS-Tools/bin
+      ROOTUSRBINDIR=$ROOTBINDIR
+      ROOTSBINDIR=$ROOTBINDIR
+      ROOTUSRSBINDIR=$ROOTBINDIR
+      ROOTLIBSDIR=$ROOT/RBS-Tools/$LIBSDIR
+      ROOTUSRLIBSDIR=$ROOTLIBSDIR
+      ROOTSHAREDIR=$ROOT/RBS-Tools/share
+    fi
+    
+    for x in bash cat stty basename bzip2 cp grep gzip \
+    ln ls mkdir mv rm sleep tar test touch uname sed; do
+      cp $ROOTBINDIR/${x} $WORKDIR/initrd/bin/ || exit 1
+    done
+    
+    for x in mount umount; do
+      cp $ROOT/bin/${x} $WORKDIR/initrd/bin/ || exit 1
+    done
+    
+    for x in cut find ldd; do
+      cp $ROOTUSRBINDIR/${x} $WORKDIR/initrd/bin/ || exit 1
+    done
+    
+    for x in $ROOT/sbin/{*fdisk,*fs*,mkswap,swapon,modprobe,udev*,shutdown,halt}; do
+      if [ "$(basename $x)" != "mount.smbfs" ]; then
+        cp ${x} $WORKDIR/initrd/bin/ || exit 1
+      fi
+    done
+    
+    cp $ROOTUSRSBINDIR/chroot $WORKDIR/initrd/bin/ || exit 1
+    
+    ln -sfn bash $WORKDIR/initrd/bin/sh || exit 1
+    ln -sfn halt $WORKDIR/initrd/bin/reboot || exit 1
+    ln -sfn e2fsck $WORKDIR/initrd/bin/fsck.ext2 || exit 1
+    ln -sfn e2fsck $WORKDIR/initrd/bin/fsck.ext3 || exit 1
+    ln -sfn e2fsck $WORKDIR/initrd/bin/fsck.ext4 || exit 1
+    ln -sfn e2fsck $WORKDIR/initrd/bin/fsck.ext4dev || exit 1
+    ln -sfn mke2fs $WORKDIR/initrd/bin/mkfs.ext2 || exit 1
+    ln -sfn mke2fs $WORKDIR/initrd/bin/mkfs.ext3 || exit 1
+    ln -sfn mke2fs $WORKDIR/initrd/bin/mkfs.ext4 || exit 1
+    ln -sfn mke2fs $WORKDIR/initrd/bin/mkfs.ext4dev || exit 1
+    
+    ln -sfn /proc/mounts $WORKDIR/initrd/etc/mtab || exit 1
+    cp $ROOT/etc/mke2fs.conf $WORKDIR/initrd/etc || exit 1
+    
+    [ -f "$ROOTUSRBINDIR/lddlibc4" ] && {
+      cp $ROOTUSRBINDIR/lddlibc4 $WORKDIR/initrd/bin/ || exit 1
+    }
+    
+    cp $ROOT/usr/bin/nano $WORKDIR/initrd/bin/ || exit 1
+    if [ -e "$ROOT/etc/nanorc" ]; then
+      cp $ROOT/etc/nanorc $WORKDIR/initrd/etc/ || exit 1
+    else
+      cp $ROOT/etc/nanorc.new $WORKDIR/initrd/etc/nanorc || exit 1
+    fi
+    
+    ln -sfn test $WORKDIR/initrd/bin/[
+    
+    cp -a $ROOT/etc/udev $WORKDIR/initrd/etc/ || exit 1
+    cp -a $ROOT/$LIBSDIR/udev $WORKDIR/initrd/${LIBSDIR}/ || exit 1
+    
+    cp $ROOTLIBSDIR/{ld-linux*.so.?,libc.so.?,libuuid.so.?,libblkid.so.?} \
+       $ROOTLIBSDIR/{libm.so.?,libncurses.so.?,libdl.so.?} \
+       $ROOTLIBSDIR/{librt.so.?,libpthread.so.?,libe2p.so.?,libss.so.?} \
+       $ROOTLIBSDIR/{libcom_err.so.?,libext2fs.so.?,libcrypt.so.?} \
+      $WORKDIR/initrd/$LIBSDIR/ || exit 1
+    cp $ROOTUSRLIBSDIR/libgcc_s.so.? $WORKDIR/initrd/$LIBSDIR/ || exit 1
+    dd if=/dev/urandom bs=1024 count=1 2>/dev/null | \
+      md5sum | cut -f1 -d' ' > $WORKDIR/initrd/etc/id || exit 1
+    cp $WORKDIR/initrd/etc/id $CDROOT/id || exit 1
+    mkdir -p $WORKDIR/initrd/usr/share/terminfo/l || exit 1
+    cp $ROOTSHAREDIR/terminfo/l/linux \
+      $WORKDIR/initrd/usr/share/terminfo/l/ || exit 1
+
+cat << "EOF" > $WORKDIR/initrd/etc/profile
+alias reboot='reboot -f'
+alias halt='halt -f -p'
+alias mount='mount -n'
+alias dir='ls --color=auto -F -b -T 0'
+alias ls='ls --color=auto -F -b -T 0'
+export PS1='[ RBS BOOTCD :: \w ]$ '
+EOF
+cat << "EOF" > $WORKDIR/initrd/etc/rc.d/rc.initrd || exit 1
+#!/bin/bash
+
+. /etc/rc.d/rc.functions
+
+echo
+echo " RBS BOOTCD running Linux-$(uname -r)-$(uname -m) is Starting UP!"
+echo
+
+print_msg "Mounting /proc"
+loadproc mount -n -t proc proc /proc
+echo "3 4 1 6" > /proc/sys/kernel/printk
+print_msg "Mounting /sys"
+loadproc mount -n -t sysfs sysfs /sys
+
+/etc/rc.d/rc.udev start
+
+print_msg "Mounting tmpfs on /tmp"
+loadproc mount -n -t tmpfs tmpfs /tmp
+
+print_msg "Mounting CDROM"
+find /proc/ide -maxdepth 1 -type l | while read DRIVE; do
+  MEDIA=$(cat $DRIVE/media)
+  if [ "$MEDIA" = "cdrom" ]; then
+    DEV=/dev/$(basename $DRIVE)
+    mount -n -t iso9660 $DEV /media/cdrom >& /dev/null
+    if [ "$?" = "0" ]; then
+      if [ "$(cat /etc/id 2>/dev/null)" == "$(cat /media/cdrom/id 2>/dev/null)" ]; then
+        print_msg_done
+        break
+      else
+        umount -f $DEV >&/dev/null
+      fi
+    fi
+  fi
+done
+
+ls /media/cdrom/* >&/dev/null || {
+  print_msg_failed
+}
+
+cat << FOO
+
+   HI! I've got some basic tools for formatting/creating partitions. Mount
+ your root fs in /mnt/root. Then run "setup". If ya got 2GB of memory or more,
+ run (USE_SHM_SRCDIR=1 setup).
+
+FOO
+
+bash --rcfile /etc/profile
+
+print_msg "Rebooting"
+sleep 1
+reboot -f
+EOF
+
+cat << EOF > $WORKDIR/initrd/bin/setup || exit 1
+#!/bin/bash
+
+. /etc/rc.d/rc.functions
+
+mount_crap(){
+  if [ ! -d "/mnt/root/dev/shm" ]; then
+    print_msg "Binding /dev to /mnt/root/dev"
+    loadproc mount --bind /dev /mnt/root/dev
+  fi
+  
+  if [ ! -f "/mnt/root/proc/cpuinfo" ]; then
+    print_msg "Binding /proc to /mnt/root/proc"
+    loadproc mount --bind /proc /mnt/root/proc
+  fi
+}
+
+echo
+print_msg "Checking /mnt/root"
+touch /mnt/root/.testfile >&/dev/null || {
+  print_msg_failed
+  echo -e "\n  Cant write to /mnt/root!\n"
+  exit 1
+}
+rm /mnt/root/.testfile
+print_msg_done
+
+print_msg "Checking for /media/cdrom/sysroot.tar.gz"
+[ ! -e "/media/cdrom/sysroot.tar.gz" ] && {
+  print_msg_failed
+  echo
+  echo "  sysroot.tar.gz not in /media/cdrom/!"
+  echo " I may not be smart enough to find the cdrom drive"
+  echo " (check bootmsg for [FAILED])."
+  echo
+  echo "  Try manually mounting your cdrom to /media/cdrom."
+  echo " If that doesn't work, shoot me."
+  echo
+  exit 1
+}
+print_msg_done
+
+if [ ! -d "/mnt/root/bin" ]; then
+  print_msg "Unpacking /media/cdrom/sysroot.tar.gz to /mnt/root"
+  tar xpfz /media/cdrom/sysroot.tar.gz -C /mnt/root >&/dev/null || {
+    print_msg_failed
+    exit 1
+  }
+  print_msg_done
+fi
+
+mount_crap
+
+if [ -e "/mnt/root/RBS-Tools" ]; then
+  echo -e "\n Chrooting and running /usr/src/rbs/base-setup..."
+  chroot /mnt/root /usr/bin/env -i HOME=/root TERM="linux" \
+    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/RBS-Tools/bin \
+    USE_SHM_SRCDIR=\$USE_SHM_SRCDIR \
+    RAN_FROM_SETUP=1 /usr/src/rbs/base-setup "$PKG_PROFILES" || exit 1
+  rm -rf /mnt/root/RBS-Tools || exit 1
+  
+  echo
+  
+  if [ -d "/mnt/root/dev/shm" ]; then
+    print_msg "Un-Binding /dev from /mnt/root/dev"
+    loadproc umount /mnt/root/dev
+  fi
+  
+  if [ -f "/mnt/root/proc/cpuinfo" ]; then
+    print_msg "Un-Binding /proc from /mnt/root/proc"
+    loadproc umount /mnt/root/proc
+  fi
+  
+  echo -en "\nRolling back timestamps in /mnt/root to prevent craziness..."
+  find /mnt/root | sed -e '/\/home\//d' -e '/\/mnt\//d' | xargs touch -c -t 197001010000.00 >&/dev/null
+  echo -e "  Done!\n"
+  
+  mount_crap
+fi
+
+echo -e "\n\n  Ok, all done! Now chroot back into /mnt/root and edit your"
+echo    " config files (fstab, lilo.conf, rc.conf and stuff). Install lilo,"
+echo -e " set your root pw and your done!\n"
+exit 0
+EOF
+    chmod 755 $WORKDIR/initrd/bin/setup \
+      $WORKDIR/initrd/etc/rc.d/rc.initrd || exit 1
+    echo "  Done."
+    
+    
+    echo -n "Making Initrd..."
+    dd if=/dev/zero of=$CDROOT/isolinux/initrd bs=1024 count=16384 2>/dev/null
+    mke2fs -m 0 -i 1024 -F $CDROOT/isolinux/initrd >&/dev/null || exit 1
+    rm -rf $WORKDIR/initrd-root || exit 1
+    mkdir -p $WORKDIR/initrd-root || exit 1
+    mount -o loop $CDROOT/isolinux/initrd $WORKDIR/initrd-root || exit 1
+    rm -rf $WORKDIR/initrd-root/lost+found || exit 1
+    cp -a $WORKDIR/initrd/* $WORKDIR/initrd-root/ || exit 1
+    umount -f $WORKDIR/initrd-root || exit 1
+    rm -rf $WORKDIR/initrd{,-root} || exit 1
+    gzip -9 $CDROOT/isolinux/initrd || exit 1
+    echo "  Done."
+    
+    
+    echo -n "Making ./rbs_${TARGETARCH}_${RBS_SYSTYPE}_bootcd.iso..."
+    mv $WORKDIR/sysroot.tar.gz $CDROOT/ || exit 1
+    rm -f $RBSDIR/${TARGETARCH}_${RBS_SYSTYPE}_bootcd.iso || exit 1
+    mkisofs -J -R -l -L -D -b isolinux/isolinux.bin -c isolinux/boot.cat \
+      -no-emul-boot -boot-load-size 4 -boot-info-table \
+      -V "RBS_${TARGETARCH}_BOOTCD" \
+      -o $RBSDIR/rbs_${TARGETARCH}_${RBS_SYSTYPE}_bootcd.iso \
+      $CDROOT 2>/dev/null || exit 1
+    echo "  Done."
+    cd $WORKDIR || exit 1
+    rm -rf $CDROOT || exit 1
+  ;;
+esac
+
+echo "Done! To cleanup remove the \".work\" directory."
+

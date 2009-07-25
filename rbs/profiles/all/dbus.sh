@@ -1,0 +1,78 @@
+#!/bin/bash
+
+VERSION="1.2.16"
+SYS_VERSION="1.2.16-1"
+
+DIR="dbus-${VERSION}"
+TARBALL="dbus-${VERSION}.tar.gz"
+
+DEPENDS=(
+  shadow
+)
+
+SRC1=(
+http://dbus.freedesktop.org/releases/dbus/${TARBALL}
+)
+
+MD5SUMS=(
+c7a47b851ebe02f6726b65b78d1b730b
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  groupadd messagebus
+  useradd -c "D-BUS Message Daemon User" -d /dev/null -g messagebus \
+    -s /bin/false messagebus
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/usr/$LIBSDIR \
+    --libexecdir=/usr/$LIBSDIR/dbus-$(echo $VERSION | cut -f1 -d'.').0 \
+    --sysconfdir=/etc --localstatedir=/var || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  install -v -m755 -d $TMPROOT/usr/share/doc/dbus-${VERSION} || return 1
+  install -v -m644 doc/{TODO,*.{dtd,xml,xsl,txt,c}} \
+    $TMPROOT/usr/share/doc/dbus-${VERSION} || return 1
+  mkdir -p $TMPROOT/etc/rc.d || return 1
+cat << "EOF" > $TMPROOT/etc/rc.d/rc.dbus
+#!/bin/bash
+
+. /etc/rc.d/rc.functions
+. /etc/rc.d/rc.conf
+
+case $1 in
+  start)
+    print_msg "Starting the D-Bus Messagebus Daemon"
+    loadproc /usr/bin/dbus-daemon --config-file=/etc/dbus-1/system.conf
+  ;;
+  stop)
+    print_msg "Stopping the D-Bus Messagebus Daemon"
+    killproc dbus-daemon
+    rm -f /var/run/dbus/*
+  ;;
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+  ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+  ;;
+esac
+EOF
+  chmod 744 $TMPROOT/etc/rc.d/rc.dbus || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+post_remove(){
+  userdel messagebus
+}
+
+version_check_info(){
+  ADDRESS='http://dbus.freedesktop.org/releases/dbus/'
+  VERSION_STRING='dbus-%version%.tar.gz'
+  MIRRORS=(
+    'http://dbus.freedesktop.org/releases/dbus/dbus-%version%.tar.gz'
+  )
+}

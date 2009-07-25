@@ -1,0 +1,1 @@
+../all/xfwm4.sh

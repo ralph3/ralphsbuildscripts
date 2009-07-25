@@ -1,0 +1,1 @@
+../all/xfce4-panel.sh

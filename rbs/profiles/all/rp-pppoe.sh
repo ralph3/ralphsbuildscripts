@@ -1,0 +1,49 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="3.10"
+
+DIR="rp-pppoe-${VERSION}"
+TARBALL="rp-pppoe-${VERSION}.tar.gz"
+
+DEPENDS=(
+  ppp
+)
+
+SRC1=(
+http://www.roaringpenguin.com/files/download/${TARBALL}
+)
+
+MD5SUMS=(
+d58a13cc4185bca6121a606ff456dec0
+)
+
+build(){
+  local PPPV
+  PPPV=$(exec_profile ppp VERSION)
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR/src || return 1
+  sed -i -e "s%\$PPPD_VERSION%${PPPV}%g" \
+         -e "s%\$PPPD%pppd%g" \
+         -e 's%$ECHO "no defaults for cross-compiling"; exit 0%true%g' \
+         configure || return 1
+  echo "ac_cv_linux_kernel_pppoe=yes" > config.cache || return 1
+  echo "rpppoe_cv_pack_bitfields=normal" >> config.cache || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+    --host=$BUILDTARGET --prefix=/usr --cache-file=config.cache || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  rm $TMPROOT/etc/ppp/plugins/README || return 1
+  find $TMPROOT/etc -type f -exec mv {} {}.new \; || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://www.roaringpenguin.com/products/pppoe'
+  VERSION_STRING='rp-pppoe-%version%.tar.gz'
+  MIRRORS=(
+    'http://www.roaringpenguin.com/files/download/rp-pppoe-%version%.tar.gz'
+  )
+}
