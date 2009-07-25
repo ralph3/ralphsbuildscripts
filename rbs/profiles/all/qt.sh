@@ -40,6 +40,8 @@ build(){
     -datadir /usr/share/qt \
     -plugindir /usr/$LIBSDIR/qt/plugin \
     -translationdir /usr/share/qt/translations \
+    -demosdir /usr/share/qt/demos \
+    -examplesdir /usr/share/qt/examples \
     -sysconfdir /etc/qt \
     -qt-gif \
     -system-zlib \
