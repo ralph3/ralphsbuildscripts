@@ -292,6 +292,7 @@ EOF
     STATE="$STATEDIR/RBS_Tools__${x}"
     [ ! -e "$STATE" ] && {
       exec_profile $x RBS_Tools_Build || exit 1
+      find $ROOT -name '*.la' -type f -exec rm {} \;
       >$STATE
     }
   done
@@ -313,8 +314,6 @@ EOF
     /RBS-Tools/share/{aclocal,awk,doc,et,getopt,gettext,i18n,info,locale,man,misc,ss,tabset,texinfo,zoneinfo}
   
   rm /RBS-Tools /RBS-Cross-Tools || exit 1
-  
-  find $ROOT -name '*.la' -type f -exec rm {} \;
   
   mkdir -p $ROOT/{bin,dev,proc,root,usr/bin} || exit 1
   chmod 750 $ROOT/root || exit 1
