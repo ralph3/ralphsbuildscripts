@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.0.99.4"
+VERSION="1.0.5"
 
 DIR="libXext-${VERSION}"
 TARBALL="libXext-${VERSION}.tar.bz2"
@@ -15,7 +15,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-24da44888b87c66edb326acec35b85aa
+aa11d859cc8e9a0bad3bb55e1666547b
 )
 
 build(){
@@ -32,6 +32,7 @@ build(){
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/lib/'
   VERSION_STRING='libXext-%version%.tar.bz2'
+  VERSION_FILTERS='99'
   MIRRORS=(
     'http://xorg.freedesktop.org/releases/individual/lib/libXext-%version%.tar.bz2'
   )

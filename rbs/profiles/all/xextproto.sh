@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="7.0.99.3"
+VERSION="7.0.5"
 
 DIR="xextproto-${VERSION}"
 TARBALL="xextproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-417c21cbc02572d84dffdd5f92a760e7
+e6841018a7c64983b0954aa2c564d115
 )
 
 build(){
@@ -33,6 +33,7 @@ build(){
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/proto/'
   VERSION_STRING='xextproto-%version%.tar.bz2'
+  VERSION_FILTERS='99'
   MIRRORS=(
     'http://xorg.freedesktop.org/releases/individual/proto/xextproto-%version%.tar.bz2'
   )
