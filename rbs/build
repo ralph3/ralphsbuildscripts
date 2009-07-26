@@ -557,7 +557,7 @@ EOF
     done
     
     for x in $ROOT/sbin/{*fdisk,*fs*,mkswap,swapon,modprobe,udev*,shutdown,halt}; do
-      if [ "$(basename $x)" != "mount.smbfs" ]; then
+      if [ ! -L "$x" ]; then
         cp ${x} $WORKDIR/initrd/bin/ || exit 1
       fi
     done
@@ -566,14 +566,11 @@ EOF
     
     ln -sfn bash $WORKDIR/initrd/bin/sh || exit 1
     ln -sfn halt $WORKDIR/initrd/bin/reboot || exit 1
-    ln -sfn e2fsck $WORKDIR/initrd/bin/fsck.ext2 || exit 1
-    ln -sfn e2fsck $WORKDIR/initrd/bin/fsck.ext3 || exit 1
-    ln -sfn e2fsck $WORKDIR/initrd/bin/fsck.ext4 || exit 1
-    ln -sfn e2fsck $WORKDIR/initrd/bin/fsck.ext4dev || exit 1
-    ln -sfn mke2fs $WORKDIR/initrd/bin/mkfs.ext2 || exit 1
-    ln -sfn mke2fs $WORKDIR/initrd/bin/mkfs.ext3 || exit 1
-    ln -sfn mke2fs $WORKDIR/initrd/bin/mkfs.ext4 || exit 1
-    ln -sfn mke2fs $WORKDIR/initrd/bin/mkfs.ext4dev || exit 1
+    
+    for x in ext2 ext3 ext4 ext4dev; do
+      ln -sfn e2fsck $WORKDIR/initrd/bin/fsck.$x || exit 1
+      ln -sfn e2fsck $WORKDIR/initrd/bin/mkfs.$x || exit 1
+    done
     
     ln -sfn /proc/mounts $WORKDIR/initrd/etc/mtab || exit 1
     cp $ROOT/etc/mke2fs.conf $WORKDIR/initrd/etc || exit 1
