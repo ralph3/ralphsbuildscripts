@@ -292,7 +292,6 @@ EOF
     STATE="$STATEDIR/RBS_Tools__${x}"
     [ ! -e "$STATE" ] && {
       exec_profile $x RBS_Tools_Build || exit 1
-      find $ROOT -name '*.la' -type f -exec rm {} \;
       >$STATE
     }
   done
