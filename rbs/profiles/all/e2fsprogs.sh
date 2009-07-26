@@ -26,11 +26,11 @@ RBS_Tools_Build(){
   rm -rf e2fsprogs-build || return 1
   mkdir -p $SRCDIR/e2fsprogs-build || return 1
   cd $SRCDIR/e2fsprogs-build || return 1
-  rm -f /RBS-Tools/$LIBSDIR/lib{blkid,uuid}.la || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" CFLAGS="$CFLAGS -fPIC" ../$DIR/configure \
-    --build=$BUILDHOST --host=$BUILDTARGET --prefix=/usr --with-root-prefix="" \
+    --build=$BUILDHOST --host=$BUILDTARGET --prefix=/usr --with-root-prefix="/RBS-Tools" \
     --enable-elf-shlibs --disable-libuuid --disable-libblkid || return 1
   make || return 1
+  return 1
   make install DESTDIR=$ROOT || return 1
   make install-libs DESTDIR=$ROOT || return 1
   cd ../ || return 1
