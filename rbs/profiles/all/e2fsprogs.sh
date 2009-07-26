@@ -21,14 +21,14 @@ MD5SUMS=(
 RBS_Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  sed -i -e "/libdir=.*\/lib/s@/lib@/${LIBSDIR}@g" configure || return 1
+  sed -i -e "/libdir=.*\/lib/s@/lib@/${LIBSDIR}@g" \
+    -e "%\-luuid%/RBS-Tools/$LIBSDIR/libuuid.so.1%g" \
+    -e "%\-lblkid%/RBS-Tools/$LIBSDIR/libbklid.so.1%g" configure || return 1
   cd $SRCDIR || return 1
   rm -rf e2fsprogs-build || return 1
   mkdir -p $SRCDIR/e2fsprogs-build || return 1
   cd $SRCDIR/e2fsprogs-build || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" CFLAGS="$CFLAGS -fPIC" \
-  LDFLAGS="/RBS-Tools/$LIBSDIR/libblkid.so.1 /RBS-Tools/$LIBSDIR/libuuid.so.1" \
-    ../$DIR/configure \
+  CC="$CC $BUILD" CXX="$CXX $BUILD" CFLAGS="$CFLAGS -fPIC" ../$DIR/configure \
     --build=$BUILDHOST --host=$BUILDTARGET --prefix=/usr --with-root-prefix="" \
     --enable-elf-shlibs --disable-libuuid --disable-libblkid || return 1
   make || return 1
