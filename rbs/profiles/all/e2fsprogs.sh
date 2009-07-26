@@ -21,7 +21,7 @@ MD5SUMS=(
 RBS_Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  sed -i -e "/libdir=.*\/lib/s@/lib@/${LIBSDIR}@g" || return 1
+  sed -i -e "/libdir=.*\/lib/s@/lib@/${LIBSDIR}@g" configure || return 1
   cd $SRCDIR || return 1
   rm -rf e2fsprogs-build || return 1
   mkdir -p $SRCDIR/e2fsprogs-{build,tmproot} || return 1
