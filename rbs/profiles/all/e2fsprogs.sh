@@ -22,8 +22,8 @@ RBS_Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   sed -i -e "/libdir=.*\/lib/s@/lib@/${LIBSDIR}@g" \
-    -e "%\-luuid%/RBS-Tools/$LIBSDIR/libuuid.so.1%g" \
-    -e "%\-lblkid%/RBS-Tools/$LIBSDIR/libbklid.so.1%g" configure || return 1
+    -e "s%\-luuid%/RBS-Tools/$LIBSDIR/libuuid.so.1%g" \
+    -e "s%\-lblkid%/RBS-Tools/$LIBSDIR/libbklid.so.1%g" configure || return 1
   cd $SRCDIR || return 1
   rm -rf e2fsprogs-build || return 1
   mkdir -p $SRCDIR/e2fsprogs-build || return 1
