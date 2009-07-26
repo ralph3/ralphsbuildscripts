@@ -21,22 +21,25 @@ MD5SUMS=(
 RBS_Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  sed -i -e "/libdir=.*\/lib/s@/lib@/${LIBSDIR}@g" \
-    -e "s%\-luuid%/RBS-Tools/$LIBSDIR/libuuid.so.1%g" \
-    -e "s%\-lblkid%/RBS-Tools/$LIBSDIR/libbklid.so.1%g" configure || return 1
+  sed -i -e "/libdir=.*\/lib/s@/lib@/${LIBSDIR}@g" || return 1
   cd $SRCDIR || return 1
   rm -rf e2fsprogs-build || return 1
-  mkdir -p $SRCDIR/e2fsprogs-build || return 1
+  mkdir -p $SRCDIR/e2fsprogs-{build,tmproot} || return 1
   cd $SRCDIR/e2fsprogs-build || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" CFLAGS="$CFLAGS -fPIC" ../$DIR/configure \
     --build=$BUILDHOST --host=$BUILDTARGET --prefix=/usr --with-root-prefix="" \
-    --enable-elf-shlibs --disable-libuuid --disable-libblkid || return 1
+    --enable-elf-shlibs || return 1
   make || return 1
-  return 1
-  make install DESTDIR=$ROOT || return 1
-  make install-libs DESTDIR=$ROOT || return 1
+  make install DESTDIR=$SRCDIR/e2fsprogs-tmproot || return 1
+  make install-libs DESTDIR=$SRCDIR/e2fsprogs-tmproot || return 1
+  
+  find $SRCDIR/e2fsprogs-tmproot -name '*blkid*' -exec rm -rf {} \;
+  find $SRCDIR/e2fsprogs-tmproot -name '*uuid*' -exec rm -rf {} \;
+  
+  cp -a $SRCDIR/e2fsprogs-tmproot/* $ROOT || return 1
+  
   cd ../ || return 1
-  rm -rf $DIR e2fsprogs-build || return 1
+  rm -rf $DIR e2fsprogs-{build,tmproot} || return 1
 }
 
 build(){
