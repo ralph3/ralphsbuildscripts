@@ -32,7 +32,9 @@ RBS_Cross_Tools_Build(){
 RBS_Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+  CC="$CC $BUILD" CXX="$CXX $BUILD" \
+  LDFLAGS="-Wl,-rpath,/RBS-Tools/${LIBSDIR}" \
+    ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --prefix=/RBS-Tools --libdir=/RBS-Tools/$LIBSDIR \
     --enable-shared --with-gmp=/RBS-Tools --with-ppl=/RBS-Tools || return 1
   make || return 1
