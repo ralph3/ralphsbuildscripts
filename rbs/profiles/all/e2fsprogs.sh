@@ -65,7 +65,7 @@ build(){
   done
   
   find $TMPROOT -type l | while read l; do
-    ln -sfn $(readlink $l | sed "s%${TMPROOT}%/%') $l || return 1
+    ln -sfn $(readlink $l | sed "s%${TMPROOT}%/%") $l || return 1
   done
   
   cd ../ || return 1
