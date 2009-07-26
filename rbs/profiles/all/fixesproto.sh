@@ -2,6 +2,9 @@
 
 DISABLE_MULTILIB=1
 
+# version 4.1 depends on newer xextproto >= 7.0.99.1
+# wait on new versions of xlibs before upgrading
+
 VERSION="4.0"
 
 DIR="fixesproto-${VERSION}"
