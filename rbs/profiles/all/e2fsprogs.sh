@@ -63,6 +63,11 @@ build(){
     B=$(basename $l)
     ln -vsfn ../../$LIBSDIR/$B $TMPROOT/usr/$LIBSDIR/$B || return 1
   done
+  
+  find $TMPROOT -type l | while read l; do
+    ln -sfn $(readlink $l | sed "s%${TMPROOT}%/%') $l || return 1
+  done
+  
   cd ../ || return 1
   rm -rf $DIR e2fsprogs-build || return 1
 }
