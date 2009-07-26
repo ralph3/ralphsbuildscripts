@@ -569,7 +569,7 @@ EOF
     
     for x in ext2 ext3 ext4 ext4dev; do
       ln -sfn e2fsck $WORKDIR/initrd/bin/fsck.$x || exit 1
-      ln -sfn e2fsck $WORKDIR/initrd/bin/mkfs.$x || exit 1
+      ln -sfn mke2fs $WORKDIR/initrd/bin/mkfs.$x || exit 1
     done
     
     ln -sfn /proc/mounts $WORKDIR/initrd/etc/mtab || exit 1
