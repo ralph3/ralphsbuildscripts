@@ -587,13 +587,15 @@ EOF
     ln -sfn test $WORKDIR/initrd/bin/[
     
     cp -a $ROOT/etc/udev $WORKDIR/initrd/etc/ || exit 1
-    cp -a $ROOT/$LIBSDIR/udev $WORKDIR/initrd/${LIBSDIR}/ || exit 1
     
-    cp $ROOTLIBSDIR/{ld-linux*.so.?,libc.so.?,libuuid.so.?,libblkid.so.?} \
-       $ROOTLIBSDIR/{libm.so.?,libncurses.so.?,libdl.so.?} \
-       $ROOTLIBSDIR/{librt.so.?,libpthread.so.?,libe2p.so.?,libss.so.?} \
-       $ROOTLIBSDIR/{libcom_err.so.?,libext2fs.so.?,libcrypt.so.?} \
+    cp -a $ROOT/$LIBSDIR/{udev,libe2p.so.?,libss.so.?,libuuid.so.?} \
+      $ROOT/$LIBSDIR/{libcom_err.so.?,libext2fs.so.?,libblkid.so.?} \
+      $WORKDIR/initrd/${LIBSDIR}/ || exit 1
+    
+    cp $ROOTLIBSDIR/{ld-linux*.so.?,libc.so.?,libm.so.?,libncurses.so.?} \
+      $ROOTLIBSDIR/{librt.so.?,libpthread.so.?,libdl.so.?,libcrypt.so.?} \
       $WORKDIR/initrd/$LIBSDIR/ || exit 1
+    
     cp $ROOTUSRLIBSDIR/libgcc_s.so.? $WORKDIR/initrd/$LIBSDIR/ || exit 1
     dd if=/dev/urandom bs=1024 count=1 2>/dev/null | \
       md5sum | cut -f1 -d' ' > $WORKDIR/initrd/etc/id || exit 1
