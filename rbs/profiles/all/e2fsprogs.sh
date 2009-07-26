@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION="1.41.8"
-SYS_VERSION="1.41.8-5"
+SYS_VERSION="1.41.8-6"
 
 DIR="e2fsprogs-${VERSION}"
 TARBALL="e2fsprogs-${VERSION}.tar.gz"
