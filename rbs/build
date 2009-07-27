@@ -325,7 +325,7 @@ EOF
       for x in $ROOT/RBS-Tools/lib/libstd*; do
         ln -s /RBS-Tools/lib/$(basename $x) $ROOT/usr/lib
       done
-      rm -f $ROOT/lib/*.la
+      rm -f $ROOT/usr/lib/*.la
     fi
     if [ -d "$ROOT/RBS-Tools/lib64" ]; then
       mkdir -p $ROOT/usr/lib64
@@ -333,7 +333,7 @@ EOF
       for x in $ROOT/RBS-Tools/lib64/libstd*; do
         ln -s /RBS-Tools/lib64/$(basename $x) $ROOT/usr/lib64
       done
-      rm -f $ROOT/lib64/*.la
+      rm -f $ROOT/usr/lib64/*.la
     fi
     ln -s bash  $ROOT/bin/sh
   fi
