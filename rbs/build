@@ -588,7 +588,9 @@ EOF
     
     cp -a $ROOT/etc/udev $WORKDIR/initrd/etc/ || exit 1
     
-    cp -a $ROOT/$LIBSDIR/{udev,libe2p.so.?,libss.so.?,libuuid.so.?} \
+    cp -a $ROOT/$LIBSDIR/udev $WORKDIR/initrd/${LIBSDIR}/ || exit 1
+    
+    cp $ROOT/$LIBSDIR/{libe2p.so.?,libss.so.?,libuuid.so.?} \
       $ROOT/$LIBSDIR/{libcom_err.so.?,libext2fs.so.?,libblkid.so.?} \
       $WORKDIR/initrd/${LIBSDIR}/ || exit 1
     
