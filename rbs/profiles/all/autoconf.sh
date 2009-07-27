@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.63"
+VERSION="2.64"
 
 DIR="autoconf-${VERSION}"
 TARBALL="autoconf-${VERSION}.tar.bz2"
@@ -17,7 +17,7 @@ http://ftp.gnu.org/gnu/autoconf/${TARBALL}
 )
 
 MD5SUMS=(
-7565809ed801bb5726da0631ceab3699
+ef400d672005e0be21e0d20648169074
 )
 
 build(){
