@@ -579,7 +579,7 @@ EOF
       cp $ROOTUSRBINDIR/lddlibc4 $WORKDIR/initrd/bin/ || exit 1
     }
     
-    cp $ROOT/usr/bin/nano $WORKDIR/initrd/bin/ || exit 1
+    cp $ROOT/usr/bin/{nano,setterm} $WORKDIR/initrd/bin/ || exit 1
     if [ -e "$ROOT/etc/nanorc" ]; then
       cp $ROOT/etc/nanorc $WORKDIR/initrd/etc/ || exit 1
     else

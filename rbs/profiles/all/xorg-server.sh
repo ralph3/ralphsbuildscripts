@@ -41,7 +41,7 @@ build(){
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/xserver/'
   VERSION_STRING='xorg-server-%version%.tar.bz2'
-  VERSION_FILTERS='\.99'
+  VERSION_FILTERS='\.99 \.90'
   MIRRORS=(
     'http://xorg.freedesktop.org/releases/individual/xserver/xorg-server-%version%.tar.bz2'
   )

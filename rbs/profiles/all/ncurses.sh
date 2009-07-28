@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION="5.7"
-SYS_VERSION="5.7-1"
+SYS_VERSION="5.7-2"
 
 DIR="ncurses-${VERSION}"
 TARBALL="ncurses-${VERSION}.tar.gz"
@@ -54,7 +54,8 @@ build(){
   mkdir -p $TMPROOT/usr/$LIBSDIR || return 1
   mv -v $TMPROOT/$LIBSDIR/lib{panel,menu,form,ncurses,ncurses++,curses}.a \
     $TMPROOT/usr/$LIBSDIR || return 1
-  rm -v $TMPROOT/$LIBSDIR/lib{ncurses,menu,panel,form,curses}.so || return 1
+  rm -v $TMPROOT/$LIBSDIR/lib{ncurses,menu,panel,form,curses}.so \
+    $TMPROOT/usr/share/man/man3/setterm* || return 1
   v=$(echo ${VERSION} | cut -b1)
   ln -svf ../../$LIBSDIR/libncurses.so.$v $TMPROOT/usr/$LIBSDIR/libcurses.so || return 1
   ln -svf ../../$LIBSDIR/libncurses.so.$v $TMPROOT/usr/$LIBSDIR/libncurses.so || return 1
