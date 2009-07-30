@@ -3,6 +3,7 @@
 DISABLE_MULTILIB=1
 
 VERSION="6u14"
+SYS_VERSION="6u14-2"
 
 TARBALL="jdk-${VERSION}-dlj-linux-amd64.bin"
 
@@ -41,7 +42,13 @@ build(){
   cd ../ || return 1
   mv $DIR $TMPROOT/usr/$LIBSDIR/jdk || return 1
   mv $TMPROOT/usr/$LIBSDIR/jdk/include $TMPROOT/usr/ || return 1
-  mkdir -p $TMPROOT/etc/profile.d
+  mkdir -p $TMPROOT/etc/{ld.so.conf,profile}.d
+
+cat << EOF > $TMPROOT/etc/ld.so.conf.d/jdk.conf
+/usr/$LIBSDIR/jdk/jre/lib/amd64/server
+/usr/$LIBSDIR/jdk/jre/lib/amd64/xawt
+EOF
+
 cat << EOF > $TMPROOT/etc/profile.d/jdk.sh
 PATH=\$PATH:/usr/$LIBSDIR/jdk/bin:/usr/$LIBSDIR/jdk/jre/bin
 
