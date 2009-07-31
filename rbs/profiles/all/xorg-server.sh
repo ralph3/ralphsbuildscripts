@@ -3,6 +3,7 @@
 DISABLE_MULTILIB=1
 
 VERSION="1.6.2"
+SYS_VERSION="1.6.2-2"
 
 DIR="xorg-server-${VERSION}"
 TARBALL="xorg-server-${VERSION}.tar.bz2"
@@ -34,6 +35,8 @@ build(){
     --with-module-dir=/usr/$LIBSDIR/X11/modules || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
+  cp -va hw/xfree86/parser/xf86{Parser,Optrec}.h \
+    $TMPROOT/usr/include/xorg/ || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
