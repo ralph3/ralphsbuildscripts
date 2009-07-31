@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="22.7"
+VERSION="22.8"
 
 DIR="psmisc-${VERSION}"
 TARBALL="psmisc-${VERSION}.tar.gz"
@@ -16,7 +16,7 @@ http://prdownloads.sourceforge.net/psmisc/${TARBALL}
 )
 
 MD5SUMS=(
-ee9ec3b60fe45057ec4cec19c94a2d15
+32c493bb484ce605a1cabba1aa084bca
 )
 
 build(){

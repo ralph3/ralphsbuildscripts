@@ -1,7 +1,6 @@
 #!/bin/bash
 
-VERSION="1.2.16"
-SYS_VERSION="1.2.16-1"
+VERSION="1.3.0"
 
 DIR="dbus-${VERSION}"
 TARBALL="dbus-${VERSION}.tar.gz"
@@ -15,7 +14,7 @@ http://dbus.freedesktop.org/releases/dbus/${TARBALL}
 )
 
 MD5SUMS=(
-c7a47b851ebe02f6726b65b78d1b730b
+b3298d5ce0e4ad4731b1e4e1787d56bb
 )
 
 build(){
