@@ -219,7 +219,7 @@ do_install(){
     done
     mv -f ${FLIST}~ $FLIST
     mkdir -p $ROOT/var/lib/packages/backup
-    tar cpJT $FLIST 2>/dev/null >$ROOT/var/lib/packages/backup/${1}.tar.xz
+    tar cpT $FLIST 2>/dev/null >$ROOT/var/lib/packages/backup/${1}.tar
     DOUP=1
     echo "  Done."
   else
