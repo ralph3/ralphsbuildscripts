@@ -4,13 +4,20 @@ DISABLE_MULTILIB=1
 
 VERSION="552"
 
-
 APPVERSION="$(echo $VERSION | cut -b1).$(echo $VERSION | cut -b2-)"
 DIR="unzip-${APPVERSION}"
 TARBALL="unzip${VERSION}.tar.gz"
 
 DEPENDS=(
   make
+)
+
+SRC1=(
+http://ralphsbuildscripts.googlecode.com/files/$TARBALL
+)
+
+MD5SUMS=(
+9d23919999d6eac9217d1f41472034a9
 )
 
 build(){

@@ -12,6 +12,14 @@ DEPENDS=(
   make
 )
 
+SRC1=(
+http://ralphsbuildscripts.googlecode.com/files/$TARBALL
+)
+
+MD5SUMS=(
+8a4da4460386e324debe97f3b7fe4d96
+)
+
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1

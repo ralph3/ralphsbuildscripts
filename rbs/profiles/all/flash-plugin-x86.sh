@@ -13,6 +13,14 @@ DEPENDS=(
 DIR="install_flash_player_10_linux"
 TARBALL="install_flash_player_10_linux.tar.gz"
 
+SRC1=(
+http://ralphsbuildscripts.googlecode.com/files/$TARBALL
+)
+
+MD5SUMS=(
+23e4c2b844db0f87ff62084178aa2b1f
+)
+
 build(){
   check_my_arch(){
     case $($CC -dumpmachine | cut -f1 -d'-') in

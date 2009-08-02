@@ -9,7 +9,15 @@ DEPENDS=(
 )
 
 DIR="install_flash_player_10_linux"
-TARBALL="install_flash_player_10_linux.tar.gz"
+TARBALL="libflashplayer-${VERSION}.linux-x86_64.so.tar.gz"
+
+SRC1=(
+http://ralphsbuildscripts.googlecode.com/files/$TARBALL
+)
+
+MD5SUMS=(
+492d98d25886afcaf18252334d4ac4e2
+)
 
 build(){
   check_my_arch(){
@@ -25,7 +33,7 @@ build(){
   mkdir -p $SRCDIR/$DIR || return 1
   cd $SRCDIR/$DIR || return 1
   
-  tar xfz $FILESDIR/libflashplayer-${VERSION}.linux-x86_64.so.tar.gz || return 1
+  tar xfz $DOWNLOADDIR/$TARBALL || return 1
   
   mkdir -vp $TMPROOT/usr/$LIBSDIR/flash-plugin || return 1
   cp -v $SRCDIR/$DIR/*.so $TMPROOT/usr/$LIBSDIR/flash-plugin/ || return 1

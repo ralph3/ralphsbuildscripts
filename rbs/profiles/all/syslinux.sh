@@ -1,11 +1,17 @@
 #!/bin/bash
 
 DISABLE_MULTILIB=1
+DISABLE_STRIP=1
 
 VERSION="3.82"
+SYS_VERSION="3.82-1"
 
 DIR="syslinux-${VERSION}"
 TARBALL="syslinux-${VERSION}.tar.bz2"
+
+DEPENDS=(
+  filesystem
+)
 
 SRC1=(
 http://www.kernel.org/pub/linux/utils/boot/syslinux/${TARBALL}

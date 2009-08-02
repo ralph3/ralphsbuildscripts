@@ -11,13 +11,13 @@ DEPENDS=(
   gtk+
 )
 
-#SRC1=(
-#http://www.galago-project.org/files/releases/source/libnotify/${TARBALL}
-#)
+SRC1=(
+http://ralphsbuildscripts.googlecode.com/files/$TARBALL
+)
 
-#MD5SUMS=(
-#0
-#)
+MD5SUMS=(
+ba76f68b7e3bd284ac2c2a1b9c5ecb06
+)
 
 build(){
   unpack_tarball $TARBALL || return 1
