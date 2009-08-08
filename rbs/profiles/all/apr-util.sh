@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.3.8"
+VERSION="1.3.9"
 
 DIR="apr-util-${VERSION}"
 TARBALL="apr-util-${VERSION}.tar.bz2"
@@ -18,7 +18,7 @@ http://apache.cs.utah.edu/apr/${TARBALL}
 )
 
 MD5SUMS=(
-34a0e815cdc2b79bf561468b84ff1aa3
+29dd557f7bd891fc2bfdffcfa081db59
 )
 
 build(){

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="7.0.5"
+VERSION="7.1.0"
 
 DIR="xextproto-${VERSION}"
 TARBALL="xextproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-e6841018a7c64983b0954aa2c564d115
+d54562771718a02508c6e0255409145d
 )
 
 build(){

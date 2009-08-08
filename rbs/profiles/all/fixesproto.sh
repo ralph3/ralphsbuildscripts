@@ -2,10 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-# version 4.1 depends on newer xextproto >= 7.0.99.1
-# wait on new versions of xlibs before upgrading
-
-VERSION="4.0"
+VERSION="4.1"
 
 DIR="fixesproto-${VERSION}"
 TARBALL="fixesproto-${VERSION}.tar.bz2"
@@ -19,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-8b298cc3424597f8138c7faf7763dce9
+157644edb3cd526f2cb164eb79c52bad
 )
 
 build(){
