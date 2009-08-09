@@ -25,6 +25,7 @@ build(){
     --libdir=/usr/$LIBSDIR || return 1
   make || return 1
   make install prefix=$TMPROOT/usr libdir=$TMPROOT/usr/$LIBSDIR || return 1
+  rm $TMPROOT/usr/$LIBSDIR/*.la || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
