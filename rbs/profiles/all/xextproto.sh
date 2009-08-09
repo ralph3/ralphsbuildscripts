@@ -2,7 +2,10 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="7.1.0"
+# newer version 7.1.xx removes lbxbufstr.h which
+# liblbxutil 1.0.1* depends on
+
+VERSION="7.0.5"
 
 DIR="xextproto-${VERSION}"
 TARBALL="xextproto-${VERSION}.tar.bz2"
@@ -16,7 +19,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-d54562771718a02508c6e0255409145d
+e6841018a7c64983b0954aa2c564d115
 )
 
 build(){
