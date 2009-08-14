@@ -434,6 +434,7 @@ unpack_tarball(){
   tar xpfJ $TARBALL -C $SRCDIR >&/dev/null || \
   tar xpfj $TARBALL -C $SRCDIR >&/dev/null || \
   tar xpfz $TARBALL -C $SRCDIR || return 1
+  find $SRCDIR -exec touch -c -t 197101010000.00 {} \;
   return 0
 }
 

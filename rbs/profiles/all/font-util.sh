@@ -22,7 +22,6 @@ fe5a7df765d297623663477edce70b7c
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  find $PWD -exec touch -c -t 197101010000.00 {} \;
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc --localstatedir=/var || return 1
   make || return 1
