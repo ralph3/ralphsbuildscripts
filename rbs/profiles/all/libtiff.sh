@@ -2,8 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.8.2"
-SYS_VERSION="3.8.2-3"
+VERSION="3.9.0"
 
 DIR="tiff-${VERSION}"
 TARBALL="tiff-${VERSION}.tar.gz"
@@ -20,7 +19,7 @@ ftp://ftp.remotesensing.org/libtiff/old/${TARBALL}
 )
 
 MD5SUMS=(
-fbb6f446ea4ed18955e2714934e5b698
+74c0072edc1ac8ca6b8af009a31151e5
 )
 
 build(){

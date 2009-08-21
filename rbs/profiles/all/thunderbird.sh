@@ -2,8 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.0.0.22"
-SYS_VERSION="2.0.0.22-1"
+VERSION="2.0.0.23"
 
 DIR="thunderbird-${VERSION}"
 TARBALL="thunderbird-${VERSION}-source.tar.bz2"
@@ -18,7 +17,7 @@ http://ftp.mozilla.org/pub/mozilla.org/thunderbird/releases/${VERSION}/source/${
 )
 
 MD5SUMS=(
-080c26dcb0ed563519a6061139a0bf92
+2e118fcf752ee60ce994f1471f9632d1
 )
 
 build(){
