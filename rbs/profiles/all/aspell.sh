@@ -2,23 +2,22 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.16.0"
+VERSION="0.60.6"
 
-DIR="pygtk-${VERSION}"
-TARBALL="pygtk-${VERSION}.tar.bz2"
+DIR="aspell-${VERSION}"
+TARBALL="aspell-${VERSION}.tar.gz"
 
 DEPENDS=(
-  gtk+
-  pycairo
-  pygobject
+  gcc
+  ncurses
 )
 
 SRC1=(
-  $(gnome_mirrors pygtk)
+http://ftp.gnu.org/gnu/aspell/${TARBALL}
 )
 
 MD5SUMS=(
-bd0d437fefd6d5390f5d770a495cd50c
+bc80f0198773d5c05086522be67334eb
 )
 
 build(){
@@ -28,15 +27,15 @@ build(){
     --libdir=/usr/$LIBSDIR || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
+  set_multiarch $TMPROOT/usr/bin/pspell-config || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
 
 version_check_info(){
-  ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/pygtk/%minor_version%/'
-  VERSION_STRING='pygtk-%version%.tar.bz2'
-  ONLY_EVEN_MINORS=1
+  ADDRESS="http://ftp.gnu.org/gnu/aspell/"
+  VERSION_STRING="aspell-%version%.tar.gz"
   MIRRORS=(
-    "http://ftp.gnome.org/pub/GNOME/sources/pygtk/%minor_version%/pygtk-%version%.tar.bz2"
+    "http://ftp.gnu.org/gnu/aspell/aspell-%version%.tar.gz"
   )
 }

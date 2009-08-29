@@ -1,6 +1,7 @@
 #!/bin/bash
 
 VERSION="1.40"
+SYS_VERSION="1.40-1"
 
 DIR="URI-${VERSION}"
 TARBALL="URI-${VERSION}.tar.gz"

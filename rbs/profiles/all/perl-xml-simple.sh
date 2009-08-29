@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION="2.18"
-SYS_VERSION="2.18-1"
+SYS_VERSION="2.18-2"
 
 DIR="XML-Simple-${VERSION}"
 TARBALL="XML-Simple-${VERSION}.tar.gz"

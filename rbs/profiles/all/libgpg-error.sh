@@ -2,22 +2,21 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.10.7"
+VERSION="1.7"
 
-DIR="libpciaccess-${VERSION}"
-TARBALL="libpciaccess-${VERSION}.tar.bz2"
+DIR="libgpg-error-${VERSION}"
+TARBALL="libgpg-error-${VERSION}.tar.bz2"
 
 DEPENDS=(
-  xextproto
-  libx11
+  make
 )
 
 SRC1=(
-http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
+ftp://ftp.gnupg.org/gcrypt/libgpg-error/${TARBALL}
 )
 
 MD5SUMS=(
-60660d66962d30603023a06ed17d42ba
+62c0d09d1e76c5b6da8fff92314c4665
 )
 
 build(){
@@ -32,9 +31,9 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://xorg.freedesktop.org/releases/individual/lib/'
-  VERSION_STRING='libpciaccess-%version%.tar.bz2'
+  ADDRESS='ftp://ftp.gnupg.org/gcrypt/libgpg-error/'
+  VERSION_STRING='libgpg-error-%version%.tar.bz2'
   MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/lib/libpciaccess-%version%.tar.bz2'
+    'ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-%version%.tar.bz2'
   )
 }

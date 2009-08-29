@@ -2,22 +2,21 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.10.7"
+VERSION="2.8.3"
 
-DIR="libpciaccess-${VERSION}"
-TARBALL="libpciaccess-${VERSION}.tar.bz2"
+DIR="gnutls-${VERSION}"
+TARBALL="gnutls-${VERSION}.tar.bz2"
 
 DEPENDS=(
-  xextproto
-  libx11
+  libgcrypt
 )
 
 SRC1=(
-http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
+ftp://ftp.gnupg.org/gcrypt/gnutls/${TARBALL}
 )
 
 MD5SUMS=(
-60660d66962d30603023a06ed17d42ba
+72b77092c5d1ae01306cd14c0f22d6e4
 )
 
 build(){
@@ -32,9 +31,9 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://xorg.freedesktop.org/releases/individual/lib/'
-  VERSION_STRING='libpciaccess-%version%.tar.bz2'
+  ADDRESS='ftp://ftp.gnupg.org/gcrypt/gnutls/'
+  VERSION_STRING='gnutls-%version%.tar.bz2'
   MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/lib/libpciaccess-%version%.tar.bz2'
+    'ftp://ftp.gnupg.org/gcrypt/gnutls/-%version%.tar.bz2'
   )
 }

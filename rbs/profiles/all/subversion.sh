@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.6.4"
+VERSION="1.6.5"
 
 DIR="subversion-${VERSION}"
 TARBALL="subversion-${VERSION}.tar.bz2"
@@ -23,8 +23,8 @@ http://subversion.tigris.org/downloads/subversion-deps-${VERSION}.tar.bz2
 )
 
 MD5SUMS=(
-11e3fa838c9a558cadc378f2807572e2
-026b5f5bd548d17368cd3dfd2965e0d3
+1a53a0e72bee0bf814f4da83a9b6a636
+8272316e1670d4d2bea451411e438bde
 )
 
 build(){

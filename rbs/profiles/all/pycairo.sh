@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.8.6"
+VERSION="1.8.8"
 
 DIR="pycairo-${VERSION}"
 TARBALL="pycairo-${VERSION}.tar.gz"
@@ -16,7 +16,7 @@ http://cairographics.org/releases/${TARBALL}
 )
 
 MD5SUMS=(
-d10a68f88da0a6a02864bf8f0c25ee4d
+054da6c125cb427a003f5fd6c54f853e
 )
 
 build(){

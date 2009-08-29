@@ -1,7 +1,6 @@
 #!/bin/bash
 
-VERSION="1.41.8"
-SYS_VERSION="1.41.8-6"
+VERSION="1.41.9"
 
 DIR="e2fsprogs-${VERSION}"
 TARBALL="e2fsprogs-${VERSION}.tar.gz"
@@ -15,7 +14,7 @@ http://prdownloads.sourceforge.net/e2fsprogs/${TARBALL}
 )
 
 MD5SUMS=(
-6708cc8e484809fc5cfb232882e48489
+52f60a9e19a02f142f5546f1b5681927
 )
 
 RBS_Tools_Build(){

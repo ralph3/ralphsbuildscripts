@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION="2.36"
-SYS_VERSION="2.36-2"
+SYS_VERSION="2.36-3"
 
 DIR="XML-Parser-${VERSION}"
 TARBALL="XML-Parser-${VERSION}.tar.gz"

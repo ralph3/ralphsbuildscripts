@@ -2,8 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="4.999.8beta"
-SYS_VERSION="4.999.8beta-3"
+VERSION="4.999.9beta"
 
 DIR="xz-${VERSION}"
 TARBALL="xz-${VERSION}.tar.gz"
@@ -17,7 +16,7 @@ http://tukaani.org/xz/${TARBALL}
 )
 
 MD5SUMS=(
-f00967331a487e88d51207fe17c56f52
+f2073579b6da2fe35d453adee1aaf1b2
 )
 
 RBS_Tools_Build(){

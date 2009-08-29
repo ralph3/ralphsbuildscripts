@@ -1,7 +1,6 @@
 #!/bin/bash
 
-VERSION="2.20.4"
-SYS_VERSION="2.20.4-1"
+VERSION="2.20.5"
 
 DIR="glib-${VERSION}"
 TARBALL="glib-${VERSION}.tar.bz2"
@@ -15,7 +14,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-346916673c0eab72191cf44b4afe535f
+4c178b91d82ef80a2da3c26b772569c0
 )
 
 build(){

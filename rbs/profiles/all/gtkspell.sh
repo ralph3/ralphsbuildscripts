@@ -2,23 +2,22 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.16.0"
+VERSION="2.0.15"
 
-DIR="pygtk-${VERSION}"
-TARBALL="pygtk-${VERSION}.tar.bz2"
+DIR="gtkspell-${VERSION}"
+TARBALL="gtkspell-${VERSION}.tar.gz"
 
 DEPENDS=(
+  enchant
   gtk+
-  pycairo
-  pygobject
 )
 
 SRC1=(
-  $(gnome_mirrors pygtk)
+http://gtkspell.sourceforge.net/download/${TARBALL}
 )
 
 MD5SUMS=(
-bd0d437fefd6d5390f5d770a495cd50c
+d90a7fe883f29caca149f04f31e2f0f9
 )
 
 build(){
@@ -33,10 +32,10 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/pygtk/%minor_version%/'
-  VERSION_STRING='pygtk-%version%.tar.bz2'
-  ONLY_EVEN_MINORS=1
+  ADDRESS='http://gtkspell.sourceforge.net/'
+  VERSION_STRING='gtkspell-%version%.tar.gz'
+  VERSION_FILTERS='rc'
   MIRRORS=(
-    "http://ftp.gnome.org/pub/GNOME/sources/pygtk/%minor_version%/pygtk-%version%.tar.bz2"
+    'http://gtkspell.sourceforge.net/download/gtkspell-%version%.tar.gz'
   )
 }
