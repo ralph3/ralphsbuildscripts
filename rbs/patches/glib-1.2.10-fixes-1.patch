@@ -1,0 +1,102 @@
+Submitted By: Jim Gifford (jim at linuxfromscratch dot org)
+Date: 2006-07-06
+Initial Package Version: 1.2.10
+Origin: Gentoo
+Upstream Status: Unknown
+Description: Various Fixes
+
+diff -Naur glib-1.2.10.orig/configure glib-1.2.10/configure
+--- glib-1.2.10.orig/configure	2001-03-15 07:44:01.000000000 -0800
++++ glib-1.2.10/configure	2006-07-06 10:30:43.775533352 -0700
+@@ -96,6 +96,19 @@
+ infodir='${prefix}/info'
+ mandir='${prefix}/man'
+ 
++# NLS nuisances.
++for as_var in \
++  LANG LANGUAGE LC_ADDRESS LC_ALL LC_COLLATE LC_CTYPE LC_IDENTIFICATION \
++  LC_MEASUREMENT LC_MESSAGES LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER \
++  LC_TELEPHONE LC_TIME
++do
++  if (set +x; test -z "`(eval $as_var=C; export $as_var) 2>&1`"); then
++    eval $as_var=C; export $as_var
++  else
++    unset $as_var
++  fi
++done
++
+ # Initialize some other variables.
+ subdirs=
+ MFLAGS= MAKEFLAGS=
+@@ -484,16 +497,6 @@
+   esac
+ done
+ 
+-# NLS nuisances.
+-# Only set these to C if already set.  These must not be set unconditionally
+-# because not all systems understand e.g. LANG=C (notably SCO).
+-# Fixing LC_MESSAGES prevents Solaris sh from translating var values in `set'!
+-# Non-C LC_CTYPE values break the ctype check.
+-if test "${LANG+set}"   = set; then LANG=C;   export LANG;   fi
+-if test "${LC_ALL+set}" = set; then LC_ALL=C; export LC_ALL; fi
+-if test "${LC_MESSAGES+set}" = set; then LC_MESSAGES=C; export LC_MESSAGES; fi
+-if test "${LC_CTYPE+set}"    = set; then LC_CTYPE=C;    export LC_CTYPE;    fi
+-
+ # confdefs.h avoids OS command line length limits that DEFS can exceed.
+ rm -rf conftest* confdefs.h
+ # AIX cpp loses on an empty file, so make sure it contains at least a newline.
+diff -Naur glib-1.2.10.orig/glib.m4 glib-1.2.10/glib.m4
+--- glib-1.2.10.orig/glib.m4	1998-12-31 12:58:03.000000000 -0800
++++ glib-1.2.10/glib.m4	2006-07-06 10:31:57.813652694 -0700
+@@ -5,7 +5,7 @@
+ dnl Test for GLIB, and define GLIB_CFLAGS and GLIB_LIBS, if "gmodule" or 
+ dnl gthread is specified in MODULES, pass to glib-config
+ dnl
+-AC_DEFUN(AM_PATH_GLIB,
++AC_DEFUN([AM_PATH_GLIB],
+ [dnl 
+ dnl Get the cflags and libraries from the glib-config script
+ dnl
+diff -Naur glib-1.2.10.orig/gstrfuncs.c glib-1.2.10/gstrfuncs.c
+--- glib-1.2.10.orig/gstrfuncs.c	2001-02-26 22:00:22.000000000 -0800
++++ glib-1.2.10/gstrfuncs.c	2006-07-06 10:31:04.111016857 -0700
+@@ -867,7 +867,7 @@
+                   /* beware of positional parameters
+                    */
+                 case '$':
+-                  g_warning (G_GNUC_PRETTY_FUNCTION
++                  g_warning ("%s%s", G_GNUC_PRETTY_FUNCTION,
+                              "(): unable to handle positional parameters (%%n$)");
+                   len += 1024; /* try adding some safety padding */
+                   break;
+@@ -1034,7 +1034,7 @@
+                   /*          n   .   dddddddddddddddddddddddd   E   +-  eeee */
+                   conv_len += 1 + 1 + MAX (24, spec.precision) + 1 + 1 + 4;
+                   if (spec.mod_extra_long)
+-                    g_warning (G_GNUC_PRETTY_FUNCTION
++                    g_warning ("%s%s", G_GNUC_PRETTY_FUNCTION,
+                                "(): unable to handle long double, collecting double only");
+ #ifdef HAVE_LONG_DOUBLE
+ #error need to implement special handling for long double
+@@ -1077,7 +1077,7 @@
+                   conv_done = TRUE;
+                   if (spec.mod_long)
+                     {
+-                      g_warning (G_GNUC_PRETTY_FUNCTION
++                      g_warning ("%s%s", G_GNUC_PRETTY_FUNCTION,
+                                  "(): unable to handle wide char strings");
+                       len += 1024; /* try adding some safety padding */
+                     }
+@@ -1108,9 +1108,8 @@
+                   conv_len += format - spec_start;
+                   break;
+                 default:
+-                  g_warning (G_GNUC_PRETTY_FUNCTION
+-                             "(): unable to handle `%c' while parsing format",
+-                             c);
++                  g_warning ("%s(): unable to handle `%c' while parsing format",
++                             G_GNUC_PRETTY_FUNCTION, c);
+                   break;
+                 }
+               conv_done |= conv_len > 0;
+
