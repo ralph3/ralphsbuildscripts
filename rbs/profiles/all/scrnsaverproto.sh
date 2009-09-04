@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.1.0"
+VERSION="1.2.0"
 
 DIR="scrnsaverproto-${VERSION}"
 TARBALL="scrnsaverproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-5d551850e6f4acdf49a13f4eb3a5bbfa
+9040c991a56ee9b5976936f8c65d5c8a
 )
 
 build(){

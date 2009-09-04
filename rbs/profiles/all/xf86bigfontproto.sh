@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.1.2"
+VERSION="1.2.0"
 
 DIR="xf86bigfontproto-${VERSION}"
 TARBALL="xf86bigfontproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-a318c1e86123832d7b0c95fc7d47ef35
+120e226ede5a4687b25dd357cc9b8efe
 )
 
 build(){

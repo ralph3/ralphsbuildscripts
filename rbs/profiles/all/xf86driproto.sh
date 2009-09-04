@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.0.4"
+VERSION="2.1.0"
 
 DIR="xf86driproto-${VERSION}"
 TARBALL="xf86driproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-01470d088da3a8a3deefa8e1f45d69cb
+309d552732666c3333d7dc63e80d042f
 )
 
 build(){

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.2.2"
+VERSION="2.3.0"
 
 DIR="videoproto-${VERSION}"
 TARBALL="videoproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-44292d74a9a3c94b1ecb9d77a0da83e8
+fb762146a18207a1e8bc9f299dfc7ac0
 )
 
 build(){

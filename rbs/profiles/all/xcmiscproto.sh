@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.1.2"
+VERSION="1.2.0"
 
 DIR="xcmiscproto-${VERSION}"
 TARBALL="xcmiscproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-fde0b050901f024b19159cdacdcfbd20
+7b83e4a7e9f4edc9c6cfb0500f4a7196
 )
 
 build(){

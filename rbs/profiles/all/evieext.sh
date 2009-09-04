@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.2"
+VERSION="1.1.0"
 
 DIR="evieext-${VERSION}"
 TARBALL="evieext-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-2507b5d0f4b2848147fbddd155aa6cfe
+5c74f61d6f77b2e6a083b2b31000be42
 )
 
 build(){

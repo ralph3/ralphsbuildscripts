@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.1.3"
+VERSION="1.2.0"
 
 DIR="libXScrnSaver-${VERSION}"
 TARBALL="libXScrnSaver-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-93f84b6797f2f29cae1ce23b0355d00d
+33e54f64b55f22d8bbe822a5b62568cb
 )
 
 build(){

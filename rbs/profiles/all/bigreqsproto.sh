@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.2"
+VERSION="1.1.0"
 
 DIR="bigreqsproto-${VERSION}"
 TARBALL="bigreqsproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-95c29d9d10bf2868996c0c47a3b9a8dc
+d30c5dbf19ca6dffcd9788227ecff8c5
 )
 
 build(){

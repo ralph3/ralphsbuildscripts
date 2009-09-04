@@ -1,7 +1,6 @@
 #!/bin/bash
 
-VERSION="1.0.5"
-SYS_VERSION="1.0.5-1"
+VERSION="1.0.6"
 
 DIR="libICE-${VERSION}"
 TARBALL="libICE-${VERSION}.tar.bz2"
@@ -15,7 +14,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-ca1f9563a7cc5e8017de7221bdb2ade3
+2d39bc924af24325dae589e9a849180c
 )
 
 build(){

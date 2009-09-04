@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.0.2"
+VERSION="2.1.0"
 
 DIR="fontsproto-${VERSION}"
 TARBALL="fontsproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-c946f166107b016a21cc7a02e1132724
+f3a857deadca3144fba041af1dbf7603
 )
 
 build(){
