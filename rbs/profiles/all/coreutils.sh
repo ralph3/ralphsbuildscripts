@@ -2,9 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-# 7.3 and 7.4 have a cross compile bug in lib/rename.c causing it to look for windows.h
-
-VERSION="7.5"
+VERSION="7.6"
 
 DIR="coreutils-${VERSION}"
 TARBALL="coreutils-${VERSION}.tar.gz"
@@ -18,7 +16,7 @@ http://ftp.gnu.org/gnu/coreutils/${TARBALL}
 )
 
 MD5SUMS=(
-775351410b7d6879767c3e4563354dc6
+3d82f979229365f880da750642e67cf3
 )
 
 RBS_Tools_Build(){

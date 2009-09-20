@@ -2,10 +2,10 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.5.2"
+VERSION="3.5.3"
 
 DIR="firefox-${VERSION}"
-TARBALL="firefox-${VERSION}-source.tar.bz2"
+TARBALL="firefox-${VERSION}.source.tar.bz2"
 
 DEPENDS=(
   curl
@@ -19,7 +19,7 @@ http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${VERSION}/source/${TARB
 )
 
 MD5SUMS=(
-136867f95c86f3988b7f825e874b85de
+ca167e69180ab1230aea0763da270a95
 )
 
 build(){
@@ -133,7 +133,7 @@ post_upgrade(){
 
 version_check_info(){
   ADDRESS='ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%version%/source/'
-  VERSION_STRING='firefox-%version%-source.tar.bz2'
+  VERSION_STRING='firefox-%version%.source.tar.bz2'
   VERSION_FILTERS='[a-z] [A-Z]'
   MIRRORS=(
     'ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%version%/source/firefox-%version%-source.tar.bz2'

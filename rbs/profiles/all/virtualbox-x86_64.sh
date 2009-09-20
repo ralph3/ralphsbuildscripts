@@ -3,7 +3,7 @@
 DISABLE_MULTILIB=1
 DISABLE_STRIP=1
 
-VERSION="3.0.4-50677"
+VERSION="3.0.6-52128"
 
 TARBALL="VirtualBox-${VERSION}-Linux_amd64.run"
 DIR="VirtualBox-${VERSION}"
@@ -18,7 +18,7 @@ http://download.virtualbox.org/virtualbox/$(echo ${VERSION} | cut -f1 -d'-')/$TA
 )
 
 MD5SUMS=(
-280f1300cfdabc138ea69fdafd2d7cba
+2d50875e68e67b59d062f2e7063b585a
 )
 
 build(){
@@ -57,9 +57,9 @@ build(){
   
   sed -i "s%/lib/modules%/${LIBSDIR}/modules%g" $(grep -rl "/lib/modules" $TMPROOT/usr/src/$DIR) || return 1
   
-  mv -v $INST/VirtualBox.desktop $TMPROOT/usr/share/applications/ || return 1
+  mv -v $INST/virtualbox.desktop $TMPROOT/usr/share/applications/ || return 1
   sed -i -e 's%Sun VirtualBox%Virtual Machine Manager%' -e '/\.pdf$/d' \
-    $TMPROOT/usr/share/applications/VirtualBox.desktop || return 1
+    $TMPROOT/usr/share/applications/virtualbox.desktop || return 1
   
   mv -v $INST/VBox.png $TMPROOT/usr/share/pixmaps/ || return 1
   
