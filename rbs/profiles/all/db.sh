@@ -23,8 +23,7 @@ build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR/build_unix || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ../dist/configure --prefix=/usr \
-    --libdir=/usr/$LIBSDIR --enable-compat185 --enable-cxx \
-    --disable-rpc || return 1
+    --libdir=/usr/$LIBSDIR --enable-compat185 --enable-cxx || return 1
   make || return 1
   make docdir=$TMPROOT/usr/share/doc/db-${VERSION} install \
     prefix=$TMPROOT/usr libdir=$TMPROOT/usr/$LIBSDIR || return 1
