@@ -3,6 +3,7 @@
 DISABLE_MULTILIB=1
 
 VERSION="2.6.31"
+SYS_VERSION="2.6.31-1"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.bz2"
@@ -35,6 +36,9 @@ RBS_Cross_Tools_Build(){
   esac
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+  
+  do_patch linux-2.6.31-headers.patch || return 1
+  
   mkdir -vp /RBS-Tools/include || return 1
   make mrproper || return 1
   make ARCH=$KARCH headers_check || return 1
@@ -61,6 +65,9 @@ build(){
   esac
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+  
+  do_patch linux-2.6.31-headers.patch || return 1
+  
   make mrproper || return 1
   make ARCH=$KARCH headers_check || return 1
   make ARCH=$KARCH INSTALL_HDR_PATH=$TMPROOT/usr headers_install || return 1
