@@ -2,8 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="185.18.14-pkg2"
-SYS_VERSION="185.18.14-pkg2-1"
+VERSION="185.18.36-pkg2"
 
 DISABLE_STRIP=1
 
@@ -21,7 +20,7 @@ ftp://download.nvidia.com/XFree86/Linux-x86_64/$(echo $VERSION | cut -f-1 -d'-')
 )
 
 MD5SUMS=(
-49784fc7ca2ebba37cea9cbf0ea2381d
+0c2880be49914ecc1971b4c5cf4100d4
 )
 
 build(){
