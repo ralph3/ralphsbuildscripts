@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="7.6"
+VERSION="7.2"
 
 DIR="coreutils-${VERSION}"
 TARBALL="coreutils-${VERSION}.tar.gz"
@@ -16,7 +16,7 @@ http://ftp.gnu.org/gnu/coreutils/${TARBALL}
 )
 
 MD5SUMS=(
-3d82f979229365f880da750642e67cf3
+427c2914d3eab956f317c9ec6a45e62a
 )
 
 RBS_Tools_Build(){
