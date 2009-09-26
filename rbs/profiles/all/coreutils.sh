@@ -2,6 +2,8 @@
 
 DISABLE_MULTILIB=1
 
+#everything from 7.3 to 7.6 has cross compile bugs when building for tools
+
 VERSION="7.2"
 
 DIR="coreutils-${VERSION}"
