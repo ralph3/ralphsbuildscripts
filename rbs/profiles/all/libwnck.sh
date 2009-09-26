@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.26.2"
+VERSION="2.28.0"
 
 DIR="libwnck-${VERSION}"
 TARBALL="libwnck-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-90d89a7bcf3311877fa4b427719c7483
+a9311661aa954e7c918439b6dd578792
 )
 
 build(){

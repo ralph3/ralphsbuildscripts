@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.26.0"
+VERSION="2.28.0"
 
 DIR="gnome-icon-theme-${VERSION}"
 TARBALL="gnome-icon-theme-${VERSION}.tar.bz2"
@@ -17,7 +17,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-36a4e5e1b2c7c053779a9a399f6146a2
+1b6a782e3f733a5dbb8e62e87a7bdc61
 )
 
 build(){

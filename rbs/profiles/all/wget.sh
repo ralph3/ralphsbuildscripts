@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.11.4"
+VERSION="1.12"
 
 DIR="wget-${VERSION}"
 TARBALL="wget-${VERSION}.tar.gz"
@@ -16,7 +16,7 @@ http://ftp.gnu.org/gnu/wget/${TARBALL}
 )
 
 MD5SUMS=(
-69e8a7296c0e12c53bd9ffd786462e87
+141461b9c04e454dc8933c9d1f2abf83
 )
 
 build(){
