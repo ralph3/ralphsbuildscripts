@@ -3,6 +3,7 @@
 DISABLE_MULTILIB=1
 
 VERSION="1.4.1"
+SYS_VERSION="1.4.1-2"
 
 DIR="cups-${VERSION}"
 TARBALL="cups-${VERSION}-source.tar.bz2"
@@ -22,6 +23,9 @@ MD5SUMS=(
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+  
+  do_patch cups-1.4.1-side_cb.patch || return 1
+  
   groupadd lp
   useradd -c "Print Service User" -d /dev/null -g lp -s /bin/false lp
   sed -i -e "s@pam/pam@security/pam@g" \

@@ -1,0 +1,12 @@
+diff -Naur cups-1.4.1/backend/usb-unix.c cups-1.4.1.patched/backend/usb-unix.c
+--- cups-1.4.1/backend/usb-unix.c	2009-08-31 14:45:43.000000000 -0400
++++ cups-1.4.1.patched/backend/usb-unix.c	2009-09-27 08:05:06.000000000 -0400
+@@ -560,7 +560,7 @@
+  * 'side_cb()' - Handle side-channel requests...
+  */
+ 
+-static void
++static int
+ side_cb(int         print_fd,		/* I - Print file */
+         int         device_fd,		/* I - Device file */
+         int         snmp_fd,		/* I - SNMP socket (unused) */
