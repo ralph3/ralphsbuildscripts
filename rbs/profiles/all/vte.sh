@@ -2,9 +2,6 @@
 
 DISABLE_MULTILIB=1
 
-# 0.22.1 caused terminal to crash when resuming a screen through ssh connection :/
-# hold off upgrade
-
 VERSION="0.22.2"
 
 DIR="vte-${VERSION}"
