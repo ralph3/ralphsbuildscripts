@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.0.3"
+VERSION="2.1"
 
 DIR="xf86dgaproto-${VERSION}"
 TARBALL="xf86dgaproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-42fdcebc66efac02ab4beec2b1b0ad6e
+a036dc2fcbf052ec10621fd48b68dbb1
 )
 
 build(){

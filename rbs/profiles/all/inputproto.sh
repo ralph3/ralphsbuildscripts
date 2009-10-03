@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.5.1"
+VERSION="2.0"
 
 DIR="inputproto-${VERSION}"
 TARBALL="inputproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-b646a2632c8df99120e4db2bc574a5df
+0f7acbc14a082f9ae03744396527d23d
 )
 
 build(){

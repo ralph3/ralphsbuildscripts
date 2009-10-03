@@ -1,7 +1,6 @@
 #!/bin/bash
 
-VERSION="2.6.2"
-SYS_VERSION="2.6.2-1"
+VERSION="2.6.3"
 
 DIR="Python-${VERSION}"
 TARBALL="Python-${VERSION}.tar.bz2"
@@ -18,7 +17,7 @@ http://www.python.org/ftp/python/${VERSION}/${TARBALL}
 )
 
 MD5SUMS=(
-245db9f1e0f09ab7e0faaa0cf7301011
+8755fc03075b1701ca3f13932e6ade9f
 )
 
 RBS_Tools_Build(){

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.6"
+VERSION="1.7"
 
 DIR="xkeyboard-config-${VERSION}"
 TARBALL="xkeyboard-config-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xlibs.freedesktop.org/xkbdesc/${TARBALL}
 )
 
 MD5SUMS=(
-5ae575a9073af12cd71773e065b38b3a
+d351c0109fac166edcedad32d1b0e38e
 )
 
 build(){

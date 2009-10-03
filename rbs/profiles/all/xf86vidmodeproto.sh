@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.2.2"
+VERSION="2.3"
 
 DIR="xf86vidmodeproto-${VERSION}"
 TARBALL="xf86vidmodeproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-f00844a63d6e76b69eb0eb5e41eed843
+4434894fc7d4eeb4a22e6b876d56fdaa
 )
 
 build(){

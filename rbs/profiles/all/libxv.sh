@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.4"
+VERSION="1.0.5"
 
 DIR="libXv-${VERSION}"
 TARBALL="libXv-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-723a0275227165383e967a1ca8899b52
+1d97798b1d8bbf8d9085e1b223a0738f
 )
 
 build(){

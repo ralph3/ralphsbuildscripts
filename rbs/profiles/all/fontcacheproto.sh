@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.1.2"
+VERSION="0.1.3"
 
 DIR="fontcacheproto-${VERSION}"
 TARBALL="fontcacheproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-60df6b625074a9790e28543dcea71651
+a8a50e5e995bfacb0359575faf7f6906
 )
 
 build(){

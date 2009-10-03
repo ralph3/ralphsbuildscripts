@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.0.5"
+VERSION="1.1"
 
 DIR="libXext-${VERSION}"
 TARBALL="libXext-${VERSION}.tar.bz2"
@@ -15,7 +15,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-aa11d859cc8e9a0bad3bb55e1666547b
+b8ee455effbcaf5a475870e92ed6973c
 )
 
 build(){

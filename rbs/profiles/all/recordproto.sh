@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.13.2"
+VERSION="1.14"
 
 DIR="recordproto-${VERSION}"
 TARBALL="recordproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-0ed4706564a34fc2aff724aa16d3ff00
+70f5998c673aa510e2acd6d8fb3799de
 )
 
 build(){

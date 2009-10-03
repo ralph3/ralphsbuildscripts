@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.1.2"
+VERSION="1.2"
 
 DIR="xineramaproto-${VERSION}"
 TARBALL="xineramaproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-1cc292c562962ad0ad3a253cae68c632
+a8aadcb281b9c11a91303e24cdea45f5
 )
 
 build(){
