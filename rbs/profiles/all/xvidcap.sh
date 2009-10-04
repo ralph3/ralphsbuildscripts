@@ -25,7 +25,8 @@ build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   
-  do_patch xvidcap-1.1.7-ffmpeg-20090601x-1.patch || return 1
+  do_patch xvidcap-1.1.7-ffmpeg-20090601x-1.patch \
+    xvidcap-1.1.7-xextproto71.patch || return 1
   
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc || return 1
