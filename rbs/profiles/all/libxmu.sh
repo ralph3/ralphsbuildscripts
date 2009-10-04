@@ -7,6 +7,7 @@ TARBALL="libXmu-${VERSION}.tar.bz2"
 
 DEPENDS=(
   libxt
+  libxext
 )
 
 SRC1=(
