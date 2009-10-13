@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.4.0"
+VERSION="1.4.1"
 
 DIR="libXfont-${VERSION}"
 TARBALL="libXfont-${VERSION}.tar.bz2"
@@ -20,7 +20,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-3a8e06b25912ef339d70a8ba003da9b5
+4f2bed2a2be82e90a51a24bb3a22cdf0
 )
 
 build(){

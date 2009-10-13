@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.0.99.1"
+VERSION="1.1.0"
 
 DIR="libXxf86vm-${VERSION}"
 TARBALL="libXxf86vm-${VERSION}.tar.bz2"
@@ -15,7 +15,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-18579bdfd75aed88575930288bee4da7
+b431ad7084e1055fef99a9115237edd8
 )
 
 build(){

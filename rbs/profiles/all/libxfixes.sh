@@ -1,7 +1,6 @@
 #!/bin/bash
 
-VERSION="4.0.3"
-SYS_VERSION="4.0.3-2"
+VERSION="4.0.4"
 
 DIR="libXfixes-${VERSION}"
 TARBALL="libXfixes-${VERSION}.tar.bz2"
@@ -15,7 +14,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-1990d19725a3c7f32290037f02d3737f
+7f2c40852eb337b237ad944ca5c30d49
 )
 
 build(){

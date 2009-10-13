@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.1"
+VERSION="1.0.2"
 
 DIR="xlsatoms-${VERSION}"
 TARBALL="xlsatoms-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-69adcda848479acc3b82b3928812d191
+dc8b420bbfa35091ea30edf57c952ec2
 )
 
 build(){

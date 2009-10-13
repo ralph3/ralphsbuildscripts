@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.4"
+VERSION="1.0.5"
 
 DIR="sessreg-${VERSION}"
 TARBALL="sessreg-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-839e968d7197b9563f0fd8a5a3aac2e3
+00e834c3cbfd990e9d7d5ddc834242df
 )
 
 build(){

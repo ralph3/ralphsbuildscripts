@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.2"
+VERSION="1.0.3"
 
 DIR="xproxymanagementprotocol-${VERSION}"
 TARBALL="xproxymanagementprotocol-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-d28007a50976204960fc1fc07b4ca093
+9de22ca1522008c28fb03dfc41ba2d30
 )
 
 build(){

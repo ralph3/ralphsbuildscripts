@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.2"
+VERSION="1.0.3"
 
 DIR="encodings-${VERSION}"
 TARBALL="encodings-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/font/${TARBALL}
 )
 
 MD5SUMS=(
-11adda157b03d63fd61d95ad7ef00466
+29637480e7ce12546668631067c19ced
 )
 
 build(){

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.9.2"
+VERSION="0.9.3"
 
 DIR="xf86miscproto-${VERSION}"
 TARBALL="xf86miscproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-acae8edeb05a406f7f60bcbb218a8f1d
+ca63bbb31cf5b7f37b2237e923ff257a
 )
 
 build(){

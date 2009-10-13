@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.4.99.1"
+VERSION="1.5.0"
 
 DIR="xf86-input-mouse-${VERSION}"
 TARBALL="xf86-input-mouse-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/driver/${TARBALL}
 )
 
 MD5SUMS=(
-092c125d0d45a98f8450aefaffd5c10f
+c58629fddf0782dad5c02da6aeb35521
 )
 
 build(){

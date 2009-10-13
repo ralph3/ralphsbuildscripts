@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.3.0"
+VERSION="1.3.1"
 
 DIR="randrproto-${VERSION}"
 TARBALL="randrproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-a49416013fff33c853efb32f1926551e
+a5c244c36382b0de39b2828cea4b651d
 )
 
 build(){

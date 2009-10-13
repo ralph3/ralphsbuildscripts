@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="4.1"
+VERSION="4.1.1"
 
 DIR="fixesproto-${VERSION}"
 TARBALL="fixesproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-157644edb3cd526f2cb164eb79c52bad
+4c1cb4f2ed9f34de59f2f04783ca9483
 )
 
 build(){

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.1.13"
+VERSION="2.1.14"
 
 DIR="libXft-${VERSION}"
 TARBALL="libXft-${VERSION}.tar.bz2"
@@ -17,7 +17,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-bc8881851f3bd8dcc625fac37350a1c6
+254e62a233491e0e1251636536163e20
 )
 
 build(){

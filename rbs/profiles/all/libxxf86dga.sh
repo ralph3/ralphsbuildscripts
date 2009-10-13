@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.1"
+VERSION="1.1.1"
 
 DIR="libXxf86dga-${VERSION}"
 TARBALL="libXxf86dga-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-6e3da66b0594ae1d5240e5be8ee64b32
+368837d3d7a4d3b4f70be48383e3544e
 )
 
 build(){

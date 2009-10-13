@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.3"
+VERSION="1.0.4"
 
 DIR="kbproto-${VERSION}"
 TARBALL="kbproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-6092cdb0a1225f95356ddbe6c2abaad5
+7f439166a9b2bf81471a33951883019f
 )
 
 build(){

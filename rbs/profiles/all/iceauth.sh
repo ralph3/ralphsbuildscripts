@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.2"
+VERSION="1.0.3"
 
 DIR="iceauth-${VERSION}"
 TARBALL="iceauth-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-7ab8b64edf0212a9d9a3c8129901a450
+975ade3f238c1eb10705da0a91e6e8e7
 )
 
 build(){

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.4"
+VERSION="0.4.1"
 
 DIR="compositeproto-${VERSION}"
 TARBALL="compositeproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-6281344d656d4e0c8e9db4918efe3d1d
+3692f3f8b2ea10dff3d2cede8dc65e79
 )
 
 build(){

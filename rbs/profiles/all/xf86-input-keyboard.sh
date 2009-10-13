@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.3.99.1"
+VERSION="1.4.0"
 
 DIR="xf86-input-keyboard-${VERSION}"
 TARBALL="xf86-input-keyboard-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/driver/${TARBALL}
 )
 
 MD5SUMS=(
-94a849a5eb041124b993e3fe4eaaa7f1
+fd17158ffeacecc8cc670604460cb98b
 )
 
 build(){

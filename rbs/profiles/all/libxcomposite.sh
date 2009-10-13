@@ -1,7 +1,6 @@
 #!/bin/bash
 
-VERSION="0.4.0"
-SYS_VERSION="0.4.0-1"
+VERSION="0.4.1"
 
 DIR="libXcomposite-${VERSION}"
 TARBALL="libXcomposite-${VERSION}.tar.bz2"
@@ -16,7 +15,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-7e95395dea89be21bae929b9b7f16641
+0f1367f57fdf5df17a8dd71d0fa68248
 )
 
 build(){

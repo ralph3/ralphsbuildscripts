@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.5"
+VERSION="1.0.6"
 
 DIR="libxkbfile-${VERSION}"
 TARBALL="libxkbfile-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-0726a845fe5a56551de2718c9f6b0e35
+b01156e263eca8177e6b7f10441951c4
 )
 
 build(){

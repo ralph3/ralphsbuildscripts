@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.1"
+VERSION="1.0.2"
 
 DIR="libXxf86misc-${VERSION}"
 TARBALL="libXxf86misc-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-7cee0df63903cef7f7a3fb68cdd99eef
+51fed53e8de067d4b8666f75a0212400
 )
 
 build(){

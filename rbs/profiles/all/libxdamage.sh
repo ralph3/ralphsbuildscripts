@@ -1,7 +1,6 @@
 #!/bin/bash
 
-VERSION="1.1.1"
-SYS_VERSION="1.1.1-2"
+VERSION="1.1.2"
 
 DIR="libXdamage-${VERSION}"
 TARBALL="libXdamage-${VERSION}.tar.bz2"
@@ -17,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-ac0ce6b0063a9858c8f24ddb4c60487d
+b42780bce703ec202a33e5693991c09d
 )
 
 build(){

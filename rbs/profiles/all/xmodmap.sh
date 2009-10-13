@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.3"
+VERSION="1.0.4"
 
 DIR="xmodmap-${VERSION}"
 TARBALL="xmodmap-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-626731003ec22a74ecf9e44ed098bbdf
+bbe021f812e0014a8ee3692317788119
 )
 
 build(){

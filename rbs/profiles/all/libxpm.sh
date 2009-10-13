@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.5.7"
+VERSION="3.5.8"
 
 DIR="libXpm-${VERSION}"
 TARBALL="libXpm-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-cd15ee542d9f515538b4462a6f79d977
+38e58e72d476a74298a59052fde185a3
 )
 
 build(){
