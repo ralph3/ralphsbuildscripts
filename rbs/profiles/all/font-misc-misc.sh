@@ -25,19 +25,15 @@ build(){
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc --localstatedir=/var || return 1
-  make MAPFILES_PATH=/usr/share/X11/fonts/util \
-    UTIL_DIR=/usr/share/X11/fonts/util || return 1
+  make MAPFILES_PATH=/usr/share/fonts/X11/util \
+    UTIL_DIR=/usr/share/fonts/X11/util || return 1
   make install DESTDIR=$TMPROOT || return 1
-  mkdir -p $TMPROOT/usr/share || return 1
-  cp -a $TMPROOT/usr/$LIBSDIR/* $TMPROOT/usr/share/ || return 1
-  rm -rf $TMPROOT/usr/$LIBSDIR || return 1
-  rm $TMPROOT/usr/share/X11/fonts/misc/fonts.{scale,dir} || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
 
 post_install(){
-  cd /usr/share/X11/fonts/misc || return 1
+  cd /usr/share/fonts/X11/misc || return 1
   mkfontdir  || return 1
   mkfontscale  || return 1
   fc-cache || return 1

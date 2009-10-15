@@ -26,9 +26,6 @@ build(){
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc --localstatedir=/var || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
-  mkdir -p $TMPROOT/usr/share || return 1
-  cp -a $TMPROOT/usr/$LIBSDIR/* $TMPROOT/usr/share/ || return 1
-  rm -rf $TMPROOT/usr/$LIBSDIR || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }

@@ -6,7 +6,7 @@ DIR="libdrm-${VERSION}"
 TARBALL="libdrm-${VERSION}.tar.gz"
 
 DEPENDS=(
-  make
+  libpthread-stubs
 )
 
 SRC1=(

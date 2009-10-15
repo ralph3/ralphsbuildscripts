@@ -42,11 +42,11 @@ EndSection
 
 Section "Files"
   RgbPath    "/usr/share/X11/rgb"
-  FontPath   "/usr/share/X11/fonts/100dpi/"
-  FontPath   "/usr/share/X11/fonts/75dpi/"
-  FontPath   "/usr/share/X11/fonts/TTF/"
-  FontPath   "/usr/share/X11/fonts/misc/"
-  FontPath   "/usr/share/X11/fonts/cyrillic/"
+  FontPath   "/usr/share/fonts/X11/100dpi/"
+  FontPath   "/usr/share/fonts/X11/75dpi/"
+  FontPath   "/usr/share/fonts/X11/TTF/"
+  FontPath   "/usr/share/fonts/X11/misc/"
+  FontPath   "/usr/share/fonts/X11/cyrillic/"
   ModulePath "/usr/${LIBSDIR}/X11/modules"
 EndSection
 

@@ -3,6 +3,7 @@
 DISABLE_MULTILIB=1
 
 VERSION="1.10"
+SYS_VERSION="1.10-1"
 
 DIR="ttf-bitstream-vera-${VERSION}"
 TARBALL="ttf-bitstream-vera-${VERSION}.tar.bz2"
@@ -24,14 +25,14 @@ bb22bd5b4675f5dbe17c6963d8c00ed6
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  mkdir -pv $TMPROOT/usr/share/X11/fonts/TTF || return 1
-  install -vm 0644 *.ttf $TMPROOT/usr/share/X11/fonts/TTF/ || return 1
+  mkdir -pv $TMPROOT/usr/share/fonts/X11/TTF || return 1
+  install -vm 0644 *.ttf $TMPROOT/usr/share/fonts/X11/TTF/ || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
 
 post_install(){
-  cd /usr/share/X11/fonts/TTF || return 1
+  cd /usr/share/fonts/X11/TTF || return 1
   mkfontdir || return 1
   mkfontscale || return 1
   fc-cache || return 1
