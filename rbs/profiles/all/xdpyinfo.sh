@@ -20,7 +20,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-cb304d1ce562ac48b68eedeba38c662f
+d1d516610316138105cd07064b257c5c
 )
 
 build(){
