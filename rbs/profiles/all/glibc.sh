@@ -44,7 +44,8 @@ RBS_Cross_Tools_Build(){
       esac
     ;;
   esac
-  unpack_tarball $TARBALL || return 1
+  unpack_tarball $TARBALL
+  cd $SRCDIR/$DIR || return 1
   mkdir -p $SRCDIR/glibc-build || return 1
   cd $SRCDIR/glibc-build || return 1
   echo "slibdir=/RBS-Tools/$LIBSDIR" > configparms
@@ -55,7 +56,7 @@ RBS_Cross_Tools_Build(){
   fi
   LD_LIBRARY_PATH= BUILD_CC="gcc" CC="${BUILDTARGET}-gcc $BUILD" \
     CXX="${BUILDTARGET}-g++ $BUILD" CFLAGS="$XFLAGS -O2 -fgnu89-inline" \
-    ../$DIR/libc/configure --prefix=/RBS-Tools --host=$GLIBC_TARGETHOST \
+    ../$DIR/configure --prefix=/RBS-Tools --host=$GLIBC_TARGETHOST \
     --build=$BUILDHOST --libdir=/RBS-Tools/$LIBSDIR --disable-profile \
     --enable-add-ons --with-tls --enable-kernel=2.6.0 --with-__thread \
     --with-binutils=/RBS-Cross-Tools/bin --with-headers=/RBS-Tools/include \
@@ -97,7 +98,7 @@ build(){
   cd $SRCDIR/glibc-build || return 1
   echo "slibdir=/$LIBSDIR" > configparms
   
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ../$DIR/libc/configure $CONF --prefix=/usr \
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ../$DIR/configure $CONF --prefix=/usr \
     --libdir=/usr/$LIBSDIR --disable-profile --enable-add-ons \
     --enable-kernel=2.6.0 --with-__thread \
     --libexecdir=/usr/$LIBSDIR/glibc || return 1
