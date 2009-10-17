@@ -3,6 +3,7 @@
 DISABLE_MULTILIB=1
 
 VERSION="1.1.1"
+SYS_VERSION="1.1.1-1"
 
 DIR="xinit-${VERSION}"
 TARBALL="xinit-${VERSION}.tar.bz2"
@@ -40,14 +41,8 @@ Section "Module"
   Load  "dri"
 EndSection
 
-Section "Files"
-  RgbPath    "/usr/share/X11/rgb"
-  FontPath   "/usr/share/fonts/X11/100dpi/"
-  FontPath   "/usr/share/fonts/X11/75dpi/"
-  FontPath   "/usr/share/fonts/X11/TTF/"
-  FontPath   "/usr/share/fonts/X11/misc/"
-  FontPath   "/usr/share/fonts/X11/cyrillic/"
-  ModulePath "/usr/${LIBSDIR}/X11/modules"
+Section "ServerFlags"
+    Option         "AllowEmptyInput" "0"
 EndSection
 
 Section "InputDevice"
@@ -108,10 +103,6 @@ Section "ServerLayout"
   InputDevice "Mouse1" "CorePointer"
   InputDevice "Keyboard1" "CoreKeyboard"
 EndSection
-
-# Section "DRI"
-#    Mode 0666
-# EndSection
 EOF
 
 cat << "EOF" > $TMPROOT/usr/share/X11/xinit/xinitrc
