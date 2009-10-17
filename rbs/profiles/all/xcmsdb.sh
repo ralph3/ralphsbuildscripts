@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.1"
+VERSION="1.0.2"
 
 DIR="xcmsdb-${VERSION}"
 TARBALL="xcmsdb-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-8579d5f50ba7f0c4a5bf16b9670fea01
+7f2bed9f4dd3301d18d83eb296c3be0d
 )
 
 build(){

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="4.4.1"
+VERSION="4.4.2"
 
 DIR="gcc-${VERSION}"
 TARBALL="gcc-${VERSION}.tar.bz2"
@@ -17,7 +17,7 @@ ftp://sources.redhat.com/pub/gcc/releases/gcc-${VERSION}/$TARBALL
 )
 
 MD5SUMS=(
-927eaac3d44b22f31f9c83df82f26436
+70f5ac588a79e3c9901d5b34f58d896d
 )
 
 GCC_Switch_ToolChain(){

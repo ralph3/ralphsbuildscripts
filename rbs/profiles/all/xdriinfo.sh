@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.2"
+VERSION="1.0.3"
 
 DIR="xdriinfo-${VERSION}"
 TARBALL="xdriinfo-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-a5ec51ed9f0a55dc3462d90d52ff899c
+cb304d1ce562ac48b68eedeba38c662f
 )
 
 build(){

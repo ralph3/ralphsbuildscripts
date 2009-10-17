@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.1"
+VERSION="1.1.0"
 
 DIR="xbitmaps-${VERSION}"
 TARBALL="xbitmaps-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/data/${TARBALL}
 )
 
 MD5SUMS=(
-b28a9840cde3c38d7c09716372fea257
+f9ddd4e70a5375508b3acaf17be0d0ab
 )
 
 build(){

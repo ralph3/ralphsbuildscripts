@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.2"
+VERSION="1.1.0"
 
 DIR="xvinfo-${VERSION}"
 TARBALL="xvinfo-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-e1e318436f49e2f0f3764593dadd9ad2
+8cc299b2cb636b5f7fe672610789d3d4
 )
 
 build(){
