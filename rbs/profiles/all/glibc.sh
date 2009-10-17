@@ -1,26 +1,28 @@
 #!/bin/bash
 
-VERSION="2.10.1"
+VERSION="0.0.0-20091011"
 
 DIR="glibc-${VERSION}"
-TARBALL="glibc-${VERSION}.tar.bz2"
+TARBALL="glibc-${VERSION}.tar.xz"
 
 DEPENDS=(
   linux-headers
 )
 
-SRC1=(
-http://ftp.gnu.org/gnu/glibc/$TARBALL
-)
+#
+#SRC1=(
+#http://ftp.gnu.org/gnu/glibc/$TARBALL
+#)
+#
+#MD5SUMS=(
+#ee71dedf724dc775e4efec9b823ed3be
+#)
+#
 
-MD5SUMS=(
-ee71dedf724dc775e4efec9b823ed3be
-)
-
-#my_src1(){
-#  cvs -z3 -d :pserver:anoncvs:anoncvs@sources.redhat.com:/cvs/glibc \
-#    export -r glibc-$(echo $VERSION | tr "." "_") -d $DIR libc || return 1
-#}
+my_src1(){
+  svn co -r {$(echo $VERSION | cut -f2- -d'-' | sed 's%....%&-%;s%..$%-&%')} \
+    svn://svn.eglibc.org/trunk $DIR || return 1
+}
 
 RBS_Cross_Tools_Build(){
   local DOCRAP GLIBC_TARGETHOST XFLAGS
