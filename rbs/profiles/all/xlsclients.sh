@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.1"
+VERSION="1.0.2"
 
 DIR="xlsclients-${VERSION}"
 TARBALL="xlsclients-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-44473b880d26bfbe8b3d4d72b183cba7
+df270f7dd5528ae1b7d80c47585d8278
 )
 
 build(){

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.6"
+VERSION="1.0.7"
 
 DIR="libXaw-${VERSION}"
 TARBALL="libXaw-${VERSION}.tar.bz2"
@@ -17,7 +17,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-066218dceb82eb8da0e11d259ed3ceda
+815e74de989ccda684e2baf8d12cf519
 )
 
 build(){

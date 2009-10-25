@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.2.13"
+VERSION="1.2.14"
 
 DIR="SDL-${VERSION}"
 TARBALL="SDL-${VERSION}.tar.gz"
@@ -17,7 +17,7 @@ http://www.libsdl.org/release/${TARBALL}
 )
 
 MD5SUMS=(
-c6660feea2a6834de10bc71b2f8e4d88
+e52086d1b508fa0b76c52ee30b55bec4
 )
 
 build(){

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.10"
+VERSION="3.11.1"
 
 DIR="module-init-tools-${VERSION}"
 TARBALL="module-init-tools-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://www.kernel.org/pub/linux/utils/kernel/module-init-tools/${TARBALL}
 )
 
 MD5SUMS=(
-fcde0344ad07c4ae2ae6b40918fd092d
+28dfcb9e24cdbeb12b99ac1eb8af7dea
 )
 
 MyBuild(){

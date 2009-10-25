@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.2.4"
+VERSION="1.2.5"
 
 DIR="xtrans-${VERSION}"
 TARBALL="xtrans-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-b3b57e78dc06885e79f8393a83619715
+2d1e57e82acc5f21797e92341415af2f
 )
 
 build(){
