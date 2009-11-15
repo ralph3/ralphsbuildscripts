@@ -2,8 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.1.1"
-SYS_VERSION="1.1.1-1"
+VERSION="1.2.0"
 
 DIR="xinit-${VERSION}"
 TARBALL="xinit-${VERSION}.tar.bz2"
@@ -17,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-93c73705ed9eb1e1a6b6938405672f2b
+fe1696cab2fbed6fa059d0cd1c53ac13
 )
 
 build(){

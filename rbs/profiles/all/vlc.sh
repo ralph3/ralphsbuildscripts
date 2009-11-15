@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.2"
+VERSION="1.0.3"
 
 DIR="vlc-${VERSION}"
 TARBALL="vlc-${VERSION}.tar.bz2"
@@ -20,7 +20,7 @@ http://download.videolan.org/pub/videolan/vlc/$VERSION/${TARBALL}
 )
 
 MD5SUMS=(
-69d4e30fe4fc2691780fbeacd40359d2
+d0945c2489551c102a3f0f15e4591555
 )
 
 build(){

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.0.15"
+VERSION="2.0.16"
 
 DIR="gtkspell-${VERSION}"
 TARBALL="gtkspell-${VERSION}.tar.gz"
@@ -17,7 +17,7 @@ http://gtkspell.sourceforge.net/download/${TARBALL}
 )
 
 MD5SUMS=(
-d90a7fe883f29caca149f04f31e2f0f9
+f75dcc9338f182c571b321d37c606a94
 )
 
 build(){

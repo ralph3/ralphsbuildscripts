@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.6.18"
+VERSION="0.6.19"
 
 DIR="libexif-${VERSION}"
 TARBALL="libexif-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://prdownloads.sourceforge.net/libexif/${TARBALL}
 )
 
 MD5SUMS=(
-67dfabfaf398d370ed92203ca7c36a0a
+56144a030a4c875c600b1ccf713f69f7
 )
 
 build(){

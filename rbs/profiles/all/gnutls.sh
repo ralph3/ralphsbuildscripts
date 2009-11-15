@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.8.4"
+VERSION="2.8.5"
 
 DIR="gnutls-${VERSION}"
 TARBALL="gnutls-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ ftp://ftp.gnupg.org/gcrypt/gnutls/${TARBALL}
 )
 
 MD5SUMS=(
-aafba37c0993595ba2ab98587b57a3de
+e3b2788b79bfc82acbe717e3c54d4e92
 )
 
 build(){
