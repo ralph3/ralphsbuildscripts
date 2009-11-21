@@ -31,7 +31,7 @@ GCC_Switch_ToolChain(){
 }
 
 My_GCC_MultiBuild_Func(){
-  local CONF
+  local CONF F
   CONF=
   case $(echo $BUILDTARGET | cut -f1 -d'-') in
     i386|i486|i586|i686)
@@ -140,6 +140,14 @@ FOO
     CrossTools)
       make AS_FOR_TARGET="${BUILDTARGET}-as" LD_FOR_TARGET="${BUILDTARGET}-ld" || return 1
       make install || return 1
+      F=/RBS-Cross-Tools/$BUILDTARGET/lib/libgcc_s.so.1
+      if [ -e "$F" ]; then
+        ln -sfn $F /RBS-Tools/lib/ || return 1
+      fi
+      F=/RBS-Cross-Tools/$BUILDTARGET/lib64/libgcc_s.so.1
+      if [ -e "$F" ]; then
+        ln -sfn $F /RBS-Tools/lib64/ || return 1
+      fi
     ;;
     Tools)
       sed -i "/^HOST_\(GMP\|PPL\|CLOOG\)\(LIBS\|INC\)/s:-[IL]/\(lib\|include\)::" Makefile || return 1
