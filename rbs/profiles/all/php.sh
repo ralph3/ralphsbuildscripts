@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="5.3.0"
+VERSION="5.3.1"
 
 DIR="php-${VERSION}"
 TARBALL="php-${VERSION}.tar.bz2"
@@ -17,7 +17,7 @@ http://us.php.net/distributions/${TARBALL}
 )
 
 MD5SUMS=(
-846760cd655c98dfd86d6d97c3d964b0
+63e97ad450f0f7259e785100b634c797
 )
 
 build(){

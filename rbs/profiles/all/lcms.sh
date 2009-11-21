@@ -1,7 +1,6 @@
 #!/bin/bash
 
-VERSION="1.18a"
-SYS_VERSION="1.18a-2"
+VERSION="1.19"
 
 DIR="lcms-1.18"
 TARBALL="lcms-${VERSION}.tar.gz"
@@ -15,7 +14,7 @@ http://www.littlecms.com/${TARBALL}
 )
 
 MD5SUMS=(
-f4abfe1c57ea3f633c2e9d034e74e3e8
+8af94611baf20d9646c7c2c285859818
 )
 
 build(){

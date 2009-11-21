@@ -2,8 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.4.4"
-SYS_VERSION="2.4.4-6"
+VERSION="2.4.5"
 
 DIR="ppp-${VERSION}"
 TARBALL="ppp-${VERSION}.tar.gz"
@@ -17,7 +16,7 @@ http://samba.org/ftp/ppp/${TARBALL}
 )
 
 MD5SUMS=(
-183800762e266132218b204dfb428d29
+4621bc56167b6953ec4071043fe0ec57
 )
 
 build(){
