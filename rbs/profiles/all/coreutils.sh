@@ -3,8 +3,9 @@
 DISABLE_MULTILIB=1
 
 #everything from 7.3 to 7.6 has cross compile bugs when building for tools
+# 8.1 also has problems
 
-VERSION="8.1"
+VERSION="7.2"
 
 DIR="coreutils-${VERSION}"
 TARBALL="coreutils-${VERSION}.tar.gz"
@@ -18,7 +19,7 @@ http://ftp.gnu.org/gnu/coreutils/${TARBALL}
 )
 
 MD5SUMS=(
-4cde9f31604f4da188ed302ca55545ea
+427c2914d3eab956f317c9ec6a45e62a
 )
 
 RBS_Tools_Build(){
