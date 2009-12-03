@@ -1,7 +1,6 @@
 #!/bin/bash
 
-VERSION="0.5.13"
-SYS_VERSION="0.5.13-1"
+VERSION="0.5.14"
 
 DIR="hal-${VERSION}"
 TARBALL="hal-${VERSION}.tar.gz"
@@ -18,7 +17,7 @@ http://hal.freedesktop.org/releases/${TARBALL}
 )
 
 MD5SUMS=(
-46ecc5d2e5bd964fb78099688f01bb6a
+e9163df591a6f38f59fdbfe33e73bf20
 )
 
 build(){

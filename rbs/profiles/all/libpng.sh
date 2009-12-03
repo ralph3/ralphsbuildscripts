@@ -1,7 +1,6 @@
 #!/bin/bash
 
-VERSION="1.2.38"
-SYS_VERSION="1.2.38-1"
+VERSION="1.2.39"
 
 DIR="libpng-${VERSION}"
 TARBALL="libpng-${VERSION}.tar.bz2"
@@ -15,7 +14,7 @@ http://prdownloads.sourceforge.net/libpng/${TARBALL}
 )
 
 MD5SUMS=(
-5401c2586846fca209eba0c02c8ee9e0
+4d48ecff6fc7ab12e97b07d0f65ec2f0
 )
 
 build(){
