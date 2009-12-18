@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.4.4"
+VERSION="1.4.5"
 
 DIR="libgcrypt-${VERSION}"
 TARBALL="libgcrypt-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ ftp://ftp.gnupg.org/gcrypt/libgcrypt/${TARBALL}
 )
 
 MD5SUMS=(
-34105aa927e23c217741966496b97e67
+cc2017ad09b4543f8b3b5e9a53cfd89d
 )
 
 build(){

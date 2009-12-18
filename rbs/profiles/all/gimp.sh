@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.6.7"
+VERSION="2.6.8"
 
 DIR="gimp-${VERSION}"
 TARBALL="gimp-${VERSION}.tar.bz2"
@@ -28,7 +28,7 @@ ftp://ftp.gimp.org/pub/gimp/v2.6/${TARBALL}
 )
 
 MD5SUMS=(
-77ed86a8de9b48587efb24f2b115ad38
+a4d9462c9420954824a80c9b1963f9d9
 )
 
 build(){

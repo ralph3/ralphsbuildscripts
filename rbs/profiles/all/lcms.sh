@@ -2,7 +2,7 @@
 
 VERSION="1.19"
 
-DIR="lcms-1.18"
+DIR="lcms-${VERSION}"
 TARBALL="lcms-${VERSION}.tar.gz"
 
 DEPENDS=(

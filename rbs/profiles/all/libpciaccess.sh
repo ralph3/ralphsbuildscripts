@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.10.9"
+VERSION="0.11.0"
 
 DIR="libpciaccess-${VERSION}"
 TARBALL="libpciaccess-${VERSION}.tar.bz2"
@@ -17,7 +17,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-685cb20e7a6165bc010972f1183addbd
+686320dcec98daad0bdfb8894d4f2a2b
 )
 
 build(){

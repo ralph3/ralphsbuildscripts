@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.0.21"
+VERSION="1.0.22"
 
 DIR="alsa-lib-${VERSION}"
 TARBALL="alsa-lib-${VERSION}.tar.bz2"
@@ -15,7 +15,7 @@ ftp://ftp.alsa-project.org/pub/lib/${TARBALL}
 )
 
 MD5SUMS=(
-d8a556041a4cbeeae0c32eadeffb3c74
+b28a12348905fb6915bc41f0edb2ecce
 )
 
 build(){

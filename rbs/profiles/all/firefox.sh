@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.5.5"
+VERSION="3.5.6"
 
 DIR="firefox-${VERSION}"
 TARBALL="firefox-${VERSION}.source.tar.bz2"
@@ -19,7 +19,7 @@ http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${VERSION}/source/${TARB
 )
 
 MD5SUMS=(
-b3d92dfb40584141dc1068efc9bdfccc
+54d73156dfedc6e4981f2a3c46817f9a
 )
 
 build(){

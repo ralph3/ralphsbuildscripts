@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.6"
+VERSION="1.7"
 
 DIR="inetutils-${VERSION}"
 TARBALL="inetutils-${VERSION}.tar.gz"
@@ -16,13 +16,13 @@ $(gnu_mirrors inetutils ${TARBALL})
 )
 
 MD5SUMS=(
-23cc24bc77751bf77d50a07a7395f9b3
+a1d5a01b0ab8a7e596ac4cff0cce7129
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  sed -i "1i\#include <stdlib.h>" libicmp/icmp_timestamp.c || return 1
+  ####sed -i "1i\#include <stdlib.h>" libicmp/icmp_timestamp.c || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --prefix=/usr --libexecdir=/usr/sbin \
     --sysconfdir=/etc --localstatedir=/var --disable-logger --disable-syslogd \

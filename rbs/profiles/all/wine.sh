@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.1.33"
+VERSION="1.1.35"
 
 ONLY32=1
 
@@ -29,7 +29,7 @@ http://ibiblio.org/pub/linux/system/emulators/wine/${TARBALL}
 )
 
 MD5SUMS=(
-f9506864f5aef9318129d349ce9ded72
+fc9312b86029a6046c5c1938887892e4
 )
 
 build(){
