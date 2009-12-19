@@ -23,7 +23,7 @@ build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   
-  do_patch cups-1.4.1-side_cb.patch || return 1
+  ##do_patch cups-1.4.1-side_cb.patch || return 1
   
   groupadd lp
   useradd -c "Print Service User" -d /dev/null -g lp -s /bin/false lp

@@ -2,9 +2,6 @@
 
 DISABLE_MULTILIB=1
 
-#everything from 7.3 to 7.6 has cross compile bugs when building for tools
-# 8.1 also has problems
-
 VERSION="8.2"
 
 DIR="coreutils-${VERSION}"
@@ -31,7 +28,7 @@ RBS_Tools_Build(){
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --prefix=/RBS-Tools \
     --cache-file=config.cache || return 1
-  make || return 1
+  make LDFLAGS="-lrt" || return 1
   make install || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
