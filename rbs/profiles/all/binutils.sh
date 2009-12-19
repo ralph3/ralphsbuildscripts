@@ -20,8 +20,6 @@ MD5SUMS=(
 ee2d3e996e9a2d669808713360fa96f8
 )
 
-##MyPatches="binutils-2.19.1-branch_update-3.patch binutils-2.19.1-posix-1.patch"
-
 RBS_Cross_Tools_Build(){
   local PATCHES CONF PREF
   CONF=
@@ -51,9 +49,7 @@ RBS_Cross_Tools_Build(){
   
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  
-  ##do_patch $MyPatches || return 1
-  
+    
   mkdir -p $SRCDIR/binutils-build || return 1
   cd $SRCDIR/binutils-build || return 1
   if [ "$1" == "ToolsBuild" ]; then
@@ -96,8 +92,6 @@ build(){
   rm -rf $DIR binutils-build || return 1
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  
-  ##do_patch $MyPatches || return 1
   
   mkdir -p $SRCDIR/binutils-build || return 1
   cd $SRCDIR/binutils-build || return 1
