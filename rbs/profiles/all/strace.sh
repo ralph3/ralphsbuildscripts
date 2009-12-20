@@ -20,6 +20,9 @@ MD5SUMS=(
 )
 
 build(){
+  mkdir -p $SRCDIR || return 1
+  cd $SRCDIR || return 1
+  rm -rf $DIR || return 1
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
