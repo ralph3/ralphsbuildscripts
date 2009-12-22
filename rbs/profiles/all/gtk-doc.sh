@@ -2,7 +2,9 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.12"
+# 1.12x breaks xfce autogen.sh's
+
+VERSION="1.10"
 
 DIR="gtk-doc-${VERSION}"
 TARBALL="gtk-doc-${VERSION}.tar.bz2"
@@ -18,7 +20,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-2b64763c7cd314742fbfe29bba6e9890
+cbd4be396b0cf8b8ce1fc9b927cdf451
 )
 
 build(){

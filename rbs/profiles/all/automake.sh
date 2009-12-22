@@ -2,9 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-## 1.11.1 may cause problems with xfce autogen.sh's
-
-VERSION="1.11"
+VERSION="1.11.1"
 
 DIR="automake-${VERSION}"
 TARBALL="automake-${VERSION}.tar.bz2"
@@ -18,7 +16,7 @@ http://ftp.gnu.org/gnu/automake/${TARBALL}
 )
 
 MD5SUMS=(
-4db4efe027e26b33930a7e151de19d0f
+c2972c4d9b3e29c03d5f2af86249876f
 )
 
 build(){

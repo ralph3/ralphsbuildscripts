@@ -8,6 +8,8 @@ DIR="libxfce4mcs-${VERSION}"
 TARBALL="libxfce4mcs-${VERSION}.tar.xz"
 
 DEPENDS=(
+  autoconf
+  automake
   make
 )
 
