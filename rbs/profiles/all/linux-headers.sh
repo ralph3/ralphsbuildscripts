@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.6.32.1"
+VERSION="2.6.32.2"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://www.kernel.org/pub/linux/kernel/v2.6/${TARBALL}
 )
 
 MD5SUMS=(
-fc95ca275124537661d64428f79bae50
+9809778a867dfd3d6811a2f929256334
 )
 
 RBS_Cross_Tools_Build(){

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="4.8.24"
+VERSION="4.8.26"
 
 DIR="db-${VERSION}"
 TARBALL="db-${VERSION}.tar.gz"
@@ -16,7 +16,7 @@ http://download.oracle.com/berkeley-db/${TARBALL}
 )
 
 MD5SUMS=(
-147afdecf438ff99ade105a5272db158
+3476bac9ec0f3c40729c8a404151d5e3
 )
 
 build(){

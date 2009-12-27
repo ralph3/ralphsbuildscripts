@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.12.2"
+VERSION="0.12.3"
 
 DIR="poppler-${VERSION}"
 TARBALL="poppler-${VERSION}.tar.gz"
@@ -20,7 +20,7 @@ http://poppler.freedesktop.org/${TARBALL}
 )
 
 MD5SUMS=(
-60c00b55acf7dd389bf256d178af70bf
+d0ca8344d8d94e27aaba6d432688365d
 )
 
 build(){
