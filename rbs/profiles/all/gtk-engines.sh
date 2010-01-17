@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.18.4"
+VERSION="2.18.5"
 
 DIR="gtk-engines-${VERSION}"
 TARBALL="gtk-engines-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-95748497eafdfe898588931f08b2fccc
+8ab438af9f460b1dacbe37437612c629
 )
 
 build(){

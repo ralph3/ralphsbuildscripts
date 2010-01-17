@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#loop for editing profile version/md5sum and downloading.
+#may make life easier when sshing.
+
+for x in $*; do
+  nano profiles/all/${x}.sh || exit 1
+  ./download $x || exit 1
+  nano profiles/all/${x}.sh || exit 1
+done

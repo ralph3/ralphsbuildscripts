@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.12.1"
+VERSION="0.12.2"
 
 TARBALL="qemu-${VERSION}.tar.gz"
 
@@ -16,7 +16,7 @@ http://download.savannah.gnu.org/releases/qemu/${TARBALL}
 )
 
 MD5SUMS=(
-df9a979ac72251036b7d0794895233a5
+1d7c2d95acb6d0789de86508c608e26d
 )
 
 build(){

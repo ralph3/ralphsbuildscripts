@@ -1,7 +1,6 @@
 #!/bin/bash
 
-VERSION="4.3.1"
-SYS_VERSION="4.3.1-1"
+VERSION="5.0.0"
 
 DIR="gmp-${VERSION}"
 TARBALL="gmp-${VERSION}.tar.gz"
@@ -15,7 +14,7 @@ http://ftp.gnu.org/gnu/gmp/${TARBALL}
 )
 
 MD5SUMS=(
-a8f60ac823a16e61335dba9c08875c06
+672949b1e137d92fa8d76608e8ab9bc6
 )
 
 RBS_Cross_Tools_Build(){

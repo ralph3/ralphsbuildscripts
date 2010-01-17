@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.23.2"
+VERSION="0.23.5"
 
 DIR="vte-${VERSION}"
 TARBALL="vte-${VERSION}.tar.bz2"
@@ -17,7 +17,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-93168c1d5ae21ed664b898639c8ed8dc
+d201695a8fc1d2411c372a9ee8c8ea51
 )
 
 build(){

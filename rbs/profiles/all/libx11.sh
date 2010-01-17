@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.3.2"
+VERSION="1.3.3"
 
 DIR="libX11-${VERSION}"
 TARBALL="libX11-${VERSION}.tar.bz2"
@@ -17,7 +17,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-001d780829f936e34851ef7cd37b4dfd
+5d74971360f194ce33d2bd2e4d9b066c
 )
 
 build(){

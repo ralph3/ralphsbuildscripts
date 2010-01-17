@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.11"
+VERSION="2.11.1"
 
 DIR="glibc-${VERSION}"
 TARBALL="glibc-${VERSION}.tar.bz2"
@@ -14,7 +14,7 @@ http://ftp.gnu.org/gnu/glibc/$TARBALL
 )
 
 MD5SUMS=(
-2c990f97e9ff9fb1c3c85fe826e991b9
+6856d5d8b1239556687f0d1217f3f266
 )
 
 #my_src1(){

@@ -314,13 +314,7 @@ if profile_version != version and high_version([profile_version, version]) == ve
   close_msg("needs update from " + profile_version + " to " + version )
   sys.exit(1)
 else:
-  status_msg("current")
-  
-  if not message_closed:
-    for x in range( 80 ):
-      sys.stdout.write('\b')
-    sys.stdout.flush()
-    message_closed = 1
+  close_msg("current")
 PYTHON_CODE
   }
 done

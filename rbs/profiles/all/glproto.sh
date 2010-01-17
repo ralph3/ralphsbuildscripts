@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.4.10"
+VERSION="1.4.11"
 
 DIR="glproto-${VERSION}"
 TARBALL="glproto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-c9f8cebfba72bfab674bc0170551fb8d
+78e7c4dc7dcb74b1869fee7897e00f59
 )
 
 build(){

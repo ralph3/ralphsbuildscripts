@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.16.1"
+VERSION="2.17"
 
 DIR="util-linux-ng-${VERSION}"
 TARBALL="util-linux-ng-${VERSION}.tar.bz2"
@@ -14,7 +14,7 @@ http://www.kernel.org/pub/linux/utils/util-linux-ng/v$(echo $VERSION | cut -f-2 
 )
 
 MD5SUMS=(
-8997a0a6ebf38159fa962a3b8d290f6e
+11cc8a0138019e7060dd275d47dbc096
 )
 
 RBS_Tools_Build(){

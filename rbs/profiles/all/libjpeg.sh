@@ -1,7 +1,6 @@
 #!/bin/bash
 
-VERSION="7"
-SYS_VERSION="7-3"
+VERSION="8"
 
 DIR="jpeg-${VERSION}"
 TARBALL="jpegsrc.v${VERSION}.tar.gz"
@@ -16,7 +15,7 @@ ftp://ftp.uu.net/graphics/jpeg/${TARBALL}
 )
 
 MD5SUMS=(
-382ef33b339c299b56baf1296cda9785
+9c6b3514e922ad42298706163bb5e2d7
 )
 
 build(){

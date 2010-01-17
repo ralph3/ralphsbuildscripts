@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.51"
+VERSION="1.52"
 
 DIR="URI-${VERSION}"
 TARBALL="URI-${VERSION}.tar.gz"
@@ -14,7 +14,7 @@ http://search.cpan.org/CPAN/authors/id/G/GA/GAAS/${TARBALL}
 )
 
 MD5SUMS=(
-cadd0061b5f77dbd5adfad124d1d3cca
+d6ba96cc3e650af6537675e016e83d3e
 )
 
 build(){

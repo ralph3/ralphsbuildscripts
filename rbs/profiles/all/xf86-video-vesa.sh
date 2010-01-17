@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.2.1"
+VERSION="2.3.0"
 
 DIR="xf86-video-vesa-${VERSION}"
 TARBALL="xf86-video-vesa-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/driver/${TARBALL}
 )
 
 MD5SUMS=(
-61a1dc9a22991bd04d0ff98f800775c1
+07fa32958aff9b463dd3af5481ef6626
 )
 
 build(){

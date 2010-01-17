@@ -1,7 +1,6 @@
 #!/bin/bash
 
-VERSION="6.0"
-SYS_VERSION="6.0-1"
+VERSION="6.1"
 
 DIR="readline-${VERSION}"
 TARBALL="readline-${VERSION}.tar.gz"
@@ -15,7 +14,7 @@ http://ftp.gnu.org/gnu/readline/${TARBALL}
 )
 
 MD5SUMS=(
-b7f65a48add447693be6e86f04a63019
+fc2f7e714fe792db1ce6ddc4c9fb4ef3
 )
 
 build(){
