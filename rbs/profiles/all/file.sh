@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="5.03"
+VERSION="5.04"
 
 DIR="file-${VERSION}"
 TARBALL="file-${VERSION}.tar.gz"
@@ -16,7 +16,7 @@ ftp://ftp.astron.com/pub/file/${TARBALL}
 )
 
 MD5SUMS=(
-d05f08a53e5c2f51f8ee6a4758c0cc53
+d41fdbedc74656d601b5681c5c928204
 )
 
 RBS_Cross_Tools_Build(){

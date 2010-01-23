@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="4.1.0"
+VERSION="4.1.1"
 
 DIR="dhcp-${VERSION}"
 TARBALL="dhcp-${VERSION}.tar.gz"
@@ -16,7 +16,7 @@ ftp://ftp.isc.org/isc/dhcp/${TARBALL}
 )
 
 MD5SUMS=(
-1fffed2e8c3d67b111316d6a9b33db7a
+38a74c89d8913b9b5f33737047623c18
 )
 
 build(){

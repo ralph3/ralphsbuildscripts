@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.17.2"
+VERSION="0.17.4"
 
 DIR="pixman-${VERSION}"
 TARBALL="pixman-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-64070b49e136f66640adf0f21c0b5fc8
+fe103ff5f051f8f35c1d20b5c6d000bd
 )
 
 build(){
