@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#gcc as of 4.4.3 still doesn't want 5.x
+#ppl as of 0.10.2 doesn't want 5.x
 
 VERSION="4.3.1"
 
