@@ -63,6 +63,8 @@ ac_add_options --disable-gnomeui
 
 ac_add_options --disable-crashreporter
 
+ac_add_options --disable-necko-wifi
+
 ac_add_options --with-default-mozilla-five-home=/usr/${LIBSDIR}/firefox-${VERSION}
 export CC="gcc ${BUILD}"
 export CXX="g++ ${BUILD}"
