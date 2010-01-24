@@ -1,7 +1,6 @@
 #!/bin/bash
 
-#2.17.x may have conflict with glibc2.10x, does fine with glibc 2.11
-#downgrading glibc attempting to pinpoint addr resolution issues.
+#2.17.x has with glibc 2.10.x, does fine with glibc 2.11
 
 VERSION="2.16.2"
 

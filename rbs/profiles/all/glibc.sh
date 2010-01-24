@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#downgrading glibc from 2.11 to 2.10 to see if it is causing address
+#downgrading glibc from 2.11 to 2.10 because it is causing address
 #resolution issues in wget and subversion. at first glance they seem
 #to be related to openssl yet even regular addresses http://etc dont
-#work. we'll see.
+#work.
 
 VERSION="2.10.1"
 

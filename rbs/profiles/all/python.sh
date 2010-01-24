@@ -93,6 +93,7 @@ version_check_info(){
   ADDRESS='http://www.python.org/ftp/python/%version%/'
   VERSION_STRING='Python-%version%.tar.bz2'
   MINOR_VERSION=2
+  ONLY_EVEN_MINORS=1
   MIRRORS=(
     'http://www.python.org/ftp/python/%version%/Python-%version%.tar.bz2'
   )

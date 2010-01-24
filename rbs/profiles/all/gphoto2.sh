@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.4.7"
+VERSION="2.4.8"
 
 DIR="gphoto2-${VERSION}"
 TARBALL="gphoto2-${VERSION}.tar.bz2"
@@ -18,7 +18,7 @@ http://prdownloads.sourceforge.net/gphoto/${TARBALL}
 )
 
 MD5SUMS=(
-a0bd7629040735f16e510b63edf386dd
+401e403ea6e8301d6c87cbe7cd892b8b
 )
 
 build(){
