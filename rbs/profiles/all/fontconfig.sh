@@ -24,8 +24,7 @@ build(){
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --sysconfdir=/etc --localstatedir=/var --disable-docs --without-add-fonts \
-    --with-docdir=/usr/share/doc/fontconfig-${VERSION} \
-    --libdir=/usr/$LIBSDIR \
+    --docdir=/usr/share/doc/fontconfig-${VERSION} --libdir=/usr/$LIBSDIR \
     --with-default-fonts="/usr/share/fonts/X11" || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
