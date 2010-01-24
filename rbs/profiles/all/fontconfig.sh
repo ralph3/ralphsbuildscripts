@@ -1,6 +1,7 @@
 #!/bin/bash
 
 VERSION="2.8.0"
+SYS_VERSION="2.8.0-1"
 
 DIR="fontconfig-${VERSION}"
 TARBALL="fontconfig-${VERSION}.tar.gz"
@@ -25,7 +26,7 @@ build(){
     --sysconfdir=/etc --localstatedir=/var --disable-docs --without-add-fonts \
     --with-docdir=/usr/share/doc/fontconfig-${VERSION} \
     --libdir=/usr/$LIBSDIR \
-    --with-default-fonts="/usr/share/X11/fonts" || return 1
+    --with-default-fonts="/usr/share/fonts/X11" || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   mkdir -vp $TMPROOT/usr/share/man/man{3,5} || return 1
