@@ -1,6 +1,9 @@
 #!/bin/bash
 
-VERSION="2.17"
+#2.17.x may have conflict with glibc2.10x, does fine with glibc 2.11
+#downgrading glibc attempting to pinpoint addr resolution issues.
+
+VERSION="2.16.2"
 
 DIR="util-linux-ng-${VERSION}"
 TARBALL="util-linux-ng-${VERSION}.tar.bz2"
@@ -14,7 +17,7 @@ http://www.kernel.org/pub/linux/utils/util-linux-ng/v$(echo $VERSION | cut -f-2 
 )
 
 MD5SUMS=(
-11cc8a0138019e7060dd275d47dbc096
+edd1f7a82fd388cc0e1e3d2d1e7ea55a
 )
 
 RBS_Tools_Build(){

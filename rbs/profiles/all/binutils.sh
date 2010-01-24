@@ -2,6 +2,8 @@
 
 DISABLE_MULTILIB=1
 
+#2.20.x conflicts with glibc 2.10, but works with 2.11
+
 VERSION="2.19.1"
 
 DIR="binutils-${VERSION}"
