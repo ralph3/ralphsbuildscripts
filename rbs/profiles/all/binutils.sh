@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.20"
+VERSION="2.19.1"
 
 DIR="binutils-${VERSION}"
 TARBALL="binutils-${VERSION}.tar.bz2"
@@ -17,7 +17,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-ee2d3e996e9a2d669808713360fa96f8
+09a8c5821a2dfdbb20665bc0bd680791
 )
 
 RBS_Cross_Tools_Build(){
