@@ -2,7 +2,8 @@
 
 DISABLE_MULTILIB=1
 
-#147 depends on gobject-introspection-1.0
+# udev > 146 has some deal with detecting my sdx drives.
+# too lazy to look into it.
 
 VERSION="146"
 
@@ -32,7 +33,7 @@ MyBuild(){
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --prefix=/usr --exec-prefix= \
     --sysconfdir=/etc --libdir=/usr/$LIBSDIR --libexecdir=/$LIBSDIR/udev \
-    --disable-extras || return 1
+    --disable-extras --disable-introspection || return 1
   make || return 1
   make install DESTDIR=$MYDEST || return 1
   
