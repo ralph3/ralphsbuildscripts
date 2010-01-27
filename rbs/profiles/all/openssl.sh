@@ -1,7 +1,6 @@
 #!/bin/bash
 
-VERSION="0.9.8h"
-SYS_VERSION="0.9.8h-1"
+VERSION="0.9.8l"
 
 DIR="openssl-${VERSION}"
 TARBALL="openssl-${VERSION}.tar.gz"
@@ -16,7 +15,7 @@ ftp://ftp.openssl.org/source/${TARBALL}
 )
 
 MD5SUMS=(
-7d3d41dafc76cf2fcb5559963b5783b3
+05a0ece1372392a2cf310ebb96333025
 )
 
 build(){
