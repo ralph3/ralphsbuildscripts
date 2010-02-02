@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.6.32.7"
+VERSION="2.6.29.6"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://www.kernel.org/pub/linux/kernel/v2.6/${TARBALL}
 )
 
 MD5SUMS=(
-d59aca06609cedabe4d6d161d9f11113
+7cd24826fd3c7b0f83d9f662731a7865
 )
 
 RBS_Cross_Tools_Build(){
@@ -36,7 +36,7 @@ RBS_Cross_Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   
-  do_patch linux-2.6.31-headers.patch || return 1
+  ##do_patch linux-2.6.31-headers.patch || return 1
   
   mkdir -vp /RBS-Tools/include || return 1
   make mrproper || return 1
@@ -65,7 +65,7 @@ build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   
-  do_patch linux-2.6.31-headers.patch || return 1
+  ##do_patch linux-2.6.31-headers.patch || return 1
   
   make mrproper || return 1
   make ARCH=$KARCH headers_check || return 1
