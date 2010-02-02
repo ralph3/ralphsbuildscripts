@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.4.1"
+VERSION="2.4.2"
 
 DIR="mpfr-${VERSION}"
 TARBALL="mpfr-${VERSION}.tar.bz2"
@@ -14,7 +14,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-c5ee0a8ce82ad55fe29ac57edd35d09e
+89e59fe665e2b3ad44a6789f40b059a0
 )
 
 RBS_Cross_Tools_Build(){

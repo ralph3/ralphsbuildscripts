@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.70"
+VERSION="0.71"
 
 DIR="shared-mime-info-${VERSION}"
 TARBALL="shared-mime-info-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://freedesktop.org/~hadess/${TARBALL}
 )
 
 MD5SUMS=(
-9032d98f14b8e13e0fea4bf45ca23401
+0a90508234d415f761a79fbffdff74f4
 )
 
 build(){
