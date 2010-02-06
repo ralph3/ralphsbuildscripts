@@ -2,8 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="6u14"
-SYS_VERSION="6u14-2"
+VERSION="6u18"
 
 TARBALL="jdk-${VERSION}-dlj-linux-amd64.bin"
 
@@ -19,7 +18,7 @@ http://dlc.sun.com/dlj/binaries/$TARBALL
 )
 
 MD5SUMS=(
-6e866db04748296fc34ed83a92420403
+870ab3588f4d50405a2747fe968d0481
 )
 
 build(){
