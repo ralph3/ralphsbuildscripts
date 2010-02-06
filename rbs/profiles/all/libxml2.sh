@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION="2.6.30"
-SYS_VERSION="2.6.30-2"
+SYS_VERSION="2.6.30-3"
 
 DIR="libxml2-${VERSION}"
 TARBALL="libxml2-${VERSION}.tar.bz2"
