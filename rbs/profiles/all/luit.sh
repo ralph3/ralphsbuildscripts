@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.4"
+VERSION="1.0.5"
 
 DIR="luit-${VERSION}"
 TARBALL="luit-${VERSION}.tar.bz2"
@@ -17,7 +17,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-4e45233e310d72dce307709761cf241b
+fd8579a993c4480978e3504a4c53c189
 )
 
 build(){
