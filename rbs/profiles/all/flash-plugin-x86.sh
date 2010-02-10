@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="10"
+VERSION="10.0.42.34"
 
 ONLY32=1
 
@@ -10,15 +10,15 @@ DEPENDS=(
   curl
 )
 
-DIR="install_flash_player_10_linux"
-TARBALL="install_flash_player_10_linux.tar.gz"
+DIR="libflashplayer-${VERSION}.linux-x86.so"
+TARBALL="libflashplayer-${VERSION}.linux-x86.so.tar.gz"
 
 SRC1=(
 http://ralphsbuildscripts.googlecode.com/files/$TARBALL
 )
 
 MD5SUMS=(
-23e4c2b844db0f87ff62084178aa2b1f
+aa694c7392d4519e4ef7812fd2922730
 )
 
 build(){
@@ -34,8 +34,11 @@ build(){
     return 1
   }
   check_my_arch || return 1
-  unpack_tarball $TARBALL || return 1
+  mkdir -p $SRCDIR/$DIR || return 1
   cd $SRCDIR/$DIR || return 1
+  
+  tar xfz $DOWNLOADDIR/$TARBALL || return 1
+  
   mkdir -vp $TMPROOT/usr/$LIBSDIR/flash-plugin || return 1
   cp -v $SRCDIR/$DIR/*.so $TMPROOT/usr/$LIBSDIR/flash-plugin/ || return 1
   mkdir -p $TMPROOT/etc/profile.d

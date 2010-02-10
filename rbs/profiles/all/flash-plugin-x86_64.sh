@@ -2,13 +2,13 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="10.0.22.87"
+VERSION="10.0.42.34"
 
 DEPENDS=(
   curl
 )
 
-DIR="install_flash_player_10_linux"
+DIR="libflashplayer-${VERSION}.linux-x86_64.so"
 TARBALL="libflashplayer-${VERSION}.linux-x86_64.so.tar.gz"
 
 SRC1=(
@@ -16,7 +16,7 @@ http://ralphsbuildscripts.googlecode.com/files/$TARBALL
 )
 
 MD5SUMS=(
-492d98d25886afcaf18252334d4ac4e2
+8b427c2991c0447af56a951c653ee383
 )
 
 build(){
