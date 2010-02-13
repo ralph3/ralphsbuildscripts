@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="0.15.7"
+VERSION="0.15.8"
 
 DIR="cloog-ppl-${VERSION}"
 TARBALL="cloog-ppl-${VERSION}.tar.gz"
@@ -14,7 +14,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-6455e7875daac5bd885545c71c3f2001
+b27bc188e3e99dca2923ce9323b8fb63
 )
 
 RBS_Cross_Tools_Build(){
