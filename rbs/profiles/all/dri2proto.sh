@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.2"
+VERSION="2.3"
 
 DIR="dri2proto-${VERSION}"
 TARBALL="dri2proto-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-3ca8ddb42cd4ee31b8690031303221af
+3407b494d5e90d584c9af52aa8f9f028
 )
 
 build(){
