@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.8.8"
+VERSION="1.8.10"
 
 DIR="cairo-${VERSION}"
 TARBALL="cairo-${VERSION}.tar.gz"
@@ -21,7 +21,7 @@ http://cairographics.org/releases/${TARBALL}
 )
 
 MD5SUMS=(
-d3e1a1035ae563812d4dd44a74fb0dd0
+b60a82f405f9400bbfdcf850b1728d25
 )
 
 build(){
