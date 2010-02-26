@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.4.13"
+VERSION="1.4.14"
 
 DIR="m4-${VERSION}"
 TARBALL="m4-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://ftp.gnu.org/gnu/m4/${TARBALL}
 )
 
 MD5SUMS=(
-28f9ccd3ac4da45409251008b911d677
+e6fb7d08d50d87e796069cff12a52a93
 )
 
 RBS_Tools_Build(){
