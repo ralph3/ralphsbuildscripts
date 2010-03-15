@@ -1,6 +1,8 @@
 #!/bin/bash
 
-VERSION="1.2.4"
+#1.2.4 causes vmplayer 3.0.1 to segfault (modconfig)
+
+VERSION="1.2.3"
 
 DIR="zlib-${VERSION}"
 TARBALL="zlib-${VERSION}.tar.bz2"
@@ -14,7 +16,7 @@ http://www.zlib.net/${TARBALL}
 )
 
 MD5SUMS=(
-763c6a0b4ad1cdf5549e3ab3f140f4cb
+dee233bf288ee795ac96a98cc2e369b6
 )
 
 RBS_Tools_Build(){
@@ -36,6 +38,7 @@ RBS_Tools_Build(){
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+  do_patch zlib-1.2.3-fPIC-1.patch || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr --shared \
     --libdir=/$LIBSDIR || return 1
   LD_LIBRARY_PATH=/$LIBSDIR:/usr/$LIBSDIR:/RBS-Tools/$LIBSDIR make AR="${AR} rc" || return 1
