@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.22"
+VERSION="1.23"
 
 DIR="tar-${VERSION}"
 TARBALL="tar-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://ftp.gnu.org/gnu/tar/${TARBALL}
 )
 
 MD5SUMS=(
-07fa517027f426bb80f5f5ff91b63585
+41e2ca4b924ec7860e51b43ad06cdb7e
 )
 
 RBS_Tools_Build(){

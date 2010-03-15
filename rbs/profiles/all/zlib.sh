@@ -1,7 +1,6 @@
 #!/bin/bash
 
-VERSION="1.2.3"
-SYS_VERSION="1.2.3-1"
+VERSION="1.2.4"
 
 DIR="zlib-${VERSION}"
 TARBALL="zlib-${VERSION}.tar.bz2"
@@ -15,7 +14,7 @@ http://www.zlib.net/${TARBALL}
 )
 
 MD5SUMS=(
-dee233bf288ee795ac96a98cc2e369b6
+763c6a0b4ad1cdf5549e3ab3f140f4cb
 )
 
 RBS_Tools_Build(){

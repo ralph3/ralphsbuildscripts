@@ -2,9 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-#rolling back kernel to 2.6.29 to make vmware-player modules happy.
-
-VERSION="2.6.29.6"
+VERSION="2.6.32.9"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.bz2"
@@ -20,7 +18,7 @@ http://www.kernel.org/pub/linux/kernel/v2.6/${TARBALL}
 )
 
 MD5SUMS=(
-7cd24826fd3c7b0f83d9f662731a7865
+0771a9c70503c92f40d815ef76eb62fe
 )
 
 source_setup(){
