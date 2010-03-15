@@ -12,6 +12,7 @@ DEPENDS=(
 )
 
 SRC1=(
+http://prdownloads.sourceforge.net/libpng/$TARBALL
 http://www.zlib.net/${TARBALL}
 )
 
