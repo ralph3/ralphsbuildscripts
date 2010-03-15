@@ -36,7 +36,6 @@ RBS_Tools_Build(){
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  do_patch zlib-1.2.3-fPIC-1.patch || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr --shared \
     --libdir=/$LIBSDIR || return 1
   LD_LIBRARY_PATH=/$LIBSDIR:/usr/$LIBSDIR:/RBS-Tools/$LIBSDIR make AR="${AR} rc" || return 1
