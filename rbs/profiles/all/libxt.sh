@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.0.7"
+VERSION="1.0.8"
 
 DIR="libXt-${VERSION}"
 TARBALL="libXt-${VERSION}.tar.bz2"
@@ -17,7 +17,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-96f3c93434a93186d178b60d4a262496
+fb7d2aa5b24cd5fe9b238a26d88030e7
 )
 
 build(){
