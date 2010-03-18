@@ -3,6 +3,7 @@
 DISABLE_MULTILIB=1
 
 VERSION="3.6"
+SYS_VERSION="3.6-1"
 
 DIR="firefox-${VERSION}"
 TARBALL="firefox-${VERSION}.source.tar.bz2"

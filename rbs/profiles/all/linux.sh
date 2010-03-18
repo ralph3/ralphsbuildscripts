@@ -36,7 +36,7 @@ source_setup(){
   cd $SRCDIR/$DIR || return 1
   make mrproper || return 1
   cp /boot/config-$(uname -r) .config || return 1
-  sed -i "s%/lib/modules%/${LIBSDIR}/modules%g" $(grep -rl "/lib/modules" *) || return 1
+  sed -i "s%/lib/modules%/${LIBSDIR}/modules%g" $(grep -rl "/lib/modules" *)
   make scripts || return 1
   make prepare || return 1
   ln -sfn $SRCDIR/$DIR /$LIBSDIR/modules/$(uname -r)/build || return 1
