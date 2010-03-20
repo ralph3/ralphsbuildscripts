@@ -71,11 +71,3 @@ EOF
   rm -rf jdk || return 1
 }
 
-#version_check_info(){
-#  ADDRESS='http://jdk-distros.dev.java.net/developer.html'
-#  VERSION_STRING='jdk-%version%-dlj-linux-i586.bin'
-#  MIRRORS=(
-#    'http://dlc.sun.com/dlj/binaries/jdk-%version%-dlj-linux-i586.bin'
-#  )
-#}
-
