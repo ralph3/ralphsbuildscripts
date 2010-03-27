@@ -1,1 +1,0 @@
-../all/sgml-common.sh

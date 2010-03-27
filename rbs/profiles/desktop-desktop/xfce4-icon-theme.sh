@@ -1,1 +1,0 @@
-../all/xfce4-icon-theme.sh

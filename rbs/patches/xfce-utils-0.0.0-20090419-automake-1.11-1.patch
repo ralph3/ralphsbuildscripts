@@ -1,9 +1,0 @@
-diff -Naur xfce-utils-0.0.0-20090419/scripts/Makefile.am xfce-utils-0.0.0-20090419.patched/scripts/Makefile.am
---- xfce-utils-0.0.0-20090419/scripts/Makefile.am	2009-05-02 08:33:23.000000000 -0400
-+++ xfce-utils-0.0.0-20090419.patched/scripts/Makefile.am	2009-05-23 09:30:05.000000000 -0400
-@@ -1,5 +1,4 @@
- scripts= \
--	xfterm4 \
- 	xflock4 \
- 	xfmountdev4
- 

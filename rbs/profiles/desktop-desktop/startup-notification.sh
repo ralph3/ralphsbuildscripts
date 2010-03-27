@@ -1,1 +1,0 @@
-../all/startup-notification.sh

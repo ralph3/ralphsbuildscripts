@@ -1,0 +1,1 @@
+../all/lxde-common.sh

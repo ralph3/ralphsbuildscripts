@@ -1,1 +1,0 @@
-../all/xfce4-screenshooter.sh

@@ -1,1 +1,0 @@
-../all/xcb-util.sh

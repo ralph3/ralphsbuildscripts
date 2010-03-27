@@ -1,1 +1,0 @@
-../all/xfce-utils.sh

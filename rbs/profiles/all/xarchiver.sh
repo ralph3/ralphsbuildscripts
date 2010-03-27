@@ -2,8 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.0.0-20090419"
-SYS_VERSION="0.0.0-20090419-1"
+VERSION="0.0.0-20100325"
 
 DIR="xarchiver-${VERSION}"
 TARBALL="xarchiver-${VERSION}.tar.xz"
@@ -13,8 +12,13 @@ DEPENDS=(
 )
 
 my_src1(){
-  svn co -r {$(echo $VERSION | cut -f2- -d'-' | sed 's%....%&-%;s%..$%-&%')} \
-    http://svn.xfce.org/svn/xfce/xarchiver/trunk/ $DIR || return 1
+  rm -rf $DIR || return 1
+  git clone git://138.48.2.101/apps/xarchiver || return 1
+  mv xarchiver $DIR || return 1
+  cd $DIR || return 1
+  git checkout $(git rev-list --all --max-age=$(date +%s -d19700101) \
+    --min-age=$(date +%s -d$(echo $VERSION | cut -f2- -d'-')) -n1) || return 1
+  cd ../ || return 1
 }
 
 build(){

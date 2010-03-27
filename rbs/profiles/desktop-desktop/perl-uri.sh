@@ -1,1 +1,0 @@
-../all/perl-uri.sh

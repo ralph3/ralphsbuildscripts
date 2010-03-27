@@ -1,0 +1,1 @@
+../all/xvidcore.sh

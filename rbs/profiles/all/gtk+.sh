@@ -10,7 +10,6 @@ TARBALL="gtk+-${VERSION}.tar.bz2"
 DEPENDS=(
   atk
   cups
-  gtk-doc
   libtiff
   libxcursor
   libxinerama
