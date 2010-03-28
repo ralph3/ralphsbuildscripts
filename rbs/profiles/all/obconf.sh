@@ -10,6 +10,7 @@ TARBALL="obconf-${VERSION}.tar.gz"
 DEPENDS=(
   openbox
   startup-notification
+  libglade
 )
 
 SRC1=(
