@@ -9,6 +9,7 @@ TARBALL="libfm-${VERSION}.tar.gz"
 
 DEPENDS=(
   gtk+
+  menu-cache
 )
 
 SRC1=(
