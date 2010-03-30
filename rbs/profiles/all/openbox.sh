@@ -3,6 +3,7 @@
 DISABLE_MULTILIB=1
 
 VERSION="3.4.11.1"
+SYS_VERSION="3.4.11.1-1"
 
 DIR="openbox-${VERSION}"
 TARBALL="openbox-${VERSION}.tar.gz"
@@ -26,6 +27,7 @@ build(){
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
+  tar xfj $FILESDIR/obindustrial.tar.bz2 -C $TMPROOT/usr/share/themes/ || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }

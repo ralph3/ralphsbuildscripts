@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.8.13"
+VERSION="0.8.14"
 
 DIR="libIDL-${VERSION}"
 TARBALL="libIDL-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://ftp.gnome.org/pub/GNOME/sources/libIDL/0.8/${TARBALL}
 )
 
 MD5SUMS=(
-b43b289a859eb38a710f70622c46e571
+bb8e10a218fac793a52d404d14adedcb
 )
 
 build(){
