@@ -3,7 +3,7 @@
 DISABLE_MULTILIB=1
 
 VERSION="1.1.7"
-SYS_VERSION="1.1.7-1"
+SYS_VERSION="1.1.7-2"
 
 DIR="xvidcap-${VERSION}"
 TARBALL="xvidcap-${VERSION}.tar.gz"
