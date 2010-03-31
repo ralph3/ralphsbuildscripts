@@ -3,13 +3,12 @@
 DISABLE_MULTILIB=1
 
 VERSION="2.6.22-070710"
-SYS_VERSION="2.6.22-070710-2"
+SYS_VERSION="2.6.22-070710-3"
 
 DIR="iproute-${VERSION}"
 TARBALL="iproute2-${VERSION}.tar.gz"
 
 DEPENDS=(
-  db
   flex
 )
 
@@ -25,6 +24,7 @@ build(){
   mkdir -p $SRCDIR/$DIR || return 1
   cd $SRCDIR/$DIR || return 1
   tar xfz $DOWNLOADDIR/$TARBALL || return 1
+  sed -i '/^TARGETS/s@arpd@@g' misc/Makefile || return 1
   for dir in ip misc tc; do
     sed -i 's/0755 -s/0755/' ${dir}/Makefile || return 1
   done

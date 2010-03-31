@@ -1,1 +1,0 @@
-../all/samba.sh

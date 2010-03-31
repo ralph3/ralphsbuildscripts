@@ -2,9 +2,9 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.0"
+VERSION="1.1.0"
 
-DIR="libpcap-${VERSION}"
+DIR="libpcap-1.1"
 TARBALL="libpcap-${VERSION}.tar.gz"
 
 DEPENDS=(
@@ -16,7 +16,7 @@ http://www.tcpdump.org/release/${TARBALL}
 )
 
 MD5SUMS=(
-9ad1358c5dec48456405eac197a46d3d
+534cd879be5bd19e4927441402df945d
 )
 
 build(){

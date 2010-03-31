@@ -3,12 +3,12 @@
 DISABLE_MULTILIB=1
 
 VERSION="1.6.9"
+SYS_VERSION="1.6.9-1"
 
 DIR="subversion-${VERSION}"
 TARBALL="subversion-${VERSION}.tar.bz2"
 
 DEPENDS=(
-  db
   httpd
   neon
   openssl

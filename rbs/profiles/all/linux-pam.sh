@@ -1,6 +1,7 @@
 #!/bin/bash
 
 VERSION="1.1.1"
+SYS_VERSION="1.1.1-1"
 
 DIR="Linux-PAM-${VERSION}"
 TARBALL="Linux-PAM-${VERSION}.tar.bz2"
