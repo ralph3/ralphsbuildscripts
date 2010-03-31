@@ -4,7 +4,7 @@ DISABLE_MULTILIB=1
 
 VERSION="6.6.0-10"
 
-DIR="ImageMagick-$(echo ${VERSION} | cut -f1 -d'-')"
+DIR="ImageMagick-${VERSION}"
 TARBALL="ImageMagick-${VERSION}.tar.bz2"
 
 DEPENDS=(
