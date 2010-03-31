@@ -10,6 +10,7 @@ TARBALL="openbox-${VERSION}.tar.gz"
 
 DEPENDS=(
   libx11
+  startup-notification
 )
 
 SRC1=(
