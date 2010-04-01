@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.7.0.3"
+VERSION="1.7.0.4"
 
 DIR="git-${VERSION}"
 TARBALL="git-${VERSION}.tar.bz2"
@@ -17,7 +17,7 @@ http://kernel.org/pub/software/scm/git/${TARBALL}
 )
 
 MD5SUMS=(
-1a449b84dd60a066ea491a54346843e6
+1cc8b2aea57e5e999ccac18ae355f760
 )
 
 build(){

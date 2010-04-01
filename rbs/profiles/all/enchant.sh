@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.5.0"
+VERSION="1.6.0"
 
 DIR="enchant-${VERSION}"
 TARBALL="enchant-${VERSION}.tar.gz"
@@ -17,7 +17,7 @@ http://www.abisource.com/downloads/enchant/${VERSION}/${TARBALL}
 )
 
 MD5SUMS=(
-7dfaed14e142b4a0004b770c9568ed02
+de11011aff801dc61042828041fb59c7
 )
 
 build(){

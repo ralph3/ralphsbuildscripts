@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.6.32.9"
+VERSION="2.6.33.1"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.bz2"
@@ -16,7 +16,7 @@ http://www.kernel.org/pub/linux/kernel/v2.6/${TARBALL}
 )
 
 MD5SUMS=(
-0771a9c70503c92f40d815ef76eb62fe
+73b514ec918b88a45656be191b1ee226
 )
 
 RBS_Cross_Tools_Build(){
@@ -42,6 +42,7 @@ RBS_Cross_Tools_Build(){
   make ARCH=$KARCH INSTALL_HDR_PATH=/RBS-Tools headers_install || return 1
   find /RBS-Tools/include -type d -exec chmod -v 755 {} \;
   find /RBS-Tools/include -type f -exec chmod -v 644 {} \;
+  sed -i 's/\tu8/\t__u8/' /RBS-Tools/include/scsi/scsi.h || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
@@ -68,6 +69,7 @@ build(){
   make ARCH=$KARCH INSTALL_HDR_PATH=$TMPROOT/usr headers_install || return 1
   find $TMPROOT -type d -exec chmod -v 755 {} \;
   find $TMPROOT -type f -exec chmod -v 644 {} \;
+  sed -i 's/\tu8/\t__u8/' $TMPROOT/usr/include/scsi/scsi.h || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
