@@ -3,6 +3,7 @@
 DISABLE_MULTILIB=1
 
 VERSION="2.6.32.9"
+SYS_VERSION="2.6.32.9-1"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.bz2"
