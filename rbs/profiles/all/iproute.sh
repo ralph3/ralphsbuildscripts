@@ -2,11 +2,11 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.6.22-070710"
-SYS_VERSION="2.6.22-070710-3"
+VERSION="2.6.31"
+SYS_VERSION="2.6.31"
 
-DIR="iproute-${VERSION}"
-TARBALL="iproute2-${VERSION}.tar.gz"
+DIR="iproute2-${VERSION}"
+TARBALL="iproute2-${VERSION}.tar.bz2"
 
 DEPENDS=(
   flex
@@ -17,17 +17,13 @@ SRC1=(
 )
 
 MD5SUMS=(
-20ef2767896a0f156b6fbabd47936f79
+230f35282a95451622f3e8394f9cd80a
 )
 
 build(){
-  mkdir -p $SRCDIR/$DIR || return 1
+  unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  tar xfz $DOWNLOADDIR/$TARBALL || return 1
   sed -i '/^TARGETS/s@arpd@@g' misc/Makefile || return 1
-  for dir in ip misc tc; do
-    sed -i 's/0755 -s/0755/' ${dir}/Makefile || return 1
-  done
   sed -i "s%/lib/tc%/${LIBSDIR}/tc%g" $(grep -rl "/lib/tc" *) || return 1
   make CC="$CC $BUILD" CXX="$CXX $BUILD" LIBDIR=/usr/$LIBSDIR \
     SBINDIR=/sbin || return 1
@@ -50,10 +46,10 @@ build(){
 
 version_check_info(){
   ADDRESS='http://developer.osdl.org/dev/iproute2/download/'
-  VERSION_STRING='iproute2-%version%.tar.gz'
+  VERSION_STRING='iproute2-%version%.tar.bz2'
   MINOR_VERSION="2"
   VERSION_FILTERS="rc"
   MIRRORS=(
-    'http://ftp.gnu.org/gnu/iproute2/iproute2-%version%.tar.gz'
+    'http://ftp.gnu.org/gnu/iproute2/iproute2-%version%.tar.bz2'
   )
 }
