@@ -1,1 +1,0 @@
-../all/lxappearance.sh
