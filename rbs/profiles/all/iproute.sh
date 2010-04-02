@@ -2,8 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.6.31"
-SYS_VERSION="2.6.31"
+VERSION="2.6.33"
 
 DIR="iproute2-${VERSION}"
 TARBALL="iproute2-${VERSION}.tar.bz2"
@@ -17,7 +16,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-230f35282a95451622f3e8394f9cd80a
+b371fca3fcb5e436e69a7c2111d84a3c
 )
 
 build(){
