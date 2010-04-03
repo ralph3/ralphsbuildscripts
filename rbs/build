@@ -35,23 +35,10 @@ export RBS_CFLAGS RBS_CXXFLAGS RBS_BUILDTARGET RBS_SYSTYPE RBS_BUILDTYPE
 }
 
 CHECKAPPS=""
-if [ "$RBS_BUILDTYPE" == "BOOTCD" ]; then
-  CHECKAPPS="mknod"
-fi
-
 case $RBS_BUILDTYPE in
   TARBALL) ;;
-  BOOTCD)
-    CHECKAPPS="${CHECKAPPS} mkisofs /dev/loop"
-  ;;
-  *)
-    echo "Unknown BUILDTYPE ($RBS_BUILDTYPE)! Set to TARBALL or BOOTCD." >/dev/stderr
-    exit 1
-  ;;
-esac
-
-for x in ${CHECKAPPS}; do
-  if [ "$x" == "/dev/loop" ] && [ "$RBS_BUILDTYPE" == "BOOTCD" ]; then
+  BOOTCD|EXDRIVE)
+    CHECKAPPS="${CHECKAPPS} mkisofs mknod"
     echo -n "checking for /dev/loop0...  "
     [ ! -e "/dev/loop0" ] && {
       echo "Nope!"
@@ -60,7 +47,14 @@ for x in ${CHECKAPPS}; do
       exit 1
     }
     echo "Yep!"
-  else
+  ;;
+  *)
+    echo "Unknown BUILDTYPE ($RBS_BUILDTYPE)! Set to TARBALL,BOOTCD, or EXDRIVE." >/dev/stderr
+    exit 1
+  ;;
+esac
+
+for x in ${CHECKAPPS}; do
     echo -n "checking for ${x}...  "
     $x --version >&/dev/null
     [ "$?" != "0" ] && {
@@ -68,7 +62,6 @@ for x in ${CHECKAPPS}; do
       exit 1
     }
     $x --version 2>/dev/null | sed q
-  fi
 done
 
 case $RBS_SYSTYPE in
@@ -88,14 +81,13 @@ case $RBS_BUILDTARGET in
   i486-pc-linux-gnu | i586-pc-linux-gnu | i686-pc-linux-gnu )
     LIBSDIR="lib"
     BUILD="-m32"
-    [ "$RBS_SYSTYPE" != "32BIT" ] && {
-      echo "${RBS_BUILDTARGET} only can do 32BIT! Set SYSTYPE to 32BIT." >/dev/stderr
-      exit 1
-    }
+    RBS_SYSTYPE=32BIT
   ;;
   x86_64-unknown-linux-gnu )
     case $RBS_SYSTYPE in
       64BIT)
+        echo "I haven't been recently tested for 64BIT, so 64BIT building is disabled." >/dev/stderr
+        exit 1
         LIBSDIR="lib64"
         BUILD="-m64"
       ;;
@@ -109,8 +101,7 @@ case $RBS_BUILDTARGET in
         BUILD="$BUILD64"
       ;;
       *)
-        echo "Unsupported SYSTYPE for x86_64! I support 64BIT and MULTILIB only." >/dev/stderr
-        exit 1
+
       ;;
     esac
   ;;
@@ -281,14 +272,14 @@ EOF
   chmod 755 $RBS_PROFILE || exit 1
   source $RBS_PROFILE || exit 1
   
-  BCDT=
+  BOOTT=
   if [ "$DCB" != "1" ]; then
-    BCDT="e2fsprogs linux udev bootscripts module-init-tools reiserfsprogs nano sysvinit"
+    BOOTT="e2fsprogs linux udev bootscripts module-init-tools reiserfsprogs nano sysvinit"
   fi
   
   for x in gmp mpfr ppl cloog-ppl zlib binutils gcc ncurses bash bzip2 coreutils diffutils \
            findutils file gawk gettext grep gzip m4 make patch sed xz tar \
-           texinfo util-linux $BCDT; do
+           texinfo util-linux $BOOTT; do
     STATE="$STATEDIR/RBS_Tools__${x}"
     [ ! -e "$STATE" ] && {
       exec_profile $x RBS_Tools_Build || exit 1
@@ -406,7 +397,7 @@ cd "$RBSDIR" || exit 1
 echo -n "RBS: Copying myself to system root..."
 rm -rf $ROOT/usr/src/rbs || exit 1
 mkdir -p $ROOT/usr/src/rbs || exit 1
-tar c --exclude={.work,.cache,.tmp,rbs_*.iso,rbs_*.tar.gz} . 2>/dev/null | \
+tar c --exclude={.work,.cache,.tmp,*rbs_*.iso,*rbs_*.tar.gz,*rbs_*.tar} . 2>/dev/null | \
   tar x -C $ROOT/usr/src/rbs 2>/dev/null
 echo "  Done."
 
@@ -477,7 +468,9 @@ echo -n "Creating sysroot.tar.gz..."
 tar czp --exclude=RBS-Cross-Tools -f $WORKDIR/sysroot.tar.gz * || exit 1
 echo "  Done."
 
-if [ "$DCB" == "1" ] && [ "$(du -bs $WORKDIR/sysroot.tar.gz | tr '\t' ' ' | cut -f1 -d' ')" -gt "760000000" ]; then
+if [ "$DCB" == "1" ] && \
+   [ "$RBS_BUILDTYPE" = "BOOTCD" ] && \
+   [ "$(du -bs $WORKDIR/sysroot.tar.gz | tr '\t' ' ' | cut -f1 -d' ')" -gt "760000000" ]; then
   echo -e "\n\n#### Switching to tarball mode, sysroot to big for cd. ####\n"
   mv $WORKDIR/sysroot.tar.gz \
     "$RBSDIR/rbs_${TARGETARCH}_${RBS_SYSTYPE}.tar.gz" || exit 1
@@ -490,25 +483,53 @@ case $RBS_BUILDTYPE in
     mv $WORKDIR/sysroot.tar.gz \
       "$RBSDIR/rbs_${TARGETARCH}_${RBS_SYSTYPE}.tar.gz" || exit 1
   ;;
-  BOOTCD)
-    echo -n "Unpacking Isolinux..."
+  BOOTCD|EXDRIVE)
+    
+    echo -n "Unpacking Syslinux..."
     cd $WORKDIR || exit 1
     rm -rf syslinux* || exit 1
     tar xfj $RBSDIR/.cache/downloads/$(list_sources syslinux | sed q) || exit 1
     mv syslinux-* syslinux || exit 1
     echo "  Done."
-    echo -n "Setting up isolinux..."
-    CDROOT="$WORKDIR/cdroot"
-    rm -rf $CDROOT || exit 1
-    mkdir -p "$CDROOT/isolinux" || exit 1
-cat << EOF > $CDROOT/isolinux/isolinux.cfg || exit 1
+    
+    BROOT="$WORKDIR/broot"
+    rm -rf $BROOT || exit 1
+    
+    ID=$(dd if=/dev/urandom bs=1024 count=1 2>/dev/null | md5sum | cut -b-5)
+    
+    case $RBS_BUILDTYPE in
+      BOOTCD)
+        
+        SLROOT=$BROOT/isolinux
+        
+        echo -n "Setting up Isolinux..."
+        mkdir -p $SLROOT || exit 1
+cat << EOF > $SLROOT/isolinux.cfg || exit 1
 default RBS_BOOTCD_${RBS_BUILDTARGET}
 label RBS_BOOTCD_${RBS_BUILDTARGET}
-  kernel vmlinuz
-  append initrd=initrd.gz root=/dev/ram0 init=/etc/rc.d/rc.initrd ramdisk_size=16384
+  kernel ${ID}-vmlinuz
+  append initrd=${ID}-initrd.gz root=/dev/ram0 init=/etc/rc.d/rc.initrd ramdisk_size=16384
 EOF
-    cp $ROOT/boot/vmlinuz $CDROOT/isolinux/ || exit 1
-    cp $WORKDIR/syslinux/core/isolinux.bin $CDROOT/isolinux/ || exit 1
+        cp $WORKDIR/syslinux/core/isolinux.bin $SLROOT/ || exit 1
+        
+      ;;
+      EXDRIVE)
+        
+        SLROOT=$BROOT/syslinux
+        
+        echo -n "Setting up Syslinux..."
+        mkdir -p $SLROOT || exit 1
+cat << EOF > $SLROOT/${ID}-syslinux.cfg || exit 1
+default RBS_EXDRIVE_${RBS_BUILDTARGET}
+label RBS_EXDRIVE_${RBS_BUILDTARGET}
+  kernel ${ID}-vmlinuz
+  append initrd=${ID}-initrd.gz root=/dev/ram0 init=/etc/rc.d/rc.initrd ramdisk_size=16384
+EOF
+      ;;
+    esac
+    
+    cp $ROOT/boot/vmlinuz $SLROOT/${ID}-vmlinuz || exit 1
+    
     rm -rf syslinux || exit 1
     echo "  Done."
     
@@ -516,7 +537,7 @@ EOF
     echo -n "Making Initrd Root..."
     rm -rf $WORKDIR/initrd || exit 1
     mkdir -p $WORKDIR/initrd/{bin,dev,lib,${LIBSDIR},proc,sys,tmp} || exit 1
-    mkdir -p $WORKDIR/initrd/{etc/rc.d,media/cdrom,mnt/root} || exit 1
+    mkdir -p $WORKDIR/initrd/{etc/rc.d,mnt/{origin,root}} || exit 1
     ln -sfn bin $WORKDIR/initrd/sbin || exit 1
     mknod -m 600 $WORKDIR/initrd/dev/console c 5 1
     mknod -m 666 $WORKDIR/initrd/dev/null c 1 3
@@ -544,7 +565,7 @@ EOF
     fi
     
     for x in bash cat stty basename bzip2 cp grep gzip \
-    ln ls mkdir mv rm sleep tar test touch uname sed; do
+    ln ls mkdir mv rm sleep tar test touch uname sed dd; do
       cp $ROOTBINDIR/${x} $WORKDIR/initrd/bin/ || exit 1
     done
     
@@ -601,9 +622,7 @@ EOF
       $WORKDIR/initrd/$LIBSDIR/ || exit 1
     
     cp $ROOTUSRLIBSDIR/libgcc_s.so.? $WORKDIR/initrd/$LIBSDIR/ || exit 1
-    dd if=/dev/urandom bs=1024 count=1 2>/dev/null | \
-      md5sum | cut -f1 -d' ' > $WORKDIR/initrd/etc/id || exit 1
-    cp $WORKDIR/initrd/etc/id $CDROOT/id || exit 1
+    
     mkdir -p $WORKDIR/initrd/usr/share/terminfo/l || exit 1
     cp $ROOTSHAREDIR/terminfo/l/linux \
       $WORKDIR/initrd/usr/share/terminfo/l/ || exit 1
@@ -614,15 +633,16 @@ alias halt='halt -f -p'
 alias mount='mount -n'
 alias dir='ls --color=auto -F -b -T 0'
 alias ls='ls --color=auto -F -b -T 0'
-export PS1='[ RBS BOOTCD :: \w ]$ '
+export PS1='[ RBS INITRD :: \w ]$ '
 EOF
+
 cat << "EOF" > $WORKDIR/initrd/etc/rc.d/rc.initrd || exit 1
 #!/bin/bash
 
 . /etc/rc.d/rc.functions
 
 echo
-echo " RBS BOOTCD running Linux-$(uname -r)-$(uname -m) is Starting UP!"
+echo " RBS INITRD running Linux-$(uname -r)-$(uname -m) is Starting UP!"
 echo
 
 print_msg "Mounting /proc"
@@ -635,26 +655,36 @@ loadproc mount -n -t sysfs sysfs /sys
 
 print_msg "Mounting tmpfs on /tmp"
 loadproc mount -n -t tmpfs tmpfs /tmp
+EOF
 
-print_msg "Mounting CDROM"
-find /proc/ide -maxdepth 1 -type l | while read DRIVE; do
-  MEDIA=$(cat $DRIVE/media)
-  if [ "$MEDIA" = "cdrom" ]; then
-    DEV=/dev/$(basename $DRIVE)
-    mount -n -t iso9660 $DEV /media/cdrom >& /dev/null
-    if [ "$?" = "0" ]; then
-      if [ "$(cat /etc/id 2>/dev/null)" == "$(cat /media/cdrom/id 2>/dev/null)" ]; then
+cat << EOF >> $WORKDIR/initrd/etc/rc.d/rc.initrd || exit 1
+print_msg "Attempting to mount origin device"
+sleep 5
+for dv in /dev/{hd?*,sd?*}; do
+  dd if=\$dv of=/dev/null ibs=1 count=1 >&/dev/null
+  if [ "\$?" = "0" ]; then
+    mount -n \$dv /mnt/origin >&/dev/null
+    if [ "\$?" = "0" ]; then
+      ls /mnt/origin/*/${ID}-initrd.* >&/dev/null
+      if [ "\$?" = "0" ]; then
         print_msg_done
         break
       else
-        umount -f $DEV >&/dev/null
+        umount -f /mnt/origin 2>&1 >&/dev/null
       fi
     fi
   fi
 done
 
-ls /media/cdrom/* >&/dev/null || {
+ls /mnt/origin/* >&/dev/null || {
   print_msg_failed
+cat << "FOO"
+    
+    I'm not smart enough to detect the origin device. You will
+  need to mount it manually to /mnt/origin for the setup script
+  to do it's thing.
+  
+FOO
 }
 
 cat << FOO
@@ -699,24 +729,23 @@ touch /mnt/root/.testfile >&/dev/null || {
 rm /mnt/root/.testfile
 print_msg_done
 
-print_msg "Checking for /media/cdrom/sysroot.tar.gz"
-[ ! -e "/media/cdrom/sysroot.tar.gz" ] && {
+print_msg "Checking for /mnt/origin/*/${ID}-sysroot.tar.gz"
+ls /mnt/origin/*/${ID}-sysroot.tar.gz >&/dev/null
+if [ "$?" != "0" ]; then
   print_msg_failed
   echo
-  echo "  sysroot.tar.gz not in /media/cdrom/!"
-  echo " I may not be smart enough to find the cdrom drive"
-  echo " (check bootmsg for [FAILED])."
+  echo "  ${ID}-sysroot.tar.gz not in /mnt/origin/*/!"
   echo
-  echo "  Try manually mounting your cdrom to /media/cdrom."
+  echo "  Try manually mounting your origin device to /mnt/origin."
   echo " If that doesn't work, shoot me."
   echo
   exit 1
-}
+fi
 print_msg_done
 
 if [ ! -d "/mnt/root/bin" ]; then
-  print_msg "Unpacking /media/cdrom/sysroot.tar.gz to /mnt/root"
-  tar xpfz /media/cdrom/sysroot.tar.gz -C /mnt/root >&/dev/null || {
+  print_msg "Unpacking /mnt/origin/*/${ID}-sysroot.tar.gz to /mnt/root"
+  tar xpfz /mnt/origin/*/${ID}-sysroot.tar.gz -C /mnt/root >&/dev/null || {
     print_msg_failed
     exit 1
   }
@@ -763,30 +792,41 @@ EOF
     
     
     echo -n "Making Initrd..."
-    dd if=/dev/zero of=$CDROOT/isolinux/initrd bs=1024 count=16384 2>/dev/null
-    mke2fs -m 0 -i 1024 -F $CDROOT/isolinux/initrd >&/dev/null || exit 1
+    dd if=/dev/zero of=$SLROOT/${ID}-initrd bs=1024 count=16384 2>/dev/null
+    mke2fs -m 0 -i 1024 -F $SLROOT/${ID}-initrd >&/dev/null || exit 1
     rm -rf $WORKDIR/initrd-root || exit 1
     mkdir -p $WORKDIR/initrd-root || exit 1
-    mount -o loop $CDROOT/isolinux/initrd $WORKDIR/initrd-root || exit 1
+    mount -o loop $SLROOT/${ID}-initrd $WORKDIR/initrd-root || exit 1
     rm -rf $WORKDIR/initrd-root/lost+found || exit 1
     cp -a $WORKDIR/initrd/* $WORKDIR/initrd-root/ || exit 1
     umount -f $WORKDIR/initrd-root || exit 1
     rm -rf $WORKDIR/initrd{,-root} || exit 1
-    gzip -9 $CDROOT/isolinux/initrd || exit 1
+    gzip -9 $SLROOT/${ID}-initrd || exit 1
     echo "  Done."
     
+    echo -n "Move sysroot tarball to syslinux dir..."
+    mv $WORKDIR/sysroot.tar.gz $SLROOT/${ID}-sysroot.tar.gz || exit 1
+    echo " Done."
     
-    echo -n "Making ./rbs_${TARGETARCH}_${RBS_SYSTYPE}_bootcd.iso..."
-    mv $WORKDIR/sysroot.tar.gz $CDROOT/ || exit 1
+    case $RBS_BUILDTYPE in
+      BOOTCD)
+    echo -n "Making ./${ID}_rbs_${TARGETARCH}_${RBS_SYSTYPE}_BOOTCD.iso..."
     rm -f $RBSDIR/${TARGETARCH}_${RBS_SYSTYPE}_bootcd.iso || exit 1
     mkisofs -J -R -l -L -D -b isolinux/isolinux.bin -c isolinux/boot.cat \
       -no-emul-boot -boot-load-size 4 -boot-info-table \
-      -V "RBS_${TARGETARCH}_BOOTCD" \
-      -o $RBSDIR/rbs_${TARGETARCH}_${RBS_SYSTYPE}_bootcd.iso \
-      $CDROOT 2>/dev/null || exit 1
+      -V "${ID}_RBS_${TARGETARCH}_BOOTCD" \
+      -o $RBSDIR/${ID}_rbs_${TARGETARCH}_${RBS_SYSTYPE}_BOOTCD.iso \
+      $BROOT 2>/dev/null || exit 1
+      ;;
+      EXDRIVE)
+        echo -n "Making ./${ID}_rbs_${TARGETARCH}_${RBS_SYSTYPE}_EXDRIVE.tar..."
+        cd $BROOT || exit 1
+        tar cf $RBSDIR/${ID}_rbs_${TARGETARCH}_${RBS_SYSTYPE}_EXDRIVE.tar * >&/dev/null || exit 1
+      ;;
+    esac
     echo "  Done."
     cd $WORKDIR || exit 1
-    rm -rf $CDROOT || exit 1
+    rm -rf $BROOT || exit 1
   ;;
 esac
 
