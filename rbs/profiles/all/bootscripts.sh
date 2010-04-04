@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.0.3.6"
+VERSION="2.0.4"
 
 DEPENDS=(
   bash
@@ -401,26 +401,6 @@ case $1 in
 esac
 EOF
     
-cat << "EOF" > $MYDEST/etc/rc.d/rc.loadkeys
-#!/bin/bash
-
-. /etc/rc.d/rc.conf
-. /etc/rc.d/rc.functions
-
-case $1 in
-  start)
-    print_msg "Loading Default Keymap"
-    loadkeys -d >&/dev/null
-    evaluate_retval
-  ;;
-  stop) ;;
-  *)
-    echo "Usage: {start}"
-    exit 1
-  ;;
-esac
-EOF
-  
 cat << "EOF" > $MYDEST/etc/rc.d/rc.localnet
 #!/bin/bash
 
