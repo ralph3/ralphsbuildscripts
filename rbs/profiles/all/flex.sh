@@ -42,8 +42,9 @@ EOF
 }
 
 version_check_info(){
-  ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=97492&package_id=104304'
+  ADDRESS='http://sourceforge.net/projects/flex/files/'
   VERSION_STRING='flex-%version%.tar.bz2'
+  VERSION_FILTERS='/'
   MIRRORS=(
     'http://prdownloads.sourceforge.net/flex/flex-%version%.tar.bz2'
   )
