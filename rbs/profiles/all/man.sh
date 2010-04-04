@@ -3,7 +3,7 @@
 DISABLE_MULTILIB=1
 
 VERSION="1.6f"
-SYS_VERSION="1.6f-2"
+SYS_VERSION="1.6f-3"
 
 DIR="man-${VERSION}"
 TARBALL="man-${VERSION}.tar.gz"
@@ -42,7 +42,7 @@ build(){
   sed -i -e '/^\.gz/d' -e '/^\.lzma/d' -e '/^\.z/d' -e '/^\.Z/d' \
     -e '/^\.F/d' -e '/^\.Y/d' $TMPROOT/etc/man.conf || return 1
   
-  echo -e ".gz\t\tgzip -c -d\n.xz\t\tlzcat" >> \
+  echo -e ".gz\t\tgzip -c -d\n.xz\t\txz -c -d" >> \
     $TMPROOT/etc/man.conf || return 1
   
   mv $TMPROOT/etc/man.conf $TMPROOT/etc/man.conf.new || return 1
