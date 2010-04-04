@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="0.9.8h"
+VERSION="1.0.0"
 
 DIR="openssl-${VERSION}"
 TARBALL="openssl-${VERSION}.tar.gz"
@@ -15,14 +15,14 @@ ftp://ftp.openssl.org/source/${TARBALL}
 )
 
 MD5SUMS=(
-7d3d41dafc76cf2fcb5559963b5783b3
+89eaa86e25b2845f920ec00ae4c864ed
 )
 
 build(){
   local CONF
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  do_patch openssl-${VERSION}-RBS_STUFF-1.patch || return 1
+  sed 's%\"linux-generic32\"\,\"gcc\:%&-m32 %' Configure || return 1
   CONF=
   case $($CC -dumpmachine | cut -f1 -d'-') in
     i386|i486|i586|i686)
@@ -36,7 +36,7 @@ build(){
         MULTILIB)
           case $BUILD in
             $BUILD32)
-              CONF="linux-x86_64-32"
+              CONF="linux-generic32"
             ;;
             *)
               CONF="linux-x86_64"
@@ -51,6 +51,7 @@ build(){
   make PERL=/usr/bin/perl MANDIR=/usr/share/man LIBDIR=$LIBSDIR \
     INSTALL_PREFIX=$TMPROOT install || return 1
   cp -r certs $TMPROOT/etc/ssl || return 1
+  rm -rf $TMPROOT/usr/share/man || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }

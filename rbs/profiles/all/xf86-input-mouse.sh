@@ -3,6 +3,7 @@
 DISABLE_MULTILIB=1
 
 VERSION="1.5.0"
+SYS_VERSION="1.5.0-1"
 
 DIR="xf86-input-mouse-${VERSION}"
 TARBALL="xf86-input-mouse-${VERSION}.tar.bz2"

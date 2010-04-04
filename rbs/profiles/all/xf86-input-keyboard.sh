@@ -3,6 +3,7 @@
 DISABLE_MULTILIB=1
 
 VERSION="1.4.0"
+SYS_VERSION="1.4.0-1"
 
 DIR="xf86-input-keyboard-${VERSION}"
 TARBALL="xf86-input-keyboard-${VERSION}.tar.bz2"
