@@ -3,6 +3,7 @@
 DISABLE_MULTILIB=1
 
 VERSION="2.6.33.2"
+SYS_VERSION="2.6.33.2-1"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.bz2"
@@ -35,7 +36,7 @@ source_setup(){
   fi
   cd $SRCDIR/$DIR || return 1
   make mrproper || return 1
-  cp /boot/config-$(uname -r) .config || return 1
+  cp $(grep /boot/ /var/lib/packages/current/linux/filelist | grep config | sed q) .config || return 1
   sed -i "s%/lib/modules%/${LIBSDIR}/modules%g" $(grep -rl "/lib/modules" *)
   make scripts || return 1
   make prepare || return 1
@@ -45,7 +46,7 @@ source_setup(){
 }
 
 RBS_Tools_Build(){
-  local KARCH KCONF MODDIR
+  local KARCH KCONF MODDIR KNAME
   case $($CC -dumpmachine | cut -f1 -d'-') in
     i486|i586|i686)
       KARCH=i386
@@ -80,14 +81,15 @@ RBS_Tools_Build(){
   yes "" | make ARCH=$KARCH CROSS_COMPILE=${BUILDTARGET}- oldconfig || return 1
   make ARCH=$KARCH CROSS_COMPILE=${BUILDTARGET}- || return 1
   mkdir -p $ROOT/boot || return 1
-  cp -v arch/$KARCH/boot/bzImage ${ROOT}/boot/vmlinuz-${VERSION} || return 1
-  ln -vsfn vmlinuz-${VERSION} ${ROOT}/boot/vmlinuz || return 1
+  KNAME=$(basename $KCONF | cut -f1 -d'.')-${VERSION}
+  cp -v arch/$KARCH/boot/bzImage ${ROOT}/boot/$KNAME || return 1
+  ln -vsfn $KNAME ${ROOT}/boot/vmlinuz || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
 
 build(){
-  local KARCH KCONF MODDIR
+  local KARCH KCONF MODDIR KNAME
   case $($CC -dumpmachine | cut -f1 -d'-') in
     i486|i586|i686)
       KARCH=i386
@@ -138,10 +140,11 @@ build(){
     mv -f ${mod}.gz ${mod}
   done
   mkdir -p $TMPROOT/boot || return 1
-  cp -v arch/$KARCH/boot/bzImage $TMPROOT/boot/vmlinuz-${VERSION} || return 1
-  ln -vsfn vmlinuz-${VERSION} $TMPROOT/boot/vmlinuz || return 1
-  cp -v System.map $TMPROOT/boot/System.map-${VERSION} || return 1
-  cp -v .config $TMPROOT/boot/config-${VERSION} || return 1
+  KNAME=$(basename $KCONF | cut -f1 -d'.')-${VERSION}
+  cp -v arch/$KARCH/boot/bzImage $TMPROOT/boot/$KNAME || return 1
+  ln -vsfn $KNAME $TMPROOT/boot/vmlinuz || return 1
+  cp -v System.map $TMPROOT/boot/${KNAME}-System.map || return 1
+  cp -v .config $TMPROOT/boot/${KNAME}.config || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
