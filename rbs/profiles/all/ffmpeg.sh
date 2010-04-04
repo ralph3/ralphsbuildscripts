@@ -3,6 +3,7 @@
 DISABLE_MULTILIB=1
 
 VERSION="0.5.1"
+SYS_VERSION="0.5.1-1"
 
 DIR="ffmpeg-${VERSION}"
 TARBALL="${DIR}.tar.bz2"
@@ -34,7 +35,8 @@ build(){
     --arch=$(echo $BUILDTARGET | cut -f1 -d'-') --prefix=/usr \
     --libdir=/usr/$LIBSDIR --enable-shared --enable-pthreads --enable-libfaac \
     --enable-libfaad --enable-libxvid --enable-gpl --enable-nonfree \
-    --enable-encoder=mp4a --enable-decoder=mp4a --enable-postproc || return 1
+    --enable-encoder=mp4a --enable-decoder=mp4a --enable-postproc \
+    --enable-swscale || return 1
   make CC="$CC $BUILD" CXX="$CXX $BUILD" || return 1
   make install DESTDIR=$TMPROOT || return 1
   
