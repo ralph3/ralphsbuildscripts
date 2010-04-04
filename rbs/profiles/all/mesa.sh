@@ -1,7 +1,6 @@
 #!/bin/bash
 
-VERSION="7.5"
-SYS_VERSION="7.5-2"
+VERSION="7.8"
 
 DIR="Mesa-${VERSION}"
 
@@ -16,16 +15,16 @@ DEPENDS=(
 )
 
 SRC1=(
-http://prdownloads.sourceforge.net/mesa3d/MesaLib-${VERSION}.tar.bz2
+ftp://ftp.freedesktop.org/pub/mesa/${VERSION}/MesaLib-${VERSION}.tar.bz2
 )
 
 SRC2=(
-http://prdownloads.sourceforge.net/mesa3d/MesaGLUT-${VERSION}.tar.bz2
+ftp://ftp.freedesktop.org/pub/mesa/${VERSION}/MesaGLUT-${VERSION}.tar.bz2
 )
 
 MD5SUMS=(
-459f332551f6ebb86f384d21dd15e1f0
-baa7a1e850b6e39bae58868fd0684004
+85cb891eecb89aae4fdd3499cccd934b
+ca7048a4aa7a437dcc84cc2c7d731336
 )
 
 build(){
@@ -55,10 +54,10 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=3&package_id=2436'
+  ADDRESS='ftp://ftp.freedesktop.org/pub/mesa/%version%/'
   VERSION_STRING='MesaLib-%version%.tar.bz2'
   MIRRORS=(
-    'http://prdownloads.sourceforge.net/mesa3d/MesaLib-%version%.tar.bz2'
-    'http://prdownloads.sourceforge.net/mesa3d/MesaGLUT-%version%.tar.bz2'
+    'ftp://ftp.freedesktop.org/pub/mesa/%version%/MesaLib-%version%.tar.bz2'
+    'ftp://ftp.freedesktop.org/pub/mesa/%version%/MesaGLUT-%version%.tar.bz2'
   )
 }
