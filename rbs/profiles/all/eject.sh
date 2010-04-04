@@ -12,7 +12,7 @@ DEPENDS=(
 )
 
 SRC1=(
-http://ca.geocities.com/jefftranter@rogers.com/${TARBALL}
+http://ralphsbuildscripts.googlecode.com/files/${TARBALL}
 )
 
 MD5SUMS=(
@@ -28,12 +28,4 @@ build(){
   make install prefix=$TMPROOT/usr || return 1
   cd $SRCDIR || return 1
   rm -rf $DIR || return 1
-}
-
-version_check_info(){
-  ADDRESS='http://ca.geocities.com/jefftranter@rogers.com/eject.html'
-  VERSION_STRING='eject-%version%.tar.gz'
-  MIRRORS=(
-    'http://ca.geocities.com/jefftranter@rogers.com/eject-%version%.tar.gz'
-  )
 }
