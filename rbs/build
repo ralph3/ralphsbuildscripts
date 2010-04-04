@@ -122,13 +122,6 @@ EOF
   ;;
 esac
 
-BOOTLOADER=
-case $TARGETARCH in
-  i486|i586|i686|x86_64)
-    BOOTLOADER="bin86 lilo"
-  ;;
-esac
-
 EP=
 if [ -n "$EXTRA_PACKAGES" ]; then
   EP="$(resolve_profile_names $EXTRA_PACKAGES)"
@@ -146,9 +139,9 @@ if [ "$DISABLE_CHROOT_BUILD" != "1" ]; then
   fi
 fi
 
-PKG_PROFILES="$(profile_group base) $BOOTLOADER $EP"
+PKG_PROFILES="$(profile_group base) $EP"
 echo -n "Checking downloaded sources..."
-$RBSDIR/download $PKG_PROFILES syslinux || exit 1
+$RBSDIR/download $PKG_PROFILES || exit 1
 echo "  Done."
 
 WORKDIR="$RBSDIR/.work/${RBS_BUILDTARGET}__${RBS_SYSTYPE}__${RBS_BUILDTYPE}"
@@ -782,7 +775,7 @@ if [ -e "/mnt/root/RBS-Tools" ]; then
 fi
 
 echo -e "\n\n  Ok, all done! Now chroot back into /mnt/root and edit your"
-echo    " config files (fstab, lilo.conf, rc.conf and stuff). Install lilo,"
+echo    " config files (fstab, rc.conf and stuff). Install extlinux,"
 echo -e " set your root pw and your done!\n"
 exit 0
 EOF

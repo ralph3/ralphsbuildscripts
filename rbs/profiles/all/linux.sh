@@ -146,17 +146,6 @@ build(){
   rm -rf $DIR || return 1
 }
 
-post_install(){
-  if [ -x "/sbin/lilo" ]; then
-    lilo || return 1
-  fi
-  return 0
-}
-
-post_upgrade(){
-  post_install || return 1
-}
-
 version_check_info(){
   ADDRESS='http://www.kernel.org/pub/linux/kernel/v%minor_version%/'
   VERSION_STRING='linux-%version%.tar.bz2'

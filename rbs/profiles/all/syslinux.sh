@@ -4,12 +4,13 @@ DISABLE_MULTILIB=1
 DISABLE_STRIP=1
 
 VERSION="3.86"
+SYS_VERSION="3.86-1"
 
 DIR="syslinux-${VERSION}"
 TARBALL="syslinux-${VERSION}.tar.bz2"
 
 DEPENDS=(
-  filesystem
+  nasm
 )
 
 SRC1=(
@@ -22,6 +23,9 @@ d6fb0231e82190b4932b2aa20274911a
 
 build(){
   unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  make clean
+  make CC="$CC $BUILD" || return 1
   mkdir -vp $TMPROOT/usr/src || return 1
   cp -va $SRCDIR/$DIR $TMPROOT/usr/src/ || return 1
   ln -vsfn $DIR $TMPROOT/usr/src/syslinux || return 1
