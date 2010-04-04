@@ -39,6 +39,7 @@ build(){
 version_check_info(){
   ADDRESS='ftp://ftp.porcupine.org/pub/security/'
   VERSION_STRING='tcp_wrappers_%version%.tar.gz'
+  VERSION_FILTERS='ipv6'
   MIRRORS=(
     'ftp://ftp.porcupine.org/pub/security/tcp_wrappers_%version%.tar.gz'
   )

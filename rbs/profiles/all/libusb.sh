@@ -33,8 +33,9 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=1674&package_id=1632&release_id=398442'
+  ADDRESS='http://sourceforge.net/projects/libusb/files/'
   VERSION_STRING='libusb-%version%.tar.gz'
+  VERSION_FILTERS='/'
   MIRRORS=(
     'http://prdownloads.sourceforge.net/libusb/libusb-%version%.tar.gz'
   )

@@ -22,7 +22,6 @@ e053094e8103165f98ddafe828f6ae4b
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  ##do_patch sysklogd-1.4.1-fixes-2.patch sysklogd-1.4.1-8bit-1.patch || return 1
   sed -i -e 's/-o ${MAN_USER} -g ${MAN_GROUP}//' \
     -e 's/500 -s/500/' Makefile || return 1
   make RPM_OPT_FLAGS="$CFLAGS" CC="$CC $BUILD" CXX="$CXX $BUILD" || return 1
@@ -75,7 +74,7 @@ EOF
 }
 
 version_check_info(){
-  ADDRESS='http://www.infodrom.org/projects/sysklogd/download/'
+  ADDRESS='http://www.infodrom.org/projects/sysklogd/'
   VERSION_STRING='sysklogd-%version%.tar.gz'
   MIRRORS=(
     'http://www.infodrom.org/projects/sysklogd/download/sysklogd-%version%.tar.gz'
