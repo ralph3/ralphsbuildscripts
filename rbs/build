@@ -500,10 +500,9 @@ case $RBS_BUILDTYPE in
 cat << EOF > $SLROOT/isolinux.cfg || exit 1
 default RBS_BOOTCD_${RBS_BUILDTARGET}
 label RBS_BOOTCD_${RBS_BUILDTARGET}
-  kernel vmlinuz
-  append initrd=${ID}-initrd.gz root=/dev/ram0 init=/etc/rc.d/rc.initrd ramdisk_size=16384
+  kernel ${ID}_vmlinuz
+  append initrd=${ID}_initrd.gz root=/dev/ram0 init=/etc/rc.d/rc.initrd ramdisk_size=16384
 EOF
-        cp $WORKDIR/syslinux/core/isolinux.bin $SLROOT/ || exit 1
         cp $ROOT/boot/vmlinuz $SLROOT/ || exit 1
       ;;
       EXDRIVE)
@@ -512,15 +511,16 @@ EOF
         
         echo -n "Setting up Syslinux..."
         mkdir -p $SLROOT || exit 1
-cat << EOF > $SLROOT/${ID}-syslinux.cfg || exit 1
+cat << EOF > $SLROOT/${ID}_syslinux.cfg || exit 1
 default RBS_EXDRIVE_${RBS_BUILDTARGET}
 label RBS_EXDRIVE_${RBS_BUILDTARGET}
-  kernel ${ID}-vmlinuz
-  append initrd=${ID}-initrd.gz root=/dev/ram0 init=/etc/rc.d/rc.initrd ramdisk_size=16384
+  kernel ${ID}_vmlinuz
+  append initrd=${ID}_initrd.gz root=/dev/ram0 init=/etc/rc.d/rc.initrd ramdisk_size=16384
 EOF
-        cp $ROOT/boot/vmlinuz $SLROOT/${ID}-vmlinuz || exit 1
       ;;
     esac
+    
+    cp $ROOT/boot/vmlinuz $SLROOT/${ID}_vmlinuz || exit 1
     
     rm -rf syslinux || exit 1
     echo "  Done."
@@ -657,7 +657,7 @@ for dv in /dev/{hd?*,sd?*}; do
   if [ "\$?" = "0" ]; then
     mount -n \$dv /mnt/origin >&/dev/null
     if [ "\$?" = "0" ]; then
-      ls /mnt/origin/*/${ID}-initrd.* >&/dev/null
+      ls /mnt/origin/*/${ID}_initrd.* >&/dev/null
       if [ "\$?" = "0" ]; then
         print_msg_done
         break
@@ -721,12 +721,12 @@ touch /mnt/root/.testfile >&/dev/null || {
 rm /mnt/root/.testfile
 print_msg_done
 
-print_msg "Checking for /mnt/origin/*/${ID}-sysroot.tar.gz"
-ls /mnt/origin/*/${ID}-sysroot.tar.gz >&/dev/null
+print_msg "Checking for /mnt/origin/*/${ID}_sysroot.tar.gz"
+ls /mnt/origin/*/${ID}_sysroot.tar.gz >&/dev/null
 if [ "$?" != "0" ]; then
   print_msg_failed
   echo
-  echo "  ${ID}-sysroot.tar.gz not in /mnt/origin/*/!"
+  echo "  ${ID}_sysroot.tar.gz not in /mnt/origin/*/!"
   echo
   echo "  Try manually mounting your origin device to /mnt/origin."
   echo " If that doesn't work, shoot me."
@@ -736,8 +736,8 @@ fi
 print_msg_done
 
 if [ ! -d "/mnt/root/bin" ]; then
-  print_msg "Unpacking /mnt/origin/*/${ID}-sysroot.tar.gz to /mnt/root"
-  tar xpfz /mnt/origin/*/${ID}-sysroot.tar.gz -C /mnt/root >&/dev/null || {
+  print_msg "Unpacking /mnt/origin/*/${ID}_sysroot.tar.gz to /mnt/root"
+  tar xpfz /mnt/origin/*/${ID}_sysroot.tar.gz -C /mnt/root >&/dev/null || {
     print_msg_failed
     exit 1
   }
@@ -784,26 +784,25 @@ EOF
     
     
     echo -n "Making Initrd..."
-    dd if=/dev/zero of=$SLROOT/${ID}-initrd bs=1024 count=16384 2>/dev/null
-    mke2fs -m 0 -i 1024 -F $SLROOT/${ID}-initrd >&/dev/null || exit 1
+    dd if=/dev/zero of=$SLROOT/${ID}_initrd bs=1024 count=16384 2>/dev/null
+    mke2fs -m 0 -i 1024 -F $SLROOT/${ID}_initrd >&/dev/null || exit 1
     rm -rf $WORKDIR/initrd-root || exit 1
     mkdir -p $WORKDIR/initrd-root || exit 1
-    mount -o loop $SLROOT/${ID}-initrd $WORKDIR/initrd-root || exit 1
+    mount -o loop $SLROOT/${ID}_initrd $WORKDIR/initrd-root || exit 1
     rm -rf $WORKDIR/initrd-root/lost+found || exit 1
     cp -a $WORKDIR/initrd/* $WORKDIR/initrd-root/ || exit 1
     umount -f $WORKDIR/initrd-root || exit 1
     rm -rf $WORKDIR/initrd{,-root} || exit 1
-    gzip -9 $SLROOT/${ID}-initrd || exit 1
+    gzip -9 $SLROOT/${ID}_initrd || exit 1
     echo "  Done."
     
     echo -n "Move sysroot tarball to syslinux dir..."
-    mv $WORKDIR/sysroot.tar.gz $SLROOT/${ID}-sysroot.tar.gz || exit 1
+    mv $WORKDIR/sysroot.tar.gz $SLROOT/${ID}_sysroot.tar.gz || exit 1
     echo " Done."
     
     case $RBS_BUILDTYPE in
       BOOTCD)
     echo -n "Making ./${ID}_rbs_${TARGETARCH}_${RBS_SYSTYPE}_BOOTCD.iso..."
-    rm -f $RBSDIR/${TARGETARCH}_${RBS_SYSTYPE}_bootcd.iso || exit 1
     mkisofs -J -R -l -L -D -b isolinux/isolinux.bin -c isolinux/boot.cat \
       -no-emul-boot -boot-load-size 4 -boot-info-table \
       -V "${ID}_RBS_${TARGETARCH}_BOOTCD" \
