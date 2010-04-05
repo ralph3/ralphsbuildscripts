@@ -503,7 +503,7 @@ label RBS_BOOTCD_${RBS_BUILDTARGET}
   kernel ${ID}_vmlinuz
   append initrd=${ID}_initrd.gz root=/dev/ram0 init=/etc/rc.d/rc.initrd ramdisk_size=16384
 EOF
-        cp $ROOT/boot/vmlinuz $SLROOT/ || exit 1
+        cp $WORKDIR/syslinux/core/isolinux.bin $SLROOT/ || exit 1
       ;;
       EXDRIVE)
         
