@@ -500,11 +500,11 @@ case $RBS_BUILDTYPE in
 cat << EOF > $SLROOT/isolinux.cfg || exit 1
 default RBS_BOOTCD_${RBS_BUILDTARGET}
 label RBS_BOOTCD_${RBS_BUILDTARGET}
-  kernel ${ID}-vmlinuz
+  kernel vmlinuz
   append initrd=${ID}-initrd.gz root=/dev/ram0 init=/etc/rc.d/rc.initrd ramdisk_size=16384
 EOF
         cp $WORKDIR/syslinux/core/isolinux.bin $SLROOT/ || exit 1
-        
+        cp $ROOT/boot/vmlinuz $SLROOT/ || exit 1
       ;;
       EXDRIVE)
         
@@ -518,10 +518,9 @@ label RBS_EXDRIVE_${RBS_BUILDTARGET}
   kernel ${ID}-vmlinuz
   append initrd=${ID}-initrd.gz root=/dev/ram0 init=/etc/rc.d/rc.initrd ramdisk_size=16384
 EOF
+        cp $ROOT/boot/vmlinuz $SLROOT/${ID}-vmlinuz || exit 1
       ;;
     esac
-    
-    cp $ROOT/boot/vmlinuz $SLROOT/${ID}-vmlinuz || exit 1
     
     rm -rf syslinux || exit 1
     echo "  Done."
