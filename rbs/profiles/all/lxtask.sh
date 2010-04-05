@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.1.1"
+VERSION="0.1.2"
 
 DIR="lxtask-${VERSION}"
 TARBALL="lxtask-${VERSION}.tar.gz"
@@ -16,7 +16,7 @@ http://prdownloads.sourceforge.net/lxde/${TARBALL}
 )
 
 MD5SUMS=(
-9362c2f74136760fb24a6c67ff34cc3c
+91e31ebab11f5466ae60628ed06163ce
 )
 
 build(){
