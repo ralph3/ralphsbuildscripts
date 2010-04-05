@@ -3,7 +3,7 @@
 DISABLE_MULTILIB=1
 DISABLE_STRIP=1
 
-VERSION="3.1.2-56127"
+VERSION="3.1.6-59338"
 
 TARBALL="VirtualBox-${VERSION}-Linux_amd64.run"
 DIR="VirtualBox-${VERSION}"
@@ -18,7 +18,7 @@ http://download.virtualbox.org/virtualbox/$(echo ${VERSION} | cut -f1 -d'-')/$TA
 )
 
 MD5SUMS=(
-0cb94f14427827dbd3cef1b2a60f74f5
+443638a1f0eda8cddabdf204a02bc330
 )
 
 build(){
@@ -68,13 +68,47 @@ build(){
     ln -sfnv ../$LIBSDIR/$DIR/$x $TMPROOT/usr/bin/$(echo $x | tr [A-Z] [a-z]) || return 1
   done
   
-  mkdir -vp $TMPROOT/etc/udev/rules.d || return 1
+  mkdir -vp $TMPROOT/etc/{udev/rules.d,rc.d} || return 1
+  
 cat << "EOF" > $TMPROOT/etc/udev/rules.d/10-vboxdrv.rules || return 1
 KERNEL=="vboxdrv", NAME="vboxdrv", OWNER="root", GROUP="vboxusers", MODE="0660"
 SUBSYSTEM=="usb_device", GROUP="vboxusers", MODE="0664"
 SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", GROUP="vboxusers", MODE="0664"
 EOF
   groupadd vboxusers
+  
+cat << "EOF" > $TMPROOT/etc/rc.d/rc.virtualbox || return 1
+#!/bin/bash
+
+. /etc/rc.d/rc.conf
+. /etc/rc.d/rc.functions
+
+case $1 in
+  start)
+    for x in vboxnetadp vboxnetflt vboxdrv; do
+      print_msg "virtualbox :: loading $x"
+      loadproc modprobe $x
+    done
+  ;;
+  stop)
+    for x in vboxdrv vboxnetflt vboxnetadp; do
+      print_msg "virtualbox :: unloading $x"
+      loadproc modprobe -r $x
+    done
+  ;;
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+  ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+  ;;
+esac
+EOF
+  chmod 755 $TMPROOT/etc/rc.d/rc.virtualbox || return 1
+  
   cd $SRCDIR || return 1
   rm -rf $DIR || return 1
 }

@@ -1,8 +1,6 @@
 #!/bin/bash
 
-#1.2.4 causes vmplayer 3.0.1 to segfault (modconfig)
-
-VERSION="1.2.3"
+VERSION="1.2.4"
 
 DIR="zlib-${VERSION}"
 TARBALL="zlib-${VERSION}.tar.bz2"
@@ -17,42 +15,31 @@ http://www.zlib.net/${TARBALL}
 )
 
 MD5SUMS=(
-dee233bf288ee795ac96a98cc2e369b6
+763c6a0b4ad1cdf5549e3ab3f140f4cb
 )
 
 RBS_Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/RBS-Tools --shared \
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure \
+    --prefix=/RBS-Tools \
     --libdir=/RBS-Tools/$LIBSDIR || return 1
-  make AR="$AR rc" || return 1
+  make || return 1
   make install || return 1
-  make clean
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/RBS-Tools \
-    --libdir=/RBS-Tools/$LIBSDIR || return 1
-  make AR="$AR rc" || return 1
-  make install || return 1
-  cd ../ || return 1
+  cd $SRCDIR || return 1
   rm -rf $DIR || return 1
 }
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  do_patch zlib-1.2.3-fPIC-1.patch || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr --shared \
-    --libdir=/$LIBSDIR || return 1
-  LD_LIBRARY_PATH=/$LIBSDIR:/usr/$LIBSDIR:/RBS-Tools/$LIBSDIR make AR="${AR} rc" || return 1
-  make install prefix=$TMPROOT/usr libdir=$TMPROOT/$LIBSDIR || return 1
-  rm $TMPROOT/$LIBSDIR/libz.so || return 1
-  ln -sf ../../$LIBSDIR/libz.so.${VERSION} $TMPROOT/usr/$LIBSDIR/libz.so
-  make clean || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
-    --libdir=/usr/$LIBSDIR || return 1
-  LD_LIBRARY_PATH=/$LIBSDIR:/usr/$LIBSDIR:/RBS-Tools/$LIBSDIR make AR="${AR} rc" || return 1
-  make install prefix=$TMPROOT/usr libdir=$TMPROOT/usr/$LIBSDIR || return 1
-  mv $TMPROOT/$LIBSDIR/libz.a $TMPROOT/usr/$LIBSDIR/ || return 1
-  chmod 644 $TMPROOT/usr/$LIBSDIR/libz.a || return 1
+    --libdir=/$LIBSDIR || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  mkdir -vp $TMPROOT/usr/$LIBSDIR || return 1
+  mv $TMPROOT/$LIBSDIR/{libz.a,pkgconfig} \
+    $TMPROOT/usr/$LIBSDIR/ || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
