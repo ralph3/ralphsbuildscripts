@@ -71,7 +71,7 @@ fi
 
 STATE="/RBS-Tools/state/RBS_BASE_SYSTEM_INSTALL"
 [ ! -e "$STATE" ] && {
-  ./install gcc $MWRAP $(profile_group base) lilo || exit 1
+  ./install gcc $MWRAP $(profile_group base) || exit 1
   >$STATE
 }
 
