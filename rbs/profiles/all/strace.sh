@@ -25,6 +25,9 @@ build(){
   rm -rf $DIR || return 1
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+  for x in configure configure.ac; do
+    sed -i 's%linux/socket.h%sys/socket.h%g' $x || return 1
+  done
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --prefix=/usr || return 1
   make || return 1
