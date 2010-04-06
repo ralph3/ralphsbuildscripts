@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="7.8"
+VERSION="7.8.1"
 
 DIR="Mesa-${VERSION}"
 
@@ -23,8 +23,8 @@ ftp://ftp.freedesktop.org/pub/mesa/${VERSION}/MesaGLUT-${VERSION}.tar.bz2
 )
 
 MD5SUMS=(
-85cb891eecb89aae4fdd3499cccd934b
-ca7048a4aa7a437dcc84cc2c7d731336
+25ec15f8e41fde6d206118cc786dbac4
+6bae516a44c6d26ff3152c960ab648e7
 )
 
 build(){

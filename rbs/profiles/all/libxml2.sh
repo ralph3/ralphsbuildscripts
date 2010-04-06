@@ -1,10 +1,9 @@
 #!/bin/bash
 
-VERSION="2.6.30"
-SYS_VERSION="2.6.30-3"
+VERSION="2.7.7"
 
 DIR="libxml2-${VERSION}"
-TARBALL="libxml2-${VERSION}.tar.bz2"
+TARBALL="libxml2-${VERSION}.tar.gz"
 
 DEPENDS=(
   python
@@ -12,11 +11,11 @@ DEPENDS=(
 )
 
 SRC1=(
-http://ftp.gnome.org/pub/GNOME/sources/libxml2/2.6/${TARBALL}
+ftp://xmlsoft.org/libxml2/${TARBALL}
 )
 
 MD5SUMS=(
-cbc6d381daaa836b90a7ab449c1bc1ae
+9abc9959823ca9ff904f1fbcf21df066
 )
 
 build(){
@@ -32,10 +31,9 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/libxml2/%minor_version%/'
-  VERSION_STRING='libxml2-%version%.tar.bz2'
-  ONLY_EVEN_MINORS=1
+  ADDRESS='ftp://xmlsoft.org/libxml2/'
+  VERSION_STRING='libxml2-%version%.tar.gz'
   MIRRORS=(
-    'http://ftp.gnome.org/pub/GNOME/sources/libxml2/%minor_version%/libxml2-%version%.tar.bz2'
+    'ftp://xmlsoft.org/libxml2/libxml2-%version%.tar.gz'
   )
 }

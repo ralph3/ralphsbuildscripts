@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION="1.2.4"
-SYS_VERSION="1.2.4-1"
+SYS_VERSION="1.2.4-3"
 
 DIR="zlib-${VERSION}"
 TARBALL="zlib-${VERSION}.tar.bz2"
