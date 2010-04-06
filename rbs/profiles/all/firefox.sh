@@ -8,10 +8,7 @@ DIR="firefox-${VERSION}"
 TARBALL="firefox-${VERSION}.source.tar.bz2"
 
 DEPENDS=(
-  curl
   desktop-file-utils
-  libidl
-  libnotify
 )
 
 SRC1=(

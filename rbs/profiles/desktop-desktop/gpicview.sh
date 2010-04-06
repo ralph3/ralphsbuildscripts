@@ -1,1 +1,0 @@
-../all/gpicview.sh
