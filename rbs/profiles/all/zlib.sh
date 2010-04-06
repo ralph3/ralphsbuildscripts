@@ -1,6 +1,7 @@
 #!/bin/bash
 
 VERSION="1.2.4"
+SYS_VERSION="1.2.4-1"
 
 DIR="zlib-${VERSION}"
 TARBALL="zlib-${VERSION}.tar.bz2"
@@ -21,8 +22,8 @@ MD5SUMS=(
 RBS_Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure \
-    --prefix=/RBS-Tools \
+  CC="$CC $BUILD" CXX="$CXX $BUILD" CFLAGS="$CFLAGS -fPIC" \
+    ./configure --prefix=/RBS-Tools \
     --libdir=/RBS-Tools/$LIBSDIR || return 1
   make || return 1
   make install || return 1
@@ -33,8 +34,8 @@ RBS_Tools_Build(){
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
-    --libdir=/$LIBSDIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" CFLAGS="$CFLAGS -fPIC" \
+    ./configure --prefix=/usr --libdir=/$LIBSDIR || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   mkdir -vp $TMPROOT/usr/$LIBSDIR || return 1
