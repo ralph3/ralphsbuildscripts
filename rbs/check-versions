@@ -301,6 +301,10 @@ else:
   if not message_closed:
     for x in range( open_msg_len ):
       sys.stdout.write('\b')
+    for x in range( open_msg_len ):
+      sys.stdout.write(' ')
+    for x in range( open_msg_len ):
+      sys.stdout.write('\b')
     sys.stdout.flush()
     message_closed = 1
 PYTHON_CODE
