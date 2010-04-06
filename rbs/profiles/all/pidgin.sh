@@ -27,7 +27,7 @@ build(){
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc/gnome --disable-meanwhile \
-    --disable-avahi --disable-nm --disable-tcl \
+    --disable-avahi --disable-nm --disable-tcl --disable-vv \
     --disable-gstreamer --disable-idn --disable-nss || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1

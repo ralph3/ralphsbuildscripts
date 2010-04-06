@@ -24,6 +24,16 @@ MD5SUMS=(
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+  sed -i 's%GtkType gtk_xtext_get_type%GType gtk_xtext_get_type%g' \
+    src/fe-gtk/xtext.h || return 1
+  
+  for x in fe-gtk maingui menu; do
+    sed -i -e 's%GTK_WIDGET_VISIBLE%gtk_widget_get_visible%g' \
+           -e 's%GTK_WIDGET_IS_SENSITIVE%gtk_widget_is_sensitive%g' \
+           -e 's%GTK_WIDGET_HAS_FOCUS%gtk_widget_has_focus%g' \
+      src/fe-gtk/${x}.c || return 1
+  done
+  
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc --enable-spell=static || return 1
   make || return 1
