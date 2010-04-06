@@ -17,6 +17,7 @@ else
 fi
 
 mkdir -p .cache/version_check_data || exit 1
+echo "<check-versions begin>"
 for PRO in $PROFILES; do
   profile_exists $PRO || {
     echo "No profile named \"${PRO}.sh\" found!" >/dev/stderr
@@ -40,6 +41,10 @@ for PRO in $PROFILES; do
 
 import sys, os, re
 
+def err_exit():
+  print "</check-versions ERROR>"
+  sys.exit(1)
+
 open_msg_len = 0
 def open_msg( msg ):
   global open_msg_len, message_closed
@@ -47,29 +52,12 @@ def open_msg( msg ):
   nmsg = " " + msg
   open_msg_len = len(nmsg)
   sys.stdout.write(nmsg)
-  for x in range( 80 - open_msg_len ):
-    sys.stdout.write(' ')
-  sys.stdout.flush()
-
-def status_msg( msg ):
-  global open_msg_len
-  nmsg = msg + " "
-  for x in range( 80 - open_msg_len ):
-    sys.stdout.write('\b')
-  for x in range( 80 - ( open_msg_len + len(nmsg) ) ):
-    sys.stdout.write(' ')
-  sys.stdout.write(nmsg)
   sys.stdout.flush()
 
 def close_msg( msg ):
   global open_msg_len, message_closed
   if not message_closed:
-    nmsg = msg + " "
-    for x in range( 80 - open_msg_len ):
-      sys.stdout.write('\b')
-    for x in range( 80 - ( open_msg_len + len(nmsg) ) ):
-      sys.stdout.write(' ')
-    sys.stdout.write(nmsg + '\n')
+    sys.stdout.write(msg + '\n')
     sys.stdout.flush()
     message_closed = 1
 
@@ -128,7 +116,7 @@ def fetch_data(address):
   h.close()
   if not d:
     close_msg("!!Error Fetching Data!!")
-    sys.exit(1)
+    err_exit()
   return d
 
 def grep(regex,list):
@@ -199,7 +187,6 @@ def resolve_address(addy):
       else:
         nasuf = os.path.basename(na[1][::-1])[::-1]
       na = os.path.dirname(na[0])
-      status_msg("resolving directory.")
       n=[]
       data = fetch_data(na+'/')
       if napre:
@@ -230,14 +217,14 @@ def resolve_address(addy):
       minor_version = address[1]
   except:
     close_msg("!!! error resolving minor version directory !!!")
-    sys.exit(1)
+    err_exit()
   try:
     if re.search("%version%", address[0]):
       address = res(address[0],"%version%")
       version = address[1]
   except:
     close_msg("!!! error resolving version directory !!!")
-    sys.exit(1)
+    err_exit()
   return address[0]
 
 name             = sys.argv[1]
@@ -248,27 +235,27 @@ only_even_minors = sys.argv[5]
 minor_version    = sys.argv[6]
 version_filters  = sys.argv[7]
 
-open_msg("checking " + name + "...")
+open_msg("  " + name + ": ")
 
 if not profile_version:
   close_msg("VERSION not set in profile.")
-  sys.exit(1)
+  err_exit()
 
 if not address:
   close_msg("ADDRESS not set in profile.")
-  sys.exit(1)
+  err_exit()
 
 if not version_string:
   close_msg("VERSION_STRING not set in profile.")
-  sys.exit(1)
+  err_exit()
 
 if not version_string:
   close_msg("VERSION_STRING not set in profile.")
-  sys.exit(1)
+  err_exit()
 
 if not sys.argv[8]:
   close_msg("MIRRORS not set in profile.")
-  sys.exit(1)
+  err_exit()
 else:
   mirror_list      = sys.argv[8].split('\n')
 
@@ -278,9 +265,7 @@ address = resolve_address(address)
 if not version:
   try:
     vnums = []
-    status_msg("fetching data from site.")
     data = fetch_data(address)
-    status_msg("parsing html data.")
     regex = version_string.replace(".","\.").replace("%version%", ".*").replace("+", "\+")
     data = grep( regex, data.split("\n") )
     vspre, vssuf = version_string.split("%version%")
@@ -291,9 +276,8 @@ if not version:
     version = high_version( filter_versions(vnums) )
   except:
     close_msg("!!! internal error !!!")
-    sys.exit(1)
+    err_exit()
 
-status_msg("updating cache.")
 storedata = version + "\n\n"
 for x in mirror_list:
   m = x.replace("%minor_version%", minor_version).replace("%version%", version)
@@ -308,21 +292,19 @@ try:
   f.close()
 except:
   close_msg("!!! error updating cache !!!")
-  sys.exit(1)
+  err_exit()
 
 if profile_version != version and high_version([profile_version, version]) == version:
-  close_msg("needs update from " + profile_version + " to " + version )
-  sys.exit(1)
+  close_msg(profile_version + " -> " + version)
+  sys.exit(0)
 else:
-  status_msg("current")
-  
   if not message_closed:
-    for x in range( 80 ):
+    for x in range( open_msg_len ):
       sys.stdout.write('\b')
     sys.stdout.flush()
     message_closed = 1
 PYTHON_CODE
   }
 done
-
+echo "</check-versions end>"
 exit 0
