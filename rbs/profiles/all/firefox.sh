@@ -9,6 +9,8 @@ TARBALL="firefox-${VERSION}.source.tar.bz2"
 
 DEPENDS=(
   desktop-file-utils
+  libnotify
+  libidl
 )
 
 SRC1=(

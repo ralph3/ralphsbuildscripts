@@ -2,21 +2,21 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.4.4"
+VERSION="0.4.5"
 
 DIR="libnotify-${VERSION}"
-TARBALL="libnotify-${VERSION}.tar.gz"
+TARBALL="libnotify-${VERSION}.tar.bz2"
 
 DEPENDS=(
   gtk+
 )
 
 SRC1=(
-http://ralphsbuildscripts.googlecode.com/files/$TARBALL
+  http://www.galago-project.org/files/releases/source/libnotify//$TARBALL
 )
 
 MD5SUMS=(
-ba76f68b7e3bd284ac2c2a1b9c5ecb06
+  6a8388f93309dbe336bbe5fc0677de6b
 )
 
 build(){
@@ -30,10 +30,10 @@ build(){
   rm -rf $DIR || return 1
 }
 
-#version_check_info(){
-#  ADDRESS='http://www.galago-project.org/files/releases/source/libnotify/'
-#  VERSION_STRING='libnotify-%version%.tar.gz'
-#  MIRRORS=(
-#    "http://www.galago-project.org/files/releases/source/libnotify/libnotify-%version%.tar.gz"
-#  )
-#}
+version_check_info(){
+  ADDRESS='http://www.galago-project.org/files/releases/source/libnotify/'
+  VERSION_STRING='libnotify-%version%.tar.bz2'
+  MIRRORS=(
+    "http://www.galago-project.org/files/releases/source/libnotify/libnotify-%version%.tar.bz2"
+  )
+}
