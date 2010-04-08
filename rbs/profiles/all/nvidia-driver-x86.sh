@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="190.53-pkg1"
+VERSION="195.36.15-pkg1"
 
 DISABLE_STRIP=1
 
@@ -20,7 +20,7 @@ http://us.download.nvidia.com/XFree86/Linux-x86/$(echo $VERSION | cut -f1 -d'-')
 )
 
 MD5SUMS=(
-4575f9dea768437e17b160445c505f1a
+384c4a85ee676d5ba193e304e0076819
 )
 
 build(){
