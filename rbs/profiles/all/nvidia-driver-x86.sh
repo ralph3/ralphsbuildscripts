@@ -57,10 +57,11 @@ build(){
   mv $TMPROOT/lib/modules/$(uname -r)/kernel/drivers/video/nvidia.ko.gz \
     $TMPROOT/lib/modules/$(uname -r)/kernel/drivers/video/nvidia.ko || return 1
   
-  MAJOR=$(echo $VERSION | cut -f1 -d'.')
-  MINOR=$(echo $VERSION | cut -f2 -d'.' | cut -f1 -d'-')
-  PATCH=$(echo $VERSION | cut -f3 -d'.' | cut -f1 -d'-')
-  REV=${MAJOR}.${MINOR}
+  #MAJOR=$(echo $VERSION | cut -f1 -d'.')
+  #MINOR=$(echo $VERSION | cut -f2 -d'.' | cut -f1 -d'-')
+  #PATCH=$(echo $VERSION | cut -f3 -d'.' | cut -f1 -d'-')
+  #REV=${MAJOR}.${MINOR}
+  REV=$(echo $VERSION | cut -f1 -d'-')
   DOCDIR="/usr/share/doc/NVIDIA_GLX"
   
   cd $SRCDIR/$DIR

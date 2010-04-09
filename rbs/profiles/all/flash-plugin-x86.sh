@@ -7,7 +7,7 @@ VERSION="10.0.42.34"
 ONLY32=1
 
 DEPENDS=(
-  curl
+  gtk+
 )
 
 DIR="libflashplayer-${VERSION}.linux-x86.so"
