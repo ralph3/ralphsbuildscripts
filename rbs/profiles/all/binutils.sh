@@ -2,9 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-#2.20.x conflicts with glibc 2.10, but works with 2.11
-
-VERSION="2.19.1"
+VERSION="2.20.1"
 
 DIR="binutils-${VERSION}"
 TARBALL="binutils-${VERSION}.tar.bz2"
@@ -19,7 +17,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-09a8c5821a2dfdbb20665bc0bd680791
+9cdfb9d6ec0578c166d3beae5e15c4e5
 )
 
 RBS_Cross_Tools_Build(){

@@ -1,8 +1,6 @@
 #!/bin/bash
 
-#2.17.x has with glibc 2.10.x, does fine with glibc 2.11
-
-VERSION="2.16.2"
+VERSION="2.17.2"
 
 DIR="util-linux-ng-${VERSION}"
 TARBALL="util-linux-ng-${VERSION}.tar.bz2"
@@ -16,7 +14,7 @@ http://www.kernel.org/pub/linux/utils/util-linux-ng/v$(echo $VERSION | cut -f-2 
 )
 
 MD5SUMS=(
-edd1f7a82fd388cc0e1e3d2d1e7ea55a
+4635725a3eef1c57090bac8ea5e082e6
 )
 
 RBS_Tools_Build(){

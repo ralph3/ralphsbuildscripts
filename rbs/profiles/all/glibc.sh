@@ -1,11 +1,6 @@
 #!/bin/bash
 
-#downgrading glibc from 2.11 to 2.10 because it is causing address
-#resolution issues in wget and subversion. at first glance they seem
-#to be related to openssl yet even regular addresses http://etc dont
-#work.
-
-VERSION="2.10.1"
+VERSION="2.11.1"
 
 DIR="glibc-${VERSION}"
 TARBALL="glibc-${VERSION}.tar.bz2"
@@ -19,7 +14,7 @@ http://ftp.gnu.org/gnu/glibc/$TARBALL
 )
 
 MD5SUMS=(
-ee71dedf724dc775e4efec9b823ed3be
+6856d5d8b1239556687f0d1217f3f266
 )
 
 #my_src1(){
@@ -63,7 +58,7 @@ RBS_Cross_Tools_Build(){
     CXX="${BUILDTARGET}-g++ $BUILD" CFLAGS="$XFLAGS -O2 -fgnu89-inline" \
     ../$DIR/configure --prefix=/RBS-Tools --host=$GLIBC_TARGETHOST \
     --build=$BUILDHOST --libdir=/RBS-Tools/$LIBSDIR --disable-profile \
-    --enable-add-ons --with-tls --enable-kernel=2.6.0 --with-__thread \
+    --enable-add-ons --with-tls --enable-kernel=2.6.33 --with-__thread \
     --with-binutils=/RBS-Cross-Tools/bin --with-headers=/RBS-Tools/include \
     --cache-file=config.cache || return 1
   make LD_LIBRARY_PATH= || return 1
@@ -105,7 +100,7 @@ build(){
   
   CC="$CC $BUILD" CXX="$CXX $BUILD" ../$DIR/configure $CONF --prefix=/usr \
     --libdir=/usr/$LIBSDIR --disable-profile --enable-add-ons \
-    --enable-kernel=2.6.0 --with-__thread \
+    --enable-kernel=2.6.33 --with-__thread \
     --libexecdir=/usr/$LIBSDIR/glibc || return 1
   make || return 1
   make install_root=$TMPROOT install || return 1
