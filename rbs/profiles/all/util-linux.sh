@@ -30,7 +30,7 @@ RBS_Tools_Build(){
     --enable-arch --enable-login-utils --disable-makeinstall-chown || return 1
   make || return 1
   make install DESTDIR=$ROOT || return 1
-  cd ../ || return 1
+  cd $SRCDIR || return 1
   rm -rf $DIR || return 1
 }
 
@@ -57,7 +57,7 @@ devpts     /dev/pts      devpts    gid=4,mode=620             0 0
 shm        /dev/shm      tmpfs     defaults                   0 0
 usbfs      /proc/bus/usb usbfs     devgid=15,devmode=0666     0 0
 EOF
-  cd ../ || return 1
+  cd $SRCDIR || return 1
   rm -rf $DIR || return 1
 }
 
