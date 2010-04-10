@@ -3,6 +3,7 @@
 DISABLE_MULTILIB=1
 
 VERSION="6u19"
+SYS_VERSION="6u19-1"
 
 ONLY32=1
 
@@ -45,14 +46,25 @@ build(){
   cd ../ || return 1
   mv $DIR $TMPROOT/usr/$LIBSDIR/jdk || return 1
   mv $TMPROOT/usr/$LIBSDIR/jdk/include $TMPROOT/usr/ || return 1
-  mkdir -p $TMPROOT/etc/profile.d
+  mkdir -p $TMPROOT/etc/{ld.so.conf,profile}.d
+
+cat << EOF > $TMPROOT/etc/ld.so.conf.d/jdk.conf
+/usr/$LIBSDIR/jdk/jre/lib/i386
+/usr/$LIBSDIR/jdk/jre/lib/i386/client
+/usr/$LIBSDIR/jdk/jre/lib/i386/jli
+/usr/$LIBSDIR/jdk/jre/lib/i386/motif21
+/usr/$LIBSDIR/jdk/jre/lib/i386native_threads
+/usr/$LIBSDIR/jdk/jre/lib/i386/server
+/usr/$LIBSDIR/jdk/jre/lib/i386/xawt
+EOF
+
 cat << EOF > $TMPROOT/etc/profile.d/jdk.sh
 PATH=\$PATH:/usr/$LIBSDIR/jdk/bin:/usr/$LIBSDIR/jdk/jre/bin
 
 if [ -z "\$MOZ_PLUGIN_PATH" ]; then
-  MOZ_PLUGIN_PATH=/usr/$LIBSDIR/jdk/jre/plugin/i386/ns7
+  MOZ_PLUGIN_PATH=/usr/$LIBSDIR/jdk/jre/lib/i386
 else
-  MOZ_PLUGIN_PATH=\$MOZ_PLUGIN_PATH:/usr/$LIBSDIR/jdk/jre/plugin/i386/ns7
+  MOZ_PLUGIN_PATH=\$MOZ_PLUGIN_PATH:/usr/$LIBSDIR/jdk/jre/lib/i386
 fi
 
 if [ -z "\$MANPATH" ]; then

@@ -2,12 +2,14 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="10.0.42.34"
+VERSION="10.0.45.2"
+SYS_VERSION="10.0.45.2-1"
 
 ONLY32=1
 
 DEPENDS=(
   gtk+
+  curl
 )
 
 DIR="libflashplayer-${VERSION}.linux-x86.so"
@@ -18,7 +20,7 @@ http://ralphsbuildscripts.googlecode.com/files/$TARBALL
 )
 
 MD5SUMS=(
-aa694c7392d4519e4ef7812fd2922730
+dbfc776cd4310250cde078e0bf0472e7
 )
 
 build(){

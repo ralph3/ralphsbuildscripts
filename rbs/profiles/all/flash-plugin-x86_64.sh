@@ -2,9 +2,10 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="10.0.42.34"
+VERSION="10.0.45.2"
 
 DEPENDS=(
+  gtk+
   curl
 )
 
@@ -16,7 +17,7 @@ http://ralphsbuildscripts.googlecode.com/files/$TARBALL
 )
 
 MD5SUMS=(
-8b427c2991c0447af56a951c653ee383
+4a4561e456612a6751653b58342d53df
 )
 
 build(){
