@@ -1,1 +1,0 @@
-../all/popt.sh

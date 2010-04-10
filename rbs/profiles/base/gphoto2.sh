@@ -1,1 +1,0 @@
-../all/gphoto2.sh
