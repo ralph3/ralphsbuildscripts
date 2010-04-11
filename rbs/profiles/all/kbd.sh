@@ -2,8 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.15.1"
-SYS_VERSION="1.15.1-2"
+VERSION="1.15.2"
 
 DIR="kbd-${VERSION}"
 TARBALL="kbd-${VERSION}.tar.gz"
@@ -17,7 +16,7 @@ http://ftp.altlinux.org/pub/people/legion/kbd/${TARBALL}
 )
 
 MD5SUMS=(
-f997c490fe5ede839aacf31da6c4eb06
+77d0b51454522bc6c170bbdc6e31202a
 )
 
 build(){

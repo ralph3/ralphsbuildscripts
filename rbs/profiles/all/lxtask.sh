@@ -5,7 +5,6 @@ DISABLE_MULTILIB=1
 #0.1.2 has msgfmt bug
 
 VERSION="0.1.1"
-SYS_VERSION="0.1.1-1"
 
 DIR="lxtask-${VERSION}"
 TARBALL="lxtask-${VERSION}.tar.gz"
