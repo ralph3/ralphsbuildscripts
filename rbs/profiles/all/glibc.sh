@@ -135,9 +135,11 @@ EOF
   
   echo 'include /etc/ld.so.conf.d/*.conf' > $TMPROOT/etc/ld.so.conf
   
-  echo > $TMPROOT/etc/resolv.conf.tmpnew
+  echo > $TMPROOT/etc/resolv.conf.tmpnew || return 1
   
-cat > $TMPROOT/etc/nsswitch.conf.tmpnew << "EOF"
+  echo '127.0.0.1 localhost.localdomain localhost' > $TMPROOT/etc/hosts.tmpnew || return 1
+  
+cat > $TMPROOT/etc/nsswitch.conf.tmpnew << "EOF" || return 1
 passwd: files
 group: files
 shadow: files
