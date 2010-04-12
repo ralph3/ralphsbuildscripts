@@ -2,9 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-#0.1.2 has msgfmt bug
-
-VERSION="0.1.1"
+VERSION="0.1.3"
 
 DIR="lxtask-${VERSION}"
 TARBALL="lxtask-${VERSION}.tar.gz"
@@ -18,7 +16,7 @@ http://prdownloads.sourceforge.net/lxde/${TARBALL}
 )
 
 MD5SUMS=(
-9362c2f74136760fb24a6c67ff34cc3c
+eccfb69ee1a209248b22a5f0a34a4734
 )
 
 build(){
