@@ -60,8 +60,9 @@ build(){
   install -m755 -v progs/xdemos/{glxinfo,glxgears} $TMPROOT/usr/bin/ || return 1
   set_multiarch $TMPROOT/usr/bin/{glxinfo,glxgears} || return 1
   
-  [ "$SYSTYPE" == "MULTILIB" ] && \
-    [ "$BUILD" == "$BUILD32" ] && rm -rf $TMPROOT/$LIBSDIR/dri || return 1
+  if [ "$SYSTYPE" == "MULTILIB" ] && [ "$BUILD" == "$BUILD32" ]; then
+    rm -rf $TMPROOT/$LIBSDIR/dri || return 1
+  fi
   
   cd $SRCDIR || return 1
   rm -rf $DIR || return 1
