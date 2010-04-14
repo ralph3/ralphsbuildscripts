@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="7.20.0"
+VERSION="7.20.1"
 
 TARBALL="curl-${VERSION}.tar.bz2"
 DIR="curl-${VERSION}"
@@ -17,7 +17,7 @@ http://curl.haxx.se/download/${TARBALL}
 )
 
 MD5SUMS=(
-3dda78c4a808d9a779dc3a2ae81b47d8
+244b16b2a38c70e47130c8494b7371b9
 )
 
 build(){
