@@ -8,7 +8,7 @@ DIR="binutils-${VERSION}"
 TARBALL="binutils-${VERSION}.tar.bz2"
 
 DEPENDS=(
-  cloog-ppl
+  mpc
   zlib
 )
 

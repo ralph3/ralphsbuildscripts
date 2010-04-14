@@ -1,8 +1,6 @@
 #!/bin/bash
 
-#ppl as of 0.10.2 doesn't want 5.x
-
-VERSION="4.3.1"
+VERSION="5.0.1"
 
 DIR="gmp-${VERSION}"
 TARBALL="gmp-${VERSION}.tar.gz"
@@ -16,7 +14,7 @@ http://ftp.gnu.org/gnu/gmp/${TARBALL}
 )
 
 MD5SUMS=(
-a8f60ac823a16e61335dba9c08875c06
+5ec19db53ced047b8d0d52373f6c245d
 )
 
 RBS_Cross_Tools_Build(){

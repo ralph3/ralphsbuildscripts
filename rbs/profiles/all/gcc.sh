@@ -48,16 +48,16 @@ My_GCC_MultiBuild_Func(){
   
   case $1 in
     CrossToolsStatic)
-      CONF="--prefix=/RBS-Cross-Tools --with-local-prefix=/RBS-Tools --with-sysroot=$ROOT --build=$BUILDHOST --host=$BUILDHOST --target=$BUILDTARGET --disable-nls $CONF --disable-shared --without-headers --with-newlib --disable-decimal-float --disable-libgomp --disable-libmudflap --disable-libssp --disable-threads --enable-languages=c --with-mpfr=/RBS-Cross-Tools --with-gmp=/RBS-Cross-Tools --with-ppl=/RBS-Cross-Tools --with-cloog=/RBS-Cross-Tools"
+      CONF="--prefix=/RBS-Cross-Tools --with-local-prefix=/RBS-Tools --with-sysroot=$ROOT --build=$BUILDHOST --host=$BUILDHOST --target=$BUILDTARGET --disable-nls $CONF --disable-shared --without-headers --with-newlib --disable-decimal-float --disable-libgomp --disable-libmudflap --disable-libssp --disable-threads --enable-languages=c --with-mpfr=/RBS-Cross-Tools --with-gmp=/RBS-Cross-Tools --with-mpc=/RBS-Cross-Tools --without-ppl --without-cloog"
     ;;
     CrossTools)
-      CONF="--prefix=/RBS-Cross-Tools --with-local-prefix=/RBS-Tools --with-sysroot=$ROOT --build=$BUILDHOST --host=$BUILDHOST --target=$BUILDTARGET --disable-nls $CONF --enable-shared --enable-languages=c,c++ --enable-__cxa_atexit --enable-c99 --enable-long-long --enable-threads=posix --with-mpfr=/RBS-Cross-Tools --with-gmp=/RBS-Cross-Tools --with-ppl=/RBS-Cross-Tools --with-cloog=/RBS-Cross-Tools"
+      CONF="--prefix=/RBS-Cross-Tools --with-local-prefix=/RBS-Tools --with-sysroot=$ROOT --build=$BUILDHOST --host=$BUILDHOST --target=$BUILDTARGET --disable-nls $CONF --enable-shared --enable-languages=c,c++ --enable-__cxa_atexit --enable-c99 --enable-long-long --enable-threads=posix --with-mpfr=/RBS-Cross-Tools --with-gmp=/RBS-Cross-Tools --with-mpc=/RBS-Cross-Tools --without-ppl --without-cloog"
     ;;
     Tools)
-      CONF="--prefix=/RBS-Tools --libdir=/RBS-Tools/$LIBSDIR --libexecdir=/RBS-Tools/$LIBSDIR --with-local-prefix=/RBS-Tools --build=$BUILDHOST --host=$BUILDTARGET --target=$BUILDTARGET --enable-long-long --enable-c99 --enable-shared --enable-threads=posix --enable-__cxa_atexit --disable-nls --enable-languages=c,c++ --disable-libstdcxx-pch $CONF"
+      CONF="--prefix=/RBS-Tools --libdir=/RBS-Tools/$LIBSDIR --libexecdir=/RBS-Tools/$LIBSDIR --with-local-prefix=/RBS-Tools --build=$BUILDHOST --host=$BUILDTARGET --target=$BUILDTARGET --enable-long-long --enable-c99 --enable-shared --enable-threads=posix --enable-__cxa_atexit --disable-nls --enable-languages=c,c++ --disable-libstdcxx-pch --without-ppl --without-cloog $CONF"
     ;;
     Standard)
-      CONF="--prefix=/usr --libdir=/usr/$LIBSDIR --libexecdir=/usr/$LIBSDIR --enable-shared --enable-threads=posix --enable-__cxa_atexit --enable-c99 --enable-long-long --enable-clocale=gnu --enable-languages=c,c++ --disable-libstdcxx-pch $CONF"
+      CONF="--prefix=/usr --libdir=/usr/$LIBSDIR --libexecdir=/usr/$LIBSDIR --enable-shared --enable-threads=posix --enable-__cxa_atexit --enable-c99 --enable-long-long --enable-clocale=gnu --enable-languages=c,c++ --disable-libstdcxx-pch --without-ppl --without-cloog $CONF"
     ;;
   esac
   
