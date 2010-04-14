@@ -238,7 +238,7 @@ EOF
   chmod 755 $RBS_PROFILE || exit 1
   source $RBS_PROFILE || exit 1
   
-  for x in linux-headers file ncurses gmp mpfr ppl cloog-ppl binutils gcc_Static glibc gcc; do
+  for x in linux-headers file ncurses gmp mpfr mpc binutils gcc_Static glibc gcc; do
     STATE="$STATEDIR/RBS_Cross_Tools__${x}"
     if [ "$x" == "glibc" ] && [ "$RBS_SYSTYPE" == "MULTILIB" ]; then
       STATE="${STATE}-32"
@@ -270,7 +270,7 @@ EOF
     BOOTT="e2fsprogs linux udev bootscripts module-init-tools reiserfsprogs nano sysvinit"
   fi
   
-  for x in gmp mpfr ppl cloog-ppl zlib binutils gcc ncurses bash bzip2 coreutils diffutils \
+  for x in gmp mpfr mpc zlib binutils gcc ncurses bash bzip2 coreutils diffutils \
            findutils file gawk gettext grep gzip m4 make patch sed xz tar \
            texinfo util-linux $BOOTT; do
     STATE="$STATEDIR/RBS_Tools__${x}"
