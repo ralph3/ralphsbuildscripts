@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="5.10.1"
+VERSION="5.12.0"
 
 DIR="perl-${VERSION}"
 TARBALL="perl-${VERSION}.tar.gz"
@@ -14,14 +14,14 @@ http://ftp.funet.fi/pub/CPAN/src/${TARBALL}
 )
 
 MD5SUMS=(
-b9b2fdb957f50ada62d73f43ee75d044
+7db7c4b9d6f2e095eaebd9e22d81acc1
 )
 
 RBS_Tools_Build(){
   local MYBUILD MYLIBSDIR
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  do_patch perl-5.10.0-libc-1.patch perl-5.10.0-Configure_multilib-1.patch || return 1
+  do_patch perl-5.12.0-rbs-1.patch || return 1
   MYBUILD=$BUILD
   MYLIBSDIR=$LIBSDIR
   if [ "$SYSTYPE" == "MULTILIB" ]; then
@@ -46,7 +46,7 @@ RBS_Tools_Build(){
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  do_patch perl-5.10.0-libc-1.patch perl-5.10.0-Configure_multilib-1.patch || return 1
+  do_patch perl-5.12.0-rbs-1.patch || return 1
   sed -i -e "s@pldlflags=''@pldlflags=\"\$cccdlflags\"@g" \
     -e "s@static_target='static'@static_target='static_pic'@g" \
      Makefile.SH || return 1

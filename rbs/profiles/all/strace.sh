@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="4.5.19"
+VERSION="4.5.20"
 
 ENABLE_MULTILIB=1
 
@@ -16,7 +16,7 @@ http://prdownloads.sourceforge.net/strace/${TARBALL}
 )
 
 MD5SUMS=(
-2415e435d61e40315a298c80aced0cda
+64dfe10d9db0c1e34030891695ffca4b
 )
 
 build(){
@@ -25,9 +25,6 @@ build(){
   rm -rf $DIR || return 1
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  for x in configure configure.ac; do
-    sed -i 's%linux/socket.h%sys/socket.h%g' $x || return 1
-  done
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --prefix=/usr || return 1
   make || return 1
