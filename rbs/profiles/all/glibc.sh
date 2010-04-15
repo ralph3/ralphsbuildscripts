@@ -22,6 +22,7 @@ MD5SUMS=(
 #    export -r glibc-$(echo $VERSION | tr "." "_") -d $DIR libc || return 1
 #}
 
+
 RBS_Cross_Tools_Build(){
   local DOCRAP GLIBC_TARGETHOST XFLAGS
   DOCRAP=
@@ -46,6 +47,7 @@ RBS_Cross_Tools_Build(){
   esac
   unpack_tarball $TARBALL
   cd $SRCDIR/$DIR || return 1
+  do_patch glibc-${VERSION}-i686fix-1.patch || return 1
   mkdir -p $SRCDIR/glibc-build || return 1
   cd $SRCDIR/glibc-build || return 1
   echo "slibdir=/RBS-Tools/$LIBSDIR" > configparms
@@ -67,12 +69,13 @@ RBS_Cross_Tools_Build(){
   rm -rf $DIR glibc-build || return 1
 }
 
+
 build(){
   local CONF
   CONF=
   case $($CC -dumpmachine | cut -f1 -d'-') in
     i?86)
-      CFLAGS="-march=i486 -O2"
+      CFLAGS="-march=$($CC -dumpmachine | cut -f1 -d'-') -O2"
     ;;
     x86_64)
       case $SYSTYPE in
@@ -94,6 +97,10 @@ build(){
   rm -rf $DIR glibc-build || return 1
   
   unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  
+  do_patch glibc-${VERSION}-i686fix-1.patch || return 1
+  
   mkdir -p $SRCDIR/glibc-build || return 1
   cd $SRCDIR/glibc-build || return 1
   echo "slibdir=/$LIBSDIR" > configparms
