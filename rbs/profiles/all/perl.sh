@@ -1,6 +1,18 @@
 #!/bin/bash
 
-VERSION="5.12.0"
+#### 5.12.0 compile error
+#
+#  make[1]: Entering directory `/usr/src/rbs/.work/source/perl-5.12.0/ext/Errno'
+#  ../../miniperl "-I../../lib" "-I../../lib" Errno_pm.PL Errno.pm
+#  No error definitions found at Errno_pm.PL line 228.
+#  make[1]: *** [Errno.pm] Error 2
+#  make[1]: Leaving directory `/usr/src/rbs/.work/source/perl-5.12.0/ext/Errno'
+#  Unsuccessful make(ext/Errno): code=512 at make_ext.pl line 449.
+#  make: *** [ext/Errno/pm_to_blib] Error 25
+#
+####
+
+VERSION="5.10.1"
 
 DIR="perl-${VERSION}"
 TARBALL="perl-${VERSION}.tar.gz"
@@ -14,7 +26,7 @@ http://ftp.funet.fi/pub/CPAN/src/${TARBALL}
 )
 
 MD5SUMS=(
-7db7c4b9d6f2e095eaebd9e22d81acc1
+b9b2fdb957f50ada62d73f43ee75d044
 )
 
 RBS_Tools_Build(){
@@ -25,7 +37,7 @@ RBS_Tools_Build(){
   MYBUILD=$BUILD
   MYLIBSDIR=$LIBSDIR
   if [ "$SYSTYPE" == "MULTILIB" ]; then
-    MYBUILD=$BUILD32 
+    MYBUILD=$BUILD32
     MYLIBSDIR=$LIBSDIR32
   fi
   sed -i "/libc/s@/lib@/${MYLIBSDIR}@" hints/linux.sh || return 1
