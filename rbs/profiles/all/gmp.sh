@@ -45,9 +45,11 @@ build(){
   unset CFLAGS CXXFLAGS
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" CPPFLAGS=-fexceptions ./configure --build=$BUILDHOST \
-    --host=$BUILDTARGET --prefix=/usr --libdir=/usr/$LIBSDIR \
-    --sysconfdir=/etc --enable-cxx --enable-mpbsd || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" CPPFLAGS=-fexceptions \
+    ./configure gmp_cv_asm_underscore=no gmp_cv_asm_w32=".long" \
+    --build=$BUILDHOST --host=$BUILDTARGET --prefix=/usr \
+    --libdir=/usr/$LIBSDIR --sysconfdir=/etc --enable-cxx \
+    --enable-mpbsd || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   if [ "$SYSTYPE" == "MULTILIB" ]; then
