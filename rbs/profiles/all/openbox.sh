@@ -28,10 +28,106 @@ build(){
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
-  tar xfj $FILESDIR/obindustrial.tar.bz2 -C $TMPROOT/usr/share/themes/ || return 1
+  mkdir -vp $TMPROOT/usr/share/themes/Industrial/openbox-3 || return 1
+  cp -v $TMPROOT/usr/share/themes/Natura/openbox-3/*.xbm \
+    $TMPROOT/usr/share/themes/Industrial/openbox-3/ || return 1
+cat << "EOF" > $TMPROOT/usr/share/themes/Industrial/openbox-3/themerc || return 1
+window.handle.width: 0
+
+window.client.padding.width: 0
+window.client.padding.height: 0
+border.Width: 1
+padding.width: 2
+
+window.active.border.color: #000000
+window.inactive.border.color: #000000
+menu.border.color: #000000
+menu.overlap: 0
+window.frameColor: #eeeeee
+window.*.client.color: #eeeeee
+*.text.justify: left
+
+!! Menu
+menu.title.bg: flat solid
+menu.title.bg.color: #f6f6f6
+menu.title.text.color: #000000
+
+menu.items.bg: flat solid
+menu.items.bg.color: #f6f6f6
+
+menu.items.text.color: #000000
+menu.items.disabled.text.color: #737573
+
+menu.items.active.bg: flat solid
+menu.items.active.bg.color:  #6383a3
+menu.items.active.text.color: #ffffff
+
+!! Active Windows
+window.active.title.bg: flat solid
+window.active.title.bg.color: #f6f6f6
+window.active.*.bg.border.color: #000000
+
+window.active.label.bg: parentrelative
+window.active.label.text.color: #000000
+
+window.active.button.*.bg: parentrelative
+window.active.button.*.image.color: #000000
+window.active.button.*.bg.border.color: #4e5860
+
+window.active.button.hover.bg.color: #576773
+window.active.button.hover.bg.border.color: #9aabb9
+window.active.button.pressed.bg.color: #343b40
+window.active.button.pressed.bg.colorTo: #000000
+window.active.button.pressed.image.color: #b6b6b6
+window.active.button.pressed.bg.border.color: #b1a19e
+
+window.active.button.disabled.bg: parentrelative
+window.active.button.disabled.image.color: #725e51
+
+window.active.handle.bg:  flat solid
+window.active.handle.bg.color:#51443e
+
+window.*.grip.bg:  flat solid 
+window.*.grip.bg.color: #51443e
+
+!! Inactive Windows
+window.inactive.title.bg: flat solid
+window.inactive.title.bg.color: #f6f6f6
+window.inactive.*.border.color: #000000
+
+window.inactive.label.bg: parentrelative
+window.inactive.label.text.color: #919191
+
+window.inactive.button.*.bg: parentrelative
+window.inactive.button.*.bg.color: #eeeeee
+window.inactive.button.*.image.color:  #b6b6b6
+window.inactive.button.*.bg.border.color: #c9c9c9
+
+window.inactive.button.pressed.bg.color: #c5c2c5
+window.inactive.button.pressed.bg.border.color: #7b7d7b
+window.inactive.button.pressed.image.color: #999999
+
+window.inactive.button.hover.bg.color: #afb1b2
+window.inactive.button.hover.bg.border.color: #d9dfe4
+window.inactive.button.hover.image.color: #a0a0a0
+window.inactive.button.disabled.bg: parentrelative
+window.inactive.button.disabled.image.color: #dddddd
+
+window.inactive.handle.bg: flat solid
+window.inactive.handle.bg.color: #f9f7f3
+window.inactive.grip.bg:  parentrelative
+
+!! Fonts
+window.active.label.text.font: shadow=n:shadowoffset=0:shadowtint=75
+window.inactive.label.text.font: shadow=n:shadowoffset=0:shadowtint=0
+menu.items.font: 
+menu.title.text.font: shadow=n:shadowoffset=1:shadowtint=75
+EOF
+
   for x in autostart.sh menu.xml rc.xml; do
     mv $TMPROOT/etc/xdg/openbox/${x}{,.example} || return 1
   done
+  
 cat << "EOF" > $TMPROOT/etc/xdg/openbox/autostart.sh || return 1
 #!/bin/bash
 
