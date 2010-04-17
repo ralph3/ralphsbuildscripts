@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.2"
+VERSION="1.0.3"
 
 ENABLE_MULTILIB=1
 
@@ -18,7 +18,7 @@ http://xorg.freedesktop.org/releases/individual/util/${TARBALL}
 )
 
 MD5SUMS=(
-02fea5a02ba2857c7d81820c8e8b8e6f
+ff553c4646edcc9e76b7308991ad421a
 )
 
 build(){

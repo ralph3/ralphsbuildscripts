@@ -41,10 +41,6 @@ for PRO in $PROFILES; do
 
 import sys, os, re
 
-def err_exit():
-  print "</check-versions ERROR>"
-  sys.exit(1)
-
 open_msg_len = 0
 def open_msg( msg ):
   global open_msg_len, message_closed
@@ -116,7 +112,7 @@ def fetch_data(address):
   h.close()
   if not d:
     close_msg("!!Error Fetching Data!!")
-    err_exit()
+    sys.exit(1)
   return d
 
 def grep(regex,list):
@@ -217,14 +213,14 @@ def resolve_address(addy):
       minor_version = address[1]
   except:
     close_msg("!!! error resolving minor version directory !!!")
-    err_exit()
+    sys.exit(1)
   try:
     if re.search("%version%", address[0]):
       address = res(address[0],"%version%")
       version = address[1]
   except:
     close_msg("!!! error resolving version directory !!!")
-    err_exit()
+    sys.exit(1)
   return address[0]
 
 name             = sys.argv[1]
@@ -239,23 +235,23 @@ open_msg("  " + name + ": ")
 
 if not profile_version:
   close_msg("VERSION not set in profile.")
-  err_exit()
+  sys.exit(1)
 
 if not address:
   close_msg("ADDRESS not set in profile.")
-  err_exit()
+  sys.exit(1)
 
 if not version_string:
   close_msg("VERSION_STRING not set in profile.")
-  err_exit()
+  sys.exit(1)
 
 if not version_string:
   close_msg("VERSION_STRING not set in profile.")
-  err_exit()
+  sys.exit(1)
 
 if not sys.argv[8]:
   close_msg("MIRRORS not set in profile.")
-  err_exit()
+  sys.exit(1)
 else:
   mirror_list      = sys.argv[8].split('\n')
 
@@ -276,7 +272,7 @@ if not version:
     version = high_version( filter_versions(vnums) )
   except:
     close_msg("!!! internal error !!!")
-    err_exit()
+    sys.exit(1)
 
 storedata = version + "\n\n"
 for x in mirror_list:
@@ -292,7 +288,7 @@ try:
   f.close()
 except:
   close_msg("!!! error updating cache !!!")
-  err_exit()
+  sys.exit(1)
 
 if profile_version != version and high_version([profile_version, version]) == version:
   close_msg(profile_version + " -> " + version)
