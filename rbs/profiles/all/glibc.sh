@@ -23,6 +23,42 @@ MD5SUMS=(
 #}
 
 
+rbs_do_glibc_patching(){
+
+cat << "EOF" | patch -Np1 || return 1
+diff -Naur glibc-2.11.1/nptl/sysdeps/pthread/pt-initfini.c glibc-2.11.1.patched/nptl/sysdeps/pthread/pt-initfini.c
+--- glibc-2.11.1/nptl/sysdeps/pthread/pt-initfini.c	2009-12-08 15:10:20.000000000 -0500
++++ glibc-2.11.1.patched/nptl/sysdeps/pthread/pt-initfini.c	2010-04-14 21:01:50.000000000 -0400
+@@ -45,6 +45,11 @@
+ /* Embed an #include to pull in the alignment and .end directives. */
+ asm ("\n#include \"defs.h\"");
+ 
++asm ("\n#if defined __i686 && defined __ASSEMBLER__");
++asm ("\n#undef __i686");
++asm ("\n#define __i686 __i686");
++asm ("\n#endif");
++
+ /* The initial common code ends here. */
+ asm ("\n/*@HEADER_ENDS*/");
+ 
+diff -Naur glibc-2.11.1/sysdeps/unix/sysv/linux/i386/sysdep.h glibc-2.11.1.patched/sysdeps/unix/sysv/linux/i386/sysdep.h
+--- glibc-2.11.1/sysdeps/unix/sysv/linux/i386/sysdep.h	2009-12-08 15:10:20.000000000 -0500
++++ glibc-2.11.1.patched/sysdeps/unix/sysv/linux/i386/sysdep.h	2010-04-14 21:00:51.000000000 -0400
+@@ -29,6 +29,10 @@
+ #include <dl-sysdep.h>
+ #include <tls.h>
+ 
++#if defined __i686 && defined __ASSEMBLER__
++#undef __i686
++#define __i686 __i686
++#endif
+ 
+ /* For Linux we can use the system call table in the header file
+ 	/usr/include/asm/unistd.h
+EOF
+
+}
+
 RBS_Cross_Tools_Build(){
   local DOCRAP GLIBC_TARGETHOST XFLAGS
   DOCRAP=
@@ -47,7 +83,7 @@ RBS_Cross_Tools_Build(){
   esac
   unpack_tarball $TARBALL
   cd $SRCDIR/$DIR || return 1
-  do_patch glibc-${VERSION}-i686fix-1.patch || return 1
+  rbs_do_glibc_patching || return 1
   mkdir -p $SRCDIR/glibc-build || return 1
   cd $SRCDIR/glibc-build || return 1
   echo "slibdir=/RBS-Tools/$LIBSDIR" > configparms
@@ -99,7 +135,7 @@ build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   
-  do_patch glibc-${VERSION}-i686fix-1.patch || return 1
+  rbs_do_glibc_patching || return 1
   
   mkdir -p $SRCDIR/glibc-build || return 1
   cd $SRCDIR/glibc-build || return 1

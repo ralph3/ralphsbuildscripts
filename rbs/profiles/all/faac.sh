@@ -23,7 +23,22 @@ MD5SUMS=(
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/${DIR} || return 1
-  do_patch faac-1.28-gcc-4.4.0-1.patch || return 1
+
+cat << "EOF" | patch -Np1 || return 1
+diff -Naur faac-1.28/common/mp4v2/mpeg4ip.h faac-1.28.patched/common/mp4v2/mpeg4ip.h
+--- faac-1.28/common/mp4v2/mpeg4ip.h	2009-01-26 17:42:35.000000000 -0500
++++ faac-1.28.patched/common/mp4v2/mpeg4ip.h	2009-06-12 08:52:28.000000000 -0400
+@@ -123,7 +123,7 @@
+ #ifdef __cplusplus
+ extern "C" {
+ #endif
+-char *strcasestr(const char *haystack, const char *needle);
++//char *strcasestr(const char *haystack, const char *needle);
+ #ifdef __cplusplus
+ }
+ #endif
+EOF
+
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc || return 1
   make || return 1
