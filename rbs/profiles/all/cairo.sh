@@ -1,8 +1,7 @@
 #!/bin/bash
 
-DISABLE_MULTILIB=1
-
 VERSION="1.8.10"
+SYS_VERSION="1.8.10-1"
 
 DIR="cairo-${VERSION}"
 TARBALL="cairo-${VERSION}.tar.gz"

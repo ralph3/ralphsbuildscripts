@@ -1,9 +1,7 @@
 #!/bin/bash
 
-DISABLE_MULTILIB=1
-
 VERSION="7.07.1"
-SYS_VERSION="7.07.1-1"
+SYS_VERSION="7.07.1-2"
 
 DIR="espgs-${VERSION}"
 TARBALL="espgs-${VERSION}-source.tar.bz2"

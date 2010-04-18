@@ -1,8 +1,7 @@
 #!/bin/bash
 
-DISABLE_MULTILIB=1
-
 VERSION="0.18.0"
+SYS_VERSION="0.18.0-1"
 
 DIR="pixman-${VERSION}"
 TARBALL="pixman-${VERSION}.tar.bz2"

@@ -2,22 +2,21 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.30.0"
-SYS_VERSION="1.30.0-1"
+VERSION="2.5"
 
-DIR="atk-${VERSION}"
-TARBALL="atk-${VERSION}.tar.bz2"
+DIR="libtasn1-${VERSION}"
+TARBALL="libtasn1-${VERSION}.tar.gz"
 
 DEPENDS=(
-  glib
+  make
 )
 
 SRC1=(
-  $(gnome_mirrors atk)
+http://ftp.gnu.org/gnu/libtasn1/${TARBALL}
 )
 
 MD5SUMS=(
-548d413775819fef425410739041cac3
+e60b863697713c3d6a59b1e8c6f9b0d1
 )
 
 build(){
@@ -32,10 +31,9 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/atk/%minor_version%/'
-  VERSION_STRING='atk-%version%.tar.bz2'
-  ONLY_EVEN_MINORS=1
+  ADDRESS='http://ftp.gnu.org/gnu/libtasn1/'
+  VERSION_STRING='libtasn1-%version%.tar.gz'
   MIRRORS=(
-    "http://ftp.gnome.org/pub/GNOME/sources/atk/%minor_version%/atk-%version%.tar.bz2"
+    'http://ftp.gnu.org/gnu/libtasn1/libtasn1-%version%.tar.gz'
   )
 }

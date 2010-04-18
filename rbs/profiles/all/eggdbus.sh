@@ -1,15 +1,12 @@
 #!/bin/bash
 
-VERSION="0.96"
+VERSION="0.6"
 
-DIR="polkit-${VERSION}"
-TARBALL="polkit-${VERSION}.tar.gz"
+DIR="eggdbus-${VERSION}"
+TARBALL="eggdbus-${VERSION}.tar.gz"
 
 DEPENDS=(
-  intltool
-  linux-pam
-  eggdbus
-  gobject-introspection
+  dbus-glib
 )
 
 SRC1=(
@@ -17,7 +14,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-e0a06da501b04ed3bab986a9df5b5aa2
+b43d2a6c523fcb8b9d0b0300c4222386
 )
 
 build(){
@@ -34,8 +31,8 @@ build(){
 
 version_check_info(){
   ADDRESS='http://hal.freedesktop.org/releases/'
-  VERSION_STRING='polkit-%version%.tar.gz'
+  VERSION_STRING='eggdbus-%version%.tar.gz'
   MIRRORS=(
-    'http://hal.freedesktop.org/releases/polkit-%version%.tar.gz'
+    'http://hal.freedesktop.org/releases/eggdbus-%version%.tar.gz'
   )
 }

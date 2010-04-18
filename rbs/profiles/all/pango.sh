@@ -3,6 +3,7 @@
 DISABLE_MULTILIB=1
 
 VERSION="1.28.0"
+SYS_VERSION="1.28.0-1"
 
 DIR="pango-${VERSION}"
 TARBALL="pango-${VERSION}.tar.bz2"
