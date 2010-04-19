@@ -8,6 +8,7 @@ TARBALL="cups-${VERSION}-source.tar.bz2"
 
 DEPENDS=(
   shadow
+  libusb
 )
 
 SRC1=(

@@ -1,1 +1,0 @@
-../all/dbus.sh

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 VERSION="0.5.14"
+SYS_VERSION="0.5.14-1"
 
 DIR="hal-${VERSION}"
 TARBALL="hal-${VERSION}.tar.gz"
