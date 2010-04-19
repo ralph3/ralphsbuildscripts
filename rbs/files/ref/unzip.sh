@@ -1,0 +1,93 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="552"
+
+APPVERSION="$(echo $VERSION | cut -b1).$(echo $VERSION | cut -b2-)"
+DIR="unzip-${APPVERSION}"
+TARBALL="unzip${VERSION}.tar.gz"
+
+DEPENDS=(
+  make
+)
+
+SRC1=(
+http://ralphsbuildscripts.googlecode.com/files/$TARBALL
+)
+
+MD5SUMS=(
+9d23919999d6eac9217d1f41472034a9
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+
+cat << "EOF" | patch -Np1 || return 1
+diff -Naur unzip-5.52/api.c unzip-5.52.patched/api.c
+--- unzip-5.52/api.c	2004-10-14 20:32:58.000000000 -0400
++++ unzip-5.52.patched/api.c	2010-04-17 17:41:39.000000000 -0400
+@@ -52,6 +52,11 @@
+ #endif
+ #include "unzvers.h"
+ 
++/* This is defined as zlibVersion() in zlib.h version 1.1.4 */
++#ifdef   zlib_version
++#  undef zlib_version
++#endif
++
+ #ifdef DLL      /* This source file supplies DLL-only interface code. */
+ 
+ #ifndef POCKET_UNZIP    /* WinCE pUnZip defines this elsewhere. */
+diff -Naur unzip-5.52/unix/Makefile unzip-5.52.patched/unix/Makefile
+--- unzip-5.52/unix/Makefile	2005-02-26 14:58:34.000000000 -0500
++++ unzip-5.52.patched/unix/Makefile	2010-04-17 17:40:33.000000000 -0400
+@@ -827,6 +827,7 @@
+ 	ln -sf crc_gcc.pic.o crc32.pic.o
+ 	gcc -shared -Wl,-soname,libunzip.so.0 -o libunzip.so.0.4 $(OBJSDLL)
+ 	ln -sf libunzip.so.0.4 libunzip.so.0
++	ln -sf libunzip.so.0.4 libunzip.so
+ 	gcc -c -O unzipstb.c
+ 	gcc -o unzip unzipstb.o -L. -lunzip -lz
+ 
+diff -Naur unzip-5.52/unzipstb.c unzip-5.52.patched/unzipstb.c
+--- unzip-5.52/unzipstb.c	2001-02-09 19:46:42.000000000 -0500
++++ unzip-5.52.patched/unzipstb.c	2010-04-17 17:42:44.000000000 -0400
+@@ -30,27 +30,6 @@
+ 
+     pVersion = UzpVersion();
+ 
+-    printf("UnZip stub:  checking version numbers (DLL is dated %s)\n",
+-      pVersion->date);
+-    printf("   UnZip versions:    expecting %d.%d%d, using %d.%d%d%s\n",
+-      UZ_MAJORVER, UZ_MINORVER, UZ_PATCHLEVEL, pVersion->unzip.major,
+-      pVersion->unzip.minor, pVersion->unzip.patchlevel, pVersion->betalevel);
+-    printf("   ZipInfo versions:  expecting %d.%d%d, using %d.%d%d\n",
+-      ZI_MAJORVER, ZI_MINORVER, UZ_PATCHLEVEL, pVersion->zipinfo.major,
+-      pVersion->zipinfo.minor, pVersion->zipinfo.patchlevel);
+-
+-/*
+-    D2_M*VER and os2dll.* are obsolete, though retained for compatibility:
+-
+-    printf("   OS2 DLL versions:  expecting %d.%d%d, using %d.%d%d\n",
+-      D2_MAJORVER, D2_MINORVER, D2_PATCHLEVEL, pVersion->os2dll.major,
+-      pVersion->os2dll.minor, pVersion->os2dll.patchlevel);
+- */
+-
+-    if (pVersion->flag & 2)
+-        printf("   using zlib version %s\n", pVersion->zlib_version);
+-    printf("\n");
+-
+     /* call the actual UnZip routine (string-arguments version) */
+     return UzpMain(argc, argv);
+ }
+EOF
+  make -f unix/Makefile LOCAL_UNZIP=-D_FILE_OFFSET_BITS=64 \
+    CC="$CC ${BUILD}" LD='$(CC)' CF="-O -Wall -I. -DUSE_UNSHRINK" \
+    unzips || return 1
+  make -f unix/Makefile prefix=$TMPROOT/usr \
+    libdir=$TMPROOT/usr/$LIBSDIR install || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}

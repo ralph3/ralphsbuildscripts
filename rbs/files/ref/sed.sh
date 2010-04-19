@@ -1,0 +1,51 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="4.2.1"
+
+DIR="sed-${VERSION}"
+TARBALL="sed-${VERSION}.tar.gz"
+
+DEPENDS=(
+  make
+)
+
+SRC1=(
+http://ftp.gnu.org/gnu/sed/${TARBALL}
+)
+
+MD5SUMS=(
+f0fd4d7da574d4707e442285fd2d3b86
+)
+
+RBS_Tools_Build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+    --host=$BUILDTARGET --prefix=/RBS-Tools --bindir=/RBS-Tools/bin || return 1
+  make || return 1
+  make install || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  sed -i "s@/doc@&/sed-${VERSION}@" doc/Makefile.in || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+    --host=$BUILDTARGET --prefix=/usr --bindir=/bin --enable-html || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://ftp.gnu.org/gnu/sed/'
+  VERSION_STRING='sed-%version%.tar.gz'
+  MIRRORS=(
+    'http://ftp.gnu.org/gnu/sed/sed-%version%.tar.gz'
+  )
+}

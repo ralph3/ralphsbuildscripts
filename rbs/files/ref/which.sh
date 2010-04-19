@@ -1,0 +1,39 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="2.20"
+
+DIR="which-${VERSION}"
+TARBALL="which-${VERSION}.tar.gz"
+
+DEPENDS=(
+  make
+)
+
+SRC1=(
+http://www.xs4all.nl/~carlo17/which/${TARBALL}
+)
+
+MD5SUMS=(
+95be0501a466e515422cde4af46b2744
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+    --host=$BUILDTARGET --prefix=/usr || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://www.xs4all.nl/~carlo17/which/'
+  VERSION_STRING='which-%version%.tar.gz'
+  MIRRORS=(
+    'http://www.xs4all.nl/~carlo17/which/which-%version%.tar.gz'
+  )
+}

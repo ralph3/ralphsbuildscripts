@@ -1,0 +1,52 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="4.13a"
+
+DIR="texinfo-4.13"
+TARBALL="texinfo-${VERSION}.tar.gz"
+
+DEPENDS=(
+  ncurses
+)
+
+SRC1=(
+http://ftp.gnu.org/gnu/texinfo/${TARBALL}
+)
+
+MD5SUMS=(
+71ba711519209b5fb583fed2b3d86fcb
+)
+
+RBS_Tools_Build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+    --host=$BUILDTARGET --prefix=/RBS-Tools || return 1
+  make -C tools/gnulib/lib || return 1
+  make -C tools || return 1
+  make || return 1
+  make install || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+    --host=$BUILDTARGET --prefix=/usr || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://ftp.gnu.org/gnu/texinfo/'
+  VERSION_STRING='texinfo-%version%.tar.gz'
+  MIRRORS=(
+    'http://ftp.gnu.org/gnu/texinfo/texinfo-%version%.tar.gz'
+  )
+}

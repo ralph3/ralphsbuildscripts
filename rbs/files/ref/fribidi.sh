@@ -1,0 +1,40 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="0.10.9"
+
+DIR="fribidi-${VERSION}"
+TARBALL="fribidi-${VERSION}.tar.gz"
+
+DEPENDS=(
+  make
+)
+
+SRC1=(
+  http://fribidi.org/download/$TARBALL
+)
+
+MD5SUMS=(
+647aee89079b056269ff0918dc1c6d28
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/usr/$LIBSDIR || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://fribidi.org/download/'
+  VERSION_STRING='fribidi-%version%.tar.gz'
+  ONLY_EVEN_MINORS=1
+  MIRRORS=(
+    'http://fribidi.org/download/fribidi-%version%.tar.gz'
+  )
+}

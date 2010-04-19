@@ -1,0 +1,69 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="1.6f"
+SYS_VERSION="1.6f-3"
+
+DIR="man-${VERSION}"
+TARBALL="man-${VERSION}.tar.gz"
+
+DEPENDS=(
+  bzip2
+  gzip
+)
+
+SRC1=(
+http://primates.ximian.com/~flucifredi/man/${TARBALL}
+)
+
+MD5SUMS=(
+67aaaa6df35215e812fd7d89472c44b6
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  sed -i -e "/PREPATH=/s@=.*@=\"$(eval echo ${CLFS}/{,usr/}{sbin,bin})\"@g" \
+         -e 's@-is@&R@g' configure || return 1
+  sed -i -e 's@MANPATH./usr/man@#&@g' \
+         -e 's@MANPATH./usr/local/man@#&@g' src/man.conf.in || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure -confdir=/etc || return 1
+  if [ "$ROOT" != "/" ]; then
+    sed -i "s@${ROOT}@@" conf_script || return 1
+  fi
+  gcc src/makemsg.c -o src/makemsg || return 1
+  make CC="$CC $BUILD" CXX="$CXX $BUILD" || return 1
+  make DESTDIR=$TMPROOT install || return 1
+  
+  sed -i 's@^MANPATH@# MANPATH@g' $TMPROOT/etc/man.conf || return 1
+  sed -i 's@^# Every automatically generated MANPATH includes these fields@# Set MANPATH using a profile script in /etc/profile.d instead of here.@' $TMPROOT/etc/man.conf || return 1
+  
+  sed -i -e '/^\.gz/d' -e '/^\.lzma/d' -e '/^\.z/d' -e '/^\.Z/d' \
+    -e '/^\.F/d' -e '/^\.Y/d' $TMPROOT/etc/man.conf || return 1
+  
+  echo -e ".gz\t\tgzip -c -d\n.xz\t\txz -c -d" >> \
+    $TMPROOT/etc/man.conf || return 1
+  
+  mv $TMPROOT/etc/man.conf $TMPROOT/etc/man.conf.new || return 1
+  mkdir -p $TMPROOT/etc/profile.d
+cat << "EOF" > $TMPROOT/etc/profile.d/man.sh
+if [ -z "$MANPATH" ]; then
+  MANPATH=/usr/share/man
+else
+  MANPATH=$MANPATH:/usr/share/man
+fi
+export MANPATH
+EOF
+  chmod 755 $TMPROOT/etc/profile.d/man.sh
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://primates.ximian.com/~flucifredi/man/'
+  VERSION_STRING='man-%version%.tar.gz'
+  MIRRORS=(
+    'http://primates.ximian.com/~flucifredi/man/man-%version%.tar.gz'
+  )
+}

@@ -1,0 +1,108 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="4.1.1"
+
+DIR="dhcp-${VERSION}"
+TARBALL="dhcp-${VERSION}.tar.gz"
+
+DEPENDS=(
+  make
+)
+
+SRC1=(
+ftp://ftp.isc.org/isc/dhcp/${TARBALL}
+)
+
+MD5SUMS=(
+38a74c89d8913b9b5f33737047623c18
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  
+  CC="$CC $BUILD" CXX="$CXX $BUILD" CFLAGS="$CFLAGS -D_GNU_SOURCE" \
+    ./configure --prefix=/usr --libdir=/usr/$LIBSDIR \
+    --sysconfdir=/etc || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  rm -rf $TMPROOT/{etc/*,usr/{bin,include,lib,sbin/dhclient}} \
+    $TMPROOT/usr/share/man/{man{1,3},*/{dhclient*,dhcp-options*}} || return 1
+  
+  echo > $TMPROOT/etc/dhcpd.conf.tmpnew
+  
+  mkdir -p $TMPROOT/etc/rc.d
+cat << "EOF" > $TMPROOT/etc/rc.d/rc.dhcpd
+#!/bin/bash
+
+. /etc/rc.d/rc.conf
+. /etc/rc.d/rc.functions
+
+start_dhcpd(){
+  print_msg "Starting DHCP Server"
+  loadproc /usr/sbin/dhcpd -q
+}
+
+dhcpd_failed(){
+  print_msg "Starting DHCP Server"
+  print_msg_failed
+}
+
+case $1 in
+  start)
+    if [ -e "/proc/net/if_inet6" ]; then
+      start_dhcpd
+    else
+      print_msg "Attempting to load module \"ipv6\" needed by dhcpd"
+      modprobe ipv6 2>/dev/null
+      if [ "$?" == "0" ]; then
+        print_msg_done
+        start_dhcpd
+      else
+        print_msg_failed
+        dhcpd_failed
+      fi
+    fi
+  ;;
+  stop)
+    print_msg "Stopping DHCP Server"
+    killproc dhcpd
+  ;;
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+  ;;
+  *)
+    echo "Usage: {start|stop|restart}"
+    exit 1
+  ;;
+esac
+EOF
+  chmod 744 $TMPROOT/etc/rc.d/rc.dhcpd || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+post_install(){
+  if [ ! -f "/var/db/dhcpd.leases" ]; then
+    echo "Creating /var/db/dhcpd.leases..."
+    mkdir -p /var/db
+    touch /var/db/dhcpd.leases
+  fi
+}
+
+post_upgrade(){
+  post_install
+}
+
+version_check_info(){
+  ADDRESS='ftp://ftp.isc.org/isc/dhcp/'
+  VERSION_STRING='dhcp-%version%.tar.gz'
+  VERSION_FILTERS="[a-z] [A-Z]"
+  MIRRORS=(
+    'ftp://ftp.isc.org/isc/dhcp/dhcp-%version%.tar.gz'
+  )
+}

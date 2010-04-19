@@ -1,0 +1,102 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="5.1p1"
+
+DIR="openssh-${VERSION}"
+TARBALL="openssh-${VERSION}.tar.gz"
+
+DEPENDS=(
+  openssl
+  shadow
+)
+
+SRC1=(
+http://sunsite.ualberta.ca/pub/OpenBSD/OpenSSH/portable/${TARBALL}
+)
+
+MD5SUMS=(
+03f2d0c1b5ec60d4ac9997a146d2faec
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  sed -i "s:-lcrypto:${ROOT}/usr/${LIBSDIR}/libcrypto.a -ldl:g" \
+    configure || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" LD="$CC $BUILD" ./configure --prefix=/usr \
+    --libdir=/usr/$LIBSDIR --sysconfdir=/etc/ssh --libexecdir=/usr/sbin \
+    --with-md5-passwords --with-privsep-path=/var/lib/sshd || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  for file in $TMPROOT/etc/ssh/ssh{d,}_config; do
+    mv $file ${file}.new
+  done
+  mkdir -p $TMPROOT/var/lib/sshd
+  chmod 700 $TMPROOT/var/lib/sshd
+  mkdir -p $TMPROOT/etc/rc.d
+cat << "EOF" > $TMPROOT/etc/rc.d/rc.sshd
+#!/bin/bash
+
+. /etc/rc.d/rc.conf
+. /etc/rc.d/rc.functions
+
+case "$1" in
+  start)
+    [ ! -e "/etc/ssh/ssh_host_key" ] && {
+      print_msg "Generating /etc/ssh/ssh_host_key"
+      loadproc ssh-keygen -q -N "" -t rsa1 -f /etc/ssh/ssh_host_key
+    }
+    [ ! -e "/etc/ssh/ssh_host_rsa_key" ] && {
+      print_msg "Generating /etc/ssh/ssh_host_rsa_key"
+      loadproc ssh-keygen -q -N "" -t rsa -f /etc/ssh/ssh_host_rsa_key
+    }
+    [ ! -e "/etc/ssh/ssh_host_dsa_key" ] && {
+      print_msg "Generating /etc/ssh/ssh_host_dsa_key"
+      loadproc ssh-keygen -q -N "" -t dsa -f /etc/ssh/ssh_host_dsa_key
+    }
+    print_msg "Starting SSH"
+    loadproc /usr/sbin/sshd
+  ;;
+  stop)
+    print_msg "Stopping SSH"
+    killproc sshd
+  ;;
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+  ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+  ;;
+esac
+EOF
+  chmod 744 $TMPROOT/etc/rc.d/rc.sshd
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+pre_install(){
+  groupadd sshd
+  chown root:sys $ROOT/var/lib/sshd
+  useradd -c 'sshd PrivSep' -d /var/lib/sshd -g sshd -s /bin/false sshd
+}
+
+post_upgrade(){
+  chown root:sys $ROOT/var/lib/sshd
+}
+
+post_remove(){
+  userdel sshd
+}
+
+version_check_info(){
+  ADDRESS='http://sunsite.ualberta.ca/pub/OpenBSD/OpenSSH/portable/'
+  VERSION_STRING='openssh-%version%.tar.gz'
+  MIRRORS=(
+    'http://sunsite.ualberta.ca/pub/OpenBSD/OpenSSH/portable/openssh-%version%.tar.gz'
+  )
+}

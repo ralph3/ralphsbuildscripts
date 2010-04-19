@@ -1,0 +1,55 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="5.3.2"
+
+DIR="php-${VERSION}"
+TARBALL="php-${VERSION}.tar.bz2"
+
+DEPENDS=(
+  httpd
+  libxml2
+)
+
+SRC1=(
+http://us.php.net/distributions/${TARBALL}
+)
+
+MD5SUMS=(
+46f500816125202c48a458d0133254a4
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  mkdir -p $TMPROOT/etc/httpd/httpd.conf.d || return 1
+cat << "EOF" > $TMPROOT/etc/httpd/httpd.conf
+LoadModule foo_module1 foo/modfoo1.so
+LoadModule foo_module2 foo/modfoo2.so
+EOF
+cat << EOF > $TMPROOT/etc/httpd/httpd.conf.d/php.conf
+LoadModule php$(echo ${VERSION} | cut -b1)_module ${LIBSDIR}/httpd/libphp$(echo ${VERSION}| cut -b1).so
+AddType application/x-httpd-php .php .phtml
+AddType application/x-httpd-php-source .phps
+EOF
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --sysconfdir=/etc --libdir=/usr/$LIBSDIR --enable-ftp --with-gettext \
+    --with-iconv --disable-cgi --with-zlib --with-bz2 \
+    --enable-cli --with-apxs2 || return 1
+  make || return 1
+  make install INSTALL_ROOT=$TMPROOT || return 1
+  rm -rf $TMPROOT/.??* || return 1
+  cp -v php.ini-production $TMPROOT/etc/php.ini.new || return 1
+  rm -f $TMPROOT/etc/httpd/httpd.conf{,.bak} || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://www.php.net/downloads.php'
+  VERSION_STRING='php-%version%.tar.bz2'
+  MIRRORS=(
+    'http://us3.php.net/distributions/php-%version%.tar.bz2'
+  )
+}
