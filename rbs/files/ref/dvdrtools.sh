@@ -1,0 +1,39 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="0.2.1"
+
+DIR="dvdrtools-${VERSION}"
+TARBALL="dvdrtools-${VERSION}.tar.bz2"
+
+DEPENDS=(
+  make
+)
+
+SRC1=(
+http://download.savannah.gnu.org/releases-noredirect/dvdrtools/${TARBALL}
+)
+
+MD5SUMS=(
+c279e10a821f58d9de37275f8b88deff
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/usr/$LIBSDIR --sysconfdir=/etc || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://download.savannah.gnu.org/releases-noredirect/dvdrtools/'
+  VERSION_STRING='dvdrtools-%version%.tar.bz2'
+  MIRRORS=(
+    'http://download.savannah.gnu.org/releases-noredirect/dvdrtools/dvdrtools-%version%.tar.bz2'
+  )
+}
