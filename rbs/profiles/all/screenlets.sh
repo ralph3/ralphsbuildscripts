@@ -3,6 +3,7 @@
 DISABLE_MULTILIB=1
 
 VERSION="0.1.2"
+SYS_VERSION="0.1.2-1"
 
 DIR="screenlets"
 TARBALL="screenlets-${VERSION}.tar.bz2"
@@ -30,6 +31,7 @@ build(){
   if [ ! -e "$TMPROOT/usr/$LIBSDIR" ]; then
     mv $TMPROOT/usr/lib $TMPROOT/usr/$LIBSDIR || return 1
   fi
+  rm -rf $TMPROOT/usr/bin
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
