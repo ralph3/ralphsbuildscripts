@@ -1,7 +1,6 @@
 #!/bin/bash
 
-VERSION="1.2.4"
-SYS_VERSION="1.2.4-3"
+VERSION="1.2.5"
 
 DIR="zlib-${VERSION}"
 TARBALL="zlib-${VERSION}.tar.bz2"
@@ -11,12 +10,12 @@ DEPENDS=(
 )
 
 SRC1=(
-http://prdownloads.sourceforge.net/libpng/$TARBALL
 http://www.zlib.net/${TARBALL}
+http://prdownloads.sourceforge.net/libpng/$TARBALL
 )
 
 MD5SUMS=(
-763c6a0b4ad1cdf5549e3ab3f140f4cb
+be1e89810e66150f5b0327984d8625a0
 )
 
 RBS_Tools_Build(){

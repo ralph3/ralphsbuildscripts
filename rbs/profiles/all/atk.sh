@@ -3,13 +3,13 @@
 DISABLE_MULTILIB=1
 
 VERSION="1.30.0"
-SYS_VERSION="1.30.0-1"
+SYS_VERSION="1.30.0-2"
 
 DIR="atk-${VERSION}"
 TARBALL="atk-${VERSION}.tar.bz2"
 
 DEPENDS=(
-  glib
+  gobject-introspection
 )
 
 SRC1=(

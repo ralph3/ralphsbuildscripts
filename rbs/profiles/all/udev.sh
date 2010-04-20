@@ -2,8 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="151"
-SYS_VERSION="151-2"
+VERSION="152"
 
 DIR="udev-${VERSION}"
 TARBALL="udev-${VERSION}.tar.bz2"
@@ -17,7 +16,7 @@ http://www.kernel.org/pub/linux/utils/kernel/hotplug/${TARBALL}
 )
 
 MD5SUMS=(
-aeae0e6273dcbec246c3c1b9868ebed1
+14944d0ff630f639cf3a9fc9d9ae40b5
 )
 
 MyBuild(){
@@ -46,9 +45,7 @@ MyBuild(){
   
   mkdir -p $MYDEST/etc/udev/rules.d || return 1
   
-  install -v -m644 rules/packages/64-*.rules \
-    rules/packages/40-pilot-links.rules \
-    rules/packages/40-isdn.rules \
+  install -v -m644 rules/packages/40-pilot-links.rules \
     $MYDEST/etc/udev/rules.d/ || return 1
   
 cat > $MYDEST/etc/udev/rules.d/25-rbs.rules << "EOF" || return 1
