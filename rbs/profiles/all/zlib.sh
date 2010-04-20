@@ -1,6 +1,8 @@
 #!/bin/bash
 
-VERSION="1.2.5"
+##1.2.5 causes problem in x86 imlib2
+
+VERSION="1.2.4"
 
 DIR="zlib-${VERSION}"
 TARBALL="zlib-${VERSION}.tar.bz2"
@@ -15,7 +17,7 @@ http://prdownloads.sourceforge.net/libpng/$TARBALL
 )
 
 MD5SUMS=(
-be1e89810e66150f5b0327984d8625a0
+763c6a0b4ad1cdf5549e3ab3f140f4cb
 )
 
 RBS_Tools_Build(){
