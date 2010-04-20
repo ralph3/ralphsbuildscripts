@@ -9,7 +9,7 @@ TARBALL="poppler-${VERSION}.tar.gz"
 
 DEPENDS=(
   cairo
-  glib
+  gobject-introspection
   libpng
   zlib
 )

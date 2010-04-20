@@ -9,7 +9,7 @@ TARBALL="enchant-${VERSION}.tar.gz"
 
 DEPENDS=(
   aspell-en
-  glib
+  gobject-introspection
 )
 
 SRC1=(

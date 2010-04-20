@@ -7,7 +7,7 @@ TARBALL="dbus-glib-${VERSION}.tar.gz"
 
 DEPENDS=(
   dbus
-  glib
+  gobject-introspection
 )
 
 SRC1=(
