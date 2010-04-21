@@ -10,6 +10,7 @@ DEPENDS=(
   glib
   libffi
   python
+  cairo
 )
 
 SRC1=(

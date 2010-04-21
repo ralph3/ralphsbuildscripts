@@ -438,50 +438,6 @@ unpack_tarball(){
   return 0
 }
 
-do_patch(){
-  local PATCH
-  mkdir -p $TMPDIR || return 1
-  for patch in $*; do
-    if [ -e "$PATCHDIR/$patch" ]; then
-      PATCH="$PATCHDIR/$patch"
-    elif [ -e "$DOWNLOADDIR/$patch" ]; then
-      PATCH="$DOWNLOADDIR/$patch"
-    else
-      echo "The patch file \"$patch\" not found!" >/dev/stderr
-      return 1
-    fi
-    echo -n "Applying ${patch}..."
-    if [ -n "$(echo $PATCH | grep "\.gz$")" ]; then
-      zcat $PATCH | patch -Np1 >&$TMPDIR/patchoutput || {
-        echo -e "  FAILED!\n\n"
-        cat $TMPDIR/patchoutput
-        return 1
-      }
-    elif [ -n "$(echo $PATCH | grep "\.bz2$")" ]; then
-      bzcat $PATCH | patch -Np1 >&$TMPDIR/patchoutput || {
-        echo -e "  FAILED!\n\n"
-        cat $TMPDIR/patchoutput
-        return 1
-      }
-    elif [ -n "$(echo $PATCH | grep "\.xz$")" ]; then
-      lzcat $PATCH | patch -Np1 >&$TMPDIR/patchoutput || {
-        echo -e "  FAILED!\n\n"
-        cat $TMPDIR/patchoutput
-        return 1
-      }
-    else
-      patch -Np1 -i $PATCH >&$TMPDIR/patchoutput || {
-        echo -e "  FAILED!\n\n"
-        cat $TMPDIR/patchoutput
-        return 1
-      }
-    fi
-    rm -f $TMPDIR/patchoutput
-    echo "  Done."
-  done
-  return 0
-}
-
 get_tarball_dir(){
 /usr/bin/env python - "$1" << "EOF" || return 1
 

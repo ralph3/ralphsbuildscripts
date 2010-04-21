@@ -9,6 +9,7 @@ TARBALL="libnotify-${VERSION}.tar.bz2"
 
 DEPENDS=(
   gtk+
+  dbus-glib
 )
 
 SRC1=(

@@ -8,7 +8,7 @@ DIR="xkeyboard-config-${VERSION}"
 TARBALL="xkeyboard-config-${VERSION}.tar.bz2"
 
 DEPENDS=(
-  make
+  intltool
 )
 
 SRC1=(
