@@ -19,10 +19,10 @@ MD5SUMS=(
 80c5ff544b0ee4d9b5d8b8b89d4a0ef9
 )
 
-RBS_Cross_Tools_Build(){
+Cross_Tools_Build(){
   local KARCH KCONF MODDIR
   case $(echo $BUILDTARGET | cut -f1 -d'-') in
-    i486|i586|i686)
+    i?86)
       KARCH=i386
     ;;
     x86_64)
@@ -36,13 +36,13 @@ RBS_Cross_Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   
-  mkdir -vp /RBS-Tools/include || return 1
+  mkdir -vp $TCDIR/include || return 1
   make mrproper || return 1
   make ARCH=$KARCH headers_check || return 1
-  make ARCH=$KARCH INSTALL_HDR_PATH=/RBS-Tools headers_install || return 1
-  find /RBS-Tools/include -type d -exec chmod -v 755 {} \;
-  find /RBS-Tools/include -type f -exec chmod -v 644 {} \;
-  sed -i 's/\tu8/\t__u8/' /RBS-Tools/include/scsi/scsi.h || return 1
+  make ARCH=$KARCH INSTALL_HDR_PATH=$TCDIR headers_install || return 1
+  find $TCDIR/include -type d -exec chmod -v 755 {} \;
+  find $TCDIR/include -type f -exec chmod -v 644 {} \;
+  sed -i 's/\tu8/\t__u8/' $TCDIR/include/scsi/scsi.h || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
@@ -50,7 +50,7 @@ RBS_Cross_Tools_Build(){
 build(){
   local KARCH KCONF MODDIR
   case $($CC -dumpmachine | cut -f1 -d'-') in
-    i486|i586|i686)
+    i?86)
       KARCH=i386
     ;;
     x86_64)

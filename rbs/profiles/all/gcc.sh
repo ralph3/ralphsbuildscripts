@@ -34,7 +34,7 @@ My_GCC_MultiBuild_Func(){
   local CONF F
   CONF=
   case $(echo $BUILDTARGET | cut -f1 -d'-') in
-    i386|i486|i586|i686)
+    i?86)
       CONF="--disable-multilib"
     ;;
     x86_64)
@@ -48,13 +48,13 @@ My_GCC_MultiBuild_Func(){
   
   case $1 in
     CrossToolsStatic)
-      CONF="--prefix=/RBS-Cross-Tools --with-local-prefix=/RBS-Tools --with-sysroot=$ROOT --build=$BUILDHOST --host=$BUILDHOST --target=$BUILDTARGET --disable-nls $CONF --disable-shared --without-headers --with-newlib --disable-decimal-float --disable-libgomp --disable-libmudflap --disable-libssp --disable-threads --enable-languages=c --with-mpfr=/RBS-Cross-Tools --with-gmp=/RBS-Cross-Tools --with-mpc=/RBS-Cross-Tools --without-ppl --without-cloog"
+      CONF="--prefix=$CTCDIR --with-local-prefix=$TCDIR --with-sysroot=$ROOT --build=$BUILDHOST --host=$BUILDHOST --target=$BUILDTARGET --disable-nls $CONF --disable-shared --without-headers --with-newlib --disable-decimal-float --disable-libgomp --disable-libmudflap --disable-libssp --disable-threads --enable-languages=c --with-mpfr=$CTCDIR --with-gmp=$CTCDIR --with-mpc=$CTCDIR --without-ppl --without-cloog"
     ;;
     CrossTools)
-      CONF="--prefix=/RBS-Cross-Tools --with-local-prefix=/RBS-Tools --with-sysroot=$ROOT --build=$BUILDHOST --host=$BUILDHOST --target=$BUILDTARGET --disable-nls $CONF --enable-shared --enable-languages=c,c++ --enable-__cxa_atexit --enable-c99 --enable-long-long --enable-threads=posix --with-mpfr=/RBS-Cross-Tools --with-gmp=/RBS-Cross-Tools --with-mpc=/RBS-Cross-Tools --without-ppl --without-cloog"
+      CONF="--prefix=$CTCDIR --with-local-prefix=$TCDIR --with-sysroot=$ROOT --build=$BUILDHOST --host=$BUILDHOST --target=$BUILDTARGET --disable-nls $CONF --enable-shared --enable-languages=c,c++ --enable-__cxa_atexit --enable-c99 --enable-long-long --enable-threads=posix --with-mpfr=$CTCDIR --with-gmp=$CTCDIR --with-mpc=$CTCDIR --without-ppl --without-cloog"
     ;;
     Tools)
-      CONF="--prefix=/RBS-Tools --libdir=/RBS-Tools/$LIBSDIR --libexecdir=/RBS-Tools/$LIBSDIR --with-local-prefix=/RBS-Tools --build=$BUILDHOST --host=$BUILDTARGET --target=$BUILDTARGET --enable-long-long --enable-c99 --enable-shared --enable-threads=posix --enable-__cxa_atexit --disable-nls --enable-languages=c,c++ --disable-libstdcxx-pch --without-ppl --without-cloog $CONF"
+      CONF="--prefix=$TCDIR --libdir=$TCDIR/$LIBSDIR --libexecdir=$TCDIR/$LIBSDIR --with-local-prefix=$TCDIR --build=$BUILDHOST --host=$BUILDTARGET --target=$BUILDTARGET --enable-long-long --enable-c99 --enable-shared --enable-threads=posix --enable-__cxa_atexit --disable-nls --enable-languages=c,c++ --disable-libstdcxx-pch --without-ppl --without-cloog $CONF"
     ;;
     Standard)
       CONF="--prefix=/usr --libdir=/usr/$LIBSDIR --libexecdir=/usr/$LIBSDIR --enable-shared --enable-threads=posix --enable-__cxa_atexit --enable-c99 --enable-long-long --enable-clocale=gnu --enable-languages=c,c++ --disable-libstdcxx-pch --without-ppl --without-cloog $CONF"
@@ -71,8 +71,8 @@ My_GCC_MultiBuild_Func(){
   case $1 in
     CrossToolsStatic|CrossTools|Tools)
       for x in $(find gcc/config -name linux64.h -o -name linux.h); do
-        sed -i -e 's@/lib\(64\)\?\(32\)\?/ld@/RBS-Tools&@g' \
-          -e 's@/usr@/RBS-Tools@g' $x || return 1
+        sed -i -e "s@/lib\(64\)\?\(32\)\?/ld@${TCDIR}&@g" \
+          -e "s@/usr@${TCDIR}@g" $x || return 1
 cat << FOE >> $x || return 1
 #undef STANDARD_INCLUDE_DIR
 #define STANDARD_INCLUDE_DIR 0
@@ -85,14 +85,14 @@ FOE
     CrossToolsStatic|CrossTools)
 cat << FOO >> gcc/config/linux.h || return 1
 #undef STARTFILE_PREFIX_SPEC
-#define STARTFILE_PREFIX_SPEC "/RBS-Tools/$LIBSDIR/"
+#define STARTFILE_PREFIX_SPEC "$TCDIR/$LIBSDIR/"
 FOO
     ;;
   esac
 
   case $1 in
     CrossToolsStatic|CrossTools)
-      sed -i -e "s@\(^CROSS_SYSTEM_HEADER_DIR =\).*@\1 /RBS-Tools/include@g" \
+      sed -i -e "s@\(^CROSS_SYSTEM_HEADER_DIR =\).*@\1 ${TCDIR}/include@g" \
         gcc/Makefile.in || return 1
     ;;
   esac
@@ -101,7 +101,7 @@ FOO
     Tools)
       sed -i -e '/#define STANDARD_INCLUDE_DIR/s@"/usr/include"@0@g' \
         gcc/cppdefault.c || return 1
-      sed -i -e 's@\(^NATIVE_SYSTEM_HEADER_DIR =\).*@\1 /RBS-Tools/include@g' \
+      sed -i -e "s@\(^NATIVE_SYSTEM_HEADER_DIR =\).*@\1 ${TCDIR}/include@g" \
         gcc/Makefile.in || return 1
     ;;
     Standard)
@@ -121,7 +121,7 @@ FOO
       CC="$CC $BUILD" CXX="$CXX $BUILD" $HDSRCDIR/$DIR/configure $CONF || return 1
     ;;
     CrossToolsStatic|CrossTools)
-      AR=ar LDFLAGS="-Wl,-rpath,/RBS-Cross-Tools/lib" $HDSRCDIR/$DIR/configure $CONF || return 1
+      AR=ar LDFLAGS="-Wl,-rpath,$CTCDIR/lib" $HDSRCDIR/$DIR/configure $CONF || return 1
     ;;
   esac
   
@@ -140,13 +140,13 @@ FOO
     CrossTools)
       make AS_FOR_TARGET="${BUILDTARGET}-as" LD_FOR_TARGET="${BUILDTARGET}-ld" || return 1
       make install || return 1
-      F=/RBS-Cross-Tools/$BUILDTARGET/lib/libgcc_s.so.1
+      F=$CTCDIR/$BUILDTARGET/lib/libgcc_s.so.1
       if [ -e "$F" ]; then
-        ln -sfn $F /RBS-Tools/lib/ || return 1
+        ln -sfn $F $TCDIR/lib/ || return 1
       fi
-      F=/RBS-Cross-Tools/$BUILDTARGET/lib64/libgcc_s.so.1
+      F=$CTCDIR/$BUILDTARGET/lib64/libgcc_s.so.1
       if [ -e "$F" ]; then
-        ln -sfn $F /RBS-Tools/lib64/ || return 1
+        ln -sfn $F $TCDIR/lib64/ || return 1
       fi
     ;;
     Tools)
@@ -158,7 +158,7 @@ FOO
   
   case $1 in
     CrossToolsStatic)
-      find /RBS-Cross-Tools/ -name 'libgcc.a' -exec dirname {} \; | while read x; do
+      find $CTCDIR -name 'libgcc.a' -exec dirname {} \; | while read x; do
         ln -sfn libgcc.a $x/libgcc_eh.a || return 1
       done
     ;;
@@ -170,17 +170,17 @@ FOO
   rm -rf $DIR || return 1
 }
 
-RBS_Cross_Tools_BuildStatic(){
+Cross_Tools_BuildStatic(){
   My_GCC_MultiBuild_Func CrossToolsStatic || return 1
   return 0
 }
 
-RBS_Cross_Tools_Build(){
+Cross_Tools_Build(){
   My_GCC_MultiBuild_Func CrossTools || return 1
   return 0
 }
 
-RBS_Tools_Build(){
+Tools_Build(){
   My_GCC_MultiBuild_Func Tools || return 1
   return 0
 }

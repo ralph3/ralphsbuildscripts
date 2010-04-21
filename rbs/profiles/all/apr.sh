@@ -27,7 +27,6 @@ build(){
     --with-installbuilddir=/usr/$LIBSDIR/apr-1 || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
-  find $TMPROOT -name 'libtool' -exec sed -i 's%\/RBS-Tools%%g' {} \;
   set_multiarch $TMPROOT/usr/bin/apr-1-config || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1

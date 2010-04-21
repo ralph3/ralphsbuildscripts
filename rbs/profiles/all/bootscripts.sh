@@ -557,7 +557,7 @@ EOF
   return 0
 }
 
-RBS_Tools_Build(){
+Tools_Build(){
   MyBuild $ROOT || return 1
 }
 

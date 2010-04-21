@@ -45,10 +45,10 @@ source_setup(){
   cd $SRCDIR || return 1
 }
 
-RBS_Tools_Build(){
+Tools_Build(){
   local KARCH KCONF MODDIR KNAME
   case $($CC -dumpmachine | cut -f1 -d'-') in
-    i486|i586|i686)
+    i?86)
       KARCH=i386
       KCONF="x86-kernel.config"
     ;;

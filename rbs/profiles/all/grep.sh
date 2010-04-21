@@ -19,11 +19,11 @@ MD5SUMS=(
 5650ee2ae6ea4b39e9459d7d0585b315
 )
 
-RBS_Tools_Build(){
+Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
-    --host=$BUILDTARGET --prefix=/RBS-Tools --bindir=/RBS-Tools/bin \
+    --host=$BUILDTARGET --prefix=$TCDIR --bindir=$TCDIR/bin \
     --disable-perl-regexp || return 1
   make || return 1
   make install || return 1

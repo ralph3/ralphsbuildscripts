@@ -248,7 +248,7 @@ EOF
 
 }
 
-RBS_Tools_Build(){
+Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   rbs_do_python_patching || return 1
@@ -260,8 +260,8 @@ RBS_Tools_Build(){
     Modules/Setup.dist \
     Modules/getpath.c \
     setup.py || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/RBS-Tools \
-    --libdir=/RBS-Tools/$LIBSDIR --enable-shared || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=$TCDIR \
+    --libdir=$TCDIR/$LIBSDIR --enable-shared || return 1
   make || return 1
   make install || return 1
   cd ../ || return 1

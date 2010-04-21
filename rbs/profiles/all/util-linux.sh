@@ -17,11 +17,11 @@ MD5SUMS=(
 4635725a3eef1c57090bac8ea5e082e6
 )
 
-RBS_Tools_Build(){
+Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
-    --host=$BUILDTARGET --libdir=/RBS-Tools/$LIBSDIR --includedir=/RBS-Tools/include \
+    --host=$BUILDTARGET --libdir=$TCDIR/$LIBSDIR --includedir=$TCDIR/include \
     --enable-arch --enable-login-utils --disable-makeinstall-chown || return 1
   make || return 1
   make install DESTDIR=$ROOT || return 1

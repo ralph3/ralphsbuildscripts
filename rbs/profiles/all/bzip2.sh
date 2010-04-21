@@ -21,7 +21,7 @@ MD5SUMS=(
 3c15a0c8d1d3ee1c46a1634d00617b1a
 )
 
-RBS_Tools_Build(){
+Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   sed -i -e "s@^CFLAGS=@& $CFLAGS @" -e 's@ln @ln -sfn @g' \
@@ -33,7 +33,7 @@ RBS_Tools_Build(){
   make clean || return 1
   make CC="$CC $BUILD" CXX="$CXX $BUILD" AR="${AR}" \
     RANLIB="${RANLIB}" || return 1
-  make PREFIX=/RBS-Tools install || return 1
+  make PREFIX=$TCDIR install || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }

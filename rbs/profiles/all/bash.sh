@@ -22,10 +22,13 @@ MD5SUMS=(
 
 CaT_BaSH_ProfileStuff(){
   mkdir -p $1/etc/{profile.d,skel} || return 1
-cat << "EOF" > $1/etc/profile || return 1
+cat << EOF > $1/etc/profile || return 1
 #!/bin/bash
 
-export PATH=/bin:/usr/bin:/RBS-Tools/bin
+export PATH=/bin:/usr/bin:$TCDIR/bin
+EOF
+
+cat << "EOF" >> $1/etc/profile || return 1
 [ "$(id -u)" = "0" ] && export PATH=/sbin:/usr/sbin:$PATH
 HISTSIZE=1000
 HISTIGNORE="&:[bf]g:exit"
@@ -74,7 +77,7 @@ EOF
 }
 
 
-RBS_Tools_Build(){
+Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
 cat << "EOF" > config.cache || return 1
@@ -93,11 +96,11 @@ bash_cv_unusable_rtsigs=no
 gt_cv_int_divbyzero_sigfpe=yes
 EOF
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
-    --host=$BUILDTARGET --prefix=/RBS-Tools --bindir=/RBS-Tools/bin \
+    --host=$BUILDTARGET --prefix=$TCDIR --bindir=$TCDIR/bin \
     --without-bash-malloc --cache-file=config.cache || return 1
   make || return 1
   make install || return 1
-  ln -sfn bash /RBS-Tools/bin/sh || return 1
+  ln -sfn bash $TCDIR/bin/sh || return 1
   CaT_BaSH_ProfileStuff $ROOT || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1

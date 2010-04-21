@@ -90,7 +90,7 @@ EOF
 }
 
 
-RBS_Tools_Build(){
+Tools_Build(){
   local MYBUILD MYLIBSDIR
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
@@ -103,15 +103,15 @@ RBS_Tools_Build(){
   fi
   sed -i "/libc/s@/lib@/${MYLIBSDIR}@" hints/linux.sh || return 1
   echo 'installstyle="${MYLIBSDIR}/perl5"' >> hints/linux.sh || return 1
-  CC="$CC $MYBUILD" CXX="$CXX $MYBUILD" ./configure.gnu --prefix=/RBS-Tools \
+  CC="$CC $MYBUILD" CXX="$CXX $MYBUILD" ./configure.gnu --prefix=$TCDIR \
     -Dstatic_ext='Data/Dumper IO Fcntl POSIX' \
-    -Dlibpth="/RBS-Tools/$MYLIBSDIR" \
+    -Dlibpth="$TCDIR/$MYLIBSDIR" \
     -Dcc="$CC $MYBUILD" || return 1
   make perl utilities || return 1
-  cp -v perl pod/pod2man /RBS-Tools/bin || return 1
-  install -dv /RBS-Tools/$MYLIBSDIR/site_perl/$VERSION || return 1
-  cp -Rv lib/* /RBS-Tools/$MYLIBSDIR/site_perl/$VERSION || return 1
-  ln -sfnv /RBS-Tools/bin/perl /usr/bin/ || return 1
+  cp -v perl pod/pod2man $TCDIR/bin || return 1
+  install -dv $TCDIR/$MYLIBSDIR/site_perl/$VERSION || return 1
+  cp -Rv lib/* $TCDIR/$MYLIBSDIR/site_perl/$VERSION || return 1
+  ln -sfnv $TCDIR/bin/perl /usr/bin/ || return 1
   cd $SRCDIR || return 1
   rm -rf $DIR || return 1
 }

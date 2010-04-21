@@ -18,6 +18,9 @@ DOWNLOADDIR="$RBSDIR/.cache/downloads"
 PATCHDIR="$RBSDIR/patches"
 CONFDIR="$RBSDIR/conf"
 
+TCDIR="/RBS-TOOLS"
+CTCDIR="/RBS-CROSS-TOOLS"
+
 if [ -z "$ROOT" ]; then
   ROOT="/"
 fi

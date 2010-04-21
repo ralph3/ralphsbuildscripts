@@ -17,7 +17,7 @@ MD5SUMS=(
 fb507a40c2706bc38306f150d069e345
 )
 
-RBS_Tools_Build(){
+Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   sed -i -e "/libdir=.*\/lib/s@/lib@/${LIBSDIR}@g" configure || return 1

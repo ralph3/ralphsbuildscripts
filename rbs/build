@@ -198,7 +198,7 @@ cat_cross_tools_profile(){
 cat_rbs_profile
 cat << EOF
 export BUILDHOST="$BUILDHOST"
-export PATH=/RBS-Cross-Tools/bin:$PATH
+export PATH=$CTCDIR/bin:$PATH
 export WORKDIR="$WORKDIR"
 export SRCDIR="$SRCDIR"
 export TMPDIR="$WORKDIR/tmp"
@@ -227,35 +227,35 @@ export CXXFLAGS="${RBS_CXXFLAGS}"
 EOF
 }
 
-[ ! -e "$STATEDIR/RBS_TOOLS" ] && {
-  mkdir -p $SRCDIR $ROOT/{RBS-Cross-Tools,RBS-Tools/bin,etc/profile.d} \
+[ ! -e "$STATEDIR/TOOLS" ] && {
+  mkdir -p $SRCDIR $ROOT/{$CTCDIR,$TCDIR/bin,etc/profile.d} \
     $WORKDIR/tmp $STATEDIR || exit 1
-  ln -sfn bin $ROOT/RBS-Tools/sbin || exit 1
-  ln -sfn $ROOT/RBS-Tools /RBS-Tools || exit 1
-  ln -sfn $ROOT/RBS-Cross-Tools /RBS-Cross-Tools || exit 1
+  ln -sfn bin $ROOT/$TCDIR/sbin || exit 1
+  ln -sfn $ROOT/$TCDIR $TCDIR || exit 1
+  ln -sfn $ROOT/$CTCDIR $CTCDIR || exit 1
   
   cat_cross_tools_profile > $RBS_PROFILE || exit 1
   chmod 755 $RBS_PROFILE || exit 1
   source $RBS_PROFILE || exit 1
   
   for x in linux-headers file ncurses gmp mpfr mpc binutils gcc_Static glibc gcc; do
-    STATE="$STATEDIR/RBS_Cross_Tools__${x}"
+    STATE="$STATEDIR/Cross_Tools__${x}"
     if [ "$x" == "glibc" ] && [ "$RBS_SYSTYPE" == "MULTILIB" ]; then
       STATE="${STATE}-32"
       [ ! -e "$STATE" ] && {
         BUILD=$BUILD32 LIBSDIR=$LIBSDIR32 \
-          exec_profile $x RBS_Cross_Tools_Build || exit 1
+          exec_profile $x Cross_Tools_Build || exit 1
         >$STATE
       }
       STATE="${STATE}-64"
       [ ! -e "$STATE" ] && {
-        exec_profile $x RBS_Cross_Tools_Build || exit 1
+        exec_profile $x Cross_Tools_Build || exit 1
         >$STATE
       }
     else
       [ ! -e "$STATE" ] && {
         exec_profile $(echo $x | cut -f1 -d'_') \
-          RBS_Cross_Tools_Build$(echo $x | cut -s -f2- -d'_') || exit 1
+          Cross_Tools_Build$(echo $x | cut -s -f2- -d'_') || exit 1
         >$STATE
       }
     fi
@@ -273,9 +273,9 @@ EOF
   for x in gmp mpfr mpc zlib binutils gcc ncurses bash bzip2 coreutils diffutils \
            findutils file gawk gettext grep gzip m4 make patch sed xz tar \
            texinfo util-linux $BOOTT; do
-    STATE="$STATEDIR/RBS_Tools__${x}"
+    STATE="$STATEDIR/Tools__${x}"
     [ ! -e "$STATE" ] && {
-      exec_profile $x RBS_Tools_Build || exit 1
+      exec_profile $x Tools_Build || exit 1
       >$STATE
     }
   done
@@ -293,32 +293,26 @@ EOF
   done
   echo "  Done."
   
-  rm -rf /RBS-Tools/{info,man,var} \
-    /RBS-Tools/share/{aclocal,awk,doc,et,getopt,gettext,i18n,info,locale,man,misc,ss,tabset,texinfo,zoneinfo}
+  rm -rf $TCDIR/{info,man,var} \
+    $TCDIR/share/{aclocal,awk,doc,et,getopt,gettext,i18n,info,locale,man,misc,ss,tabset,texinfo,zoneinfo}
   
-  rm /RBS-Tools /RBS-Cross-Tools || exit 1
+  rm $TCDIR $CTCDIR || exit 1
   
   mkdir -p $ROOT/{bin,dev,proc,root,usr/bin} || exit 1
   chmod 750 $ROOT/root || exit 1
   if [ ! -L "$ROOT/bin/bash" ] && [ ! -f "$ROOT/bin/bash" ]; then
-    ln -s /RBS-Tools/bin/{bash,cat,echo,grep,pwd,stty} $ROOT/bin
-    ln -s /RBS-Tools/bin/{env,file} $ROOT/usr/bin
-    if [ -d "$ROOT/RBS-Tools/lib" ]; then
-      mkdir -p $ROOT/usr/lib
-      ln -s /RBS-Tools/lib/libgcc_s.so{,.1} $ROOT/usr/lib
-      for x in $ROOT/RBS-Tools/lib/libstd*; do
-        ln -s /RBS-Tools/lib/$(basename $x) $ROOT/usr/lib
-      done
-      rm -f $ROOT/usr/lib/*.la
-    fi
-    if [ -d "$ROOT/RBS-Tools/lib64" ]; then
-      mkdir -p $ROOT/usr/lib64
-      ln -s /RBS-Tools/lib64/libgcc_s.so{,.1} $ROOT/usr/lib64
-      for x in $ROOT/RBS-Tools/lib64/libstd*; do
-        ln -s /RBS-Tools/lib64/$(basename $x) $ROOT/usr/lib64
-      done
-      rm -f $ROOT/usr/lib64/*.la
-    fi
+    ln -s $TCDIR/bin/{bash,cat,echo,grep,pwd,stty} $ROOT/bin
+    ln -s $TCDIR/bin/{env,file} $ROOT/usr/bin
+    for dir in lib lib64; do
+      if [ -d "$ROOT/$TCDIR/$dir" ]; then
+        mkdir -p $ROOT/usr/$dir
+        ln -s $TCDIR/$dir/libgcc_s.so{,.1} $ROOT/usr/$dir
+        for x in $ROOT/$TCDIR/$dir/libstd*; do
+          ln -s $TCDIR/$dir/$(basename $x) $ROOT/usr/$dir
+        done
+        rm -f $ROOT/usr/$dir/*.la
+      fi
+    done
     ln -s bash  $ROOT/bin/sh
   fi
   
@@ -376,14 +370,14 @@ EOF
   cat_rbs_profile > $RBS_PROFILE || exit 1
   chmod 755 $RBS_PROFILE || exit 1
   
-  for x in $ROOT/RBS-Tools/bin/${BUILDTARGET}-*; do
+  for x in $ROOT/$TCDIR/bin/${BUILDTARGET}-*; do
     y=$(echo $x | rev | cut -f1 -d'-' | rev)
-    if [ ! -e "$ROOT/RBS-Tools/bin/$y" ]; then
-      ln -sfn $(basename $x) $ROOT/RBS-Tools/bin/$y
+    if [ ! -e "$ROOT/$TCDIR/bin/$y" ]; then
+      ln -sfn $(basename $x) $ROOT/$TCDIR/bin/$y
     fi
   done
   
-  >$STATEDIR/RBS_TOOLS
+  >$STATEDIR/TOOLS
 }
 
 cd "$RBSDIR" || exit 1
@@ -409,9 +403,9 @@ if [ "$DCB" == "1" ]; then
     mount --bind /proc $ROOT/proc || exit 1
     echo "  Done"
     mkdir -p $ROOT/root || exit 1
-    [ -e "$ROOT/RBS-Tools" ] && {
-      chroot $ROOT /RBS-Tools/bin/env -i HOME=/root TERM="linux" \
-        PATH=/bin:/usr/bin:/sbin:/usr/sbin:/RBS-Tools/bin \
+    [ -e "$ROOT/$TCDIR" ] && {
+      chroot $ROOT $TCDIR/bin/env -i HOME=/root TERM="linux" \
+        PATH=/bin:/usr/bin:/sbin:/usr/sbin:$TCDIR/bin \
         USE_SHM_SRCDIR=$USE_SHM_SRCDIR RAN_FROM_SETUP=1 /usr/src/rbs/base-setup
       if [ "$?" != "0" ]; then
         umount $ROOT/dev
@@ -420,7 +414,7 @@ if [ "$DCB" == "1" ]; then
         exit 1
       fi
     }
-    rm -rf $ROOT/{RBS-Cross-Tools,RBS-Tools} || exit 1
+    rm -rf $ROOT/{$CTCDIR,$TCDIR} || exit 1
     STATE="$STATEDIR/Extra-Packages-Install"
     if [ -n "$EP" ] && [ ! -e "$STATE" ]; then
       chroot $ROOT /usr/bin/env -i HOME=/root TERM="linux" \
@@ -458,7 +452,7 @@ echo "  Done!"
 
 cd $ROOT || exit 1
 echo -n "Creating sysroot.tar.gz..."
-tar czp --exclude=RBS-Cross-Tools -f $WORKDIR/sysroot.tar.gz * || exit 1
+tar czp --exclude=$(basename $CTCDIR) -f $WORKDIR/sysroot.tar.gz * || exit 1
 echo "  Done."
 
 if [ "$DCB" == "1" ] && \
@@ -543,17 +537,17 @@ EOF
     ROOTLIBSDIR=$ROOT/$LIBSDIR
     ROOTUSRLIBSDIR=$ROOT/usr/$LIBSDIR
     ROOTSHAREDIR=$ROOT/usr/share
-    if [ -e "$ROOT/RBS-Tools" ]; then
-      mkdir -p $WORKDIR/initrd/RBS-Tools/share/terminfo/l || return 1
-      ln -sfn /usr/share/terminfo/l/linux $WORKDIR/initrd/RBS-Tools/share/terminfo/l/linux || return 1
-      ln -sfn ../$LIBSDIR $WORKDIR/initrd/RBS-Tools/$LIBSDIR || return 1
-      ROOTBINDIR=$ROOT/RBS-Tools/bin
+    if [ -e "$ROOT/$TCDIR" ]; then
+      mkdir -p $WORKDIR/initrd/$TCDIR/share/terminfo/l || return 1
+      ln -sfn /usr/share/terminfo/l/linux $WORKDIR/initrd/$TCDIR/share/terminfo/l/linux || return 1
+      ln -sfn ../$LIBSDIR $WORKDIR/initrd/$TCDIR/$LIBSDIR || return 1
+      ROOTBINDIR=$ROOT/$TCDIR/bin
       ROOTUSRBINDIR=$ROOTBINDIR
       ROOTSBINDIR=$ROOTBINDIR
       ROOTUSRSBINDIR=$ROOTBINDIR
-      ROOTLIBSDIR=$ROOT/RBS-Tools/$LIBSDIR
+      ROOTLIBSDIR=$ROOT/$TCDIR/$LIBSDIR
       ROOTUSRLIBSDIR=$ROOTLIBSDIR
-      ROOTSHAREDIR=$ROOT/RBS-Tools/share
+      ROOTSHAREDIR=$ROOT/$TCDIR/share
     fi
     
     for x in bash cat stty basename bzip2 cp grep gzip \
@@ -746,13 +740,13 @@ fi
 
 mount_crap
 
-if [ -e "/mnt/root/RBS-Tools" ]; then
+if [ -e "/mnt/root/$TCDIR" ]; then
   echo -e "\n Chrooting and running /usr/src/rbs/base-setup..."
   chroot /mnt/root /usr/bin/env -i HOME=/root TERM="linux" \
-    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/RBS-Tools/bin \
+    PATH=/bin:/usr/bin:/sbin:/usr/sbin:$TCDIR/bin \
     USE_SHM_SRCDIR=\$USE_SHM_SRCDIR \
     RAN_FROM_SETUP=1 /usr/src/rbs/base-setup "$PKG_PROFILES" || exit 1
-  rm -rf /mnt/root/RBS-Tools || exit 1
+  rm -rf /mnt/root/$TCDIR || exit 1
   
   echo
   

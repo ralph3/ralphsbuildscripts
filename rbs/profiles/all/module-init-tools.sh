@@ -37,7 +37,7 @@ MyBuild(){
   rm -rf $DIR || return 1
 }
 
-RBS_Tools_Build(){
+Tools_Build(){
   MyBuild $ROOT || return 1
 }
 

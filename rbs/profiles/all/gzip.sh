@@ -19,12 +19,12 @@ MD5SUMS=(
 e381b8506210c794278f5527cba0e765
 )
 
-RBS_Tools_Build(){
+Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   sed -i "s/futimens/gl_&/" $(grep -lr futimens *) || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
-    --host=$BUILDTARGET --prefix=/RBS-Tools || return 1
+    --host=$BUILDTARGET --prefix=$TCDIR || return 1
   sed -i 's@"BINDIR"@/bin@g' gzexe.in || return 1
   make || return 1
   make install || return 1

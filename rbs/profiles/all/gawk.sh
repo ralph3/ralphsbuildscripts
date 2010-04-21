@@ -19,12 +19,12 @@ MD5SUMS=(
 674cc5875714315c490b26293d36dfcf
 )
 
-RBS_Tools_Build(){
+Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
-    --host=$BUILDTARGET --prefix=/RBS-Tools \
-    --libexecdir=/RBS-Tools/$LIBSDIR --disable-libsigsegv || return 1
+    --host=$BUILDTARGET --prefix=$TCDIR \
+    --libexecdir=$TCDIR/$LIBSDIR --disable-libsigsegv || return 1
   make || return 1
   make install || return 1
   cd ../ || return 1

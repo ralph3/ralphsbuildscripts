@@ -17,23 +17,23 @@ MD5SUMS=(
 5ec19db53ced047b8d0d52373f6c245d
 )
 
-RBS_Cross_Tools_Build(){
+Cross_Tools_Build(){
   unset CFLAGS CXXFLAGS
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CPPFLAGS=-fexceptions ./configure --prefix=/RBS-Cross-Tools --enable-cxx || return 1
+  CPPFLAGS=-fexceptions ./configure --prefix=$CTCDIR --enable-cxx || return 1
   make || return 1
   make install || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
 
-RBS_Tools_Build(){
+Tools_Build(){
   unset CFLAGS CXXFLAGS
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" CPPFLAGS=-fexceptions ./configure --build=$BUILDHOST \
-    --host=$BUILDTARGET --prefix=/RBS-Tools --libdir=/RBS-Tools/$LIBSDIR \
+    --host=$BUILDTARGET --prefix=$TCDIR --libdir=$TCDIR/$LIBSDIR \
     --enable-cxx --enable-mpbsd || return 1
   make || return 1
   make install || return 1

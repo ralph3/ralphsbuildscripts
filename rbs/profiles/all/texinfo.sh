@@ -19,11 +19,11 @@ MD5SUMS=(
 71ba711519209b5fb583fed2b3d86fcb
 )
 
-RBS_Tools_Build(){
+Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
-    --host=$BUILDTARGET --prefix=/RBS-Tools || return 1
+    --host=$BUILDTARGET --prefix=$TCDIR || return 1
   make -C tools/gnulib/lib || return 1
   make -C tools || return 1
   make || return 1

@@ -18,22 +18,22 @@ MD5SUMS=(
 cce05daf61a64501ef6cd8da1f727ec6
 )
 
-RBS_Cross_Tools_Build(){
+Cross_Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  ./configure --prefix=/RBS-Tools --without-shared --without-debug || return 1
+  ./configure --prefix=$TCDIR --without-shared --without-debug || return 1
   make -C include || return 1
   make -C progs tic || return 1
-  install -m755 progs/tic /RBS-Cross-Tools/bin/ || return 1
+  install -m755 progs/tic $CTCDIR/bin/ || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
 
-RBS_Tools_Build(){
+Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
-    --host=$BUILDTARGET --prefix=/RBS-Tools --libdir=/RBS-Tools/$LIBSDIR \
+    --host=$BUILDTARGET --prefix=$TCDIR --libdir=$TCDIR/$LIBSDIR \
     --with-shared --without-debug --without-ada --enable-overwrite \
     --with-build-cc=gcc || return 1
   make || return 1

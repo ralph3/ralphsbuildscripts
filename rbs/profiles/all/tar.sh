@@ -19,12 +19,12 @@ MD5SUMS=(
 41e2ca4b924ec7860e51b43ad06cdb7e
 )
 
-RBS_Tools_Build(){
+Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   echo "gl_cv_func_wcwidth_works=yes" >> config.cache || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
-    --host=$BUILDTARGET --prefix=/RBS-Tools \
+    --host=$BUILDTARGET --prefix=$TCDIR \
     --cache-file=config.cache || return 1
   make || return 1
   make install || return 1
