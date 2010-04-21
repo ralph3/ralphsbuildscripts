@@ -28,6 +28,10 @@ for PRO in $PROFILES; do
     version_check_info
     
     echo -n "  ${PRO}..."
+    ####
+    # get data from address and replace html chars with new
+    # lines to make grepping easier
+    ####
     DATA=$(
             wget -q -O /dev/stdout --timeout=30 --passive-ftp "$ADDRESS" | \
               sed -e 's%<%\n%g' -e 's%>%\n%g' -e 's%\"%\n%g'
@@ -37,13 +41,28 @@ for PRO in $PROFILES; do
     fi
     PRE=$(sed -e 's%\%version\%%\n%g' <<<$VERSION_STRING | sed -e '1!d')
     SUF=$(sed -e 's%\%version\%%\n%g' <<<$VERSION_STRING | sed -e '2!d')
+    ####
+    # get only lines containing PRE and SUF with data in the middle then
+    # delete everything leading up to the end of PRE and from the beginning
+    # of SUF to the end of line
+    ####
     VLIST=$(
               grep "^.*${PRE}.*${SUF}" <<<"$DATA" | \
                 sed -e "s%^.*${PRE}%%g" -e "s%${SUF}.*$%%g"
            )
+    ####
+    # now that we have a list of supposed version numbers and possibly other junk.
+    # if version filters are set we will run each filter on the version list
+    # to get out what we don't want
+    ####
     for x in $VERSION_FILTERS; do
        VLIST=$(grep -v "$x" <<<"$VLIST")
     done
+    ####
+    # now we will sort the version numbers to get the greatest version on the
+    # end of the list then get the last line which should contain the greatest
+    # version number.
+    ####
     VRES=$(sort <<<"$VLIST" | tail -n1)
     if [ -z "$VRES" ]; then
       echo " ERR VRES empty. Wrong VERSION_FILTERS?"
@@ -51,6 +70,9 @@ for PRO in $PROFILES; do
       if [ "$(sort <<<"$(echo -e "${VERSION}\n${VRES}")" | tail -n1)" == "$VERSION" ]; then
         echo -en "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
       else
+        ####
+        # then this should mean we have a new version out
+        ####
         echo " $VERSION -> $VRES"
       fi
     fi
