@@ -1,0 +1,60 @@
+#!/bin/bash
+
+cd "$(dirname $0)" || exit 1
+RBSDIR="$PWD"
+
+source "$RBSDIR/shared" || exit 1
+
+if [ -n "$1" ]; then
+  PROFILES="$*"
+else
+  echo foo
+  exit 1
+  PROFILES="$(profile_list)"
+fi
+
+echo "<check-versions begin>"
+for PRO in $PROFILES; do
+  profile_exists $PRO || {
+    echo "No profile named \"${PRO}.sh\" found!" >/dev/stderr
+    exit 1
+  }
+  PROFILE=$(profile_realpath $PRO)
+  unset version_check_info VERSION APPNAME ADDRESS VERSION_STRING \
+    VERSION_FILTERS ONLY_EVEN_MINORS MINOR_VERSION MIRRORS \
+    DATA PRE SUF VLIST VRES
+  source $PROFILE || exit 1
+  if [ "$(type -t version_check_info)" == "function" ]; then
+    version_check_info
+    
+    echo -n "  ${PRO}..."
+    DATA=$(
+            wget -q -O /dev/stdout --timeout=30 --passive-ftp "$ADDRESS" | \
+              sed -e 's%<%\n%g' -e 's%>%\n%g' -e 's%\"%\n%g'
+          )
+    if [ -z "$DATA" ]; then
+      echo " ERR DATA empty. ADDRESS typo? Site down?"
+    fi
+    PRE=$(sed -e 's%\%version\%%\n%g' <<<$VERSION_STRING | sed -e '1!d')
+    SUF=$(sed -e 's%\%version\%%\n%g' <<<$VERSION_STRING | sed -e '2!d')
+    VLIST=$(
+              grep "^.*${PRE}.*${SUF}" <<<"$DATA" | \
+                sed -e "s%^.*${PRE}%%g" -e "s%${SUF}.*$%%g"
+           )
+    for x in $VERSION_FILTERS; do
+       VLIST=$(grep -v "$x" <<<"$VLIST")
+    done
+    VRES=$(sort <<<"$VLIST" | tail -n1)
+    if [ -z "$VRES" ]; then
+      echo " ERR VRES empty. Wrong VERSION_FILTERS?"
+    else
+      if [ "$(sort <<<"$(echo -e "${VERSION}\n${VRES}")" | tail -n1)" == "$VERSION" ]; then
+        echo -en "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
+      else
+        echo " $VERSION -> $VRES"
+      fi
+    fi
+  fi
+done
+echo "</check-versions end>"
+exit 0

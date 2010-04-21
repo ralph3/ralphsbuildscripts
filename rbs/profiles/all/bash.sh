@@ -123,7 +123,7 @@ build(){
 version_check_info(){
   ADDRESS='http://ftp.gnu.org/gnu/bash/'
   VERSION_STRING='bash-%version%.tar.gz'
-  VERSION_FILTERS='rc'
+  VERSION_FILTERS='rc doc'
   MIRRORS=(
     'http://ftp.gnu.org/gnu/bash/bash-%version%.tar.gz'
   )
