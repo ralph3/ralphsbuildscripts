@@ -53,6 +53,7 @@ post_upgrade(){
 version_check_info(){
   ADDRESS='http://www.xchat.org/files/source/%minor_version%/'
   VERSION_STRING='xchat-%version%.tar.bz2'
+  MINOR_VERSION_FILTERS="old"
   MIRRORS=(
     'http://www.xchat.org/files/source/%minor_version%/xchat-%version%.tar.bz2'
   )

@@ -47,6 +47,7 @@ build(){
 version_check_info(){
   ADDRESS='http://ibiblio.org/pub/linux/system/emulators/wine/'
   VERSION_STRING='wine-%version%.tar.bz2'
+  VERSION_FILTERS="docs"
   MIRRORS=(
     'http://ibiblio.org/pub/linux/system/emulators/wine/wine-%version%.tar.bz2'
   )

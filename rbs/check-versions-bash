@@ -8,10 +8,37 @@ source "$RBSDIR/shared" || exit 1
 if [ -n "$1" ]; then
   PROFILES="$*"
 else
-  echo foo
-  exit 1
   PROFILES="$(profile_list)"
 fi
+
+get_data(){
+    ####
+    # get data from address and replace html chars with new
+    # lines to make grepping easier
+    ####
+    wget -q -O /dev/stdout --timeout=30 --passive-ftp "$1" | \
+      sed -e 's%<%\n%g' -e 's%>%\n%g' -e 's%\"%\n%g'
+}
+
+filter_minors(){
+  local ret
+  ret="$*"
+  if [ "$ONLY_EVEN_MINORS" == "1" ]; then
+    ret=$(for x in $*; do y=$(cut -f2 -d'.' <<<$x | tr -d '/' | grep -vi "[a-z]"); if [ -n "$y" ]; then if [ "$(($y % 2))" == 0 ] || [ "$y" == 0 ]; then echo $x; fi; fi; done 2>/dev/null)
+  fi
+  if [ -n "$MINOR_VERSION" ]; then
+    ret=$(grep "^${MINOR_VERSION}" <<<"$ret")
+  fi
+  echo "$ret"
+}
+
+get_dir_data(){
+  filter_minors "$(get_data $1 | grep -iv -e ' ' \
+    -e '^/a$' -e 'html$' -e 'head$' \
+    -e 'body$' -e 'title$' -e 'pre$' \
+    -e 'font$' -e 'h[0-9]$' -e 'hr$' \
+    -e '/.*/' | grep '/$' | tr -d '/')"
+}
 
 echo "<check-versions begin>"
 for PRO in $PROFILES; do
@@ -21,21 +48,33 @@ for PRO in $PROFILES; do
   }
   PROFILE=$(profile_realpath $PRO)
   unset version_check_info VERSION APPNAME ADDRESS VERSION_STRING \
-    VERSION_FILTERS ONLY_EVEN_MINORS MINOR_VERSION MIRRORS \
+    VERSION_FILTERS MINOR_VERSION_FILTERS ONLY_EVEN_MINORS MINOR_VERSION MIRRORS \
     DATA PRE SUF VLIST VRES
   source $PROFILE || exit 1
   if [ "$(type -t version_check_info)" == "function" ]; then
     version_check_info
     
     echo -n "  ${PRO}..."
-    ####
-    # get data from address and replace html chars with new
-    # lines to make grepping easier
-    ####
-    DATA=$(
-            wget -q -O /dev/stdout --timeout=30 --passive-ftp "$ADDRESS" | \
-              sed -e 's%<%\n%g' -e 's%>%\n%g' -e 's%\"%\n%g'
-          )
+    while [ -n "$(grep "%version%" <<<"$ADDRESS")" ] || [ -n "$(grep "%minor_version%" <<<"$ADDRESS")" ]; do
+      case "$(cut -f2 -d'%' <<<$ADDRESS)" in
+        version)
+          DATA=$(get_dir_data "$(cut -f1 -d'%' <<<"$ADDRESS")")
+          for x in $VERSION_FILTERS; do
+             DATA=$(grep -v "$x" <<<"$DATA")
+          done
+          ADDRESS=$(cut -f1 -d'%' <<<"$ADDRESS")/$(sort -V <<< "$DATA" | tail -n1)/$(cut -f3- -d'%' <<<"$ADDRESS")
+        ;;
+        minor_version)
+          DATA=$(get_dir_data "$(cut -f1 -d'%' <<<"$ADDRESS")")
+          for x in $MINOR_VERSION_FILTERS; do
+             DATA=$(grep -v "$x" <<<"$DATA")
+          done
+          ADDRESS=$(cut -f1 -d'%' <<<"$ADDRESS")/$(sort -V <<< "$DATA" | tail -n1)/$(cut -f3- -d'%' <<<"$ADDRESS")
+        ;;
+      esac
+    done
+    
+    DATA=$(get_data "$ADDRESS")
     if [ -z "$DATA" ]; then
       echo " ERR DATA empty. ADDRESS typo? Site down?"
     fi
@@ -50,25 +89,22 @@ for PRO in $PROFILES; do
               grep "^.*${PRE}.*${SUF}" <<<"$DATA" | \
                 sed -e "s%^.*${PRE}%%g" -e "s%${SUF}.*$%%g"
            )
-    ####
-    # now that we have a list of supposed version numbers and possibly other junk.
-    # if version filters are set we will run each filter on the version list
-    # to get out what we don't want
-    ####
     for x in $VERSION_FILTERS; do
        VLIST=$(grep -v "$x" <<<"$VLIST")
     done
+    VLIST=$(filter_minors "$VLIST")
     ####
     # now we will sort the version numbers to get the greatest version on the
     # end of the list then get the last line which should contain the greatest
     # version number.
     ####
-    VRES=$(sort <<<"$VLIST" | tail -n1)
+    VRES=$(sort -V <<<"$VLIST" | tail -n1)
     if [ -z "$VRES" ]; then
       echo " ERR VRES empty. Wrong VERSION_FILTERS?"
     else
-      if [ "$(sort <<<"$(echo -e "${VERSION}\n${VRES}")" | tail -n1)" == "$VERSION" ]; then
-        echo -en "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
+      if [ "$(sort -V <<<"$(echo -e "${VERSION}\n${VRES}")" | tail -n1)" == "$VERSION" ]; then
+        echo -n "                    "
+        echo -en "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
       else
         ####
         # then this should mean we have a new version out
