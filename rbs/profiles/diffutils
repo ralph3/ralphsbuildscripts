@@ -7,10 +7,6 @@ VERSION="2.9"
 DIR="diffutils-${VERSION}"
 TARBALL="diffutils-${VERSION}.tar.gz"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://ftp.gnu.org/gnu/diffutils/${TARBALL}
 )

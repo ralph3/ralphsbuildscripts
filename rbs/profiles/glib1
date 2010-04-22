@@ -5,10 +5,6 @@ VERSION="1.2.10"
 DIR="glib-1.2.10"
 TARBALL="glib-1.2.10.tar.gz"
 
-DEPENDS=(
-  libx11
-)
-
 SRC1=(
 ftp://ftp.gtk.org/pub/gtk/v1.2/glib-1.2.10.tar.gz
 )

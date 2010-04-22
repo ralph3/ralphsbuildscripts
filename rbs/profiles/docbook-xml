@@ -8,11 +8,6 @@ VERSION="4.5"
 DIR="docbook-xml-${VERSION}"
 TARBALL="docbook-xml-${VERSION}.zip"
 
-DEPENDS=(
-  libxml2
-  unzip
-)
-
 SRC1=(
 http://www.docbook.org/xml/${VERSION}/${TARBALL}
 )

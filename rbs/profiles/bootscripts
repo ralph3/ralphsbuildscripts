@@ -4,18 +4,6 @@ DISABLE_MULTILIB=1
 
 VERSION="2.0.4"
 
-DEPENDS=(
-  bash
-  inetutils
-  iproute
-  kbd
-  net-tools
-  sysklogd
-  sysvinit
-  udev
-  util-linux
-)
-
 MyBuild(){
   MYDEST=$1
   

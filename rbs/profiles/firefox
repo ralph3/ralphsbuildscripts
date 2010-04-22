@@ -7,12 +7,6 @@ VERSION="3.6.3"
 DIR="firefox-${VERSION}"
 TARBALL="firefox-${VERSION}.source.tar.bz2"
 
-DEPENDS=(
-  desktop-file-utils
-  libnotify
-  libidl
-)
-
 SRC1=(
 http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${VERSION}/source/${TARBALL}
 )

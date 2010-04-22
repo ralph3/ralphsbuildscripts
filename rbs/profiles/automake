@@ -7,10 +7,6 @@ VERSION="1.11.1"
 DIR="automake-${VERSION}"
 TARBALL="automake-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://ftp.gnu.org/gnu/automake/${TARBALL}
 )

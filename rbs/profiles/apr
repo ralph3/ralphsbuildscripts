@@ -7,10 +7,6 @@ VERSION="1.4.2"
 DIR="apr-${VERSION}"
 TARBALL="apr-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  e2fsprogs
-)
-
 SRC1=(
 http://apache.cs.utah.edu/apr/${TARBALL}
 )

@@ -7,10 +7,6 @@ VERSION="0.2.1"
 DIR="dvdrtools-${VERSION}"
 TARBALL="dvdrtools-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://download.savannah.gnu.org/releases-noredirect/dvdrtools/${TARBALL}
 )

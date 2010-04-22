@@ -7,11 +7,6 @@ VERSION="4.1"
 DIR="bash-${VERSION}"
 TARBALL="bash-${VERSION}.tar.gz"
 
-DEPENDS=(
-  bison
-  readline
-)
-
 SRC1=(
 http://ftp.gnu.org/gnu/bash/${TARBALL}
 )

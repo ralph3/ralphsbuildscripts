@@ -7,10 +7,6 @@ VERSION="0.4.1"
 DIR="compositeproto-${VERSION}"
 TARBALL="compositeproto-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )

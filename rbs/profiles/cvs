@@ -7,10 +7,6 @@ VERSION="1.11.23"
 DIR="cvs-${VERSION}"
 TARBALL="cvs-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  nano
-)
-
 SRC1=(
 http://ftp.gnu.org/non-gnu/cvs/source/stable/$VERSION/${TARBALL}
 )

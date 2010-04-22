@@ -11,7 +11,7 @@ RBSDIR="$PWD"
 source "$RBSDIR/shared" || exit 1
 
 if [ "$1" == "sync" ]; then
-  for x in $(find $DOWNLOADDIR/* | rev | cut -f1 -d'/' | rev | sed '/\.ok$/d' | grep -vhFx "$(list_sources $(profile_list))"); do
+  for x in $(find $DOWNLOADDIR/* | rev | cut -f1 -d'/' | rev | sed '/\.ok$/d' | grep -vhFx "$(list_sources $(find $PROFILEDIR/* | rev | cut -f1 -d'/' | rev))"); do
     if [ -e "$DOWNLOADDIR/${x}" ]; then
       echo -n "Removing <DOWNLOADDIR>/${x}..."
       rm -f $DOWNLOADDIR/${x}{,.ok}
@@ -21,14 +21,14 @@ if [ "$1" == "sync" ]; then
   exit 0
 fi
 
+PROFILES=$*
 if [ -z "$*" ]; then
   echo "Nothing to do!"
   exit 1
-else
-  PROFILES="$(resolve_profile_names $*)"
+elif [ "$1" == "all" ]; then
+  PROFILES="$(find $PROFILEDIR/* | rev | cut -f1 -d'/' | rev)"
 fi
 
-profiles_exist $PROFILES || exit 1
 download_sources $PROFILES || exit 1
 
 exit 0

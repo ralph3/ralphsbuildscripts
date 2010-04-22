@@ -7,10 +7,6 @@ VERSION="0.17"
 DIR="gettext-${VERSION}"
 TARBALL="gettext-${VERSION}.tar.gz"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://ftp.gnu.org/gnu/gettext/${TARBALL}
 )

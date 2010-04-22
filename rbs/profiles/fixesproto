@@ -7,10 +7,6 @@ VERSION="4.1.1"
 DIR="fixesproto-${VERSION}"
 TARBALL="fixesproto-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  xextproto
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )

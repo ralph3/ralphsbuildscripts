@@ -7,10 +7,6 @@ VERSION="4.1.6"
 DIR="giflib-${VERSION}"
 TARBALL="giflib-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  libx11
-)
-
 SRC1=(
   http://prdownloads.sourceforge.net/giflib/$TARBALL
 )

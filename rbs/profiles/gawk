@@ -7,10 +7,6 @@ VERSION="3.1.7"
 DIR="gawk-${VERSION}"
 TARBALL="gawk-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://ftp.gnu.org/gnu/gawk/${TARBALL}
 )

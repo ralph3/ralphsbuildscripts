@@ -7,10 +7,6 @@ VERSION="0.0.22"
 DIR="babl-${VERSION}"
 TARBALL="babl-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 ftp://ftp.gtk.org/pub/babl/$(cut -f-2 -d'.' <<< $VERSION)/${TARBALL}
 )

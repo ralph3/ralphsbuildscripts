@@ -7,10 +7,6 @@ VERSION="1.3.4"
 DIR="feh-${VERSION}"
 TARBALL="feh-${VERSION}.tar.gz"
 
-DEPENDS=(
-  giblib
-)
-
 SRC1=(
 http://linuxbrit.co.uk/downloads/${TARBALL}
 )

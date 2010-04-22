@@ -15,7 +15,6 @@ TMPROOT="$WORKDIR/tmproot"
 SRCDIR="$WORKDIR/source"
 HDSRCDIR="$SRCDIR"
 DOWNLOADDIR="$RBSDIR/.cache/downloads"
-PATCHDIR="$RBSDIR/patches"
 CONFDIR="$RBSDIR/conf"
 
 TCDIR="/RBS-TOOLS"
@@ -218,11 +217,11 @@ list_sources(){
   local N SRC F M TN
   for app in $*; do
     unset_profile
-    [ -z "$(profile_realpath $app)" ] && {
+    if [ ! -f "$PROFILEDIR/$app" ]; then
       echo "No profile for $app exists!" >/dev/stderr
       return 1
-    }
-    source $(profile_realpath $app) || return 1
+    fi
+    source $PROFILEDIR/$app || return 1
     echo $TARBALL
     N=1
     while true; do
@@ -243,11 +242,11 @@ download_sources(){
   cd $DOWNLOADDIR || return 1
   for app in $*; do
     unset_profile
-    [ -z "$(profile_realpath $app)" ] && {
+    if [ ! -f "$PROFILEDIR/$app" ]; then
       echo "No profile for $app exists!" >/dev/stderr
       return 1
-    }
-    source $(profile_realpath $app) || return 1
+    fi
+    source $PROFILEDIR/$app || return 1
     N=1
     while true; do
       test_profile $app my_src${N} || break

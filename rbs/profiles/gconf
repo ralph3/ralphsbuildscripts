@@ -7,11 +7,6 @@ VERSION="2.28.1"
 DIR="GConf-${VERSION}"
 TARBALL="GConf-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  orbit2
-  policykit
-)
-
 SRC1=(
   $(gnome_mirrors GConf)
 )

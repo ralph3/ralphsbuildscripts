@@ -4,11 +4,6 @@ DISABLE_MULTILIB=1
 
 VERSION="10.0.45.2"
 
-DEPENDS=(
-  gtk+
-  curl
-)
-
 DIR="libflashplayer-${VERSION}.linux-x86_64.so"
 TARBALL="libflashplayer-${VERSION}.linux-x86_64.so.tar.gz"
 

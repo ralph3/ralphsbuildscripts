@@ -1,5 +1,10 @@
 #!/bin/bash
 
+[ "$(id -u)" != "0" ] && {
+  echo "Run me as root please." >/dev/stderr
+  exit 1
+}
+
 cd "$(dirname $0)" || exit 1
 RBSDIR="$PWD"
 
@@ -15,103 +20,14 @@ source "$RBSDIR/shared" || exit 1
   mkdir -p $SRCDIR
 }
 
-do_depends(){
-/usr/bin/env python - $1 $2 << "PYTHON_CODE" || return 1
-import glob, os, sys
-
-def iself(binary):
-  if os.path.islink(binary) or not os.path.isfile(binary):
-    return 0
-  f=open(binary, 'r')
-  head=f.read(5)[1:4]
-  f.close()
-  if head == "ELF":
-    return 1
-  else:
-    return 0
-
-def get_filelists():
-  rfilelists = glob.glob("/var/lib/packages/current/*/filelist")
-  rfilelists.sort()
-  filelists={}
-  for path in rfilelists:
-    f = open(path)
-    name = path[26:][::-1][9:][::-1]
-    filelists[name] = {}
-    for file in f.read().split('\n'):
-      filelists[name][file] = ''
-    f.close()
-  return filelists
-
-def strpos(string, char, count):
-  n=0
-  ct=0
-  for c in range(len(string)):
-    if string[c] == char:
-      if not ct == count:
-        ct += 1
-      else:
-        break
-    n += 1
-  return n
-
-def elfdeps(binary):
-  f = os.popen('ldd ' + binary + ' 2>/dev/null', 'r')
-  l = f.read().split('\n')
-  f.close()
-  deps = {}
-  for line in l:
-    if line:
-      line = line[::-1][:strpos(line[::-1], '>', 0)][::-1].replace('\t', ' ')
-      line = line[::-1][strpos(line[::-1], ' ', 0):strpos(line[::-1], ' ', 1)][::-1]
-      line = line.replace(' ', '')
-      if line:
-        deps[line] = ''
-  return deps
-
-if len(sys.argv) == 1:
-  sys.exit(1)
-
-p    = open(sys.argv[1], 'r')
-l    = p.read().split('\n')
-p.close()
-
-list = []
-for x in l:
-  if x:
-    list.append(x)
-
-if not len(list):
-  sys.exit(1)
-
-filelists = get_filelists()
-elf_deps = {}
-deps = []
-for file in list:
-  if iself(file):
-    for dep in elfdeps(file):
-      elf_deps[dep] = ''
-for name in filelists:
-  for dep in elf_deps:
-    if filelists[name].has_key(dep):
-      if os.path.isfile(sys.argv[2] + "/" + name):
-        p = open(sys.argv[2] + "/" + name, "a")
-      else:
-        p = open(sys.argv[2] + "/" + name, "w")
-      p.write(dep + "\n")
-      p.close()
-PYTHON_CODE
-}
-
 do_install(){
-  local FLIST DOUP DOINST PVNAME VERSION SYS_VERSION NOSTRIP \
+  local FLIST DOUP DOINST PVNAME VERSION NOSTRIP \
     BUILDFUNC
   DOUP=
   DOINST=
   NOSTRIP=$(exec_profile $1 DISABLE_STRIP)
   rm -rf $TMPROOT
   mkdir -p $TMPROOT || return 1
-  >$BUILDLOG || return 1
   
   exec_build_func(){
     do_build_func(){
@@ -181,12 +97,12 @@ do_install(){
           mv $TMPROOT ${TMPROOT}-32 || return 1
           mv ${TMPROOT}-64 $TMPROOT || return 1
           cd ${TMPROOT}-32 || return 1
-          tar cp * | tar xp -C $TMPROOT || return 1
+          cp -a * $TMPROOT || return 1
           cd $HERE || return 1
           rm -rf ${TMPROOT}-32
         else
           cd ${TMPROOT}-64 || return 1
-          tar cp * | tar xp -C $TMPROOT || return 1
+          cp -a * $TMPROOT || return 1
           cd $HERE || return 1
           rm -rf ${TMPROOT}-64
         fi
@@ -203,7 +119,6 @@ do_install(){
   [ -z "$TMPDIR" ] && TMPDIR=/tmp
   mkdir -p $TMPDIR || exit 1
   VERSION=$(exec_profile $1 VERSION)
-  SYS_VERSION=$(exec_profile $1 SYS_VERSION)
   FLIST="$ROOT/var/lib/packages/current/$1/filelist"
   if [ -e "$ROOT/var/lib/packages/current/$1" ]; then
     echo -n "Savin' a snapshot of current filesystem..."
@@ -281,23 +196,10 @@ do_install(){
     }
   fi
   echo "Installing files..."
-  tar cp * | tar xp -C $ROOT || return 1
+  cp -a * $ROOT/ || return 1
   find | sed 's@^\.@@g' | grep . > $FLIST
   cd $WORKDIR || return 1
   rm -rf $TMPROOT || return 1
-  if [ -n "$SYS_VERSION" ]; then
-    echo "$SYS_VERSION" > $(dirname $FLIST)/version
-  else
-    echo "$VERSION" > $(dirname $FLIST)/version
-  fi
-  DEPDIR=$(dirname $FLIST)/depends
-  mkdir -p $DEPDIR
-  rm -f $DEPDIR/*
-  for dep in $(exec_profile $1 DEPENDS); do
-    >$DEPDIR/$dep
-  done
-  do_depends $FLIST $DEPDIR || return 1
-  rm -f $DEPDIR/$1
   grep "\.new$" $FLIST | while read file; do
     F="$(echo "${ROOT}/$file" | sed 's@\.new$@@')"
     [ ! -e "$F" ] && {
@@ -351,118 +253,21 @@ do_install(){
 }
 
 MYNAME=$(basename $0)
+BUILDLOGS="$RBSDIR/.cache/buildlogs"
 
-if [ "$MYNAME" != "upgrade" ] && [ -z "$1" ]; then
+if [ -z "$1" ]; then
   echo "Nothing to do!"
   exit 1
 fi
 
-if [ "$DO_SINGLE_INSTALL" == "yep" ]; then
-  BUILDLOG="$RBSDIR/.cache/buildlogs/$1"
-  mkdir -p $(dirname $BUILDLOG) || exit 1
-  >$BUILDLOG
-  do_install $1 | tee $BUILDLOG && exit $PIPESTATUS
-  exit 0
-fi
+mkdir -p $BUILDLOGS || exit 1
 
-ARGS=$*
-if [ "$MYNAME" == "upgrade" ]; then
-  if [ -z "$ARGS" ]; then
-    ARGS=
-    for x in /var/lib/packages/current/*; do
-      ARGS="$ARGS $(basename $x)"
-    done
-  fi
-fi
-
-PROFILES=
-for x in $ARGS; do
-  profile_exists $x || {
-    [ ! -d "$PROFILEDIR/$x" ] && {
-      echo "No profile exists for ${x}!"
-      exit 1
-    }
-  }
-  if [ -d "$PROFILEDIR/$x" ]; then
-    PROFILES="$PROFILES $(profile_group $x)"
-  else
-    PROFILES="$PROFILES $x"
+for x in $*; do
+  if [ ! -d "/var/lib/packages/current/${x}" ] || [ "$MYNAME" == "reinstall" ]; then
+    BUILDLOG="$BUILDLOGS/$x"
+    >$BUILDLOG
+    do_install $x | tee $BUILDLOG && exit $PIPESTATUS
   fi
 done
-
-profiles_exist $PROFILES || exit 1
-
-echo -n "Looking up Dependencies..."
-for x in $(find /var/lib/packages/current/*/do_calculate_depends 2>/dev/null); do
-  d=$(dirname $x)
-  do_depends $d/filelist $d/depends || exit 1
-  rm $x || exit 1
-done
-fetch_depends $PROFILES >/dev/null || exit 1
-INSTALL_LIST=$(fetch_depends $PROFILES)
-echo "  Done."
-
-profiles_exist $INSTALL_LIST || {
-  echo "Looks like a profile has a dependency that doesn't have a profile. :/" \
-    >/dev/stderr
-  exit 1
-}
-
-if [ "$MYNAME" == "install" ] || [ "$MYNAME" == "upgrade" ]; then
-  NLIST=
-  for x in $INSTALL_LIST; do
-    if [ ! -d "$ROOT/var/lib/packages/current/$x" ] || \
-    [ -e "/var/lib/packages/current/$x/reinstall_me" ]; then
-      NLIST="$NLIST $x"
-    else
-      if [ "$MYNAME" == "upgrade" ] && [ -d "/var/lib/packages/current/$x" ] ; then
-        V=$(exec_profile $x VERSION)
-        SV=$(exec_profile $x SYS_VERSION)
-        if [ -n "$SV" ]; then
-          CHECK=$SV
-        else
-          CHECK=$V
-        fi
-        if [ "$(cat /var/lib/packages/current/$x/version)" != "$CHECK" ]; then
-          case $x in
-            binutils|gcc|glibc) ;;
-            *)
-              NLIST="$NLIST $x"
-            ;;
-          esac
-        fi
-      fi 
-    fi
-  done
-fi
-
-if [ "$(basename $0)" == "install" ] || [ "$(basename $0)" == "upgrade" ]; then
-  if [ -n "$NLIST" ]; then
-    echo "Checking for Downloaded Sources..."
-    download_sources $NLIST || exit 1
-  else
-    echo "Nothing to do!"
-    exit 1
-  fi
-  cd $RBSDIR || exit 1
-  for app in $NLIST; do
-    DO_SINGLE_INSTALL="yep" $0 $app || exit 1
-  done
-elif [ "$(basename $0)" == "reinstall" ]; then
-  if [ -n "$PROFILES" ]; then
-    echo "Checking for Downloaded Sources..."
-    download_sources $PROFILES || exit 1
-  else
-    echo "Nothing to do!"
-    exit 1
-  fi
-  cd $RBSDIR || exit 1
-  for app in $PROFILES; do
-    DO_SINGLE_INSTALL="yep" $0 $app || exit 1
-  done
-else
-  echo "Rut Row!"
-  exit 1
-fi
 
 exit 0

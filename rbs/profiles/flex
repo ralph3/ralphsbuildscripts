@@ -1,14 +1,9 @@
 #!/bin/bash
 
 VERSION="2.5.35"
-SYS_VERSION="2.5.35-1"
 
 DIR="flex-${VERSION}"
 TARBALL="flex-${VERSION}.tar.bz2"
-
-DEPENDS=(
-  make
-)
 
 SRC1=(
 http://prdownloads.sourceforge.net/flex/${TARBALL}

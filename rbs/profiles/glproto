@@ -7,10 +7,6 @@ VERSION="1.4.11"
 DIR="glproto-${VERSION}"
 TARBALL="glproto-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )

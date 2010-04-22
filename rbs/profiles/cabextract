@@ -7,10 +7,6 @@ VERSION="1.2"
 DIR="cabextract-${VERSION}"
 TARBALL="cabextract-${VERSION}.tar.gz"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://www.cabextract.org.uk/${TARBALL}
 )

@@ -5,11 +5,6 @@ VERSION="0.86"
 DIR="dbus-glib-${VERSION}"
 TARBALL="dbus-glib-${VERSION}.tar.gz"
 
-DEPENDS=(
-  dbus
-  gobject-introspection
-)
-
 SRC1=(
 http://dbus.freedesktop.org/releases/dbus-glib/${TARBALL}
 )

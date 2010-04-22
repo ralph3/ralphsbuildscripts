@@ -7,11 +7,6 @@ VERSION="1.6.0"
 DIR="enchant-${VERSION}"
 TARBALL="enchant-${VERSION}.tar.gz"
 
-DEPENDS=(
-  aspell-en
-  gobject-introspection
-)
-
 SRC1=(
 http://www.abisource.com/downloads/enchant/${VERSION}/${TARBALL}
 )

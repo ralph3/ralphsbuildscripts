@@ -5,10 +5,6 @@ VERSION="1.41.11"
 DIR="e2fsprogs-${VERSION}"
 TARBALL="e2fsprogs-${VERSION}.tar.gz"
 
-DEPENDS=(
-  util-linux
-)
-
 SRC1=(
 http://prdownloads.sourceforge.net/e2fsprogs/${TARBALL}
 )
