@@ -193,6 +193,7 @@ build(){
 version_check_info(){
   ADDRESS='http://ftp.gnu.org/gnu/gcc/gcc-%version%/'
   VERSION_STRING='gcc-%version%.tar.bz2'
+  VERSION_FILTERS='test obj jav g++ for core ad'
   MIRRORS=(
     'http://ftp.gnu.org/gnu/gcc/gcc-%version%/gcc-%version%.tar.bz2'
   )

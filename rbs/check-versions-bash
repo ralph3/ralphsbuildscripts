@@ -27,7 +27,7 @@ filter_minors(){
     ret=$(for x in $*; do y=$(cut -f2 -d'.' <<<$x | tr -d '/' | grep -vi "[a-z]"); if [ -n "$y" ]; then if [ "$(($y % 2))" == 0 ] || [ "$y" == 0 ]; then echo $x; fi; fi; done 2>/dev/null)
   fi
   if [ -n "$MINOR_VERSION" ]; then
-    ret=$(grep "^${MINOR_VERSION}" <<<"$ret")
+    ret=$(grep "^${PRE}${MINOR_VERSION}" <<<"$ret")
   fi
   echo "$ret"
 }
@@ -37,7 +37,7 @@ get_dir_data(){
     -e '^/a$' -e 'html$' -e 'head$' \
     -e 'body$' -e 'title$' -e 'pre$' \
     -e 'font$' -e 'h[0-9]$' -e 'hr$' \
-    -e '/.*/' | grep '/$' | tr -d '/')"
+    -e '/.*/' | grep '/$' | grep "^${PRE}." | tr -d '/')"
 }
 
 echo "<check-versions begin>"
@@ -49,30 +49,42 @@ for PRO in $PROFILES; do
   PROFILE=$(profile_realpath $PRO)
   unset version_check_info VERSION APPNAME ADDRESS VERSION_STRING \
     VERSION_FILTERS MINOR_VERSION_FILTERS ONLY_EVEN_MINORS MINOR_VERSION MIRRORS \
-    DATA PRE SUF VLIST VRES
+    DATA PRE SUF VLIST VRES taddr
   source $PROFILE || exit 1
   if [ "$(type -t version_check_info)" == "function" ]; then
     version_check_info
     
     echo -n "  ${PRO}..."
     while [ -n "$(grep "%version%" <<<"$ADDRESS")" ] || [ -n "$(grep "%minor_version%" <<<"$ADDRESS")" ]; do
+      
+      PRE="$(cut -f1 -d'%' <<<"$ADDRESS" | rev | cut -f1 -d'/' | rev)"
+      taddr="$(cut -f1 -d'%' <<<"$ADDRESS")/"
+      if [ -n "$PRE" ]; then
+        taddr="$(dirname "$(cut -f1 -d'%' <<<"$ADDRESS")")/"
+      fi
+      
+      DATA=$(get_dir_data "$taddr")
+      
       case "$(cut -f2 -d'%' <<<$ADDRESS)" in
         version)
-          DATA=$(get_dir_data "$(cut -f1 -d'%' <<<"$ADDRESS")")
           for x in $VERSION_FILTERS; do
              DATA=$(grep -v "$x" <<<"$DATA")
           done
-          ADDRESS=$(cut -f1 -d'%' <<<"$ADDRESS")/$(sort -V <<< "$DATA" | tail -n1)/$(cut -f3- -d'%' <<<"$ADDRESS")
         ;;
         minor_version)
-          DATA=$(get_dir_data "$(cut -f1 -d'%' <<<"$ADDRESS")")
           for x in $MINOR_VERSION_FILTERS; do
              DATA=$(grep -v "$x" <<<"$DATA")
           done
-          ADDRESS=$(cut -f1 -d'%' <<<"$ADDRESS")/$(sort -V <<< "$DATA" | tail -n1)/$(cut -f3- -d'%' <<<"$ADDRESS")
+        ;;
+        *)
+          echo "you should not see this err"
+          exit 1
         ;;
       esac
+      ADDRESS="$(echo $taddr)/$(sort -V <<< "$DATA" | tail -n1)/$(cut -f3- -d'%' <<<"$ADDRESS")"
     done
+    
+    unset PRE SUF
     
     DATA=$(get_data "$ADDRESS")
     if [ -z "$DATA" ]; then
@@ -93,6 +105,9 @@ for PRO in $PROFILES; do
     for x in $VERSION_FILTERS; do
        VLIST=$(grep -v "$x" <<<"$VLIST")
     done
+    
+    unset PRE SUF
+    
     VLIST=$(filter_minors "$VLIST")
     ####
     # now we will sort the version numbers to get the greatest version on the
