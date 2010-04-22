@@ -7,10 +7,6 @@ VERSION="1.2.4"
 DIR="zlib-${VERSION}"
 TARBALL="zlib-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  glibc
-)
-
 SRC1=(
 http://www.zlib.net/${TARBALL}
 http://prdownloads.sourceforge.net/libpng/$TARBALL

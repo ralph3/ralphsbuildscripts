@@ -7,10 +7,6 @@ VERSION="256"
 DIR="xterm-${VERSION}"
 TARBALL="xterm-${VERSION}.tgz"
 
-DEPENDS=(
-  xorg-server
-)
-
 SRC1=(
 ftp://invisible-island.net/xterm/${TARBALL}
 )

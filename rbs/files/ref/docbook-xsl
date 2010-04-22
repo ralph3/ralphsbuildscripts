@@ -7,10 +7,6 @@ VERSION="1.75.2"
 DIR="docbook-xsl-${VERSION}"
 TARBALL="docbook-xsl-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  libxml2
-)
-
 SRC1=(
 http://prdownloads.sourceforge.net/docbook/${TARBALL}
 )

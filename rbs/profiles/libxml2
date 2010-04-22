@@ -5,11 +5,6 @@ VERSION="2.7.7"
 DIR="libxml2-${VERSION}"
 TARBALL="libxml2-${VERSION}.tar.gz"
 
-DEPENDS=(
-  python
-  readline
-)
-
 SRC1=(
 ftp://xmlsoft.org/libxml2/${TARBALL}
 )

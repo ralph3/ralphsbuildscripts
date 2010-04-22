@@ -7,10 +7,6 @@ VERSION="1.5"
 DIR="sysklogd-${VERSION}"
 TARBALL="sysklogd-${VERSION}.tar.gz"
 
-DEPENDS=(
-  coreutils
-)
-
 SRC1=(
 http://www.infodrom.org/projects/sysklogd/download/${TARBALL}
 )

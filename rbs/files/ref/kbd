@@ -7,10 +7,6 @@ VERSION="1.15.2"
 DIR="kbd-${VERSION}"
 TARBALL="kbd-${VERSION}.tar.gz"
 
-DEPENDS=(
-  flex
-)
-
 SRC1=(
 http://ftp.altlinux.org/pub/people/legion/kbd/${TARBALL}
 )
@@ -58,7 +54,7 @@ EOF
 version_check_info(){
   ADDRESS='http://ftp.altlinux.org/pub/people/legion/kbd/'
   VERSION_STRING='kbd-%version%.tar.gz'
-  VERSION_FILTERS='rc'
+  VERSION_FILTERS='rc testing stable'
   MIRRORS=(
     'http://ftp.altlinux.org/pub/people/legion/kbd/kbd-%version%.tar.gz'
   )

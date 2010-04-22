@@ -7,10 +7,6 @@ VERSION="1.1.7"
 DIR="Imaging-${VERSION}"
 TARBALL="Imaging-${VERSION}.tar.gz"
 
-DEPENDS=(
-  python
-)
-
 SRC1=(
 http://effbot.org/downloads/${TARBALL}
 )

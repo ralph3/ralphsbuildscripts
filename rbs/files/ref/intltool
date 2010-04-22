@@ -7,10 +7,6 @@ VERSION="0.40.6"
 DIR="intltool-${VERSION}"
 TARBALL="intltool-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  perl-xml-parser
-)
-
 SRC1=(
   $(gnome_mirrors intltool)
 )

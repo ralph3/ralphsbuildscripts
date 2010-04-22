@@ -7,10 +7,6 @@ VERSION="3.6.21"
 DIR="reiserfsprogs-${VERSION}"
 TARBALL="reiserfsprogs-${VERSION}.tar.gz"
 
-DEPENDS=(
-  e2fsprogs
-)
-
 SRC1=(
 http://www.kernel.org/pub/linux/utils/fs/reiserfs/${TARBALL}
 )

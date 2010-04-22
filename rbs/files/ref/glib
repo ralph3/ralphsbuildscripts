@@ -5,10 +5,6 @@ VERSION="2.24.0"
 DIR="glib-${VERSION}"
 TARBALL="glib-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  pkg-config
-)
-
 SRC1=(
   $(gnome_mirrors glib)
 )
@@ -18,15 +14,10 @@ MD5SUMS=(
 )
 
 build(){
-  #local CONF
-  #CONF=
-  #[ "$SYSTYPE" == "MULTILIB" ] && [ "$BUILD" == "$BUILD32" ] && {
-  #  CONF="--host=$BUILDTARGET"
-  #}
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDTARGET --host=$BUILDTARGET --prefix=/usr \
-    --libdir=/usr/$LIBSDIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDTARGET \
+    --host=$BUILDTARGET --prefix=/usr --libdir=/usr/$LIBSDIR || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   cd ../ || return 1

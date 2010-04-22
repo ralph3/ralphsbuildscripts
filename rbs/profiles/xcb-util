@@ -7,11 +7,6 @@ VERSION="0.3.6"
 DIR="xcb-util-${VERSION}"
 TARBALL="xcb-util-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  gperf
-  libxcb
-)
-
 SRC1=(
 http://xcb.freedesktop.org/dist/${TARBALL}
 )

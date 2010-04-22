@@ -7,10 +7,6 @@ VERSION="152"
 DIR="udev-${VERSION}"
 TARBALL="udev-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  libxslt
-)
-
 SRC1=(
 http://www.kernel.org/pub/linux/utils/kernel/hotplug/${TARBALL}
 )

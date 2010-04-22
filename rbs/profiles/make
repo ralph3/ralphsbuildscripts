@@ -7,10 +7,6 @@ VERSION="3.81"
 DIR="make-${VERSION}"
 TARBALL="make-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  gcc
-)
-
 SRC1=(
 http://ftp.gnu.org/gnu/make/${TARBALL}
 )

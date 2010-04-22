@@ -7,10 +7,6 @@ VERSION="3.0.4"
 DIR="gperf-${VERSION}"
 TARBALL="gperf-${VERSION}.tar.gz"
 
-DEPENDS=(
-  m4
-)
-
 SRC1=(
 http://ftp.gnu.org/gnu/gperf/${TARBALL}
 )

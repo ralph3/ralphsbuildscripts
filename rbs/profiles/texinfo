@@ -7,10 +7,6 @@ VERSION="4.13a"
 DIR="texinfo-4.13"
 TARBALL="texinfo-${VERSION}.tar.gz"
 
-DEPENDS=(
-  ncurses
-)
-
 SRC1=(
 http://ftp.gnu.org/gnu/texinfo/${TARBALL}
 )

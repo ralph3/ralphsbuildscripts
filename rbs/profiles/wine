@@ -9,21 +9,6 @@ ONLY32=1
 DIR="wine-${VERSION}"
 TARBALL="wine-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  fontconfig
-  hal
-  lcms
-  libjpeg
-  libpng
-  libxcomposite
-  libxcursor
-  libxinerama
-  libxml2
-  libxslt
-  ncurses
-  openssl
-)
-
 SRC1=(
 http://ibiblio.org/pub/linux/system/emulators/wine/${TARBALL}
 )

@@ -7,11 +7,6 @@ VERSION="5.3.2"
 DIR="php-${VERSION}"
 TARBALL="php-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  httpd
-  libxml2
-)
-
 SRC1=(
 http://us.php.net/distributions/${TARBALL}
 )

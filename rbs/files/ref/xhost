@@ -7,10 +7,6 @@ VERSION="1.0.3"
 DIR="xhost-${VERSION}"
 TARBALL="xhost-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )

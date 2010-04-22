@@ -7,10 +7,6 @@ VERSION="1.6"
 DIR="xcb-proto-${VERSION}"
 TARBALL="xcb-proto-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  python
-)
-
 SRC1=(
 http://xcb.freedesktop.org/dist/${TARBALL}
 )

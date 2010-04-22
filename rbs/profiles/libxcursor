@@ -5,10 +5,6 @@ VERSION="1.1.10"
 DIR="libXcursor-${VERSION}"
 TARBALL="libXcursor-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  libxrender
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )

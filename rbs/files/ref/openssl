@@ -5,11 +5,6 @@ VERSION="1.0.0"
 DIR="openssl-${VERSION}"
 TARBALL="openssl-${VERSION}.tar.gz"
 
-DEPENDS=(
-  perl
-  pkg-config
-)
-
 SRC1=(
 ftp://ftp.openssl.org/source/${TARBALL}
 )
@@ -59,7 +54,7 @@ build(){
 version_check_info(){
   ADDRESS='ftp://ftp.openssl.org/source/'
   VERSION_STRING='openssl-%version%.tar.gz'
-  VERSION_FILTERS='engine BOGUS beta'
+  VERSION_FILTERS='engine BOGUS beta fips'
   MIRRORS=(
     'ftp://ftp.openssl.org/source/openssl-%version%.tar.gz'
   )

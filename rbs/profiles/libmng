@@ -3,14 +3,9 @@
 DISABLE_MULTILIB=1
 
 VERSION="1.0.10"
-SYS_VERSION="1.0.10-1"
 
 DIR="libmng-${VERSION}"
 TARBALL="libmng-${VERSION}.tar.gz"
-
-DEPENDS=(
-  lcms
-)
 
 SRC1=(
 http://prdownloads.sourceforge.net/libmng/${TARBALL}

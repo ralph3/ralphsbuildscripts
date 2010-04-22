@@ -7,12 +7,6 @@ VERSION="1.6.11"
 DIR="subversion-${VERSION}"
 TARBALL="subversion-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  httpd
-  neon
-  openssl
-)
-
 SRC1=(
 http://subversion.tigris.org/downloads/${TARBALL}
 )

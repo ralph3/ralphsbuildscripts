@@ -7,10 +7,6 @@ VERSION="2.30"
 DIR="iana-etc-${VERSION}"
 TARBALL="iana-etc-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://www.sethwklein.net/projects/iana-etc/downloads/${TARBALL}
 )

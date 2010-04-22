@@ -7,10 +7,6 @@ VERSION="7.6"
 DIR="tcp_wrappers_${VERSION}"
 TARBALL="tcp_wrappers_${VERSION}.tar.gz"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 ftp://ftp.porcupine.org/pub/security/${TARBALL}
 )

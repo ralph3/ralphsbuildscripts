@@ -3,17 +3,9 @@
 DISABLE_MULTILIB=1
 
 VERSION="0.5.1"
-SYS_VERSION="0.5.1-1"
 
 DIR="ffmpeg-${VERSION}"
 TARBALL="${DIR}.tar.bz2"
-
-DEPENDS=(
-  faac
-  faad
-  freetype
-  xvidcore
-)
 
 #my_src1(){
 #  svn co -r {$(echo $VERSION | cut -f2- -d'-' | sed 's%....%&-%;s%..$%-&%')} \
@@ -52,6 +44,7 @@ build(){
 version_check_info(){
   ADDRESS='http://www.ffmpeg.org/releases/'
   VERSION_STRING='ffmpeg-%version%.tar.bz2'
+  VERSION_FILTERS='export checkout'
   MIRRORS=(
     'http://www.ffmpeg.org/releases/ffmpeg-%version%.tar.bz2'
   )

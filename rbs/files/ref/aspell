@@ -7,11 +7,6 @@ VERSION="0.60.6"
 DIR="aspell-${VERSION}"
 TARBALL="aspell-${VERSION}.tar.gz"
 
-DEPENDS=(
-  gcc
-  ncurses
-)
-
 SRC1=(
 http://ftp.gnu.org/gnu/aspell/${TARBALL}
 )

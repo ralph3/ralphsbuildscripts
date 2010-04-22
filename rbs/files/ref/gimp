@@ -7,20 +7,6 @@ VERSION="2.6.8"
 DIR="gimp-${VERSION}"
 TARBALL="gimp-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  aalib
-  alsa-lib
-  babl
-  curl
-  gegl
-  lcms
-  libmng
-  librsvg
-  libwmf
-  poppler
-  pygtk
-)
-
 SRC1=(
 http://gimp.mirrors.hoobly.com/gimp/v2.6/${TARBALL}
 ftp://ftp.cs.umn.edu/pub/gimp/v2.6/${TARBALL}

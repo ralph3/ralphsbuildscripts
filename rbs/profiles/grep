@@ -7,10 +7,6 @@ VERSION="2.5.4"
 DIR="grep-${VERSION}"
 TARBALL="grep-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://ftp.gnu.org/gnu/grep/${TARBALL}
 )

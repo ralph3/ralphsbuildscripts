@@ -1,19 +1,8 @@
 #!/bin/bash
 
 VERSION="7.8.1"
-SYS_VERSION="7.8.1-2"
 
 DIR="Mesa-${VERSION}"
-
-DEPENDS=(
-  dri2proto
-  expat
-  libdrm
-  libxdamage
-  libxi
-  libxmu
-  libxxf86vm
-)
 
 SRC1=(
 ftp://ftp.freedesktop.org/pub/mesa/${VERSION}/MesaLib-${VERSION}.tar.bz2

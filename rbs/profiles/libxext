@@ -5,11 +5,6 @@ VERSION="1.1.1"
 DIR="libXext-${VERSION}"
 TARBALL="libXext-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  xextproto
-  libx11
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )

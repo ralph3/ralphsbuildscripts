@@ -1,15 +1,9 @@
 #!/bin/bash
 
 VERSION="2.8.0"
-SYS_VERSION="2.8.0-1"
 
 DIR="fontconfig-${VERSION}"
 TARBALL="fontconfig-${VERSION}.tar.gz"
-
-DEPENDS=(
-  expat
-  freetype
-)
 
 SRC1=(
 http://fontconfig.org/release/${TARBALL}

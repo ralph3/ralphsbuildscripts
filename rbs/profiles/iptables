@@ -7,10 +7,6 @@ VERSION="1.4.7"
 DIR="iptables-${VERSION}"
 TARBALL="iptables-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://www.netfilter.org/projects/iptables/files/${TARBALL}
 )

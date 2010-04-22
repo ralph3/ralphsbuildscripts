@@ -9,12 +9,6 @@ DISABLE_STRIP=1
 TARBALL="NVIDIA-Linux-x86-${VERSION}.run"
 DIR="NVIDIA-Linux-x86-${VERSION}"
 
-DEPENDS=(
-  desktop-file-utils
-  linux
-  xorg-server
-)
-
 SRC1=(
 http://us.download.nvidia.com/XFree86/Linux-x86/$(echo $VERSION | cut -f1 -d'-')/$TARBALL
 )

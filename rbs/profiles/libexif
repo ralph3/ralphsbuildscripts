@@ -7,10 +7,6 @@ VERSION="0.6.19"
 DIR="libexif-${VERSION}"
 TARBALL="libexif-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://prdownloads.sourceforge.net/libexif/${TARBALL}
 )

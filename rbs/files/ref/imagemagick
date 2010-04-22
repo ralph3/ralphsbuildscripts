@@ -7,10 +7,6 @@ VERSION="6.6.1-4"
 DIR="ImageMagick-${VERSION}"
 TARBALL="ImageMagick-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 ftp://ftp.imagemagick.org/pub/ImageMagick/${TARBALL}
 )

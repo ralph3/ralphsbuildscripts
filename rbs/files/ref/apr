@@ -7,10 +7,6 @@ VERSION="1.4.2"
 DIR="apr-${VERSION}"
 TARBALL="apr-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  e2fsprogs
-)
-
 SRC1=(
 http://apache.cs.utah.edu/apr/${TARBALL}
 )
@@ -27,7 +23,6 @@ build(){
     --with-installbuilddir=/usr/$LIBSDIR/apr-1 || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
-  find $TMPROOT -name 'libtool' -exec sed -i 's%\/RBS-Tools%%g' {} \;
   set_multiarch $TMPROOT/usr/bin/apr-1-config || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
@@ -36,6 +31,7 @@ build(){
 version_check_info(){
   ADDRESS='http://apr.apache.org/download.cgi'
   VERSION_STRING='apr-%version%.tar.bz2'
+  VERSION_FILTERS='util iconv'
   MIRRORS=(
     'http://apache.cs.utah.edu/apr/apr-%version%.tar.bz2'
   )

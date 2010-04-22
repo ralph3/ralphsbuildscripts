@@ -7,10 +7,6 @@ VERSION="3.11.1"
 DIR="module-init-tools-${VERSION}"
 TARBALL="module-init-tools-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  zlib
-)
-
 SRC1=(
 http://www.kernel.org/pub/linux/utils/kernel/module-init-tools/${TARBALL}
 )

@@ -7,10 +7,6 @@ VERSION="3.2.8"
 DIR="procps-${VERSION}"
 TARBALL="procps-${VERSION}.tar.gz"
 
-DEPENDS=(
-  ncurses
-)
-
 SRC1=(
 http://procps.sourceforge.net/${TARBALL}
 )

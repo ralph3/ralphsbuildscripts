@@ -7,10 +7,6 @@ VERSION="2.20.1"
 DIR="gtk-engines-${VERSION}"
 TARBALL="gtk-engines-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  gtk+
-)
-
 SRC1=(
   $(gnome_mirrors gtk-engines)
 )

@@ -7,10 +7,6 @@ VERSION="0.4.5"
 DIR="libnotify-${VERSION}"
 TARBALL="libnotify-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  gtk+
-)
-
 SRC1=(
   http://www.galago-project.org/files/releases/source/libnotify//$TARBALL
 )

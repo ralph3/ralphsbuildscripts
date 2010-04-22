@@ -7,10 +7,6 @@ VERSION="0.71"
 DIR="shared-mime-info-${VERSION}"
 TARBALL="shared-mime-info-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  intltool
-)
-
 SRC1=(
 http://freedesktop.org/~hadess/${TARBALL}
 )

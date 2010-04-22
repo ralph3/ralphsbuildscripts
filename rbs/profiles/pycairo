@@ -7,10 +7,6 @@ VERSION="1.8.8"
 DIR="pycairo-${VERSION}"
 TARBALL="pycairo-${VERSION}.tar.gz"
 
-DEPENDS=(
-  cairo
-)
-
 SRC1=(
 http://cairographics.org/releases/${TARBALL}
 )

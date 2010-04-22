@@ -5,11 +5,6 @@ VERSION="0.4.1"
 DIR="libXcomposite-${VERSION}"
 TARBALL="libXcomposite-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  compositeproto
-  libxfixes
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )

@@ -7,10 +7,6 @@ VERSION="2.11"
 DIR="dosfstools-${VERSION}"
 TARBALL="dosfstools-${VERSION}.src.tar.gz"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 ftp://ftp.uni-erlangen.de/pub/Linux/LOCAL/dosfstools/${TARBALL}
 )

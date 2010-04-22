@@ -7,10 +7,6 @@ VERSION="2.11.0"
 DIR="xf86-video-intel-${VERSION}"
 TARBALL="xf86-video-intel-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  xorg-server
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/driver/${TARBALL}
 )

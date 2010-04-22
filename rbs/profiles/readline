@@ -5,10 +5,6 @@ VERSION="6.1"
 DIR="readline-${VERSION}"
 TARBALL="readline-${VERSION}.tar.gz"
 
-DEPENDS=(
-  ncurses
-)
-
 SRC1=(
 http://ftp.gnu.org/gnu/readline/${TARBALL}
 )

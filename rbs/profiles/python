@@ -5,13 +5,6 @@ VERSION="2.6.5"
 DIR="Python-${VERSION}"
 TARBALL="Python-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  bzip2
-  openssl
-  readline
-  zlib
-)
-
 SRC1=(
 http://www.python.org/ftp/python/${VERSION}/${TARBALL}
 )

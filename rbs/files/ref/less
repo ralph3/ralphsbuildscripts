@@ -7,10 +7,6 @@ VERSION="418"
 DIR="less-${VERSION}"
 TARBALL="less-${VERSION}.tar.gz"
 
-DEPENDS=(
-  ncurses
-)
-
 SRC1=(
 http://ftp.gnu.org/gnu/less/${TARBALL}
 )

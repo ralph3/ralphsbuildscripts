@@ -3,16 +3,9 @@
 DISABLE_MULTILIB=1
 
 VERSION="2.6.33.2"
-SYS_VERSION="2.6.33.2-1"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.bz2"
-
-DEPENDS=(
-  linux-headers
-  mktemp
-  module-init-tools
-)
 
 SRC1=(
 http://www.kernel.org/pub/linux/kernel/v2.6/${TARBALL}
@@ -45,10 +38,10 @@ source_setup(){
   cd $SRCDIR || return 1
 }
 
-RBS_Tools_Build(){
+Tools_Build(){
   local KARCH KCONF MODDIR KNAME
   case $($CC -dumpmachine | cut -f1 -d'-') in
-    i486|i586|i686)
+    i?86)
       KARCH=i386
       KCONF="x86-kernel.config"
     ;;

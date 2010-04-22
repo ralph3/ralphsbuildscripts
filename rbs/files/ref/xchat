@@ -7,12 +7,6 @@ VERSION="2.8.6"
 DIR="xchat-${VERSION}"
 TARBALL="xchat-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  dbus-glib
-  enchant
-  gtk+
-)
-
 SRC1=(
 http://www.xchat.org/files/source/$(echo ${VERSION} | cut -f-2 -d'.')/${TARBALL}
 )
@@ -53,6 +47,7 @@ post_upgrade(){
 version_check_info(){
   ADDRESS='http://www.xchat.org/files/source/%minor_version%/'
   VERSION_STRING='xchat-%version%.tar.bz2'
+  MINOR_VERSION_FILTERS="old"
   MIRRORS=(
     'http://www.xchat.org/files/source/%minor_version%/xchat-%version%.tar.bz2'
   )

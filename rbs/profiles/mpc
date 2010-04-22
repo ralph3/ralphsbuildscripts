@@ -5,10 +5,6 @@ VERSION="0.8.1"
 DIR="mpc-${VERSION}"
 TARBALL="mpc-${VERSION}.tar.gz"
 
-DEPENDS=(
-  mpfr
-)
-
 SRC1=(
 http://www.multiprecision.org/mpc/download/$TARBALL
 )

@@ -7,11 +7,6 @@ VERSION="1.1.0"
 DIR="font-misc-misc-${VERSION}"
 TARBALL="font-misc-misc-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  font-util
-  fontconfig
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/font/${TARBALL}
 )

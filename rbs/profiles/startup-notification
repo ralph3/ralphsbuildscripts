@@ -7,12 +7,6 @@ VERSION="0.10"
 DIR="startup-notification-${VERSION}"
 TARBALL="startup-notification-${VERSION}.tar.gz"
 
-DEPENDS=(
-  libsm
-  libx11
-  xcb-util
-)
-
 SRC1=(
 http://www.freedesktop.org/software/startup-notification/releases/${TARBALL}
 )

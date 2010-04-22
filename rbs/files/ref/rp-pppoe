@@ -7,10 +7,6 @@ VERSION="3.10"
 DIR="rp-pppoe-${VERSION}"
 TARBALL="rp-pppoe-${VERSION}.tar.gz"
 
-DEPENDS=(
-  ppp
-)
-
 SRC1=(
 http://www.roaringpenguin.com/files/download/${TARBALL}
 )

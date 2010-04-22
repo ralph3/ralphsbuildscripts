@@ -7,10 +7,6 @@ VERSION="2.6.4"
 DIR="libglade-${VERSION}"
 TARBALL="libglade-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  gtk+
-)
-
 SRC1=(
   $(gnome_mirrors libglade)
 )

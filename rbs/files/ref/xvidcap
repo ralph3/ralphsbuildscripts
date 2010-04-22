@@ -3,15 +3,9 @@
 DISABLE_MULTILIB=1
 
 VERSION="1.1.7"
-SYS_VERSION="1.1.7-4"
 
 DIR="xvidcap-${VERSION}"
 TARBALL="xvidcap-${VERSION}.tar.gz"
-
-DEPENDS=(
-  ffmpeg
-  gtk+
-)
 
 SRC1=(
 http://prdownloads.sourceforge.net/xvidcap/${TARBALL}

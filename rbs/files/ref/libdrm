@@ -5,10 +5,6 @@ VERSION="2.4.20"
 DIR="libdrm-${VERSION}"
 TARBALL="libdrm-${VERSION}.tar.gz"
 
-DEPENDS=(
-  libpthread-stubs
-)
-
 SRC1=(
 http://dri.freedesktop.org/libdrm/${TARBALL}
 )

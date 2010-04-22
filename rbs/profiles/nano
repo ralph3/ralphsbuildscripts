@@ -7,10 +7,6 @@ VERSION="2.2.4"
 DIR="nano-${VERSION}"
 TARBALL="nano-${VERSION}.tar.gz"
 
-DEPENDS=(
-  ncurses
-)
-
 SRC1=(
 http://ftp.gnu.org/pub/gnu/nano/${TARBALL}
 )

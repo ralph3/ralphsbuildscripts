@@ -7,10 +7,6 @@ ENABLE_MULTILIB=1
 DIR="strace-${VERSION}"
 TARBALL="strace-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://prdownloads.sourceforge.net/strace/${TARBALL}
 )

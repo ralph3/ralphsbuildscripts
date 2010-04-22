@@ -7,11 +7,6 @@ VERSION="1.7.0.5"
 DIR="git-${VERSION}"
 TARBALL="git-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  curl
-  expat
-)
-
 SRC1=(
 http://kernel.org/pub/software/scm/git/${TARBALL}
 )
@@ -34,7 +29,7 @@ build(){
 version_check_info(){
   ADDRESS='http://kernel.org/pub/software/scm/git/'
   VERSION_STRING='git-%version%.tar.bz2'
-  VERSION_FILTERS='rc'
+  VERSION_FILTERS='rc manpages htmldocs core'
   MIRRORS=(
     'http://kernel.org/pub/software/scm/git/git-%version%.tar.bz2'
   )

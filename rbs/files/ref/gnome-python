@@ -7,11 +7,6 @@ VERSION="2.28.1"
 DIR="gnome-python-${VERSION}"
 TARBALL="gnome-python-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  pygtk
-  libgnome
-)
-
 SRC1=(
   $(gnome_mirrors gnome-python)
 )

@@ -7,10 +7,6 @@ VERSION="0.8.17"
 DIR="leafpad-${VERSION}"
 TARBALL="leafpad-${VERSION}.tar.gz"
 
-DEPENDS=(
-  gtk+
-)
-
 SRC1=(
 http://nongnu.askapache.com/leafpad/${TARBALL}
 )

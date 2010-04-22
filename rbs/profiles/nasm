@@ -5,10 +5,6 @@ VERSION="2.07"
 DIR="nasm-${VERSION}"
 TARBALL="nasm-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://prdownloads.sourceforge.net/nasm/${TARBALL}
 )

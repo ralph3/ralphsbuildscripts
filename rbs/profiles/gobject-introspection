@@ -1,17 +1,9 @@
 #!/bin/bash
 
 VERSION="0.6.10"
-SYS_VERSION="0.6.10-1"
 
 DIR="gobject-introspection-${VERSION}"
 TARBALL="gobject-introspection-${VERSION}.tar.bz2"
-
-DEPENDS=(
-  glib
-  libffi
-  python
-  cairo
-)
 
 SRC1=(
   $(gnome_mirrors gobject-introspection)

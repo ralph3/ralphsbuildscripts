@@ -7,10 +7,6 @@ VERSION="1.60"
 DIR="net-tools-${VERSION}"
 TARBALL="net-tools-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://www.tazenda.demon.co.uk/phil/net-tools/${TARBALL}
 )

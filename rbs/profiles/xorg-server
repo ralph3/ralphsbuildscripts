@@ -7,17 +7,6 @@ VERSION="1.8.0"
 DIR="xorg-server-${VERSION}"
 TARBALL="xorg-server-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  glproto
-  libpciaccess
-  mesa
-  pixman
-  xf86bigfontproto
-  xf86dgaproto
-  xf86driproto
-  xineramaproto
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/xserver/${TARBALL}
 )

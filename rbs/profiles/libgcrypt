@@ -7,10 +7,6 @@ VERSION="1.4.5"
 DIR="libgcrypt-${VERSION}"
 TARBALL="libgcrypt-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  libgpg-error
-)
-
 SRC1=(
 ftp://ftp.gnupg.org/gcrypt/libgcrypt/${TARBALL}
 )

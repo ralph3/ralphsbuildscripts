@@ -7,10 +7,6 @@ VERSION="3.4.3"
 DIR="trapproto-${VERSION}"
 TARBALL="trapproto-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )

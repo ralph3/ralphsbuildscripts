@@ -7,11 +7,6 @@ VERSION="0.2.41"
 DIR="esound-${VERSION}"
 TARBALL="esound-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  alsa-lib
-  audiofile
-)
-
 SRC1=(
   $(gnome_mirrors esound)
 )

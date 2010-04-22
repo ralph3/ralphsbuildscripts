@@ -3,14 +3,9 @@
 DISABLE_MULTILIB=1
 
 VERSION="1.3.1"
-SYS_VERSION="1.3.1-3"
 
 DIR="synergy-${VERSION}"
 TARBALL="synergy-${VERSION}.tar.gz"
-
-DEPENDS=(
-  make
-)
 
 SRC1=(
 http://prdownloads.sourceforge.net/synergy2/${TARBALL}

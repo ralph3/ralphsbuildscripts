@@ -7,11 +7,6 @@ VERSION="0.29.3"
 DIR="neon-${VERSION}"
 TARBALL="neon-${VERSION}.tar.gz"
 
-DEPENDS=(
-  expat
-  openssl
-)
-
 SRC1=(
 http://www.webdav.org/neon/${TARBALL}
 )

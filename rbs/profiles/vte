@@ -7,11 +7,6 @@ VERSION="0.24.0"
 DIR="vte-${VERSION}"
 TARBALL="vte-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  gtk+
-  ncurses
-)
-
 SRC1=(
   $(gnome_mirrors vte)
 )

@@ -7,13 +7,6 @@ VERSION="0.12.4"
 DIR="poppler-${VERSION}"
 TARBALL="poppler-${VERSION}.tar.gz"
 
-DEPENDS=(
-  cairo
-  glib
-  libpng
-  zlib
-)
-
 SRC1=(
 http://www.vi.kernel.org/pub/mirrors/gentoo/source/distfiles/$TARBALL
 http://poppler.freedesktop.org/${TARBALL}
@@ -37,6 +30,7 @@ build(){
 version_check_info(){
   ADDRESS='http://poppler.freedesktop.org/'
   VERSION_STRING='poppler-%version%.tar.gz'
+  VERSION_FILTERS='data'
   ONLY_EVEN_MINORS=1
   MIRRORS=(
     'http://poppler.freedesktop.org/poppler-%version%.tar.gz'

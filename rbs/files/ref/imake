@@ -9,10 +9,6 @@ ENABLE_MULTILIB=1
 DIR="imake-${VERSION}"
 TARBALL="imake-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  xproto
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/util/${TARBALL}
 )

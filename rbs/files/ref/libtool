@@ -8,10 +8,6 @@ VERSION="1.5.26"
 DIR="libtool-${VERSION}"
 TARBALL="libtool-${VERSION}.tar.gz"
 
-DEPENDS=(
-  sed
-)
-
 SRC1=(
 http://ftp.gnu.org/gnu/libtool/${TARBALL}
 )

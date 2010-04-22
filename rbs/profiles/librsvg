@@ -7,10 +7,6 @@ VERSION="2.26.2"
 DIR="librsvg-${VERSION}"
 TARBALL="librsvg-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  pango
-)
-
 SRC1=(
   $(gnome_mirrors librsvg)
 )

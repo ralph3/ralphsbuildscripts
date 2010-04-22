@@ -7,10 +7,6 @@ VERSION="1.2.2"
 DIR="xvidcore-${VERSION}"
 TARBALL="xvidcore-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://downloads.xvid.org/downloads/$TARBALL
 )

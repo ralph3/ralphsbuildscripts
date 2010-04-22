@@ -5,10 +5,6 @@ VERSION="2.11.1"
 DIR="glibc-${VERSION}"
 TARBALL="glibc-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  linux-headers
-)
-
 SRC1=(
 http://ftp.gnu.org/gnu/glibc/$TARBALL
 )
@@ -59,7 +55,7 @@ EOF
 
 }
 
-RBS_Cross_Tools_Build(){
+Cross_Tools_Build(){
   local DOCRAP GLIBC_TARGETHOST XFLAGS
   DOCRAP=
   GLIBC_TARGETHOST=$BUILDTARGET
@@ -86,7 +82,7 @@ RBS_Cross_Tools_Build(){
   rbs_do_glibc_patching || return 1
   mkdir -p $SRCDIR/glibc-build || return 1
   cd $SRCDIR/glibc-build || return 1
-  echo "slibdir=/RBS-Tools/$LIBSDIR" > configparms
+  echo "slibdir=$TCDIR/$LIBSDIR" > configparms
   echo "libc_cv_forced_unwind=yes" > config.cache
   echo "libc_cv_c_cleanup=yes" >> config.cache
   if [ "$DOCRAP" == "1" ]; then
@@ -94,17 +90,16 @@ RBS_Cross_Tools_Build(){
   fi
   LD_LIBRARY_PATH= BUILD_CC="gcc" CC="${BUILDTARGET}-gcc $BUILD" \
     CXX="${BUILDTARGET}-g++ $BUILD" CFLAGS="$XFLAGS -O2 -fgnu89-inline" \
-    ../$DIR/configure --prefix=/RBS-Tools --host=$GLIBC_TARGETHOST \
-    --build=$BUILDHOST --libdir=/RBS-Tools/$LIBSDIR --disable-profile \
+    ../$DIR/configure --prefix=$TCDIR --host=$GLIBC_TARGETHOST \
+    --build=$BUILDHOST --libdir=$TCDIR/$LIBSDIR --disable-profile \
     --enable-add-ons --with-tls --enable-kernel=2.6.33 --with-__thread \
-    --with-binutils=/RBS-Cross-Tools/bin --with-headers=/RBS-Tools/include \
+    --with-binutils=$CTCDIR/bin --with-headers=$TCDIR/include \
     --cache-file=config.cache || return 1
   make LD_LIBRARY_PATH= || return 1
   make install || return 1
   cd ../ || return 1
   rm -rf $DIR glibc-build || return 1
 }
-
 
 build(){
   local CONF
@@ -209,6 +204,7 @@ post_install(){
 version_check_info(){
   ADDRESS='http://ftp.gnu.org/gnu/glibc/'
   VERSION_STRING='glibc-%version%.tar.bz2'
+  VERSION_FILTERS="ports linuxthreads libidn"
   MIRRORS=(
     'http://ftp.gnu.org/gnu/glibc/glibc-%version%.tar.bz2'
   )

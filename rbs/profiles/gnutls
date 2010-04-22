@@ -7,10 +7,6 @@ VERSION="2.8.6"
 DIR="gnutls-${VERSION}"
 TARBALL="gnutls-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  libgcrypt
-)
-
 SRC1=(
 ftp://ftp.gnupg.org/gcrypt/gnutls/${TARBALL}
 )

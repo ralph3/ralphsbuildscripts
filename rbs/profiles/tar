@@ -7,10 +7,6 @@ VERSION="1.23"
 DIR="tar-${VERSION}"
 TARBALL="tar-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://ftp.gnu.org/gnu/tar/${TARBALL}
 )

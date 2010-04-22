@@ -7,10 +7,6 @@ VERSION="2.24.3"
 DIR="libbonobo-${VERSION}"
 TARBALL="libbonobo-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  popt
-)
-
 SRC1=(
   $(gnome_mirrors libbonobo)
 )

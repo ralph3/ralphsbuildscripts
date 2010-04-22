@@ -5,11 +5,6 @@ VERSION="0.9.5"
 DIR="libXrender-${VERSION}"
 TARBALL="libXrender-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  libx11
-  renderproto
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )

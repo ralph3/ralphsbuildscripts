@@ -7,11 +7,6 @@ VERSION="2.0.3"
 DIR="obconf-${VERSION}"
 TARBALL="obconf-${VERSION}.tar.gz"
 
-DEPENDS=(
-  openbox
-  libglade
-)
-
 SRC1=(
 http://openbox.org/dist/obconf/${TARBALL}
 )

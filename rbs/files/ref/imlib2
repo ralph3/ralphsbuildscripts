@@ -7,10 +7,6 @@ VERSION="1.4.3"
 DIR="imlib2-${VERSION}"
 TARBALL="imlib2-${VERSION}.tar.gz"
 
-DEPENDS=(
-  giflib
-)
-
 SRC1=(
 http://prdownloads.sourceforge.net/enlightenment/${TARBALL}
 )
@@ -33,6 +29,7 @@ build(){
 version_check_info(){
   ADDRESS="http://sourceforge.net/projects/enlightenment/files/"
   VERSION_STRING="imlib2-%version%.tar.gz"
+  VERSION_FILTERS='/'
   MIRRORS=(
     "http://prdownloads.sourceforge.net/enlightenment/imlib2-%version%.tar.gz"
   )

@@ -7,10 +7,6 @@ VERSION="1.2.0"
 DIR="libXScrnSaver-${VERSION}"
 TARBALL="libXScrnSaver-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  scrnsaverproto
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )

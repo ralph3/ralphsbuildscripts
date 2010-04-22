@@ -7,10 +7,6 @@ VERSION="7.20.1"
 TARBALL="curl-${VERSION}.tar.bz2"
 DIR="curl-${VERSION}"
 
-DEPENDS=(
-  openssl
-)
-
 SRC1=(
 http://mirrorspace.org/curl/$TARBALL
 http://curl.haxx.se/download/${TARBALL}

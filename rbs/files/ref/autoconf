@@ -7,11 +7,6 @@ VERSION="2.65"
 DIR="autoconf-${VERSION}"
 TARBALL="autoconf-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  m4
-  perl
-)
-
 SRC1=(
 http://ftp.gnu.org/gnu/autoconf/${TARBALL}
 )

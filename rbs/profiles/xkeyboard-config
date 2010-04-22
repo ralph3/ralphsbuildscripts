@@ -7,10 +7,6 @@ VERSION="1.8"
 DIR="xkeyboard-config-${VERSION}"
 TARBALL="xkeyboard-config-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  intltool
-)
-
 SRC1=(
 http://xlibs.freedesktop.org/xkbdesc/${TARBALL}
 )

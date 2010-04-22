@@ -7,11 +7,6 @@ VERSION="0.5"
 DIR="hicolor-icon-theme-${VERSION}"
 TARBALL="hicolor-icon-theme-${VERSION}.tar.gz"
 
-DEPENDS=(
-  shared-mime-info
-  desktop-file-utils
-)
-
 SRC1=(
 http://freedesktop.org/software/icon-theme/releases/${TARBALL}
 )

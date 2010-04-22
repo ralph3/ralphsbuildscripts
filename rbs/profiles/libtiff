@@ -7,12 +7,6 @@ VERSION="3.9.2"
 DIR="tiff-${VERSION}"
 TARBALL="tiff-${VERSION}.tar.gz"
 
-DEPENDS=(
-  libjpeg
-  mesa
-  zlib
-)
-
 SRC1=(
 ftp://ftp.remotesensing.org/libtiff/${TARBALL}
 ftp://ftp.remotesensing.org/libtiff/old/${TARBALL}

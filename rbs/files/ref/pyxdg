@@ -7,10 +7,6 @@ VERSION="0.19"
 DIR="pyxdg-${VERSION}"
 TARBALL="pyxdg-${VERSION}.tar.gz"
 
-DEPENDS=(
-  python
-)
-
 SRC1=(
 http://people.freedesktop.org/~lanius/${TARBALL}
 )

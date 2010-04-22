@@ -5,11 +5,6 @@ VERSION="2.7.7"
 DIR="libxml2-${VERSION}"
 TARBALL="libxml2-${VERSION}.tar.gz"
 
-DEPENDS=(
-  python
-  readline
-)
-
 SRC1=(
 ftp://xmlsoft.org/libxml2/${TARBALL}
 )
@@ -33,6 +28,7 @@ build(){
 version_check_info(){
   ADDRESS='ftp://xmlsoft.org/libxml2/'
   VERSION_STRING='libxml2-%version%.tar.gz'
+  VERSION_FILTERS='tests sources snap'
   MIRRORS=(
     'ftp://xmlsoft.org/libxml2/libxml2-%version%.tar.gz'
   )

@@ -3,14 +3,9 @@
 DISABLE_MULTILIB=1
 
 VERSION="0.2.8.4"
-SYS_VERSION="0.2.8.4-1"
 
 DIR="libwmf-${VERSION}"
 TARBALL="libwmf-${VERSION}.tar.gz"
-
-DEPENDS=(
-  gtk+
-)
 
 SRC1=(
 http://prdownloads.sourceforge.net/wvware/${TARBALL}

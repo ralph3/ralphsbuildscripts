@@ -7,10 +7,6 @@ VERSION="1.4.14"
 DIR="m4-${VERSION}"
 TARBALL="m4-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://ftp.gnu.org/gnu/m4/${TARBALL}
 )

@@ -7,10 +7,6 @@ VERSION="3.11.1"
 DIR="module-init-tools-${VERSION}"
 TARBALL="module-init-tools-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  zlib
-)
-
 SRC1=(
 http://www.kernel.org/pub/linux/utils/kernel/module-init-tools/${TARBALL}
 )
@@ -37,7 +33,7 @@ MyBuild(){
   rm -rf $DIR || return 1
 }
 
-RBS_Tools_Build(){
+Tools_Build(){
   MyBuild $ROOT || return 1
 }
 

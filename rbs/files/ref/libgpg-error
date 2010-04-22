@@ -7,10 +7,6 @@ VERSION="1.7"
 DIR="libgpg-error-${VERSION}"
 TARBALL="libgpg-error-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 ftp://ftp.gnupg.org/gcrypt/libgpg-error/${TARBALL}
 )

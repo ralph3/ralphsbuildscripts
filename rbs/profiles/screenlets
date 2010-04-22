@@ -3,17 +3,9 @@
 DISABLE_MULTILIB=1
 
 VERSION="0.1.2"
-SYS_VERSION="0.1.2-1"
 
 DIR="screenlets"
 TARBALL="screenlets-${VERSION}.tar.bz2"
-
-DEPENDS=(
-  pygtk
-  dbus-python
-  pyxdg
-  gnome-python-desktop
-)
 
 SRC1=(
 http://launchpad.net/screenlets/trunk/${VERSION}/+download/${TARBALL}

@@ -7,10 +7,6 @@ VERSION="1.2.4"
 DIR="giblib-${VERSION}"
 TARBALL="giblib-${VERSION}.tar.gz"
 
-DEPENDS=(
-  imlib2
-)
-
 SRC1=(
 http://linuxbrit.co.uk/downloads/${TARBALL}
 )

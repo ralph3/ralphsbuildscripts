@@ -5,10 +5,6 @@ VERSION="4.0.4"
 DIR="libXfixes-${VERSION}"
 TARBALL="libXfixes-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  libx11
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )

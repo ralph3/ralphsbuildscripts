@@ -4,18 +4,6 @@ DISABLE_MULTILIB=1
 
 VERSION="2.0.4"
 
-DEPENDS=(
-  bash
-  inetutils
-  iproute
-  kbd
-  net-tools
-  sysklogd
-  sysvinit
-  udev
-  util-linux
-)
-
 MyBuild(){
   MYDEST=$1
   
@@ -557,7 +545,7 @@ EOF
   return 0
 }
 
-RBS_Tools_Build(){
+Tools_Build(){
   MyBuild $ROOT || return 1
 }
 

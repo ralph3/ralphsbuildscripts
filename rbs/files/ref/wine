@@ -9,21 +9,6 @@ ONLY32=1
 DIR="wine-${VERSION}"
 TARBALL="wine-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  fontconfig
-  hal
-  lcms
-  libjpeg
-  libpng
-  libxcomposite
-  libxcursor
-  libxinerama
-  libxml2
-  libxslt
-  ncurses
-  openssl
-)
-
 SRC1=(
 http://ibiblio.org/pub/linux/system/emulators/wine/${TARBALL}
 )
@@ -47,6 +32,7 @@ build(){
 version_check_info(){
   ADDRESS='http://ibiblio.org/pub/linux/system/emulators/wine/'
   VERSION_STRING='wine-%version%.tar.bz2'
+  VERSION_FILTERS="docs"
   MIRRORS=(
     'http://ibiblio.org/pub/linux/system/emulators/wine/wine-%version%.tar.bz2'
   )

@@ -7,10 +7,6 @@ VERSION="1.0.5"
 DIR="sessreg-${VERSION}"
 TARBALL="sessreg-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )

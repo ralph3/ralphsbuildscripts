@@ -8,10 +8,6 @@ APPVERSION="$(echo $VERSION | cut -b1).$(echo $VERSION | cut -b2-)"
 DIR="zip-${APPVERSION}"
 TARBALL="zip${VERSION}.tar.gz"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://ralphsbuildscripts.googlecode.com/files/$TARBALL
 )

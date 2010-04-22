@@ -5,11 +5,6 @@ VERSION="1.1.0"
 DIR="libXxf86vm-${VERSION}"
 TARBALL="libXxf86vm-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  xf86vidmodeproto
-  libxext
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )

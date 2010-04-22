@@ -5,10 +5,6 @@ VERSION="2.4.2"
 DIR="mpfr-${VERSION}"
 TARBALL="mpfr-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  gmp
-)
-
 SRC1=(
   ftp://sources.redhat.com/pub/gcc/infrastructure/$TARBALL
 )

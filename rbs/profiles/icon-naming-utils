@@ -7,10 +7,6 @@ VERSION="0.8.90"
 DIR="icon-naming-utils-${VERSION}"
 TARBALL="icon-naming-utils-${VERSION}.tar.gz"
 
-DEPENDS=(
-  perl-xml-simple
-)
-
 SRC1=(
 http://tango.freedesktop.org/releases/${TARBALL}
 )

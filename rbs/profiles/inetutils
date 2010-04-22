@@ -7,10 +7,6 @@ VERSION="1.7"
 DIR="inetutils-${VERSION}"
 TARBALL="inetutils-${VERSION}.tar.gz"
 
-DEPENDS=(
-  readline
-)
-
 SRC1=(
 $(gnu_mirrors inetutils ${TARBALL})
 )

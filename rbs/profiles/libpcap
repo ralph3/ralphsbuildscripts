@@ -7,10 +7,6 @@ VERSION="1.1.1"
 DIR="libpcap-${VERSION}"
 TARBALL="libpcap-${VERSION}.tar.gz"
 
-DEPENDS=(
-  flex
-)
-
 SRC1=(
 http://www.tcpdump.org/release/${TARBALL}
 )

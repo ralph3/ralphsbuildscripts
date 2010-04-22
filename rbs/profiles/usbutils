@@ -7,10 +7,6 @@ VERSION="0.72"
 DIR="usbutils-${VERSION}"
 TARBALL="usbutils-${VERSION}.tar.gz"
 
-DEPENDS=(
-  libusb
-)
-
 SRC1=(
 http://prdownloads.sourceforge.net/linux-usb/${TARBALL}
 )

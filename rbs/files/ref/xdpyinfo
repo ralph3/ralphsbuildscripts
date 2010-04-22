@@ -7,14 +7,6 @@ VERSION="1.1.0"
 DIR="xdpyinfo-${VERSION}"
 TARBALL="xdpyinfo-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  libxi
-  libxrender
-  libxtst
-  libxxf86misc
-  libxxf86vm
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )

@@ -1,15 +1,9 @@
 #!/bin/bash
 
 VERSION="1.4.3"
-SYS_VERSION="1.4.3-1"
 
 DIR="cups-${VERSION}"
 TARBALL="cups-${VERSION}-source.tar.bz2"
-
-DEPENDS=(
-  shadow
-  libusb
-)
 
 SRC1=(
 http://ftp.easysw.com/pub/cups/${VERSION}/${TARBALL}

@@ -5,10 +5,6 @@ VERSION="5.0.1"
 DIR="gmp-${VERSION}"
 TARBALL="gmp-${VERSION}.tar.gz"
 
-DEPENDS=(
-  glibc
-)
-
 SRC1=(
 http://ftp.gnu.org/gnu/gmp/${TARBALL}
 )

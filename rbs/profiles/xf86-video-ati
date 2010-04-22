@@ -7,10 +7,6 @@ VERSION="6.13.0"
 DIR="xf86-video-ati-${VERSION}"
 TARBALL="xf86-video-ati-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  xorg-server
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/driver/${TARBALL}
 )

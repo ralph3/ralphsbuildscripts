@@ -7,11 +7,6 @@ VERSION="2.1.14"
 DIR="libXft-${VERSION}"
 TARBALL="libXft-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  fontconfig
-  libxrender
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )

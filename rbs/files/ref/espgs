@@ -1,18 +1,9 @@
 #!/bin/bash
 
 VERSION="7.07.1"
-SYS_VERSION="7.07.1-2"
 
 DIR="espgs-${VERSION}"
 TARBALL="espgs-${VERSION}-source.tar.bz2"
-
-DEPENDS=(
-  cups
-  libjpeg
-  libpng
-  libxext
-  libxt
-)
 
 SRC1=(
 http://prdownloads.sourceforge.net/espgs/${TARBALL}

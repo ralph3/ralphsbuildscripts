@@ -7,10 +7,6 @@ VERSION="2.20.0"
 DIR="pygobject-${VERSION}"
 TARBALL="pygobject-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
   $(gnome_mirrors pygobject)
 )

@@ -7,13 +7,6 @@ VERSION="0.12.4"
 DIR="poppler-${VERSION}"
 TARBALL="poppler-${VERSION}.tar.gz"
 
-DEPENDS=(
-  cairo
-  gobject-introspection
-  libpng
-  zlib
-)
-
 SRC1=(
 http://www.vi.kernel.org/pub/mirrors/gentoo/source/distfiles/$TARBALL
 http://poppler.freedesktop.org/${TARBALL}

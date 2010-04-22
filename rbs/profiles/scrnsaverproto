@@ -7,10 +7,6 @@ VERSION="1.2.0"
 DIR="scrnsaverproto-${VERSION}"
 TARBALL="scrnsaverproto-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )

@@ -5,12 +5,6 @@ VERSION="1.1.2"
 DIR="libXdamage-${VERSION}"
 TARBALL="libXdamage-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  damageproto
-  libxt
-  libxfixes
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )

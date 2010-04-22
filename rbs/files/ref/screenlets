@@ -7,13 +7,6 @@ VERSION="0.1.2"
 DIR="screenlets"
 TARBALL="screenlets-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  pygtk
-  dbus-python
-  pyxdg
-  gnome-python-desktop
-)
-
 SRC1=(
 http://launchpad.net/screenlets/trunk/${VERSION}/+download/${TARBALL}
 )
@@ -30,6 +23,7 @@ build(){
   if [ ! -e "$TMPROOT/usr/$LIBSDIR" ]; then
     mv $TMPROOT/usr/lib $TMPROOT/usr/$LIBSDIR || return 1
   fi
+  rm -rf $TMPROOT/usr/bin
   cd ../ || return 1
   rm -rf $DIR || return 1
 }

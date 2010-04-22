@@ -7,12 +7,6 @@ VERSION="0.0.20"
 DIR="xmlto-${VERSION}"
 TARBALL="xmlto-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  docbook-xml
-  docbook-xsl
-  libxslt
-)
-
 SRC1=(
 http://cyberelk.net/tim/data/xmlto/stable/${TARBALL}
 )

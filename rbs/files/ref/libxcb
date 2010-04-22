@@ -5,12 +5,6 @@ VERSION="1.6"
 DIR="libxcb-${VERSION}"
 TARBALL="libxcb-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  libxslt
-  libpthread-stubs
-  xcb-proto
-)
-
 SRC1=(
 http://xcb.freedesktop.org/dist/${TARBALL}
 )

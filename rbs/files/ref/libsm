@@ -5,10 +5,6 @@ VERSION="1.1.1"
 DIR="libSM-${VERSION}"
 TARBALL="libSM-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  libice
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )

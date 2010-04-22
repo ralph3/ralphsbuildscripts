@@ -7,10 +7,6 @@ VERSION="2.30.0"
 DIR="libgnome-keyring-${VERSION}"
 TARBALL="libgnome-keyring-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  libgcrypt
-)
-
 SRC1=(
   $(gnome_mirrors libgnome-keyring)
 )

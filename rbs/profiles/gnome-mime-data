@@ -4,13 +4,8 @@ DISABLE_MULTILIB=1
 
 VERSION="2.18.0"
 
-
 DIR="gnome-mime-data-${VERSION}"
 TARBALL="gnome-mime-data-${VERSION}.tar.bz2"
-
-DEPENDS=(
-  make
-)
 
 SRC1=(
   $(gnome_mirrors gnome-mime-data)

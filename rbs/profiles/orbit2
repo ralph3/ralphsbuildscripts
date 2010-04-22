@@ -7,10 +7,6 @@ VERSION="2.14.18"
 DIR="ORBit2-${VERSION}"
 TARBALL="ORBit2-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  libidl
-)
-
 SRC1=(
   $(gnome_mirrors ORBit2)
 )

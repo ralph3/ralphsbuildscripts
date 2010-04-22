@@ -5,11 +5,6 @@ VERSION="1.1"
 DIR="libXinerama-${VERSION}"
 TARBALL="libXinerama-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  libxext
-  xineramaproto
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )

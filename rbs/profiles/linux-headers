@@ -7,10 +7,6 @@ VERSION="2.6.33.2"
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  filesystem
-)
-
 SRC1=(
 http://www.kernel.org/pub/linux/kernel/v2.6/${TARBALL}
 )

@@ -1,14 +1,9 @@
 #!/bin/bash
 
 VERSION="0.1"
-SYS_VERSION="0.1-1"
 
 DIR="libpthread-stubs-${VERSION}"
 TARBALL="libpthread-stubs-${VERSION}.tar.bz2"
-
-DEPENDS=(
-  make
-)
 
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}

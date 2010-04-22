@@ -7,10 +7,6 @@ VERSION="1.1.1"
 DIR="libXxf86dga-${VERSION}"
 TARBALL="libXxf86dga-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  xf86dgaproto
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )

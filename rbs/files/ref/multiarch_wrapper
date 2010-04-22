@@ -6,10 +6,6 @@ VERSION="1.0"
 
 DIR="multiarch_wrapper-${VERSION}"
 
-DEPENDS=(
-  gcc
-)
-
 build(){
   if [ "$SYSTYPE" != "MULTILIB" ]; then
     echo "multiarch_wrapper is only for MULTILIB systems."

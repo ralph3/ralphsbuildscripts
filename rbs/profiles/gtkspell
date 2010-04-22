@@ -7,11 +7,6 @@ VERSION="2.0.16"
 DIR="gtkspell-${VERSION}"
 TARBALL="gtkspell-${VERSION}.tar.gz"
 
-DEPENDS=(
-  enchant
-  gtk+
-)
-
 SRC1=(
 http://gtkspell.sourceforge.net/download/${TARBALL}
 )

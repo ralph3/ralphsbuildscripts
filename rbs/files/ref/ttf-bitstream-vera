@@ -3,16 +3,9 @@
 DISABLE_MULTILIB=1
 
 VERSION="1.10"
-SYS_VERSION="1.10-1"
 
 DIR="ttf-bitstream-vera-${VERSION}"
 TARBALL="ttf-bitstream-vera-${VERSION}.tar.bz2"
-
-DEPENDS=(
-  mkfontdir
-  mkfontscale
-  fontconfig
-)
 
 SRC1=(
   $(gnome_mirrors ttf-bitstream-vera)

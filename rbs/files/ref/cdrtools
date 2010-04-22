@@ -7,10 +7,6 @@ VERSION="2.01"
 DIR="cdrtools-${VERSION}"
 TARBALL="cdrtools-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
  http://mirror.cict.fr/blfs/svn/c/${TARBALL}
  ftp://ftp.berlios.de/pub/cdrecord/${TARBALL}

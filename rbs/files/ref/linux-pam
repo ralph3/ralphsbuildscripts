@@ -1,15 +1,9 @@
 #!/bin/bash
 
 VERSION="1.1.1"
-SYS_VERSION="1.1.1-1"
 
 DIR="Linux-PAM-${VERSION}"
 TARBALL="Linux-PAM-${VERSION}.tar.bz2"
-
-DEPENDS=(
-  bison
-  flex
-)
 
 SRC1=(
 http://www.kernel.org/pub/linux/libs/pam/library/${TARBALL}

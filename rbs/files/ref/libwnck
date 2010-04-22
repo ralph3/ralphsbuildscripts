@@ -7,10 +7,6 @@ VERSION="2.30.0"
 DIR="libwnck-${VERSION}"
 TARBALL="libwnck-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  startup-notification
-)
-
 SRC1=(
   $(gnome_mirrors libwnck)
 )

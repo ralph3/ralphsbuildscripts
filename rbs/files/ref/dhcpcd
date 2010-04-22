@@ -7,10 +7,6 @@ VERSION="1.3.22-pl4"
 DIR="dhcpcd-${VERSION}"
 TARBALL="dhcpcd-${VERSION}.tar.gz"
 
-DEPENDS=(
-  glibc
-)
-
 SRC1=(
 http://www.phystech.com/ftp/${TARBALL}
 )

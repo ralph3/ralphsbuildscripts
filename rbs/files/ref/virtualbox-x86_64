@@ -8,11 +8,6 @@ VERSION="3.1.6-59338"
 TARBALL="VirtualBox-${VERSION}-Linux_amd64.run"
 DIR="VirtualBox-${VERSION}"
 
-DEPENDS=(
-  sdl
-  xorg-server
-)
-
 SRC1=(
 http://download.virtualbox.org/virtualbox/$(echo ${VERSION} | cut -f1 -d'-')/$TARBALL
 )

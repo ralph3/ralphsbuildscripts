@@ -7,10 +7,6 @@ VERSION="22.11"
 DIR="psmisc-${VERSION}"
 TARBALL="psmisc-${VERSION}.tar.gz"
 
-DEPENDS=(
-  ncurses
-)
-
 SRC1=(
 http://prdownloads.sourceforge.net/psmisc/${TARBALL}
 )

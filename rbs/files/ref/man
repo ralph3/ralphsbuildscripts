@@ -3,15 +3,9 @@
 DISABLE_MULTILIB=1
 
 VERSION="1.6f"
-SYS_VERSION="1.6f-3"
 
 DIR="man-${VERSION}"
 TARBALL="man-${VERSION}.tar.gz"
-
-DEPENDS=(
-  bzip2
-  gzip
-)
 
 SRC1=(
 http://primates.ximian.com/~flucifredi/man/${TARBALL}

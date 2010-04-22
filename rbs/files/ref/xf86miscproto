@@ -7,10 +7,6 @@ VERSION="0.9.3"
 DIR="xf86miscproto-${VERSION}"
 TARBALL="xf86miscproto-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )

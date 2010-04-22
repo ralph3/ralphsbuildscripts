@@ -7,10 +7,6 @@ VERSION="8.4"
 DIR="coreutils-${VERSION}"
 TARBALL="coreutils-${VERSION}.tar.gz"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://ftp.gnu.org/gnu/coreutils/${TARBALL}
 )
@@ -19,14 +15,14 @@ MD5SUMS=(
 56f549854d723d9dcebb77919019df55
 )
 
-RBS_Tools_Build(){
+Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   sed -i "/binPROGRAMS_INSTALL=/s:./ginstall:install:" \
     src/Makefile.in || return 1
   echo "fu_cv_sys_stat_statfs2_bsize=yes" > config.cache || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
-    --host=$BUILDTARGET --prefix=/RBS-Tools \
+    --host=$BUILDTARGET --prefix=$TCDIR \
     --cache-file=config.cache || return 1
   make LDFLAGS="-lrt" || return 1
   make install || return 1

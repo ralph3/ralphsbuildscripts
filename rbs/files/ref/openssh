@@ -7,11 +7,6 @@ VERSION="5.1p1"
 DIR="openssh-${VERSION}"
 TARBALL="openssh-${VERSION}.tar.gz"
 
-DEPENDS=(
-  openssl
-  shadow
-)
-
 SRC1=(
 http://sunsite.ualberta.ca/pub/OpenBSD/OpenSSH/portable/${TARBALL}
 )

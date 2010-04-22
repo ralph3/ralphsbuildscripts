@@ -5,10 +5,6 @@ VERSION="1.2.10"
 DIR="gtk+-1.2.10"
 TARBALL="gtk+-1.2.10.tar.gz"
 
-DEPENDS=(
-  glib1
-)
-
 SRC1=(
 ftp://ftp.gtk.org/pub/gtk/v1.2/gtk+-1.2.10.tar.gz
 )

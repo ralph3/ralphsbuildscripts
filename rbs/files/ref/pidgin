@@ -7,13 +7,6 @@ VERSION="2.6.6"
 DIR="pidgin-${VERSION}"
 TARBALL="pidgin-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  gnutls
-  gtkspell
-  perl-xml-parser
-  startup-notification
-)
-
 SRC1=(
 http://prdownloads.sourceforge.net/pidgin/${TARBALL}
 )

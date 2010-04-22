@@ -7,10 +7,6 @@ VERSION="1.15.2"
 DIR="kbd-${VERSION}"
 TARBALL="kbd-${VERSION}.tar.gz"
 
-DEPENDS=(
-  flex
-)
-
 SRC1=(
 http://ftp.altlinux.org/pub/people/legion/kbd/${TARBALL}
 )

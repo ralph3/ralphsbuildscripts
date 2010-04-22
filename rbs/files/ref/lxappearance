@@ -7,10 +7,6 @@ VERSION="0.4.0"
 DIR="lxappearance-${VERSION}"
 TARBALL="lxappearance-${VERSION}.tar.gz"
 
-DEPENDS=(
-  gtk+
-)
-
 SRC1=(
 http://prdownloads.sourceforge.net/lxde/${TARBALL}
 )

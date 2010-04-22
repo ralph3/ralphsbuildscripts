@@ -7,10 +7,6 @@ VERSION="1.1.0"
 DIR="xvinfo-${VERSION}"
 TARBALL="xvinfo-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  libxv
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )

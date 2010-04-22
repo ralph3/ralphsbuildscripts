@@ -7,10 +7,6 @@ VERSION="0.0.22"
 DIR="gegl-${VERSION}"
 TARBALL="gegl-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 ftp://ftp.gtk.org/pub/gegl/$(cut -f-2 -d'.' <<< $VERSION)/${TARBALL}
 )

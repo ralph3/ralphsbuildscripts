@@ -7,10 +7,6 @@ VERSION="6.0-0"
 DIR="aspell6-en-${VERSION}"
 TARBALL="aspell6-en-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  aspell
-)
-
 SRC1=(
 http://ftp.gnu.org/gnu/aspell/dict/en/${TARBALL}
 )

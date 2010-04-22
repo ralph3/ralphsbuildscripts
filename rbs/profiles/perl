@@ -17,10 +17,6 @@ VERSION="5.10.1"
 DIR="perl-${VERSION}"
 TARBALL="perl-${VERSION}.tar.gz"
 
-DEPENDS=(
-  make
-)
-
 SRC1=(
 http://ftp.funet.fi/pub/CPAN/src/${TARBALL}
 )

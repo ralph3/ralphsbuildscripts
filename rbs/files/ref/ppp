@@ -3,14 +3,9 @@
 DISABLE_MULTILIB=1
 
 VERSION="2.4.5"
-SYS_VERSION="2.4.5-1"
 
 DIR="ppp-${VERSION}"
 TARBALL="ppp-${VERSION}.tar.gz"
-
-DEPENDS=(
-  libpcap
-)
 
 SRC1=(
 http://samba.org/ftp/ppp/${TARBALL}

@@ -7,10 +7,6 @@ VERSION="2.6.4"
 DIR="libglade-${VERSION}"
 TARBALL="libglade-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  gtk+
-)
-
 SRC1=(
   $(gnome_mirrors libglade)
 )
@@ -33,7 +29,7 @@ build(){
 version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/libglade/%minor_version%/'
   VERSION_STRING='libglade-%version%.tar.bz2'
-  ONLY_EVEN_MINORS=0
+  MINOR_VERSION_FILTERS='br'
   MIRRORS=(
     "http://ftp.gnome.org/pub/GNOME/sources/libglade/%minor_version%/libglade-%version%.tar.bz2"
   )

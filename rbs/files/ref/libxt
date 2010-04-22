@@ -5,13 +5,6 @@ VERSION="1.0.8"
 DIR="libXt-${VERSION}"
 TARBALL="libXt-${VERSION}.tar.bz2"
 
-DEPENDS=(
-  libice
-  libsm
-  libx11
-  libxdmcp
-)
-
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
