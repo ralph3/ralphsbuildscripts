@@ -1,10 +1,5 @@
 #!/bin/bash
 
-[ "$(id -u)" != "0" ] && {
-  echo "Run me as root please." >/dev/stderr
-  exit 1
-}
-
 cd "$(dirname $0)" || exit 1
 RBSDIR="$PWD"
 
@@ -16,295 +11,125 @@ else
   PROFILES="$(profile_list)"
 fi
 
-mkdir -p .cache/version_check_data || exit 1
+get_data(){
+    ####
+    # get data from address and replace html chars with new
+    # lines to make grepping easier
+    ####
+    wget -q -O /dev/stdout --timeout=30 --passive-ftp "$1" | \
+      sed -e 's%<%\n%g' -e 's%>%\n%g' -e 's%\"%\n%g'
+}
+
+filter_minors(){
+  local ret
+  ret="$*"
+  if [ "$ONLY_EVEN_MINORS" == "1" ]; then
+    ret=$(for x in $*; do y=$(cut -f2 -d'.' <<<$x | tr -d '/' | grep -vi "[a-z]"); if [ -n "$y" ]; then if [ "$(($y % 2))" == 0 ] || [ "$y" == 0 ]; then echo $x; fi; fi; done 2>/dev/null)
+  fi
+  if [ -n "$MINOR_VERSION" ]; then
+    ret=$(grep "^${PRE}${MINOR_VERSION}" <<<"$ret")
+  fi
+  echo "$ret"
+}
+
+get_dir_data(){
+  filter_minors "$(get_data $1 | grep -iv -e ' ' \
+    -e '^/a$' -e 'html$' -e 'head$' \
+    -e 'body$' -e 'title$' -e 'pre$' \
+    -e 'font$' -e 'h[0-9]$' -e 'hr$' \
+    -e '/.*/' | grep '/$' | grep "^${PRE}." | tr -d '/')"
+}
+
 echo "<check-versions begin>"
 for PRO in $PROFILES; do
   profile_exists $PRO || {
     echo "No profile named \"${PRO}.sh\" found!" >/dev/stderr
-    exit 1
+    continue
   }
   PROFILE=$(profile_realpath $PRO)
   unset version_check_info VERSION APPNAME ADDRESS VERSION_STRING \
-    VERSION_FILTERS ONLY_EVEN_MINORS MINOR_VERSION MIRRORS HIGH_MINOR_VERSION
+    VERSION_FILTERS MINOR_VERSION_FILTERS ONLY_EVEN_MINORS MINOR_VERSION MIRRORS \
+    DATA PRE SUF VLIST VRES taddr
   source $PROFILE || exit 1
-  [ "$(type -t version_check_info)" == "function" ] && {
+  if [ "$(type -t version_check_info)" == "function" ]; then
     version_check_info
-/usr/bin/env python - "$PRO" \
-                      "$(exec_profile $PRO VERSION)" \
-                      "$ADDRESS" \
-                      "$VERSION_STRING" \
-                      "$ONLY_EVEN_MINORS" \
-                      "$MINOR_VERSION" \
-                      "$VERSION_FILTERS" \
-                      "$(for m in "${MIRRORS[@]}"; do echo "$m"; done)" \
-                      << "PYTHON_CODE"
-
-import sys, os, re
-
-open_msg_len = 0
-def open_msg( msg ):
-  global open_msg_len, message_closed
-  message_closed = 0
-  nmsg = " " + msg
-  open_msg_len = len(nmsg)
-  sys.stdout.write(nmsg)
-  sys.stdout.flush()
-
-def close_msg( msg ):
-  global open_msg_len, message_closed
-  if not message_closed:
-    sys.stdout.write(msg + '\n')
-    sys.stdout.flush()
-    message_closed = 1
-
-def high_version( v ):
-  def vcmp(n1, n2):
-    def ldigit(n):
-      r = []
-      x = 0
-      l = len(n)
-      while x < l:
-        if n[x].isdigit():
-          r.append(n[x])
-        x += 1
-      return int(''.join(r))
-    s1 = n1.replace(".","_").replace("-","_").split('_')
-    s2 = n2.replace(".","_").replace("-","_").split('_')
-    lc = [ n1, s1 ]
-    sc = [ n2, s2 ]
-    if  len(s1) < len(s2):
-      lc = [ n2, s2 ]
-      sc = [ n1, s1 ]
-    x = 0
-    for y in sc[1]:
-      if y.isdigit() and lc[1][x].isdigit():
-        s = int(y)
-        l = int(lc[1][x])
-      else:
-        s = y
-        l = lc[1][x]
-        if s.isdigit():
-          ns = int(s)
-        else:
-          ns = ldigit(s)
-        if l.isdigit():
-          nl = int(l)
-        else:
-          nl = ldigit(l)
-        if ns > nl:
-          return sc[0]
-        elif ns < nl:
-          return lc[0]
-      if s > l:
-        return sc[0]
-      elif s < l:
-        return lc[0]
-      x += 1
-    return lc[0]
-  h = v[0]
-  for x in v:
-    h = vcmp(h, x)
-  return h
-
-def fetch_data(address):
-  h = os.popen("wget -O /dev/stdout --timeout=30 --passive-ftp \"" + address + "\" 2>/dev/null", 'r')
-  d = h.read()
-  h.close()
-  if not d:
-    close_msg("!!Error Fetching Data!!")
-    sys.exit(1)
-  return d
-
-def grep(regex,list):
-  ret=[]
-  for line in list:
-    if re.search(regex,line):
-      ret.append(line)
-  return ret
-
-def grep_v(regex,list):
-  ret=[]
-  for line in list:
-    if not re.search(regex,line):
-      ret.append(line)
-  return ret
-
-def minor_is_even(version):
-  s = version.replace('_','.').replace('-','.').split('.')
-  try:
-    if s[1] and s[1].isdigit():
-      i = int(s[1])
-      if i/2*2 == i:
-        return 1
-      else:
-        return 0
-  except:
-    return
-
-def filter_versions(versions):
-  global only_even_minors, version_filters, minor_version
-  v = versions
-  tv = []
-  for x in v:
-    if only_even_minors == '1' and minor_is_even(x):
-      tv.append(x)
-  if tv:
-    v = tv
-    tv = []
-  for x in v:
-    if minor_version and re.search("^"+minor_version,x):
-      tv.append(x)
-  if tv:
-    v = tv
-    tv = []
-  for x in v:
-    if version_filters:
-      nogo = ''
-      for y in version_filters.split(' '):
-        if re.search(y,x):
-          nogo = 1
-      if not nogo:
-        tv.append(x)
-  if tv:
-    return tv
-  else:
-    return v
-
-def resolve_address(addy):
-  global version, minor_version
-  address = [addy]
-  def res(a,s):
-    while re.search(s, a):
-      na = a.split(s)
-      napre = os.path.basename(na[0])
-      nalsuf = os.path.dirname(na[1][::-1])[::-1]
-      if na[1][0] == '/':
-        nasuf = '/'
-      else:
-        nasuf = os.path.basename(na[1][::-1])[::-1]
-      na = os.path.dirname(na[0])
-      n=[]
-      data = fetch_data(na+'/')
-      if napre:
-        data = grep( napre + ".*" + nasuf, data.split("\n") )
-        for line in data:
-          sp = line.split(napre)[1].split(nasuf)[0]
-          if '>' not in sp and '\"' not in sp and '\'' not in sp:
-            n.append( sp )
-      else:
-        data = data.split("\n")
-        tn = []
-        for x in data:
-          if 'href=' in x or 'HREF=' in x:
-            l = x.replace('HREF=', 'href=')[::-1].split('=ferh')[0][::-1].split('>')[1].split('<')[0]
-            if l and '>' not in l and '<' not in l and '\"' not in l and '\'' not in l and l[0].isdigit() and l[::-1][0] == '/':
-              tn.append(l)
-        tn = grep( ".*" + nasuf, tn )
-        for x in tn:
-          n.append(x.replace(nasuf, ''))
-      h = high_version( filter_versions(n) )
-      if nasuf == '/':
-        nasuf = ''
-      a = na + '/' + napre + h + nasuf + nalsuf
-    return [a,h]
-  try:
-    if re.search("%minor_version%", address[0]):
-      address = res(address[0],"%minor_version%")
-      minor_version = address[1]
-  except:
-    close_msg("!!! error resolving minor version directory !!!")
-    sys.exit(1)
-  try:
-    if re.search("%version%", address[0]):
-      address = res(address[0],"%version%")
-      version = address[1]
-  except:
-    close_msg("!!! error resolving version directory !!!")
-    sys.exit(1)
-  return address[0]
-
-name             = sys.argv[1]
-profile_version  = sys.argv[2]
-address          = sys.argv[3]
-version_string   = sys.argv[4]
-only_even_minors = sys.argv[5]
-minor_version    = sys.argv[6]
-version_filters  = sys.argv[7]
-
-open_msg("  " + name + ": ")
-
-if not profile_version:
-  close_msg("VERSION not set in profile.")
-  sys.exit(1)
-
-if not address:
-  close_msg("ADDRESS not set in profile.")
-  sys.exit(1)
-
-if not version_string:
-  close_msg("VERSION_STRING not set in profile.")
-  sys.exit(1)
-
-if not version_string:
-  close_msg("VERSION_STRING not set in profile.")
-  sys.exit(1)
-
-if not sys.argv[8]:
-  close_msg("MIRRORS not set in profile.")
-  sys.exit(1)
-else:
-  mirror_list      = sys.argv[8].split('\n')
-
-version = ''
-address = resolve_address(address)
-
-if not version:
-  try:
-    vnums = []
-    data = fetch_data(address)
-    regex = version_string.replace(".","\.").replace("%version%", ".*").replace("+", "\+")
-    data = grep( regex, data.split("\n") )
-    vspre, vssuf = version_string.split("%version%")
-    for line in data:
-      l = line.replace(vspre,"\n").replace(vssuf,"\n").split('\n')[1]
-      if l and l[0].isdigit():
-        vnums.append( l )
-    version = high_version( filter_versions(vnums) )
-  except:
-    close_msg("!!! internal error !!!")
-    sys.exit(1)
-
-storedata = version + "\n\n"
-for x in mirror_list:
-  m = x.replace("%minor_version%", minor_version).replace("%version%", version)
-  p = os.popen('wget --spider --timeout=30 --tries=1 --passive-ftp \"' + m + '\" 2>/dev/null')
-  y = p.read()
-  if not p.close():
-    storedata = storedata + m + "\n"
-
-try:
-  f = open('.cache/version_check_data/' + name, 'w')
-  f.write(storedata)
-  f.close()
-except:
-  close_msg("!!! error updating cache !!!")
-  sys.exit(1)
-
-if profile_version != version and high_version([profile_version, version]) == version:
-  close_msg(profile_version + " -> " + version)
-  sys.exit(0)
-else:
-  if not message_closed:
-    for x in range( open_msg_len ):
-      sys.stdout.write('\b')
-    for x in range( open_msg_len ):
-      sys.stdout.write(' ')
-    for x in range( open_msg_len ):
-      sys.stdout.write('\b')
-    sys.stdout.flush()
-    message_closed = 1
-PYTHON_CODE
-  }
+    
+    echo -n "  ${PRO}..."
+    while [ -n "$(grep "%version%" <<<"$ADDRESS")" ] || [ -n "$(grep "%minor_version%" <<<"$ADDRESS")" ]; do
+      
+      PRE="$(cut -f1 -d'%' <<<"$ADDRESS" | rev | cut -f1 -d'/' | rev)"
+      taddr="$(cut -f1 -d'%' <<<"$ADDRESS")/"
+      if [ -n "$PRE" ]; then
+        taddr="$(dirname "$(cut -f1 -d'%' <<<"$ADDRESS")")/"
+      fi
+      
+      DATA=$(get_dir_data "$taddr")
+      
+      case "$(cut -f2 -d'%' <<<$ADDRESS)" in
+        version)
+          for x in $VERSION_FILTERS; do
+             DATA=$(grep -v "$x" <<<"$DATA")
+          done
+        ;;
+        minor_version)
+          for x in $MINOR_VERSION_FILTERS; do
+             DATA=$(grep -v "$x" <<<"$DATA")
+          done
+        ;;
+        *)
+          echo "you should not see this err"
+          exit 1
+        ;;
+      esac
+      ADDRESS="$(echo $taddr)/$(sort -V <<< "$DATA" | tail -n1)/$(cut -f3- -d'%' <<<"$ADDRESS")"
+    done
+    
+    unset PRE SUF
+    
+    DATA=$(get_data "$ADDRESS")
+    if [ -z "$DATA" ]; then
+      echo " ERR DATA empty. ADDRESS typo? Site down?"
+      continue
+    fi
+    PRE=$(sed -e 's%\%version\%%\n%g' <<<$VERSION_STRING | sed -e '1!d')
+    SUF=$(sed -e 's%\%version\%%\n%g' <<<$VERSION_STRING | sed -e '2!d')
+    ####
+    # get only lines containing PRE and SUF with data in the middle then
+    # delete everything leading up to the end of PRE and from the beginning
+    # of SUF to the end of line
+    ####
+    VLIST=$(
+              grep "^.*${PRE}.*${SUF}" <<<"$DATA" | \
+                sed -e "s%^.*${PRE}%%g" -e "s%${SUF}.*$%%g"
+           )
+    for x in $VERSION_FILTERS; do
+       VLIST=$(grep -v "$x" <<<"$VLIST")
+    done
+    
+    unset PRE SUF
+    
+    VLIST=$(filter_minors "$VLIST")
+    ####
+    # now we will sort the version numbers to get the greatest version on the
+    # end of the list then get the last line which should contain the greatest
+    # version number.
+    ####
+    VRES=$(sort -V <<<"$VLIST" | tail -n1)
+    if [ -z "$VRES" ]; then
+      echo " ERR VRES empty. Wrong VERSION_FILTERS?"
+      continue
+    else
+      if [ "$(sort -V <<<"$(echo -e "${VERSION}\n${VRES}")" | tail -n1)" == "$VERSION" ]; then
+        echo -n "                    "
+        echo -en "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
+      else
+        ####
+        # then this should mean we have a new version out
+        ####
+        echo " $VERSION -> $VRES"
+      fi
+    fi
+  fi
 done
 echo "</check-versions end>"
 exit 0
