@@ -90,33 +90,24 @@ gnome_script(){
   return 0
 }
 
-profile_realpath(){
-  find $PROFILEDIR -name ${1}.sh 2>/dev/null | sed q
-}
-
-profile_list(){
-  find $PROFILEDIR/all -name '*.sh' | rev | cut -f1 -d'/' | rev | \
-    cut -f1 -d'.' | sort
-}
-
 unset_profile(){
   local N
   unset VERSION DIR TARBALL SYS_VERSION MD5SUMS DEPENDS preinstall postinstall \
-    preremove postremove preupgrade postupgrade
+    preremove postremove preupgrade postupgrade Cross_Tools_Build Tools_Build build
   N=1
   while [ "$N" -le "50" ]; do
-    unset pass${N}_toolchain_build SRC${N} my_src${N}
+    unset SRC${N} my_src${N}
     N=$((N+1))
   done
 }
 
 exec_profile(){
-  profile_exists $1 || {
+  if [ ! -f "$PROFILEDIR/$1" ]; then
     echo "no profile for ${1}!" >/dev/stderr
     return 1
-  }
+  fi
   unset_profile $1
-  source $(profile_realpath $1) || return 1
+  source $PROFILEDIR/$1 || return 1
   if [ "$2" == "DEPENDS" ]; then
     for x in ${DEPENDS[@]}; do
       echo $x
@@ -137,35 +128,9 @@ exec_profile(){
   esac
 }
 
-profile_exists(){
-  [ -z "$(profile_list | grep "^${1}$")" ] && return 1
-  return 0
-}
-
-profiles_exist(){
-cd $RBSDIR || return 1
-/usr/bin/env python - $* << "PYTHON_CODE" || return 1
-import glob, sys, os
-e = 1
-l = len(sys.argv)
-args = []
-while e != l:
-  args.append(sys.argv[e])
-  e += 1
-for x in args:
-  p = glob.glob("./profiles/*/"+x+".sh")
-  if p:
-    p = p[0]
-  if not p or not os.path.exists(p):
-    print "No profile exists for \""+x+"\"!"
-    sys.exit(1)
-PYTHON_CODE
-return 0
-}
-
 test_profile(){
   unset_profile $1
-  source $(profile_realpath $1) 2>/dev/null || return 1
+  source $PROFILEDIR/$1 2>/dev/null || return 1
   case $(type -t $2) in
     "function")
       return 0
@@ -179,24 +144,6 @@ test_profile(){
     ;;
   esac
   unset_profile $1
-}
-
-profile_group(){
-  if [ -d "$PROFILEDIR/$1" ]; then
-    find profiles/$1/*.sh -exec basename {} \; 2>/dev/null \
-      | sed 's%\.sh$%%'
-  fi
-}
-
-resolve_profile_names(){
-  for x in $*; do
-    profile_exists $x
-    if [ "$?" == "0" ]; then
-      echo $x
-    else
-      [ -d "$PROFILEDIR/$x" ] && profile_group $x
-    fi
-  done
 }
 
 trash_files(){
@@ -225,70 +172,6 @@ trash_files(){
     done
     [ -z "$E" ] && break
   done
-}
-
-fetch_depends(){
-cd $RBSDIR || return 1
-/usr/bin/env python - $* << "PYTHON_CODE" || return 1
-import glob, os, sys
-
-def profile_depends():
-  list = {}
-  f = open("./shared", 'r')
-  shared = f.read()
-  f.close()
-  for x in glob.glob("./profiles/all/*.sh"):
-    n = os.path.basename(x)[::-1][3:][::-1]
-    list[n] = []
-    f = open(x,'r')
-    d = "RBSDIR=\"$PWD\"\n"+shared+"\n"+f.read()
-    d += "\nfor x in \"${DEPENDS[@]}\"; do echo $x; done; exit 0"
-    f.close()
-    f = os.popen(d,'r')
-    d = f.read().split("\n")
-    if f.close():
-      sys.exit(1)
-    for y in d:
-      if y:
-        list[n].append(y)
-  return list
-
-sys.setrecursionlimit(10000)
-
-e = 1
-l = len(sys.argv)
-args = []
-while e != l:
-  args.append(sys.argv[e])
-  e += 1
-
-list = profile_depends()
-
-newlist = []
-checked = []
-def dodep(x):
-  if x not in checked:
-    checked.append(x)
-    for y in list[x]:
-      if y and y not in newlist:
-        dodep(y)
-        newlist.append(y)
-for x in args:
-  if x and x not in newlist:
-    dodep(x)
-    newlist.append(x)
-    checked.append(x)
-
-if newlist[0] != "filesystem":
-  sys.stderr.write("""
-   A profile has a screwup in the dependency list, which causes me to loop
- forever. The profile with the problem is likely \""""+newlist[0]+"\".\n\n")
-  sys.exit(1)
-for x in newlist:
-  print x
-PYTHON_CODE
-
-return 0
 }
 
 md5sum_file(){
@@ -439,45 +322,6 @@ unpack_tarball(){
   tar xpfz $TARBALL -C $SRCDIR || return 1
   find $SRCDIR -exec touch -c -t 197101010000.00 {} \;
   return 0
-}
-
-get_tarball_dir(){
-/usr/bin/env python - "$1" << "EOF" || return 1
-
-import os, sys, tarfile, gzip, bz2
-
-tf = sys.argv[1]
-if not os.path.exists(tf) or not tarfile.is_tarfile(tf):
-  print tf + ' not a tarball!'
-
-try:
-  foo = tarfile.open(tf, 'r:bz2')
-  t = 'bz2'
-except:
-  try:
-    foo = tarfile.open(tf, 'r:gz')
-    t = 'gz'
-  except:
-    t = 'nc'
-foo.close()
-
-if t == 'bz2':
-  h = bz2.BZ2File(tf, 'r')
-elif t == 'gz':
-  h = gzip.open(tf, 'r')
-else:
-  h = open(tf, 'r')
-d = h.read(4096)
-h.close()
-
-p = 0
-while 1:
-  p += 1
-  if d[p+1] == '\x00':
-    break
-
-print d[0:p]
-EOF
 }
 
 set_multiarch(){

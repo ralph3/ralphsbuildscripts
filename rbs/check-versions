@@ -8,7 +8,7 @@ source "$RBSDIR/shared" || exit 1
 if [ -n "$1" ]; then
   PROFILES="$*"
 else
-  PROFILES="$(profile_list)"
+  PROFILES="$(find $PROFILEDIR/* | rev | cut -f1 -d'/' | rev)"
 fi
 
 get_data(){
@@ -42,11 +42,11 @@ get_dir_data(){
 
 echo "<check-versions begin>"
 for PRO in $PROFILES; do
-  profile_exists $PRO || {
-    echo "No profile named \"${PRO}.sh\" found!" >/dev/stderr
+  if [ ! -f "$PROFILEDIR/$PRO" ]; then
+    echo "No profile named \"${PRO}\" found!" >/dev/stderr
     continue
-  }
-  PROFILE=$(profile_realpath $PRO)
+  fi
+  PROFILE=$PROFILEDIR/$PRO
   unset version_check_info VERSION APPNAME ADDRESS VERSION_STRING \
     VERSION_FILTERS MINOR_VERSION_FILTERS ONLY_EVEN_MINORS MINOR_VERSION MIRRORS \
     DATA PRE SUF VLIST VRES taddr
