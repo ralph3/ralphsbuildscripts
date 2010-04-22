@@ -1,1 +1,0 @@
-../all/desktop-file-utils.sh

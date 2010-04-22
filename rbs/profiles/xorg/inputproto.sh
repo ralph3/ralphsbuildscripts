@@ -1,1 +1,0 @@
-../all/inputproto.sh

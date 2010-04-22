@@ -1,1 +1,0 @@
-../all/libpthread-stubs.sh

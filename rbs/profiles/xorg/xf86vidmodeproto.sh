@@ -1,1 +1,0 @@
-../all/xf86vidmodeproto.sh

@@ -1,1 +1,0 @@
-../all/xconsole.sh

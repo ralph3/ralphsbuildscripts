@@ -1,1 +1,0 @@
-../all/xterm.sh

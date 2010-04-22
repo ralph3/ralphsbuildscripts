@@ -1,1 +1,0 @@
-../all/groff.sh

@@ -1,1 +1,0 @@
-../all/libxxf86misc.sh

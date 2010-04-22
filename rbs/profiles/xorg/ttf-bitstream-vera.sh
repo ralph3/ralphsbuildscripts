@@ -1,1 +1,0 @@
-../all/ttf-bitstream-vera.sh

@@ -1,1 +1,0 @@
-../all/espgs.sh

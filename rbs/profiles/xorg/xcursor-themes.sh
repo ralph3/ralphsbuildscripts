@@ -1,1 +1,0 @@
-../all/xcursor-themes.sh

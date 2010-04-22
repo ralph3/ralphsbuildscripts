@@ -1,1 +1,0 @@
-../all/eject.sh

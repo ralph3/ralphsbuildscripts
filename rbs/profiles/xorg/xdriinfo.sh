@@ -1,1 +1,0 @@
-../all/xdriinfo.sh

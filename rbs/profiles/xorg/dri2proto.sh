@@ -1,1 +1,0 @@
-../all/dri2proto.sh

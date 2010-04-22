@@ -1,1 +1,0 @@
-../all/shared-mime-info.sh

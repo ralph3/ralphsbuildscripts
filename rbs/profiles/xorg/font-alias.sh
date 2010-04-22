@@ -1,1 +1,0 @@
-../all/font-alias.sh

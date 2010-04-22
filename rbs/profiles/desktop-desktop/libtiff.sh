@@ -1,1 +1,0 @@
-../all/libtiff.sh

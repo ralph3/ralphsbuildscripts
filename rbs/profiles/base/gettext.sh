@@ -1,1 +1,0 @@
-../all/gettext.sh

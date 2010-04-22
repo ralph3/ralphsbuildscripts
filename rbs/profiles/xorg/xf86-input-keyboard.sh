@@ -1,1 +1,0 @@
-../all/xf86-input-keyboard.sh

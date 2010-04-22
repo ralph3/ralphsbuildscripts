@@ -1,1 +1,0 @@
-../all/icon-naming-utils.sh

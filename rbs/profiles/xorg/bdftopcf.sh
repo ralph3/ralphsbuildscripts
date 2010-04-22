@@ -1,1 +1,0 @@
-../all/bdftopcf.sh

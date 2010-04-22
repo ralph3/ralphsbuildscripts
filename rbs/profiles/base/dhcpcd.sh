@@ -1,1 +1,0 @@
-../all/dhcpcd.sh

@@ -1,1 +1,0 @@
-../all/openssh.sh

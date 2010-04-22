@@ -1,1 +1,0 @@
-../all/trapproto.sh

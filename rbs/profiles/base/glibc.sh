@@ -1,1 +1,0 @@
-../all/glibc.sh

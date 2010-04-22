@@ -1,1 +1,0 @@
-../all/iana-etc.sh

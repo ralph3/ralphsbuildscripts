@@ -1,1 +1,0 @@
-../all/alsa-utils.sh

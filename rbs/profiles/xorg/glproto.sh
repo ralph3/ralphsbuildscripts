@@ -1,1 +1,0 @@
-../all/glproto.sh

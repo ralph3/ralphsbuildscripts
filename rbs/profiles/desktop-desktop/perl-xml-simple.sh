@@ -1,1 +1,0 @@
-../all/perl-xml-simple.sh

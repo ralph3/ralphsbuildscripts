@@ -1,1 +1,0 @@
-../all/xkeyboard-config.sh
