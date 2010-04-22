@@ -31,7 +31,11 @@ source "$RBSDIR/shared" || exit 1
 SELECTED_PROFILES=
 for pkg in $*; do
   if [ -d "/var/lib/packages/current/$pkg" ]; then
-    SELECTED_PROFILES="$SELECTED_PROFILES $pkg"
+    if [ -z "$(exec_profile $pkg DONT_REMOVE)" ]; then
+      SELECTED_PROFILES="$SELECTED_PROFILES $pkg"
+    else
+      echo "$pkg cant be removed." >/dev/stderr
+    fi
   else
     echo "err: $pkg is not installed!" >/dev/stderr
   fi
@@ -41,32 +45,6 @@ done
 
 echo -e "\nPreparing to REMOVE the following packages:\n"
 echo -e "$SELECTED_PROFILES\n"
-
-echo "Checking dependencies..."
-NOGO=
-export SELECTED_PROFILES
-python << "PYTHON_CODE" || exit 1
-import os, glob, sys
-
-packages = os.getenv("SELECTED_PROFILES").split(' ')
-doerr = 0
-for pkg in packages:
-  list = []
-  for line in glob.glob("/var/lib/packages/current/*"):
-    npkg = os.path.basename(line)
-    for nline in glob.glob(line + "/depends/*"):
-      if npkg not in packages and os.path.basename(nline) == pkg:
-        list.append(npkg)
-        break
-  if len(list):
-    print "\n" + pkg + " has the following packages that depend on it:\n"
-    list.sort()
-    print ' '.join(list)
-    print "\nI refuse to remove " + pkg + "!"
-    doerr = 1
-if doerr:
-  sys.exit(1)
-PYTHON_CODE
 
 rm -rf $TMPDIR
 mkdir -p $TMPDIR
