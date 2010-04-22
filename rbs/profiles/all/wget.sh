@@ -34,6 +34,7 @@ build(){
 version_check_info(){
   ADDRESS='http://ftp.gnu.org/gnu/wget/'
   VERSION_STRING='wget-%version%.tar.gz'
+  VERSION_FILTERS='latest'
   MIRRORS=(
     'http://ftp.gnu.org/gnu/wget/wget-%version%.tar.gz'
   )

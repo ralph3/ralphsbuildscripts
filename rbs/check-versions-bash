@@ -44,7 +44,7 @@ echo "<check-versions begin>"
 for PRO in $PROFILES; do
   profile_exists $PRO || {
     echo "No profile named \"${PRO}.sh\" found!" >/dev/stderr
-    exit 1
+    continue
   }
   PROFILE=$(profile_realpath $PRO)
   unset version_check_info VERSION APPNAME ADDRESS VERSION_STRING \
@@ -77,6 +77,7 @@ for PRO in $PROFILES; do
     DATA=$(get_data "$ADDRESS")
     if [ -z "$DATA" ]; then
       echo " ERR DATA empty. ADDRESS typo? Site down?"
+      continue
     fi
     PRE=$(sed -e 's%\%version\%%\n%g' <<<$VERSION_STRING | sed -e '1!d')
     SUF=$(sed -e 's%\%version\%%\n%g' <<<$VERSION_STRING | sed -e '2!d')
@@ -101,6 +102,7 @@ for PRO in $PROFILES; do
     VRES=$(sort -V <<<"$VLIST" | tail -n1)
     if [ -z "$VRES" ]; then
       echo " ERR VRES empty. Wrong VERSION_FILTERS?"
+      continue
     else
       if [ "$(sort -V <<<"$(echo -e "${VERSION}\n${VRES}")" | tail -n1)" == "$VERSION" ]; then
         echo -n "                    "

@@ -34,7 +34,6 @@ build(){
 version_check_info(){
   ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=12272&package_id=38136'
   VERSION_STRING='libexif-%version%.tar.bz2'
-  MINOR_VERSION="0.5"
   MIRRORS=(
     'http://prdownloads.sourceforge.net/libexif/libexif-%version%.tar.bz2'
   )

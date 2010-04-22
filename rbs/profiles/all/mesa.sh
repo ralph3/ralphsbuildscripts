@@ -71,6 +71,7 @@ build(){
 version_check_info(){
   ADDRESS='ftp://ftp.freedesktop.org/pub/mesa/%version%/'
   VERSION_STRING='MesaLib-%version%.tar.bz2'
+  VERSION_FILTERS='beta'
   MIRRORS=(
     'ftp://ftp.freedesktop.org/pub/mesa/%version%/MesaLib-%version%.tar.bz2'
     'ftp://ftp.freedesktop.org/pub/mesa/%version%/MesaGLUT-%version%.tar.bz2'

@@ -38,6 +38,7 @@ build(){
 version_check_info(){
   ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=704&package_id=85086'
   VERSION_STRING='faad2-%version%.tar.gz'
+  VERSION_FILTERS='/'
   MIRRORS=(
     "http://prdownloads.sourceforge.net/faac/faad2-%version%.tar.gz"
   )

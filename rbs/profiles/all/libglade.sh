@@ -33,7 +33,6 @@ build(){
 version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/libglade/%minor_version%/'
   VERSION_STRING='libglade-%version%.tar.bz2'
-  ONLY_EVEN_MINORS=0
   MIRRORS=(
     "http://ftp.gnome.org/pub/GNOME/sources/libglade/%minor_version%/libglade-%version%.tar.bz2"
   )

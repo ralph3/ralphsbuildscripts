@@ -34,7 +34,7 @@ build(){
 version_check_info(){
   ADDRESS='http://kernel.org/pub/software/scm/git/'
   VERSION_STRING='git-%version%.tar.bz2'
-  VERSION_FILTERS='rc'
+  VERSION_FILTERS='rc manpages htmldocs core'
   MIRRORS=(
     'http://kernel.org/pub/software/scm/git/git-%version%.tar.bz2'
   )

@@ -39,6 +39,7 @@ build(){
 version_check_info(){
   ADDRESS='http://ftp.gnu.org/gnu/readline/'
   VERSION_STRING='readline-%version%.tar.gz'
+  VERSION_FILTERS='doc'
   MIRRORS=(
     'http://ftp.gnu.org/gnu/readline/readline-%version%.tar.gz'
   )

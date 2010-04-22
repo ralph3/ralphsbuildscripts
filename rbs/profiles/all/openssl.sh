@@ -59,7 +59,7 @@ build(){
 version_check_info(){
   ADDRESS='ftp://ftp.openssl.org/source/'
   VERSION_STRING='openssl-%version%.tar.gz'
-  VERSION_FILTERS='engine BOGUS beta'
+  VERSION_FILTERS='engine BOGUS beta fips'
   MIRRORS=(
     'ftp://ftp.openssl.org/source/openssl-%version%.tar.gz'
   )

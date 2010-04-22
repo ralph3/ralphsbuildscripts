@@ -58,7 +58,7 @@ EOF
 version_check_info(){
   ADDRESS='http://ftp.altlinux.org/pub/people/legion/kbd/'
   VERSION_STRING='kbd-%version%.tar.gz'
-  VERSION_FILTERS='rc'
+  VERSION_FILTERS='rc testing stable'
   MIRRORS=(
     'http://ftp.altlinux.org/pub/people/legion/kbd/kbd-%version%.tar.gz'
   )

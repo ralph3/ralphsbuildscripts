@@ -33,6 +33,7 @@ build(){
 version_check_info(){
   ADDRESS="http://sourceforge.net/projects/enlightenment/files/"
   VERSION_STRING="imlib2-%version%.tar.gz"
+  VERSION_FILTERS='/'
   MIRRORS=(
     "http://prdownloads.sourceforge.net/enlightenment/imlib2-%version%.tar.gz"
   )

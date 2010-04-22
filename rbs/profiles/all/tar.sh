@@ -47,6 +47,7 @@ build(){
 version_check_info(){
   ADDRESS='http://ftp.gnu.org/gnu/tar/'
   VERSION_STRING='tar-%version%.tar.bz2'
+  VERSION_FILTERS='latest'
   MIRRORS=(
     'http://ftp.gnu.org/gnu/tar/tar-%version%.tar.bz2'
   )

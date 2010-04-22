@@ -61,6 +61,7 @@ EOF
 version_check_info(){
   ADDRESS='http://ftp.gnu.org/non-gnu/cvs/source/stable/%version%/'
   VERSION_STRING='cvs-%version%.tar.bz2'
+  VERSION_FILTERS='archive'
   MIRRORS=(
     'http://ftp.gnu.org/non-gnu/cvs/source/stable/%version%/cvs-%version%.tar.bz2'
   )

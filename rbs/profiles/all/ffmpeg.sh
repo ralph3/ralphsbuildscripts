@@ -52,6 +52,7 @@ build(){
 version_check_info(){
   ADDRESS='http://www.ffmpeg.org/releases/'
   VERSION_STRING='ffmpeg-%version%.tar.bz2'
+  VERSION_FILTERS='export checkout'
   MIRRORS=(
     'http://www.ffmpeg.org/releases/ffmpeg-%version%.tar.bz2'
   )

@@ -44,6 +44,7 @@ build(){
 version_check_info(){
   ADDRESS='http://ftp.gnu.org/gnu/m4/'
   VERSION_STRING='m4-%version%.tar.bz2'
+  VERSION_FILTERS='latest'
   MIRRORS=(
     'http://ftp.gnu.org/gnu/m4/m4-%version%.tar.bz2'
   )

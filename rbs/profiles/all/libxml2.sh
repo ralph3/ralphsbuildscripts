@@ -33,6 +33,7 @@ build(){
 version_check_info(){
   ADDRESS='ftp://xmlsoft.org/libxml2/'
   VERSION_STRING='libxml2-%version%.tar.gz'
+  VERSION_FILTERS='tests sources snap'
   MIRRORS=(
     'ftp://xmlsoft.org/libxml2/libxml2-%version%.tar.gz'
   )

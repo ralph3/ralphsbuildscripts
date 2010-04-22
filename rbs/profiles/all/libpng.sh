@@ -35,7 +35,7 @@ build(){
 version_check_info(){
   ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=5624&package_id=5683'
   VERSION_STRING='libpng-%version%.tar.bz2'
-  VERSION_FILTERS='rc beta no-config'
+  VERSION_FILTERS='rc beta no-config /'
   MIRRORS=(
     'http://prdownloads.sourceforge.net/libpng/libpng-%version%.tar.bz2'
   )

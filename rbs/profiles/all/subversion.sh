@@ -80,6 +80,7 @@ EOF
 version_check_info(){
   ADDRESS='http://subversion.tigris.org/servlets/ProjectDocumentList?folderID=260&expandFolder=74'
   VERSION_STRING='subversion-%version%.tar.bz2'
+  VERSION_FILTERS='deps'
   MIRRORS=(
     'http://subversion.tigris.org/downloads/subversion-%version%.tar.bz2'
   )

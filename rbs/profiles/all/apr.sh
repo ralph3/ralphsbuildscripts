@@ -35,6 +35,7 @@ build(){
 version_check_info(){
   ADDRESS='http://apr.apache.org/download.cgi'
   VERSION_STRING='apr-%version%.tar.bz2'
+  VERSION_FILTERS='util iconv'
   MIRRORS=(
     'http://apache.cs.utah.edu/apr/apr-%version%.tar.bz2'
   )

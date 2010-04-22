@@ -208,6 +208,7 @@ post_install(){
 version_check_info(){
   ADDRESS='http://ftp.gnu.org/gnu/glibc/'
   VERSION_STRING='glibc-%version%.tar.bz2'
+  VERSION_FILTERS="ports linuxthreads libidn"
   MIRRORS=(
     'http://ftp.gnu.org/gnu/glibc/glibc-%version%.tar.bz2'
   )

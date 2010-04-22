@@ -134,7 +134,8 @@ post_upgrade(){
 version_check_info(){
   ADDRESS='http://www.docbook.org/xml/%version%/'
   VERSION_STRING='docbook-xml-%version%.zip'
-  VERSION_FILTERS='[a-z] [A-Z]'
+  MINOR_VERSION=4
+  VERSION_FILTERS="[a-z] [A-Z]"
   MIRRORS=(
     'http://www.docbook.org/xml/%version%/docbook-xml-%version%.zip'
   )

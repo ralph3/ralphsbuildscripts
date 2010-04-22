@@ -37,6 +37,7 @@ build(){
 version_check_info(){
   ADDRESS='http://poppler.freedesktop.org/'
   VERSION_STRING='poppler-%version%.tar.gz'
+  VERSION_FILTERS='data'
   ONLY_EVEN_MINORS=1
   MIRRORS=(
     'http://poppler.freedesktop.org/poppler-%version%.tar.gz'
