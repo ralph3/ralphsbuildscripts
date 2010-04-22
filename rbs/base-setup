@@ -41,24 +41,24 @@ export USE_SHM_SRCDIR
   mkdir -p $SRCDIR
 }
 
-mkdir -p /RBS-Tools/state || exit 1
-for x in perl python; do
-  STATE="/RBS-Tools/state/RBS_Tools__${x}"
+mkdir -p $TCDIR/state || exit 1
+for x in perl; do
+  STATE="$TCDIR/state/Tools__${x}"
   [ ! -e "$STATE" ] && {
-    exec_profile $x RBS_Tools_Build || exit 1
+    exec_profile $x Tools_Build || exit 1
     >$STATE
   }
 done
 
 cd "$RBSDIR" || exit 1
 
-STATE="/RBS-Tools/state/RBS_Tools__pre-toolchain-switch"
+STATE="/RBS-Tools/state/Tools__pre-toolchain-switch"
 [ ! -e "$STATE" ] && {
   ./install glibc || exit 1
   >$STATE
 }
 
-STATE="/RBS-Tools/state/RBS_Tools__toolchain-switch"
+STATE="/RBS-Tools/state/Tools__toolchain-switch"
 [ ! -e "$STATE" ] && {
   exec_profile gcc GCC_Switch_ToolChain || exit 1
   >$STATE
@@ -69,13 +69,13 @@ if [ "$SYSTYPE" == "MULTILIB" ]; then
   MWRAP="multiarch_wrapper"
 fi
 
-STATE="/RBS-Tools/state/RBS_BASE_SYSTEM_INSTALL"
+STATE="$TCDIR/state/BASE_SYSTEM_INSTALL"
 [ ! -e "$STATE" ] && {
-  ./install gcc $MWRAP $(profile_group base) || exit 1
+  ./install gcc $MWRAP $(cat $RBSDIR/list.base) || exit 1
   >$STATE
 }
 
-STATE="/RBS-Tools/state/RBS_BASE_SYSTEM_COMPLETION"
+STATE="$TCDIR/state/BASE_SYSTEM_COMPLETION"
 [ ! -e "$STATE" ] && {
   ./fsdiff rm || exit 1
   echo "RBS:  Base system setup complete."

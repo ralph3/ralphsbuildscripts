@@ -5,7 +5,6 @@
   exit 1
 }
 
-
 cd "$(dirname $0)" || exit 1
 RBSDIR="$PWD"
 
@@ -122,11 +121,6 @@ EOF
   ;;
 esac
 
-EP=
-if [ -n "$EXTRA_PACKAGES" ]; then
-  EP="$(resolve_profile_names $EXTRA_PACKAGES)"
-fi
-
 DCB=
 if [ "$DISABLE_CHROOT_BUILD" != "1" ]; then
   if [ "$(uname -m)" == "$TARGETARCH" ]; then
@@ -139,7 +133,7 @@ if [ "$DISABLE_CHROOT_BUILD" != "1" ]; then
   fi
 fi
 
-PKG_PROFILES="$(profile_group base) $EP"
+PKG_PROFILES="$(cat $RBSDIR/list.base) $EXTRA_PACKAGES"
 echo -n "Checking downloaded sources..."
 $RBSDIR/download $PKG_PROFILES || exit 1
 echo "  Done."
@@ -416,10 +410,10 @@ if [ "$DCB" == "1" ]; then
     }
     rm -rf $ROOT/{$CTCDIR,$TCDIR} || exit 1
     STATE="$STATEDIR/Extra-Packages-Install"
-    if [ -n "$EP" ] && [ ! -e "$STATE" ]; then
+    if [ -n "$EXTRA_PACKAGES" ] && [ ! -e "$STATE" ]; then
       chroot $ROOT /usr/bin/env -i HOME=/root TERM="linux" \
         PATH=/bin:/usr/bin:/sbin:/usr/sbin USE_SHM_SRCDIR=$USE_SHM_SRCDIR \
-        /usr/src/rbs/install $EP
+        /usr/src/rbs/install $EXTRA_PACKAGES
       if [ "$?" != "0" ]; then
         umount $ROOT/dev
         umount $ROOT/proc
@@ -472,13 +466,6 @@ case $RBS_BUILDTYPE in
   ;;
   BOOTCD|EXDRIVE)
     
-    echo -n "Unpacking Syslinux..."
-    cd $WORKDIR || exit 1
-    rm -rf syslinux* || exit 1
-    tar xfj $RBSDIR/.cache/downloads/$(list_sources syslinux | sed q) || exit 1
-    mv syslinux-* syslinux || exit 1
-    echo "  Done."
-    
     BROOT="$WORKDIR/broot"
     rm -rf $BROOT || exit 1
     
@@ -486,6 +473,13 @@ case $RBS_BUILDTYPE in
     
     case $RBS_BUILDTYPE in
       BOOTCD)
+        
+        echo -n "Unpacking Syslinux..."
+        cd $WORKDIR || exit 1
+        rm -rf syslinux* || exit 1
+        tar xfj $RBSDIR/.cache/downloads/$(list_sources syslinux | sed q) || exit 1
+        mv syslinux-* syslinux || exit 1
+        echo "  Done."
         
         SLROOT=$BROOT/isolinux
         

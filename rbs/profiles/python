@@ -13,7 +13,9 @@ MD5SUMS=(
 6bef0417e71a1a1737ccf5750420fdb3
 )
 
-rbs_do_python_patching(){
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
 
 cat << "EOF" | patch -Np1 || return 1
 diff -Naur Python-2.6/Lib/distutils/command/install.py Python-2.6.patched/Lib/distutils/command/install.py
@@ -239,32 +241,6 @@ diff -Naur Python-2.6/setup.py Python-2.6.patched/setup.py
              include_dirs.append('/usr/X11R5/include')
 EOF
 
-}
-
-Tools_Build(){
-  unpack_tarball $TARBALL || return 1
-  cd $SRCDIR/$DIR || return 1
-  rbs_do_python_patching || return 1
-  sed -i -e "s:@@MULTILIB_DIR@@:$LIBSDIR:g" \
-    Lib/distutils/command/install.py \
-    Lib/distutils/sysconfig.py \
-    Lib/site.py \
-    Makefile.pre.in \
-    Modules/Setup.dist \
-    Modules/getpath.c \
-    setup.py || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=$TCDIR \
-    --libdir=$TCDIR/$LIBSDIR --enable-shared || return 1
-  make || return 1
-  make install || return 1
-  cd ../ || return 1
-  rm -rf $DIR || return 1
-}
-
-build(){
-  unpack_tarball $TARBALL || return 1
-  cd $SRCDIR/$DIR || return 1
-  rbs_do_python_patching || return 1
   sed -i -e "s:@@MULTILIB_DIR@@:$LIBSDIR:g" \
     Lib/distutils/command/install.py \
     Lib/distutils/sysconfig.py \
