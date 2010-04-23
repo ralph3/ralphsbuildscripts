@@ -31,8 +31,8 @@ cat_installed_list(){
 echo -n "Fetching list of installed files..."
 INSTLIST=$(mktemp)
 cat_installed_list | sed -e '/^\/$/d' \
-                         -e '/^\/RBS-Cross-Tools/d' \
-                         -e '/^\/RBS-Tools/d' \
+                         -e "/^$CTCDIR/d" \
+                         -e "/^$TCDIR/d" \
                          -e '/^\/boot/d' \
                          -e '/^\/dev/d' \
                          -e '/^\/etc/d' \
@@ -54,8 +54,8 @@ echo "  Done."
 echo -n "Fetching list of files on the filesystem..."
 LIST=$(mktemp)
 find / | sed             -e '/^\/$/d' \
-                         -e '/^\/RBS-Cross-Tools/d' \
-                         -e '/^\/RBS-Tools/d' \
+                         -e "/^$CTCDIR/d" \
+                         -e "/^$TCDIR/d" \
                          -e '/^\/boot/d' \
                          -e '/^\/dev/d' \
                          -e '/^\/etc/d' \

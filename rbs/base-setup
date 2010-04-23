@@ -52,13 +52,13 @@ done
 
 cd "$RBSDIR" || exit 1
 
-STATE="/RBS-Tools/state/Tools__pre-toolchain-switch"
+STATE="$TCDIR/state/Tools__pre-toolchain-switch"
 [ ! -e "$STATE" ] && {
   ./install filesystem linux-headers glibc || exit 1
   >$STATE
 }
 
-STATE="/RBS-Tools/state/Tools__toolchain-switch"
+STATE="$TCDIR/state/Tools__toolchain-switch"
 [ ! -e "$STATE" ] && {
   exec_profile gcc GCC_Switch_ToolChain || exit 1
   >$STATE

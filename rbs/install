@@ -97,12 +97,12 @@ do_install(){
           mv $TMPROOT ${TMPROOT}-32 || return 1
           mv ${TMPROOT}-64 $TMPROOT || return 1
           cd ${TMPROOT}-32 || return 1
-          cp -a * $TMPROOT || return 1
+          tar cp * | tar xp -C $TMPROOT || return 1
           cd $HERE || return 1
           rm -rf ${TMPROOT}-32
         else
           cd ${TMPROOT}-64 || return 1
-          cp -a * $TMPROOT || return 1
+          tar cp * | tar xp -C $TMPROOT || return 1
           cd $HERE || return 1
           rm -rf ${TMPROOT}-64
         fi
@@ -196,7 +196,7 @@ do_install(){
     }
   fi
   echo "Installing files..."
-  cp -a * $ROOT/ || return 1
+  tar cp * | tar xp -C $ROOT || return 1
   find | sed 's@^\.@@g' | grep . > $FLIST
   cd $WORKDIR || return 1
   rm -rf $TMPROOT || return 1
@@ -266,7 +266,11 @@ for x in $*; do
   if [ ! -d "/var/lib/packages/current/${x}" ] || [ "$MYNAME" == "reinstall" ]; then
     BUILDLOG="$BUILDLOGS/$x"
     >$BUILDLOG
-    do_install $x | tee $BUILDLOG && exit $PIPESTATUS
+    INSTFAILED=0
+    do_install $x | tee $BUILDLOG && INSTFAILED=$PIPESTATUS
+    if [ "$INSTFAILED" != "0" ]; then
+      exit 1
+    fi
   fi
 done
 
