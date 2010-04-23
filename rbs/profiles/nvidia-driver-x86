@@ -2,15 +2,16 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="195.36.15-pkg1"
+VERSION="195.36.15"
 
 DISABLE_STRIP=1
 
-TARBALL="NVIDIA-Linux-x86-${VERSION}.run"
+TARBALL="NVIDIA-Linux-x86-${VERSION}-pkg1.run"
 DIR="NVIDIA-Linux-x86-${VERSION}"
 
 SRC1=(
-http://us.download.nvidia.com/XFree86/Linux-x86/$(echo $VERSION | cut -f1 -d'-')/$TARBALL
+http://us.download.nvidia.com/XFree86/Linux-x86/$VERSION/$TARBALL
+ftp://download.nvidia.com/XFree86/Linux-x86/$VERSION/$TARBALL
 )
 
 MD5SUMS=(
@@ -33,9 +34,8 @@ build(){
   mkdir -p $SRCDIR || return 1
   cd $SRCDIR || return 1
   rm -rf $DIR || return 1
-  chmod 744 $DOWNLOADDIR/${DIR}.run || return 1
-  $DOWNLOADDIR/${DIR}.run --extract-only || return 1
-  chmod 644 $DOWNLOADDIR/${DIR}.run || return 1
+  
+  sh $DOWNLOADDIR/$TARBALL --extract-only || return 1
   
   cd $DIR || return 1
   cd usr/src/nv || return 1
@@ -123,4 +123,10 @@ post_install(){
 
 post_upgrade(){
   post_install || return 1
+}
+
+version_check_info(){
+  ADDRESS='ftp://download.nvidia.com/XFree86/Linux-x86/%version%/'
+  VERSION_STRING='NVIDIA-Linux-x86-%version%-pkg1.run'
+  VERSION_FILTERS='latest'
 }
