@@ -54,7 +54,7 @@ cd "$RBSDIR" || exit 1
 
 STATE="/RBS-Tools/state/Tools__pre-toolchain-switch"
 [ ! -e "$STATE" ] && {
-  ./install glibc || exit 1
+  ./install filesystem linux-headers glibc || exit 1
   >$STATE
 }
 

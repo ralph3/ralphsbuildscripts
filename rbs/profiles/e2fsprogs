@@ -1,5 +1,6 @@
 #!/bin/bash
 
+DONT_REMOVE=1
 VERSION="1.41.11"
 
 DIR="e2fsprogs-${VERSION}"

@@ -17,8 +17,8 @@ HDSRCDIR="$SRCDIR"
 DOWNLOADDIR="$RBSDIR/.cache/downloads"
 CONFDIR="$RBSDIR/conf"
 
-TCDIR="/RBS-TOOLS"
-CTCDIR="/RBS-CROSS-TOOLS"
+TCDIR="/linuxtools"
+CTCDIR="/linuxcrosstools"
 
 if [ -z "$ROOT" ]; then
   ROOT="/"
