@@ -16,7 +16,8 @@ get_data(){
     # get data from address and replace html chars with new
     # lines to make grepping easier
     ####
-    wget -q -O /dev/stdout --timeout=30 --passive-ftp --no-proxy "$1" | \
+    wget -q -O /dev/stdout --timeout=30 --passive-ftp --no-proxy \
+      --no-check-certificate "$1" | \
       sed -e 's%<%\n%g' -e 's%>%\n%g' -e 's%\"%\n%g'
 }
 

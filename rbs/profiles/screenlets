@@ -28,10 +28,10 @@ build(){
   rm -rf $DIR || return 1
 }
 
-#version_check_info(){
-#  ADDRESS="https://launchpad.net/screenlets"
-#  VERSION_STRING="screenlets-%version%.tar.bz2"
-#  MIRRORS=(
-#    "http://launchpad.net/screenlets/trunk/%version%/+download/screenlets-%version%.tar.bz2"
-#  )
-#}
+version_check_info(){
+  ADDRESS="https://launchpad.net/screenlets"
+  VERSION_STRING="screenlets-%version%.tar.bz2"
+  MIRRORS=(
+    "http://launchpad.net/screenlets/trunk/%version%/+download/screenlets-%version%.tar.bz2"
+  )
+}
