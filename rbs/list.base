@@ -55,7 +55,6 @@ dosfstools
 iptables
 libpcap
 libusb
-linux-pam
 linux
 mktemp
 nano
