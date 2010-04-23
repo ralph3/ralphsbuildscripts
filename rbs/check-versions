@@ -12,9 +12,9 @@ else
 fi
 
 get_data(){
-  wget -qO /dev/stdout --timeout=30 --passive-ftp --no-proxy \
-    --no-check-certificate "$1" | sed -e 's%<[^>]*>%\n%g' \
-    -e 's%\&[^\;].\;%%g'
+    wget -q -O /dev/stdout --timeout=30 --passive-ftp --no-proxy \
+      --no-check-certificate "$1" | \
+      sed -e 's%<%\n%g' -e 's%>%\n%g' -e 's%\"%\n%g'
 }
 
 filter_minors(){
@@ -40,6 +40,9 @@ filter_minors(){
 
 get_dir_data(){
   filter_minors "$(get_data $1 | grep -iv -e ' ' \
+    -e '^/a$' -e 'html$' -e 'head$' \
+    -e 'body$' -e 'title$' -e 'pre$' \
+    -e 'font$' -e 'h[0-9]$' -e 'hr$' \
     -e '/.*/' | grep '/$' | grep "^${PRE}." | tr -d '/')"
 }
 
