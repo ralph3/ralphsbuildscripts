@@ -28,7 +28,6 @@ build(){
 version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/libxslt/%minor_version%/'
   VERSION_STRING='libxslt-%version%.tar.bz2'
-  MINOR_VERSION_FILTERS='br'
   MIRRORS=(
     'http://ftp.gnome.org/pub/GNOME/sources/libxslt/%minor_version%/libxslt-%version%.tar.bz2'
   )

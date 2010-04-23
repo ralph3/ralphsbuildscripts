@@ -71,7 +71,7 @@ fi
 
 STATE="$TCDIR/state/BASE_SYSTEM_INSTALL"
 [ ! -e "$STATE" ] && {
-  ./install gcc $MWRAP $(cat $RBSDIR/list.base) || exit 1
+  ./install $MWRAP $(cat $RBSDIR/list.base) || exit 1
   >$STATE
 }
 

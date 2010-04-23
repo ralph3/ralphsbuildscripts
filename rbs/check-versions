@@ -12,20 +12,25 @@ else
 fi
 
 get_data(){
-    ####
-    # get data from address and replace html chars with new
-    # lines to make grepping easier
-    ####
-    wget -q -O /dev/stdout --timeout=30 --passive-ftp --no-proxy \
-      --no-check-certificate "$1" | \
-      sed -e 's%<%\n%g' -e 's%>%\n%g' -e 's%\"%\n%g'
+  wget -qO /dev/stdout --timeout=30 --passive-ftp --no-proxy \
+    --no-check-certificate "$1" | sed -e 's%<[^>]*>%\n%g' \
+    -e 's%\&[^\;].\;%%g'
 }
 
 filter_minors(){
   local ret
   ret="$*"
   if [ "$ONLY_EVEN_MINORS" == "1" ]; then
-    ret=$(for x in $*; do y=$(cut -f2 -d'.' <<<$x | tr -d '/' | grep -vi "[a-z]"); if [ -n "$y" ]; then if [ "$(($y % 2))" == 0 ] || [ "$y" == 0 ]; then echo $x; fi; fi; done 2>/dev/null)
+    ret=$(
+           for x in $*; do \
+             y=$(cut -f2 -d'.' <<<$x | tr -d '/' | grep -vi "[a-z]"); \
+             if [ -n "$y" ]; then \
+               if [ "$(($y % 2))" == 0 ] || [ "$y" == 0 ]; then \
+                 echo $x; \
+               fi; \
+             fi; \
+           done 2>/dev/null
+         )
   fi
   if [ -n "$MINOR_VERSION" ]; then
     ret=$(grep "^${PRE}${MINOR_VERSION}" <<<"$ret")
@@ -35,9 +40,6 @@ filter_minors(){
 
 get_dir_data(){
   filter_minors "$(get_data $1 | grep -iv -e ' ' \
-    -e '^/a$' -e 'html$' -e 'head$' \
-    -e 'body$' -e 'title$' -e 'pre$' \
-    -e 'font$' -e 'h[0-9]$' -e 'hr$' \
     -e '/.*/' | grep '/$' | grep "^${PRE}." | tr -d '/')"
 }
 
@@ -49,15 +51,17 @@ for PRO in $PROFILES; do
   fi
   PROFILE=$PROFILEDIR/$PRO
   unset version_check_info VERSION APPNAME ADDRESS VERSION_STRING \
-    VERSION_FILTERS MINOR_VERSION_FILTERS ONLY_EVEN_MINORS MINOR_VERSION MIRRORS \
-    DATA PRE SUF VLIST VRES taddr
+    VERSION_FILTERS MINOR_VERSION_FILTERS ONLY_EVEN_MINORS \
+    MINOR_VERSION MIRRORS DATA PRE SUF VLIST VRES taddr
   source $PROFILE || exit 1
   if [ "$(type -t version_check_info)" == "function" ]; then
     version_check_info
     
     echo -n "  ${PRO}..."
-    while [ -n "$(grep "%version%" <<<"$ADDRESS")" ] || [ -n "$(grep "%minor_version%" <<<"$ADDRESS")" ]; do
-      
+    echo -en "                    \b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
+    
+    while [ -n "$(grep "%version%" <<<"$ADDRESS")" ] || \
+          [ -n "$(grep "%minor_version%" <<<"$ADDRESS")" ]; do
       PRE="$(cut -f1 -d'%' <<<"$ADDRESS" | rev | cut -f1 -d'/' | rev)"
       taddr="$(cut -f1 -d'%' <<<"$ADDRESS")/"
       if [ -n "$PRE" ]; then
@@ -82,9 +86,12 @@ for PRO in $PROFILES; do
           exit 1
         ;;
       esac
-      ADDRESS="$(echo $taddr)/$(sort -V <<< "$DATA" | tail -n1)/$(cut -f3- -d'%' <<<"$ADDRESS")"
+      ADDRESS="$(
+                  echo $taddr)/$(sort -V <<< "$DATA" | \
+                    tail -n1)/$(cut -f3- -d'%' <<<"$ADDRESS"
+                )"
     done
-    
+
     unset PRE SUF
     
     DATA=$(get_data "$ADDRESS")
@@ -94,11 +101,7 @@ for PRO in $PROFILES; do
     fi
     PRE=$(sed -e 's%\%version\%%\n%g' <<<$VERSION_STRING | sed -e '1!d')
     SUF=$(sed -e 's%\%version\%%\n%g' <<<$VERSION_STRING | sed -e '2!d')
-    ####
-    # get only lines containing PRE and SUF with data in the middle then
-    # delete everything leading up to the end of PRE and from the beginning
-    # of SUF to the end of line
-    ####
+
     VLIST=$(
               grep "^.*${PRE}.*${SUF}" <<<"$DATA" | \
                 sed -e "s%^.*${PRE}%%g" -e "s%${SUF}.*$%%g"
@@ -110,23 +113,17 @@ for PRO in $PROFILES; do
     unset PRE SUF
     
     VLIST=$(filter_minors "$VLIST")
-    ####
-    # now we will sort the version numbers to get the greatest version on the
-    # end of the list then get the last line which should contain the greatest
-    # version number.
-    ####
     VRES=$(sort -V <<<"$VLIST" | tail -n1)
     if [ -z "$VRES" ]; then
       echo " ERR VRES empty. Wrong VERSION_FILTERS?"
       continue
     else
-      if [ "$(sort -V <<<"$(echo -e "${VERSION}\n${VRES}")" | tail -n1)" == "$VERSION" ]; then
-        echo -n "                    "
-        echo -en "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
+      if [ "$(sort -V <<<"$(echo -e "${VERSION}\n${VRES}")" | tail -n1)" \
+           == \
+         "$VERSION" ]; then
+        echo -en "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
+        echo -en "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
       else
-        ####
-        # then this should mean we have a new version out
-        ####
         echo " $VERSION -> $VRES"
       fi
     fi
