@@ -198,6 +198,7 @@ do_install(){
   echo "Installing files..."
   tar cp * | tar xp -C $ROOT || return 1
   find | sed 's@^\.@@g' | grep . > $FLIST
+  echo "$VERSION" > $(dirname $FLIST)/version
   cd $WORKDIR || return 1
   rm -rf $TMPROOT || return 1
   grep "\.new$" $FLIST | while read file; do

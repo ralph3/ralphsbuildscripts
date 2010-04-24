@@ -13,7 +13,3 @@ lxappearance
 lxtask
 vte
 lxterminal
-dbus-glib
-libnotify
-libidl
-firefox

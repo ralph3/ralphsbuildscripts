@@ -16,8 +16,6 @@ SRCDIR="$WORKDIR/setup_source"
   exit 1
 }
 
-profiles_exist $* || exit 1
-
 download_sources $* || exit 1
 
 for x in $*; do

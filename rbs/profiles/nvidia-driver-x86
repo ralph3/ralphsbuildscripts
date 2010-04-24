@@ -7,7 +7,7 @@ VERSION="195.36.15"
 DISABLE_STRIP=1
 
 TARBALL="NVIDIA-Linux-x86-${VERSION}-pkg1.run"
-DIR="NVIDIA-Linux-x86-${VERSION}"
+DIR="NVIDIA-Linux-x86-${VERSION}-pkg1"
 
 SRC1=(
 http://us.download.nvidia.com/XFree86/Linux-x86/$VERSION/$TARBALL
@@ -50,18 +50,15 @@ build(){
   gzip -v9 $TMPROOT/lib/modules/$(uname -r)/kernel/drivers/video/nvidia.ko || return 1
   mv $TMPROOT/lib/modules/$(uname -r)/kernel/drivers/video/nvidia.ko.gz \
     $TMPROOT/lib/modules/$(uname -r)/kernel/drivers/video/nvidia.ko || return 1
-  
-  #MAJOR=$(echo $VERSION | cut -f1 -d'.')
-  #MINOR=$(echo $VERSION | cut -f2 -d'.' | cut -f1 -d'-')
-  #PATCH=$(echo $VERSION | cut -f3 -d'.' | cut -f1 -d'-')
-  #REV=${MAJOR}.${MINOR}
-  REV=$(echo $VERSION | cut -f1 -d'-')
+
+  REV=$VERSION
   DOCDIR="/usr/share/doc/NVIDIA_GLX"
   
   cd $SRCDIR/$DIR
   mkdir -pv $TMPROOT/usr/{bin,${LIBSDIR}/X11/modules/{drivers,extensions},share/{applications,man/man1}}
   
   install -vm 0755 usr/lib/libGL.so.${REV} $TMPROOT/usr/$LIBSDIR || return 1
+  ln -vsf libGL.so.${REV} $TMPROOT/usr/$LIBSDIR/libGL.so.1 || return 1
   ln -vsf libGL.so.${REV} $TMPROOT/usr/$LIBSDIR/libGL.so || return 1
   
   install -vm 0755 usr/lib/libGLcore.so.${REV} $TMPROOT/usr/$LIBSDIR || return 1

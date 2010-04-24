@@ -118,14 +118,6 @@ EOF
   rm -rf $DIR || return 1
 }
 
-post_install(){
-  update-desktop-database -q || return 1
-}
-
-post_upgrade(){
-  post_install || return 1
-}
-
 version_check_info(){
   ADDRESS='ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%version%/source/'
   VERSION_STRING='firefox-%version%.source.tar.bz2'
