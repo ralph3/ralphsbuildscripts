@@ -27,7 +27,6 @@ build(){
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --libdir=/usr/$LIBSDIR \
     --sbindir=/$LIBSDIR/security --enable-securedir=/$LIBSDIR/security \
-    --enable-docdir=/usr/share/doc/Linux-PAM-${VERSION} \
     --enable-read-both-confs || return 1
   cd doc/specs || return 1
   make CC=gcc CXX=g++ || return 1

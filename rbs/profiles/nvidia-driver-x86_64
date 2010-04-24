@@ -2,12 +2,12 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="195.36.15"
+VERSION="195.36.24"
 
 DISABLE_STRIP=1
 
 TARBALL="NVIDIA-Linux-x86_64-${VERSION}-pkg2.run"
-DIR="NVIDIA-Linux-x86_64-${VERSION}"
+DIR="NVIDIA-Linux-x86_64-${VERSION}-pkg2"
 
 SRC1=(
 http://download.nvidia.com/XFree86/Linux-x86_64/$VERSION/$TARBALL
@@ -15,7 +15,7 @@ ftp://download.nvidia.com/XFree86/Linux-x86_64/$VERSION/$TARBALL
 )
 
 MD5SUMS=(
-f52324869e20b3990eed74be48c7fe46
+47a699d2acba3ac49c96f32ae93eba7a
 )
 
 build(){

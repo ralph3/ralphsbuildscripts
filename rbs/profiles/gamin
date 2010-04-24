@@ -1,0 +1,42 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="0.1.10"
+
+DIR="gamin-${VERSION}"
+TARBALL="gamin-${VERSION}.tar.bz2"
+
+DEPENDS=(
+  make
+)
+
+SRC1=(
+  $(gnome_mirrors gamin)
+)
+
+MD5SUMS=(
+2e2d9ea71f34e0aa22a700ddbff05385
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure \
+    --prefix=/usr --libdir=/usr/$LIBSDIR --sysconfdir=/etc \
+    --libexecdir=/usr/sbin || return 1
+  find -name 'Makefile' -exec sed -i 's%-Wall %& -D_GNU_SOURCE%g' {} \;
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/gamin/%minor_version%/'
+  VERSION_STRING='gamin-%version%.tar.bz2'
+  MINOR_VERSION_FILTERS='br'
+  MIRRORS=(
+    'http://ftp.gnome.org/pub/GNOME/sources/gamin/%minor_version%/gamin-%version%.tar.bz2'
+  )
+}

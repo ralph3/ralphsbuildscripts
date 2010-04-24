@@ -43,6 +43,7 @@ man
 module-init-tools
 patch
 psmisc
+linux-pam
 shadow
 sysklogd
 sysvinit
