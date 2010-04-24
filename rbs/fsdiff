@@ -30,48 +30,48 @@ cat_installed_list(){
 
 echo -n "Fetching list of installed files..."
 INSTLIST=$(mktemp)
-cat_installed_list | sed -e '/^\/$/d' \
-                         -e "/^$CTCDIR/d" \
-                         -e "/^$TCDIR/d" \
-                         -e '/^\/boot/d' \
-                         -e '/^\/dev/d' \
-                         -e '/^\/etc/d' \
-                         -e '/^\/home/d' \
-                         -e '/^\/lib\/modules/d' \
-                         -e '/^\/media/d' \
-                         -e '/^\/mnt/d' \
-                         -e '/^\/proc/d' \
-                         -e '/^\/root/d' \
-                         -e '/^\/sys/d' \
-                         -e '/^\/tools/d' \
-                         -e '/\/locale-archive$/d' \
-                         -e '/^\/usr\/src/d' \
-                         -e '/^\/srv/d' \
-                         -e '/^\/tmp/d' \
-                         -e '/^\/var/d' > $INSTLIST
+cat_installed_list | grep -v -e "^/$" \
+                         -e "^${CTCDIR}" \
+                         -e "^${TCDIR}" \
+                         -e "^/boot" \
+                         -e "^/dev" \
+                         -e "^/etc" \
+                         -e "^/home" \
+                         -e "^/lib/modules" \
+                         -e "^/media" \
+                         -e "^/mnt" \
+                         -e "^/proc" \
+                         -e "^/root" \
+                         -e "^/sys" \
+                         -e "^/tools" \
+                         -e "/locale-archive$" \
+                         -e "^/usr/src" \
+                         -e "^/srv" \
+                         -e "^/tmp" \
+                         -e "^/var" > $INSTLIST
 echo "  Done."
 
 echo -n "Fetching list of files on the filesystem..."
 LIST=$(mktemp)
-find / | sed             -e '/^\/$/d' \
-                         -e "/^$CTCDIR/d" \
-                         -e "/^$TCDIR/d" \
-                         -e '/^\/boot/d' \
-                         -e '/^\/dev/d' \
-                         -e '/^\/etc/d' \
-                         -e '/^\/home/d' \
-                         -e '/^\/lib\/modules/d' \
-                         -e '/^\/media/d' \
-                         -e '/^\/mnt/d' \
-                         -e '/^\/proc/d' \
-                         -e '/^\/root/d' \
-                         -e '/^\/sys/d' \
-                         -e '/^\/tools/d' \
-                         -e '/\/locale-archive$/d' \
-                         -e '/^\/usr\/src/d' \
-                         -e '/^\/srv/d' \
-                         -e '/^\/tmp/d' \
-                         -e '/^\/var/d' > $LIST
+find / | grep -v         -e "^/$" \
+                         -e "^${CTCDIR}" \
+                         -e "^${TCDIR}" \
+                         -e "^/boot" \
+                         -e "^/dev" \
+                         -e "^/etc" \
+                         -e "^/home" \
+                         -e "^/lib/modules" \
+                         -e "^/media" \
+                         -e "^/mnt" \
+                         -e "^/proc" \
+                         -e "^/root" \
+                         -e "^/sys" \
+                         -e "^/tools" \
+                         -e "/locale-archive$" \
+                         -e "^/usr/src" \
+                         -e "^/srv" \
+                         -e "^/tmp" \
+                         -e "^/var" > $LIST
 echo "  Done."
 
 TRASH=$(mktemp)

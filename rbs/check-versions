@@ -12,7 +12,7 @@ else
 fi
 
 get_data(){
-    wget -q -O /dev/stdout --timeout=30 --passive-ftp --no-proxy \
+    wget -q -O /dev/stdout --timeout=10 --passive-ftp --no-proxy \
       --no-check-certificate "$1" | \
       sed -e 's%<%\n%g' -e 's%>%\n%g' -e 's%\"%\n%g'
 }

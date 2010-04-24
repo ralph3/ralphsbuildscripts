@@ -46,7 +46,7 @@ build(){
   cd $SRCDIR/e2fsprogs-build || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" CFLAGS="$CFLAGS -fPIC" ../$DIR/configure \
     --build=$BUILDHOST --host=$BUILDTARGET --prefix=/usr --with-root-prefix="" \
-    --enable-elf-shlibs --disable-libuuid --disable-libblkid || return 1
+    --enable-elf-shlibs --disable-libuuid --disable-libblkid --disable-uuid || return 1
   make || return 1
   make LN='ln -s' install DESTDIR=$TMPROOT || return 1
   make install-libs DESTDIR=$TMPROOT || return 1

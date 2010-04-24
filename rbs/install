@@ -262,6 +262,16 @@ fi
 
 mkdir -p $BUILDLOGS || exit 1
 
+for x in $(find /var/lib/packages/current/*/reinstall_me 2>/dev/null | cut -f6 -d'/'); do
+    BUILDLOG="$BUILDLOGS/$x"
+    >$BUILDLOG
+    INSTFAILED=0
+    do_install $x | tee $BUILDLOG && INSTFAILED=$PIPESTATUS
+    if [ "$INSTFAILED" != "0" ]; then
+      exit 1
+    fi
+done
+
 for x in $*; do
   if [ ! -d "/var/lib/packages/current/${x}" ] || [ "$MYNAME" == "reinstall" ]; then
     BUILDLOG="$BUILDLOGS/$x"
