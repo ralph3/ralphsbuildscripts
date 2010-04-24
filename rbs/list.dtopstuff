@@ -17,4 +17,6 @@ libgcrypt
 libgnome-keyring
 gnome-python-desktop
 python-imaging
+dbus-python
+pyxdg
 screenlets
