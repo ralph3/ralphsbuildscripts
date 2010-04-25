@@ -37,7 +37,7 @@ CHECKAPPS=""
 case $RBS_BUILDTYPE in
   TARBALL) ;;
   BOOTCD|EXDRIVE)
-    CHECKAPPS="${CHECKAPPS} mkisofs mknod"
+    CHECKAPPS="${CHECKAPPS} mknod"
     echo -n "checking for /dev/loop0...  "
     [ ! -e "/dev/loop0" ] && {
       echo "Nope!"
@@ -50,6 +50,12 @@ case $RBS_BUILDTYPE in
   *)
     echo "Unknown BUILDTYPE ($RBS_BUILDTYPE)! Set to TARBALL,BOOTCD, or EXDRIVE." >/dev/stderr
     exit 1
+  ;;
+esac
+
+case $RBS_BUILDTYPE in
+  BOOTCD)
+    CHECKAPPS="${CHECKAPPS} mkisofs"
   ;;
 esac
 
