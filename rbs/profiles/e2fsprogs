@@ -24,7 +24,7 @@ Tools_Build(){
   cd $SRCDIR/e2fsprogs-build || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ../$DIR/configure \
     --build=$BUILDHOST --host=$BUILDTARGET --prefix=/usr --with-root-prefix="" \
-    --enable-elf-shlibs --with-cc="$CC $BUILD" --disable-libblkid \
+    --enable-elf-shlibs --disable-libblkid \
     --disable-libuuid --disable-fsck --disable-uuidd || return 1
   make || return 1
   make install DESTDIR=$ROOT || return 1
@@ -43,7 +43,7 @@ build(){
   cd $SRCDIR/e2fsprogs-build || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" CFLAGS="$CFLAGS -fPIC" ../$DIR/configure \
     --build=$BUILDHOST --host=$BUILDTARGET --prefix=/usr --with-root-prefix="" \
-    --enable-elf-shlibs --with-cc="$CC $BUILD" --disable-libblkid \
+    --enable-elf-shlibs --disable-libblkid \
     --disable-libuuid --disable-fsck --disable-uuidd || return 1
   make LIBUUID="-luuid" STATIC_LIBUUID="-luuid" \
     LIBBLKID="-lblkid" STATIC_LIBBLKID="-lblkid" || return 1
