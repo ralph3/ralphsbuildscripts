@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #USE_SHM_SRCDIR=1
-#EXTRA_PACKAGES="xorg desktop-desktop"
+#EXTRA_PACKAGES="$(cat $RBSDIR/list.xorg)"
 #DISABLE_CHROOT_BUILD=0
 
 RBS_CC="gcc"
@@ -9,9 +9,6 @@ RBS_CXX="g++"
 RBS_CFLAGS="-march=k8 -O2 -pipe"
 RBS_CXXFLAGS="$RBS_CFLAGS"
 
-# gcc 4.4 graphite stuff
-# -floop-interchange -floop-strip-mine -floop-block
-
 RBS_BUILDTARGET="x86_64-unknown-linux-gnu"
-RBS_SYSTYPE="64BIT"                      # 32BIT, 64BIT, or MULTILIB
-RBS_BUILDTYPE="B0OTCD"                      # TARBALL, BOOTCD, EXDRIVE
+RBS_SYSTYPE="64BIT"         # 32BIT, 64BIT, or MULTILIB
+RBS_BUILDTYPE="EXDRlVE"      # TARBALL, BOOTCD, EXDRIVE
