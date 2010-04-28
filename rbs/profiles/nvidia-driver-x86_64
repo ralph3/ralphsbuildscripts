@@ -94,10 +94,6 @@ build(){
 
   install -vm 0755 usr/X11R6/lib/libXvMCNVIDIA.so.${REV} \
     $TMPROOT/usr/$LIBSDIR || return 1
-  ln -vsf libXvMCNVIDIA.so.${REV} \
-    $TMPROOT/usr/$LIBSDIR/libXvMCNVIDIA.so || return 1
-  ln -vsf libXvMCNVIDIA.so.${REV} \
-    $TMPROOT/usr/$LIBSDIR/libXvMCNVIDIA.so.1 || return 1
   
   install -vm 0755 usr/lib/tls/libnvidia-tls.so.${REV} \
     $TMPROOT/usr/$LIBSDIR/tls/ || return 1
