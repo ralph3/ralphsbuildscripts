@@ -155,10 +155,12 @@ do_install(){
     }
   done
   echo -n "Compressing any manpages found..."
-  find -type f | grep "/man/" | grep -vh "\.bz2" | grep -vh "\.gz" | grep -vh "\.xz" | while read file; do
+  find -type f | grep "/man/" | grep -vh "\.bz2" | grep -vh "\.gz" | \
+  grep -vh "\.xz" | while read file; do
     xz -9 "$file"
   done
-  find -type l | grep "/man/" | grep -vh "\.bz2" | grep -vh "\.gz" | grep -vh "\.xz" | while read link; do
+  find -type l | grep "/man/" | grep -vh "\.bz2" | grep -vh "\.gz" | \
+  grep -vh "\.xz" | while read link; do
     NTARG="$(readlink "$link").xz"
     cd "$(dirname "$link")"
     [ -e "$NTARG" ] && {
@@ -172,11 +174,13 @@ do_install(){
   cd "$TMPROOT"
   if [ "$NOSTRIP" != "1" ]; then
     echo -n "Stripping any binaries found..."
-    find -type f | xargs file 2>/dev/null | grep "executable" | grep ELF | cut -f 1 -d : | while read exe; do
+    find -type f | xargs file 2>/dev/null | grep "executable" | grep ELF | \
+    cut -f 1 -d : | while read exe; do
       strip --strip-unneeded "$exe"
     done
     libs_list(){
-      find -type f | xargs file 2>/dev/null | grep "shared object" | grep ELF | cut -f 1 -d :
+      find -type f | xargs file 2>/dev/null | grep "shared object" | \
+      grep ELF | cut -f 1 -d :
       find -type f -name '*.a'
     }
     libs_list | while read lib; do
@@ -198,7 +202,8 @@ do_install(){
   echo "Installing files..."
   tar cp * | tar xp -C $ROOT || return 1
   find | sed 's@^\.@@g' | grep . > $FLIST
-  echo "$VERSION" > $(dirname $FLIST)/version
+  echo "$VERSION" > $(dirname $FLIST)/version || return 1
+  cat $PROFILEDIR/$1 > $(dirname $FLIST)/profile || return 1
   cd $WORKDIR || return 1
   rm -rf $TMPROOT || return 1
   grep "\.new$" $FLIST | while read file; do
@@ -263,7 +268,8 @@ fi
 
 mkdir -p $BUILDLOGS || exit 1
 
-for x in $(find /var/lib/packages/current/*/reinstall_me 2>/dev/null | cut -f6 -d'/'); do
+for x in $(find /var/lib/packages/current/*/reinstall_me 2>/dev/null | \
+cut -f6 -d'/'); do
     BUILDLOG="$BUILDLOGS/$x"
     >$BUILDLOG
     INSTFAILED=0
@@ -274,7 +280,8 @@ for x in $(find /var/lib/packages/current/*/reinstall_me 2>/dev/null | cut -f6 -
 done
 
 for x in $*; do
-  if [ ! -d "/var/lib/packages/current/${x}" ] || [ "$MYNAME" == "reinstall" ]; then
+  if [ ! -d "/var/lib/packages/current/${x}" ] || \
+     [ "$MYNAME" == "reinstall" ]; then
     BUILDLOG="$BUILDLOGS/$x"
     >$BUILDLOG
     INSTFAILED=0

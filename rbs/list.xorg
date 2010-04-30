@@ -116,13 +116,7 @@ xbitmaps
 xcursor-themes
 
 encodings
-font-adobe-75dpi
-font-adobe-100dpi
-font-adobe-utopia-75dpi
-font-adobe-utopia-100dpi
-font-adobe-utopia-type1
 font-alias
-font-cursor-misc
 font-util
 font-misc-misc
 ttf-bitstream-vera

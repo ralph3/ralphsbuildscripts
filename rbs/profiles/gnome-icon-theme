@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.30.2"
+VERSION="2.30.2.1"
 
 DIR="gnome-icon-theme-${VERSION}"
 TARBALL="gnome-icon-theme-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-7529de4c3caebe705b16975d6dbd4bc3
+cd3c36a713b8ff3cb6aa6237db82be9a
 )
 
 build(){
@@ -31,7 +31,4 @@ version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/gnome-icon-theme/%minor_version%/'
   VERSION_STRING='gnome-icon-theme-%version%.tar.bz2'
   ONLY_EVEN_MINORS=1
-  MIRRORS=(
-    'http://ftp.gnome.org/pub/GNOME/sources/gnome-icon-theme/%minor_version%/gnome-icon-theme-%version%.tar.bz2'
-  )
 }
