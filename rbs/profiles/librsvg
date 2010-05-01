@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.26.2"
+VERSION="2.26.3"
 
 DIR="librsvg-${VERSION}"
 TARBALL="librsvg-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-6bb1993f9180176e45d6084089f47aa8
+8df68c2c02cdf2a96a92b43bf737bf9c
 )
 
 build(){
@@ -38,7 +38,4 @@ version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/librsvg/%minor_version%/'
   VERSION_STRING='librsvg-%version%.tar.bz2'
   ONLY_EVEN_MINORS=1
-  MIRRORS=(
-    'http://ftp.gnome.org/pub/GNOME/sources/librsvg/%minor_version%/librsvg-%version%.tar.bz2'
-  )
 }
