@@ -15,6 +15,7 @@ librsvg
 libgpg-error
 libgcrypt
 libgnome-keyring
+libwnck
 gnome-python-desktop
 python-imaging
 dbus-python
