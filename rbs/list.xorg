@@ -76,6 +76,8 @@ libxxf86vm
 
 mesa
 
+xbitmaps
+
 bdftopcf
 iceauth
 mkfontdir
@@ -112,7 +114,6 @@ xstdcmap
 xterm
 xvinfo
 
-xbitmaps
 xcursor-themes
 
 encodings
