@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="5.1p1"
+VERSION="5.5"
 
 DIR="openssh-${VERSION}"
 TARBALL="openssh-${VERSION}.tar.gz"
 
 SRC1=(
-http://sunsite.ualberta.ca/pub/OpenBSD/OpenSSH/portable/${TARBALL}
+http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/${TARBALL}
 )
 
 MD5SUMS=(
-03f2d0c1b5ec60d4ac9997a146d2faec
+b5a54eda662a5f6c9e9807b5324c7b0b
 )
 
 build(){
@@ -89,9 +89,6 @@ post_remove(){
 }
 
 version_check_info(){
-  ADDRESS='http://sunsite.ualberta.ca/pub/OpenBSD/OpenSSH/portable/'
+  ADDRESS='http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/'
   VERSION_STRING='openssh-%version%.tar.gz'
-  MIRRORS=(
-    'http://sunsite.ualberta.ca/pub/OpenBSD/OpenSSH/portable/openssh-%version%.tar.gz'
-  )
 }
