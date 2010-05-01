@@ -1,5 +1,6 @@
 #!/bin/bash
 
+DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
 VERSION="2.20.1"
@@ -50,7 +51,7 @@ Cross_Tools_Build(){
   if [ "$1" == "ToolsBuild" ]; then
     CC="$CC $BUILD" ../$DIR/configure $CONF || return 1
   else
-    AR=ar AS=as ../$DIR/configure $CONF || return 1
+    AR="ar" AS="as" ../$DIR/configure $CONF || return 1
   fi
   make configure-host || return 1
   make || return 1

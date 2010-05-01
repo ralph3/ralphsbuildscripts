@@ -1,8 +1,9 @@
 #!/bin/bash
 
+DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="8.4"
+VERSION="8.5"
 
 DIR="coreutils-${VERSION}"
 TARBALL="coreutils-${VERSION}.tar.gz"
@@ -12,7 +13,7 @@ http://ftp.gnu.org/gnu/coreutils/${TARBALL}
 )
 
 MD5SUMS=(
-56f549854d723d9dcebb77919019df55
+c1ffe586d001e87d66cd80c4536ee823
 )
 
 Tools_Build(){

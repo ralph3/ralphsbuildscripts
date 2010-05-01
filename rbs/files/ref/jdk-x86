@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="6u19"
+VERSION="6u20"
 
 ONLY32=1
 
@@ -13,7 +13,7 @@ http://dlc.sun.com/dlj/binaries/$TARBALL
 )
 
 MD5SUMS=(
-fb881b88b78770c519b4306ff1ead7a2
+37afae8ef2481b85b4c9b0356c5d7b40
 )
 
 build(){
@@ -73,11 +73,11 @@ EOF
   rm -rf jdk || return 1
 }
 
-#version_check_info(){
-#  ADDRESS='http://jdk-distros.dev.java.net/developer.html'
-#  VERSION_STRING='jdk-%version%-dlj-linux-i586.bin'
-#  MIRRORS=(
-#    'http://dlc.sun.com/dlj/binaries/jdk-%version%-dlj-linux-i586.bin'
-#  )
-#}
+version_check_info(){
+  ADDRESS='https://jdk-distros.dev.java.net/developer.html'
+  VERSION_STRING='jdk-%version%-dlj-linux-i586.bin'
+  MIRRORS=(
+    'http://dlc.sun.com/dlj/binaries/jdk-%version%-dlj-linux-i586.bin'
+  )
+}
 

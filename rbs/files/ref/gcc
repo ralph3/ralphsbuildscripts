@@ -1,5 +1,6 @@
 #!/bin/bash
 
+DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
 VERSION="4.5.0"
@@ -18,8 +19,8 @@ ff27b7c4a5d5060c8a8543a44abca31f
 
 GCC_Switch_ToolChain(){
   echo -n "GCC: Switching the toolchain..."
-  gcc -dumpspecs | perl -p -e 's@/RBS-Tools/lib/ld@/lib/ld@g;' \
-                           -e 's@/RBS-Tools/lib64/ld@/lib64/ld@g;' \
+  gcc -dumpspecs | perl -p -e "s@${TCDIR}/lib/ld@/lib/ld@g;" \
+                           -e "s@${TCDIR}/lib64/ld@/lib64/ld@g;" \
                            -e 's@\*startfile_prefix_spec:\n@$_/usr/lib/ @g;' > \
     $(dirname $(gcc --print-libgcc-file-name))/specs || return 1
   echo "  Done."
@@ -154,7 +155,7 @@ FOO
   
   case $1 in
     CrossToolsStatic)
-      find $CTCDIR -name 'libgcc.a' -exec dirname {} \; | while read x; do
+      find $CTCDIR/ -name 'libgcc.a' -exec dirname {} \; | while read x; do
         ln -sfn libgcc.a $x/libgcc_eh.a || return 1
       done
     ;;

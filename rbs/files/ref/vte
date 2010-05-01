@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.24.0"
+VERSION="0.24.1"
 
 DIR="vte-${VERSION}"
 TARBALL="vte-${VERSION}.tar.bz2"
@@ -12,14 +12,15 @@ SRC1=(
 )
 
 MD5SUMS=(
-c381f6019448a6e84470ec0acfd78c63
+3b66116e930dde00e1ddbf8277066ea7
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
-    --libdir=/usr/$LIBSDIR --libexecdir=/usr/$LIBSDIR/vte || return 1
+    --libdir=/usr/$LIBSDIR --libexecdir=/usr/$LIBSDIR/vte \
+    --enable-python || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   cd ../ || return 1

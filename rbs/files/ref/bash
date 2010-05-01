@@ -1,5 +1,6 @@
 #!/bin/bash
 
+DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
 VERSION="4.1"
@@ -16,7 +17,7 @@ MD5SUMS=(
 )
 
 CaT_BaSH_ProfileStuff(){
-  mkdir -p $1/etc/{profile.d,skel} || return 1
+  mkdir -p $1/etc/profile.d || return 1
 cat << EOF > $1/etc/profile || return 1
 #!/bin/bash
 
@@ -49,25 +50,10 @@ ls /etc/profile.d/*.sh >&/dev/null && {
   done
 }
 
-ls /etc/skel >&/dev/null && {
-  if [ ! -e "$HOME/.noskel" ]; then
-    find /etc/skel -maxdepth 1 | grep -vhFx /etc/skel | while read x; do
-      N=$(basename $x)
-      if [ ! -e "$HOME/$N" ]; then
-        cp -a $x $HOME/
-      fi
-    done
-  fi
-}
-
 PS1='[ \u@\h:\w ]$ '
 alias dir='ls --color=auto -F -b -T 0'
 alias ls='ls --color=auto -F -b -T 0'
 export PATH HISTSIZE HISTIGNORE TERM PS1
-EOF
-
-cat << "EOF" > $1/etc/skel/.bashrc || return 1
-source /etc/profile
 EOF
 }
 

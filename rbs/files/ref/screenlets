@@ -23,15 +23,19 @@ build(){
   if [ ! -e "$TMPROOT/usr/$LIBSDIR" ]; then
     mv $TMPROOT/usr/lib $TMPROOT/usr/$LIBSDIR || return 1
   fi
+  rm -rf $TMPROOT/usr/share/screenlets/{Brightness,CompositeManager} \
+    $TMPROOT/usr/share/screenlets/{EvolutionContacts,Example,MainMenu} \
+    $TMPROOT/usr/share/screenlets/{Mount,NowPlaying,Places,Test} \
+    $TMPROOT/usr/share/screenlets/{VolumeControl,WindowList,Youtube} || return 1
   rm -rf $TMPROOT/usr/bin
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
 
-#version_check_info(){
-#  ADDRESS="https://launchpad.net/screenlets"
-#  VERSION_STRING="screenlets-%version%.tar.bz2"
-#  MIRRORS=(
-#    "http://launchpad.net/screenlets/trunk/%version%/+download/screenlets-%version%.tar.bz2"
-#  )
-#}
+version_check_info(){
+  ADDRESS="https://launchpad.net/screenlets"
+  VERSION_STRING="screenlets-%version%.tar.bz2"
+  MIRRORS=(
+    "http://launchpad.net/screenlets/trunk/%version%/+download/screenlets-%version%.tar.bz2"
+  )
+}

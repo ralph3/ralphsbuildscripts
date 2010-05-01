@@ -2,20 +2,20 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="195.36.15-pkg2"
+VERSION="195.36.24"
 
 DISABLE_STRIP=1
 
-TARBALL="NVIDIA-Linux-x86_64-${VERSION}.run"
-DIR="NVIDIA-Linux-x86_64-${VERSION}"
+TARBALL="NVIDIA-Linux-x86_64-${VERSION}-pkg2.run"
+DIR="NVIDIA-Linux-x86_64-${VERSION}-pkg2"
 
 SRC1=(
-http://download.nvidia.com/XFree86/Linux-x86_64/$(echo $VERSION | cut -f-1 -d'-')/$TARBALL
-ftp://download.nvidia.com/XFree86/Linux-x86_64/$(echo $VERSION | cut -f-1 -d'-')/$TARBALL
+http://download.nvidia.com/XFree86/Linux-x86_64/$VERSION/$TARBALL
+ftp://download.nvidia.com/XFree86/Linux-x86_64/$VERSION/$TARBALL
 )
 
 MD5SUMS=(
-f52324869e20b3990eed74be48c7fe46
+47a699d2acba3ac49c96f32ae93eba7a
 )
 
 build(){
@@ -34,9 +34,8 @@ build(){
   mkdir -p $SRCDIR || return 1
   cd $SRCDIR || return 1
   rm -rf $DIR || return 1
-  chmod 744 $DOWNLOADDIR/${DIR}.run || return 1
-  $DOWNLOADDIR/${DIR}.run --extract-only || return 1
-  chmod 644 $DOWNLOADDIR/${DIR}.run || return 1
+  
+  sh $DOWNLOADDIR/$TARBALL --extract-only || return 1
   
   cd $DIR || return 1
   
@@ -56,64 +55,50 @@ build(){
     $TMPROOT/$LIBSDIR/modules/$(uname -r)/kernel/drivers/video/nvidia.ko || return 1
   
   REV=$(echo $VERSION | cut -f1 -d'-')
-  DOCDIR="/usr/share/doc/nvidia"
   
   cd $SRCDIR/$DIR
   
   if [ "$SYSTYPE" == "MULTILIB" ]; then
-    mkdir -pv $TMPROOT/usr/$LIBSDIR32 || return 1
+    mkdir -pv $TMPROOT/usr/$LIBSDIR32/tls || return 1
     
-    install -vm 0755 usr/lib32/libGL.so.${REV} \
-      $TMPROOT/usr/$LIBSDIR32 || return 1
-    ln -vsf libGL.so.${REV} \
-      $TMPROOT/usr/$LIBSDIR32/libGL.so || return 1
+    for x in libGL libGLcore libnvidia-tls; do
+      install -vm 0755 usr/lib32/${x}.so.${REV} \
+        $TMPROOT/usr/$LIBSDIR32/ || return 1
+      ln -vsf ${x}.so.${REV} \
+        $TMPROOT/usr/$LIBSDIR32/${x}.so || return 1
+      ln -vsf ${x}.so.${REV} \
+        $TMPROOT/usr/$LIBSDIR32/${x}.so.1 || return 1
+    done
     
-    install -vm 0755 usr/lib32/libGLcore.so.${REV} \
-      $TMPROOT/usr/$LIBSDIR32 || return 1
-    
-    install -vm 0755 usr/lib32/libnvidia-tls.so.${REV} \
-      $TMPROOT/usr/$LIBSDIR32 || return 1
-    
-    usr/bin/tls_test usr/bin/tls_test_dso.so 2>/dev/null && {
-      mkdir -pv $TMPROOT/usr/$LIBSDIR32/tls || return 1
-      install -vm 0755 usr/lib32/tls/libnvidia-tls.so.${REV} \
-        $TMPROOT/usr/$LIBSDIR32/tls || return 1
-    }
+    install -vm 0755 usr/lib32/tls/libnvidia-tls.so.${REV} \
+      $TMPROOT/usr/$LIBSDIR32/tls/ || return 1
   fi
   
-  mkdir -vp $TMPROOT/usr/$LIBSDIR
-  install -vm 0755 usr/lib/libGL.so.${REV} $TMPROOT/usr/$LIBSDIR || return 1
-  ln -vsf libGL.so.${REV} $TMPROOT/usr/$LIBSDIR/libGL.so || return 1
+  mkdir -vp $TMPROOT/usr/$LIBSDIR/{tls,X11/modules/{drivers,extensions}} \
+    $TMPROOT/usr/{bin,share/{applications,doc/nvidia,man/man1}} || return 1
   
-  install -vm 0755 usr/lib/libGLcore.so.${REV} $TMPROOT/usr/$LIBSDIR || return 1
-  
-  mkdir -vp $TMPROOT/usr/$LIBSDIR/X11/modules/{drivers,extensions} || return 1
+  for x in libGL libGLcore libnvidia-tls; do
+    install -vm 0755 usr/lib/${x}.so.${REV} \
+      $TMPROOT/usr/$LIBSDIR/ || return 1
+    ln -vsf ${x}.so.${REV} \
+      $TMPROOT/usr/$LIBSDIR/${x}.so || return 1
+    ln -vsf ${x}.so.${REV} \
+      $TMPROOT/usr/$LIBSDIR/${x}.so.1 || return 1
+  done
   
   install -vm 0755 usr/X11R6/lib/modules/drivers/nvidia_drv.so \
     $TMPROOT/usr/$LIBSDIR/X11/modules/drivers || return 1
 
   install -vm 0755 usr/X11R6/lib/modules/extensions/libglx.so.${REV} \
-    $TMPROOT/usr/$LIBSDIR/X11/modules/extensions || return 1
-  ln -vsf libglx.so.${REV} \
     $TMPROOT/usr/$LIBSDIR/X11/modules/extensions/libglx.so || return 1
 
-  install -vm 0755 usr/lib/libnvidia-tls.so.${REV} \
-    $TMPROOT/usr/$LIBSDIR || return 1
-  
-  usr/bin/tls_test usr/bin/tls_test_dso.so 2>/dev/null && {
-    mkdir -pv $TMPROOT/usr/$LIBSDIR/tls
-    install -vm 0755 usr/lib/tls/libnvidia-tls.so.${REV} \
-      $TMPROOT/usr/$LIBSDIR/tls || return 1
-  }
-  
-  
   install -vm 0755 usr/X11R6/lib/libXvMCNVIDIA.so.${REV} \
     $TMPROOT/usr/$LIBSDIR || return 1
   
-  mkdir -pv $TMPROOT/$DOCDIR $TMPROOT/usr/{bin,share/applications} \
-    $TMPROOT/usr/share/man/man1 || return 1
+  install -vm 0755 usr/lib/tls/libnvidia-tls.so.${REV} \
+    $TMPROOT/usr/$LIBSDIR/tls/ || return 1
   
-  cp -av usr/share/doc/* $TMPROOT/$DOCDIR || return 1
+  cp -av usr/share/doc/* $TMPROOT/usr/share/doc/nvidia || return 1
   cp -av usr/share/pixmaps $TMPROOT/usr/share/ || return 1
   
   for x in nvidia-settings nvidia-xconfig; do
@@ -139,11 +124,16 @@ pre_upgrade(){
 }
 
 post_install(){
-  update-desktop-database -q || return 1
   depmod -a || return 1
 }
 
 post_upgrade(){
   post_install || return 1
+}
+
+version_check_info(){
+  ADDRESS='ftp://download.nvidia.com/XFree86/Linux-x86_64/%version%/'
+  VERSION_STRING='NVIDIA-Linux-x86_64-%version%-pkg2.run'
+  VERSION_FILTERS='latest'
 }
 

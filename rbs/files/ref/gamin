@@ -5,18 +5,18 @@ DISABLE_MULTILIB=1
 VERSION="0.1.10"
 
 DIR="gamin-${VERSION}"
-TARBALL="gamin-${VERSION}.tar.gz"
+TARBALL="gamin-${VERSION}.tar.bz2"
 
 DEPENDS=(
   make
 )
 
 SRC1=(
-http://www.gnome.org/~veillard/gamin/sources/${TARBALL}
+  $(gnome_mirrors gamin)
 )
 
 MD5SUMS=(
-b4ec549e57da470c04edd5ec2876a028
+2e2d9ea71f34e0aa22a700ddbff05385
 )
 
 build(){
@@ -33,9 +33,10 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://www.gnome.org/~veillard/gamin/sources/'
-  VERSION_STRING='gamin-%version%.tar.gz'
+  ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/gamin/%minor_version%/'
+  VERSION_STRING='gamin-%version%.tar.bz2'
+  MINOR_VERSION_FILTERS='br'
   MIRRORS=(
-    'http://www.gnome.org/~veillard/gamin/sources/gamin-%version%.tar.gz'
+    'http://ftp.gnome.org/pub/GNOME/sources/gamin/%minor_version%/gamin-%version%.tar.bz2'
   )
 }

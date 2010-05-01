@@ -64,7 +64,7 @@ post_install(){
 version_check_info(){
   ADDRESS='http://ftp.silug.org/pub/alsa/utils/'
   VERSION_STRING='alsa-utils-%version%.tar.bz2'
-  VERSION_FILTERS='[a-z] [A-Z]'
+  VERSION_FILTERS='rc'
   MIRRORS=(
     'http://ftp.silug.org/pub/alsa/utils/alsa-utils-%version%.tar.bz2'
   )

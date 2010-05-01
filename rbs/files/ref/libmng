@@ -18,17 +18,13 @@ a464ae7d679781beebdf7440d144b7bd
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  sed "/OBJSDLL/s/\.0/.o/" makefiles/makefile.linux > Makefile
-  make CC="$CC $BUILD" CXX="$CXX $BUILD" CFLAGS="$CFLAGS" prefix=/usr \
-    LIBPATH=/usr/$LIBSDIR ZLIBLIB=/usr/$LIBSDIR JPEGLIB=/usr/$LIBSDIR \
-    LCMSLIB=/usr/$LIBSDIR || return 1
-  mkdir -p $TMPROOT/usr/{include,${LIBSDIR},share/man/man{3,5}} || return 1
-  make prefix=$TMPROOT/usr LIBPATH=$TMPROOT/usr/$LIBSDIR install || return 1
-  install -v -m644 doc/man/*.3 $TMPROOT/usr/share/man/man3 || return 1
-  install -v -m644 doc/man/*.5 $TMPROOT/usr/share/man/man5 || return 1
-  install -v -m755 -d $TMPROOT/usr/share/doc/libmng-${VERSION} || return 1
-  install -v -m644 doc/*.{png,txt} \
-    $TMPROOT/usr/share/doc/libmng-${VERSION} || return 1
+  ln -sf makefiles/configure.in . || return 1
+  ln -sf makefiles/Makefile.am . || return 1
+  autoreconf -f -i || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/usr/$LIBSDIR || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }

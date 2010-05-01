@@ -27,11 +27,7 @@ build(){
   groupadd svn
   useradd -c "SVN Owner" -d /home/svn -m -g svn -s /bin/false svn
   CC="$CC $BUILD" CXX="$CXX $BUILD" \
-    ./configure --prefix=/usr --libdir=/usr/$LIBSDIR --with-apr=/usr \
-      --with-apr-util=/usr --with-neon=/usr \
-      --with-apxs=/usr/sbin/apxs || return 1
-  sed -i "s%-lexpat%/usr/${LIBSDIR}/libexpat.so%g" \
-    $(grep -rl "\-lexpat" *) || return 1
+    ./configure --prefix=/usr --libdir=/usr/$LIBSDIR --with-neon=/usr || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   

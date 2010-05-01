@@ -40,22 +40,6 @@ build(){
   rm -rf $DIR || return 1
 }
 
-post_install(){
-  gnome_script epdfview install || return 1
-}
-
-pre_remove(){
-  gnome_script epdfview remove || return 1
-}
-
-pre_upgrade(){
-  pre_remove || return 1
-}
-
-post_upgrade(){
-  post_install || return 1
-}
-
 version_check_info(){
   ADDRESS='http://trac.emma-soft.com/epdfview/wiki/Download'
   VERSION_STRING='epdfview-%version%.tar.bz2'

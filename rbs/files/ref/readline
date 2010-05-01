@@ -1,5 +1,6 @@
 #!/bin/bash
 
+DONT_REMOVE=1
 VERSION="6.1"
 
 DIR="readline-${VERSION}"
