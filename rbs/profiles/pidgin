@@ -31,7 +31,4 @@ build(){
 version_check_info(){
   ADDRESS='http://www.pidgin.im/download/source/'
   VERSION_STRING='pidgin-%version%.tar.bz2'
-  MIRRORS=(
-    'http://prdownloads.sourceforge.net/pidgin/pidgin-%version%.tar.bz2'
-  )
 }
