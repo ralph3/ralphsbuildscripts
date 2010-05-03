@@ -5,3 +5,9 @@ gnome-doc-utils
 gedit
 gnome-terminal
 gconf-editor
+libunique
+gnome-desktop
+shared-mime-info
+nautilus
+desktop-file-utils
+
