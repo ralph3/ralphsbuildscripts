@@ -37,7 +37,4 @@ post_upgrade(){
 version_check_info(){
   ADDRESS='http://freedesktop.org/~hadess/'
   VERSION_STRING='shared-mime-info-%version%.tar.bz2'
-  MIRRORS=(
-    'http://freedesktop.org/~hadess/shared-mime-info-%version%.tar.bz2'
-  )
 }

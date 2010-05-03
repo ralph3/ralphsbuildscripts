@@ -2,23 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.24.3"
+VERSION="2.30.1"
 
 DIR="gnome-terminal-${VERSION}"
 TARBALL="gnome-terminal-${VERSION}.tar.bz2"
-
-DEPENDS=(
-  libgnomeui
-  startup-notification
-  vte
-)
 
 SRC1=(
   $(gnome_mirrors gnome-terminal)
 )
 
 MD5SUMS=(
-03f099985da576d774075e30430d29da
+fed3235a053ce34a16218bfe1c2202ca
 )
 
 build(){
@@ -34,27 +28,8 @@ build(){
   rm -rf $DIR || return 1
 }
 
-post_install(){
-  gnome_script gnome-terminal install || return 1
-}
-
-pre_remove(){
-  gnome_script gnome-terminal remove || return 1
-}
-
-pre_upgrade(){
-  pre_remove || return 1
-}
-
-post_upgrade(){
-  post_install || return 1
-}
-
 version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/gnome-terminal/%minor_version%/'
   VERSION_STRING='gnome-terminal-%version%.tar.bz2'
   ONLY_EVEN_MINORS=1
-  MIRRORS=(
-    'http://ftp.gnome.org/pub/GNOME/sources/gnome-terminal/%minor_version%/gnome-terminal-%version%.tar.bz2'
-  )
 }

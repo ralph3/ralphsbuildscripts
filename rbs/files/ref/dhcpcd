@@ -205,7 +205,4 @@ EOF
 version_check_info(){
   ADDRESS='http://www.phystech.com/ftp/'
   VERSION_STRING='dhcpcd-%version%.tar.gz'
-  MIRRORS=(
-    'http://www.phystech.com/ftp/dhcpcd-%version%.tar.gz'
-  )
 }

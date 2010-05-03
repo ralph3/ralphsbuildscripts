@@ -2,25 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.24.3"
+VERSION="2.30.2"
 
 DIR="gedit-${VERSION}"
 TARBALL="gedit-${VERSION}.tar.bz2"
-
-DEPENDS=(
-  enchant
-  gnome-doc-utils
-  gnome-python-desktop
-  iso-codes
-  libgnomeui
-)
 
 SRC1=(
   $(gnome_mirrors gedit)
 )
 
 MD5SUMS=(
-48ed6c5c156791cffc219a7d7390da57
+00ccd2fdba5c5e1d3bc54da5377f0277
 )
 
 build(){
@@ -36,27 +28,8 @@ build(){
   rm -rf $DIR || return 1
 }
 
-post_install(){
-  gnome_script gedit install || return 1
-}
-
-pre_remove(){
-  gnome_script gedit remove || return 1
-}
-
-pre_upgrade(){
-  pre_remove || return 1
-}
-
-post_upgrade(){
-  post_install || return 1
-}
-
 version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/gedit/%minor_version%/'
   VERSION_STRING='gedit-%version%.tar.bz2'
   ONLY_EVEN_MINORS=1
-  MIRRORS=(
-    'http://ftp.gnome.org/pub/GNOME/sources/gedit/%minor_version%/gedit-%version%.tar.bz2'
-  )
 }

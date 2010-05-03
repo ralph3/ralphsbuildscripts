@@ -34,27 +34,8 @@ build(){
   rm -rf $DIR || return 1
 }
 
-post_install(){
-  gnome_script scrollkeeper install || return 1
-}
-
-pre_remove(){
-  gnome_script scrollkeeper remove || return 1
-}
-
-pre_upgrade(){
-  pre_remove || return 1
-}
-
-post_upgrade(){
-  post_install || return 1
-}
-
 version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/scrollkeeper/%minor_version%/'
   VERSION_STRING='scrollkeeper-%version%.tar.bz2'
-  ONLY_EVEN_MINORS=0
-  MIRRORS=(
-    'http://ftp.gnome.org/pub/GNOME/sources/scrollkeeper/%minor_version%/scrollkeeper-%version%.tar.bz2'
-  )
+  MINOR_VERSION_FILTERS='br'
 }

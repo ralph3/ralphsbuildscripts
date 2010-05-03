@@ -2,21 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.6"
+VERSION="3.11.1"
 
 DIR="iso-codes-${VERSION}"
-TARBALL="iso-codes_${VERSION}.orig.tar.gz"
-
-DEPENDS=(
-  make
-)
+TARBALL="iso-codes-${VERSION}.tar.gz"
 
 SRC1=(
-http://ftp.debian.org/debian/pool/main/i/iso-codes/${TARBALL}
+ftp://pkg-isocodes.alioth.debian.org/pub/pkg-isocodes/${TARBALL}
 )
 
 MD5SUMS=(
-3060e0c2ac0a9366b32427e4ceabbce9
+9c967ccbae61e03a31d2d038f2081c1b
 )
 
 build(){
@@ -31,9 +27,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://ftp.debian.org/debian/pool/main/i/iso-codes/'
-  VERSION_STRING='iso-codes_%version%.orig.tar.gz'
-  MIRRORS=(
-    'http://ftp.debian.org/debian/pool/main/i/iso-codes/iso-codes_%version%.orig.tar.gz'
-  )
+  ADDRESS='ftp://pkg-isocodes.alioth.debian.org/pub/pkg-isocodes/'
+  VERSION_STRING='iso-codes-%version%.tar.gz'
 }

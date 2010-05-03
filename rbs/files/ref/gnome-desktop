@@ -2,23 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.24.3"
+VERSION="2.30.0"
 
 DIR="gnome-desktop-${VERSION}"
 TARBALL="gnome-desktop-${VERSION}.tar.bz2"
-
-DEPENDS=(
-  gnome-doc-utils
-  libgnomeui
-  startup-notification
-)
 
 SRC1=(
   $(gnome_mirrors gnome-desktop)
 )
 
 MD5SUMS=(
-27579963a56d1d35a22e30c21666a500
+211818d93cd1b5b54b880520fe5444c4
 )
 
 build(){
@@ -38,7 +32,4 @@ version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/gnome-desktop/%minor_version%/'
   VERSION_STRING='gnome-desktop-%version%.tar.bz2'
   ONLY_EVEN_MINORS=1
-  MIRRORS=(
-    'http://ftp.gnome.org/pub/GNOME/sources/gnome-desktop/%minor_version%/gnome-desktop-%version%.tar.bz2'
-  )
 }
