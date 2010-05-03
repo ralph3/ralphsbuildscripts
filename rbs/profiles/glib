@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.24.0"
+VERSION="2.24.1"
 
 DIR="glib-${VERSION}"
 TARBALL="glib-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-45a8bc697d07f859566c0b64c40382a8
+6a7db81c9a2cffe6a34dadb57d7ba2d2
 )
 
 build(){
@@ -28,7 +28,4 @@ version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/glib/%minor_version%/'
   VERSION_STRING='glib-%version%.tar.bz2'
   ONLY_EVEN_MINORS=1
-  MIRRORS=(
-    'http://ftp.gnome.org/pub/GNOME/sources/glib/%minor_version%/glib-%version%.tar.bz2'
-  )
 }
