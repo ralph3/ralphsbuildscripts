@@ -94,11 +94,8 @@ Tools_Build(){
     -Dstatic_ext='Data/Dumper IO Fcntl POSIX' \
     -Dlibpth="$TCDIR/$MYLIBSDIR" \
     -Dcc="$CC $MYBUILD" || return 1
-  make perl utilities || return 1
-  cp -v perl pod/pod2man $TCDIR/bin || return 1
-  install -dv $TCDIR/$MYLIBSDIR/site_perl/$VERSION || return 1
-  cp -Rv lib/* $TCDIR/$MYLIBSDIR/site_perl/$VERSION || return 1
-  ln -sfnv $TCDIR/bin/perl /usr/bin/ || return 1
+  make || return 1
+  make install || return 1
   cd $SRCDIR || return 1
   rm -rf $DIR || return 1
 }
