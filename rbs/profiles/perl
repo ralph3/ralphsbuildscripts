@@ -78,6 +78,8 @@ EOF
 
 Tools_Build(){
   local MYBUILD MYLIBSDIR
+  cd $SRCDIR || return 1
+  rm -rf $DIR || return 1
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   rbs_do_perl_patching || return 1
