@@ -26,6 +26,7 @@ aspell-en
 enchant
 gtkspell
 gnutls
+gstreamer
 pidgin
 giflib
 imlib2
