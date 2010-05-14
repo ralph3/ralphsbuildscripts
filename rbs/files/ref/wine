@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.1.43"
+VERSION="1.1.44"
 
 ONLY32=1
 
@@ -14,7 +14,7 @@ http://ibiblio.org/pub/linux/system/emulators/wine/${TARBALL}
 )
 
 MD5SUMS=(
-78e3c8d8d39625d7959ffe070a59028d
+f18649bd71b9099fecad22436d239cba
 )
 
 build(){
@@ -33,7 +33,4 @@ version_check_info(){
   ADDRESS='http://ibiblio.org/pub/linux/system/emulators/wine/'
   VERSION_STRING='wine-%version%.tar.bz2'
   VERSION_FILTERS="docs"
-  MIRRORS=(
-    'http://ibiblio.org/pub/linux/system/emulators/wine/wine-%version%.tar.bz2'
-  )
 }

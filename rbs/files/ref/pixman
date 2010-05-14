@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="0.18.0"
+VERSION="0.18.2"
 
 DIR="pixman-${VERSION}"
 TARBALL="pixman-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-a1b5a0a145cab653f5c1e8cf2f98f945
+8f0c47bbb12a0d9c0d14242596bf6bf9
 )
 
 build(){
@@ -27,7 +27,4 @@ build(){
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/lib/'
   VERSION_STRING='pixman-%version%.tar.bz2'
-  MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/lib/pixman-%version%.tar.bz2'
-  )
 }

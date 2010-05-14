@@ -1,0 +1,34 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="1.0.8"
+
+DIR="libunique-${VERSION}"
+TARBALL="libunique-${VERSION}.tar.bz2"
+
+SRC1=(
+  $(gnome_mirrors libunique)
+)
+
+MD5SUMS=(
+02b9e41c70ca738e1aa914f400fc1f05
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/usr/$LIBSDIR --libexecdir=/usr/sbin --sysconfdir=/etc/gnome \
+    --localstatedir=/var/lib || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/libunique/%minor_version%/'
+  VERSION_STRING='libunique-%version%.tar.bz2'
+  ONLY_EVEN_MINORS=1
+}

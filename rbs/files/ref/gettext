@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.17"
+VERSION="0.18"
 
 DIR="gettext-${VERSION}"
 TARBALL="gettext-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://ftp.gnu.org/gnu/gettext/${TARBALL}
 )
 
 MD5SUMS=(
-58a2bc6d39c0ba57823034d55d65d606
+d52a3e061032a1ed13856d42fc86f0fd
 )
 
 Tools_Build(){
@@ -42,7 +42,4 @@ build(){
 version_check_info(){
   ADDRESS='http://ftp.gnu.org/gnu/gettext/'
   VERSION_STRING='gettext-%version%.tar.gz'
-  MIRRORS=(
-    'http://ftp.gnu.org/gnu/gettext/gettext-%version%.tar.gz'
-  )
 }

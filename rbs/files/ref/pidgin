@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.6.6"
+VERSION="2.7.0"
 
 DIR="pidgin-${VERSION}"
 TARBALL="pidgin-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://prdownloads.sourceforge.net/pidgin/${TARBALL}
 )
 
 MD5SUMS=(
-b37ab6c52db8355e8c70c044c2ba17c1
+63a36f91d29f5ac5a402ffd2d7dbbb72
 )
 
 build(){
@@ -21,7 +21,7 @@ build(){
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc/gnome --disable-meanwhile \
     --disable-avahi --disable-nm --disable-tcl --disable-vv \
-    --disable-gstreamer --disable-idn --disable-nss || return 1
+    --disable-idn --disable-nss || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   cd ../ || return 1
@@ -29,6 +29,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://www.pidgin.im/download/source/'
+  ADDRESS='http://sourceforge.net/projects/pidgin/files/'
   VERSION_STRING='pidgin-%version%.tar.bz2'
 }

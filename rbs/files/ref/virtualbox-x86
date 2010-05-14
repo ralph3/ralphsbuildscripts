@@ -3,7 +3,7 @@
 DISABLE_MULTILIB=1
 DISABLE_STRIP=1
 
-VERSION="3.1.6-59338"
+VERSION="3.2.0_BETA1-60785"
 
 TARBALL="VirtualBox-${VERSION}-Linux_x86.run"
 DIR="VirtualBox-${VERSION}"
@@ -13,7 +13,7 @@ http://download.virtualbox.org/virtualbox/$(echo ${VERSION} | cut -f1 -d'-')/$TA
 )
 
 MD5SUMS=(
-03af34222e4e2c21db17abe19c7ea841
+164cb4aa8b1884be8ae18808e9d15a77
 )
 
 build(){
@@ -106,4 +106,10 @@ EOF
   
   cd $SRCDIR || return 1
   rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://download.virtualbox.org/virtualbox/%version%/'
+  VERSION_STRING='VirtualBox-%version%-Linux_x86.run'
+  VERSION_FILTERS='TXT de im rd rp ox Us'
 }

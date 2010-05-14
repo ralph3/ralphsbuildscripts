@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="153"
+VERSION="154"
 
 DIR="udev-${VERSION}"
 TARBALL="udev-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://www.kernel.org/pub/linux/utils/kernel/hotplug/${TARBALL}
 )
 
 MD5SUMS=(
-76d12a9d97c3409e9ef60a4288227e8f
+28064e0325050a1eedec4c142da65ea7
 )
 
 MyBuild(){
@@ -255,7 +255,4 @@ build(){
 version_check_info(){
   ADDRESS='http://www.kernel.org/pub/linux/utils/kernel/hotplug/'
   VERSION_STRING='udev-%version%.tar.bz2'
-  MIRRORS=(
-    'http://www.kernel.org/pub/linux/utils/kernel/hotplug/udev-%version%.tar.bz2'
-  )
 }

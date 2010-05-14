@@ -1,20 +1,8 @@
 #!/bin/bash
 
-#### 5.12.0 compile error
-#
-#  make[1]: Entering directory `/usr/src/rbs/.work/source/perl-5.12.0/ext/Errno'
-#  ../../miniperl "-I../../lib" "-I../../lib" Errno_pm.PL Errno.pm
-#  No error definitions found at Errno_pm.PL line 228.
-#  make[1]: *** [Errno.pm] Error 2
-#  make[1]: Leaving directory `/usr/src/rbs/.work/source/perl-5.12.0/ext/Errno'
-#  Unsuccessful make(ext/Errno): code=512 at make_ext.pl line 449.
-#  make: *** [ext/Errno/pm_to_blib] Error 25
-#
-####
-
 DONT_REMOVE=1
 
-VERSION="5.10.1"
+VERSION="5.12.0"
 
 DIR="perl-${VERSION}"
 TARBALL="perl-${VERSION}.tar.gz"
@@ -24,7 +12,7 @@ http://ftp.funet.fi/pub/CPAN/src/${TARBALL}
 )
 
 MD5SUMS=(
-b9b2fdb957f50ada62d73f43ee75d044
+7db7c4b9d6f2e095eaebd9e22d81acc1
 )
 
 
@@ -101,15 +89,12 @@ Tools_Build(){
   fi
   sed -i "/libc/s@/lib@/${MYLIBSDIR}@" hints/linux.sh || return 1
   echo 'installstyle="${MYLIBSDIR}/perl5"' >> hints/linux.sh || return 1
+  sed -i "s@/usr/include@/${TCDIR}/include@g" ext/Errno/Errno_pm.PL || return 1
   CC="$CC $MYBUILD" CXX="$CXX $MYBUILD" ./configure.gnu --prefix=$TCDIR \
-    -Dstatic_ext='Data/Dumper IO Fcntl POSIX' \
     -Dlibpth="$TCDIR/$MYLIBSDIR" \
     -Dcc="$CC $MYBUILD" || return 1
-  make perl utilities || return 1
-  cp -v perl pod/pod2man $TCDIR/bin || return 1
-  install -dv $TCDIR/$MYLIBSDIR/site_perl/$VERSION || return 1
-  cp -Rv lib/* $TCDIR/$MYLIBSDIR/site_perl/$VERSION || return 1
-  ln -sfnv $TCDIR/bin/perl /usr/bin/ || return 1
+  make || return 1
+  make install || return 1
   cd $SRCDIR || return 1
   rm -rf $DIR || return 1
 }

@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.4.4"
+VERSION="0.9.5"
 
-DIR="imlib2-${VERSION}"
-TARBALL="imlib2-${VERSION}.tar.gz"
+DIR="pcmanfm-${VERSION}"
+TARBALL="pcmanfm-${VERSION}.tar.gz"
 
 SRC1=(
-http://prdownloads.sourceforge.net/enlightenment/${TARBALL}
+http://prdownloads.sourceforge.net/pcmanfm/${TARBALL}
 )
 
 MD5SUMS=(
-20d59c7cda06742015baade6f5975415
+9b7ca698fa4464ac4306af039537ab12
 )
 
 build(){
@@ -27,7 +27,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS="http://sourceforge.net/projects/enlightenment/files/"
-  VERSION_STRING="imlib2-%version%.tar.gz"
-  VERSION_FILTERS='/'
+  ADDRESS="http://sourceforge.net/projects/pcmanfm/files/"
+  VERSION_STRING="pcmanfm-%version%.tar.gz"
 }

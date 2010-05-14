@@ -43,10 +43,9 @@ build(){
   esac
   ./Configure $CONF --openssldir=/etc/ssl --prefix=/usr shared || return 1
   make CC="$CC $BUILD" PERL=/usr/bin/perl LIBDIR=$LIBSDIR || return 1
-  make PERL=/usr/bin/perl MANDIR=/usr/share/man LIBDIR=$LIBSDIR \
-    INSTALL_PREFIX=$TMPROOT install || return 1
+  make PERL=/usr/bin/perl LIBDIR=$LIBSDIR INSTALL_PREFIX=$TMPROOT \
+    install_sw || return 1
   cp -r certs $TMPROOT/etc/ssl || return 1
-  rm -rf $TMPROOT/usr/share/man || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }

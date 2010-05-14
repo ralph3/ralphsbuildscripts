@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="5.5"
+VERSION="5.5p1"
 
-DIR="openssh-${VERSION}"
+DIR="openssh-$VERSION"
 TARBALL="openssh-${VERSION}.tar.gz"
 
 SRC1=(
-http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/${TARBALL}
+http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/${TARBALL}
 )
 
 MD5SUMS=(
-b5a54eda662a5f6c9e9807b5324c7b0b
+88633408f4cb1eb11ec7e2ec58b519eb
 )
 
 build(){
@@ -89,6 +89,6 @@ post_remove(){
 }
 
 version_check_info(){
-  ADDRESS='http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/'
+  ADDRESS='http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable'
   VERSION_STRING='openssh-%version%.tar.gz'
 }
