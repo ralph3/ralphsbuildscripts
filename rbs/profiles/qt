@@ -1,0 +1,68 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="4.6.2"
+
+DIR="qt-everywhere-opensource-src-${VERSION}"
+TARBALL="qt-everywhere-opensource-src-${VERSION}.tar.gz"
+
+SRC1=(
+http://get.qt.nokia.com/qt/source/$TARBALL
+)
+
+MD5SUMS=(
+eb651ee4b157c01696aa56777fc6e0e5
+
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  sed -i "s@/usr/X11R6@/usr@g" $(grep -lr "X11R6" *) || return 1
+  sed -i -e 's%read commercial%commercial=o%' \
+    -e 's%read acceptance%acceptance=yes%' configure || return 1
+  case $USE_ARCH in
+    32)
+      export QMAKESPEC=linux-g++-32
+    ;;
+    64)
+      export QMAKESPEC=linux-g++-64
+    ;;
+  esac
+  ./configure -prefix /usr \
+    -sysconfdir /etc/qt \
+    -libdir /usr/$LIBSDIR \
+    -headerdir /usr/include/qt \
+    -docdir /usr/share/doc/qt \
+    -headerdir /usr/include/qt \
+    -datadir /usr/share/qt \
+    -demosdir /usr/share/qt/demos \
+    -examplesdir /usr/share/qt/examples \
+    -plugindir /usr/$LIBSDIR/qt/plugins \
+    -translationdir /usr/share/qt/translations \
+    -L/usr/$LIBSDIR \
+    -qt-gif \
+    -system-zlib \
+    -system-libtiff \
+    -system-libpng \
+    -system-libjpeg \
+    -system-libmng \
+    -openssl \
+    -opengl \
+    -glib \
+    -stl \
+    -reduce-relocations \
+    -no-separate-debug-info \
+    -release || return 1
+  make || return 1
+  make install INSTALL_ROOT=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://get.qt.nokia.com/qt/source/'
+  VERSION_STRING='qt-everywhere-opensource-src-%version%.tar.gz'
+  VERSION_FILTERS='[a-z]'
+}
