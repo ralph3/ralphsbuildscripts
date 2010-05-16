@@ -1,0 +1,40 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="4.7.3"
+
+DIR="PyQt-x11-gpl-${VERSION}"
+TARBALL="PyQt-x11-gpl-${VERSION}.tar.gz"
+
+SRC1=(
+http://www.riverbankcomputing.com/static/Downloads/PyQt4/${TARBALL}
+)
+
+MD5SUMS=(
+42fdda73f07810abba002af8a939ee50
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  case $USE_ARCH in
+    32)
+      export QMAKESPEC=linux-g++-32
+    ;;
+    64)
+      export QMAKESPEC=linux-g++-64
+    ;;
+  esac
+  python configure.py --confirm-license || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://www.riverbankcomputing.com/static/Downloads/PyQt4/'
+  VERSION_STRING='PyQt-x11-gpl-%version%.tar.gz'
+  VERSION_FILTERS='snapshot'
+}
