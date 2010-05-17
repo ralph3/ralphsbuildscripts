@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="0.8.1"
+VERSION="0.8.2"
 
 DIR="mpc-${VERSION}"
 TARBALL="mpc-${VERSION}.tar.gz"
@@ -11,7 +11,7 @@ http://www.multiprecision.org/mpc/download/$TARBALL
 )
 
 MD5SUMS=(
-5b34aa804d514cc295414a963aedb6bf
+e98267ebd5648a39f881d66797122fb6
 )
 
 Cross_Tools_Build(){
@@ -51,7 +51,4 @@ build(){
 version_check_info(){
   ADDRESS='http://www.multiprecision.org/index.php?prog=mpc&page=download'
   VERSION_STRING='mpc-%version%.tar.gz'
-  MIRRORS=(
-    'http://www.multiprecision.org/mpc/download/mpc-%version%.tar.gz'
-  )
 }

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="8a"
+VERSION="8b"
 
 DIR="jpeg-${VERSION}"
 TARBALL="jpegsrc.v${VERSION}.tar.gz"
@@ -11,7 +11,7 @@ ftp://ftp.uu.net/graphics/jpeg/${TARBALL}
 )
 
 MD5SUMS=(
-5146e68be3633c597b0d14d3ed8fa2ea
+e022acbc5b36cd2cb70785f5b575661e
 )
 
 build(){
@@ -28,7 +28,4 @@ build(){
 version_check_info(){
   ADDRESS='http://www.ijg.org/files/'
   VERSION_STRING='jpegsrc.v%version%.tar.gz'
-  MIRRORS=(
-    'http://www.ijg.org/files/jpegsrc.v%version%.tar.gz'
-  )
 }

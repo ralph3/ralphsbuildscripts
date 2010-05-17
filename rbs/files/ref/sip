@@ -1,0 +1,32 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="4.10.2"
+
+DIR="sip-${VERSION}"
+TARBALL="sip-${VERSION}.tar.gz"
+
+SRC1=(
+http://www.riverbankcomputing.com/static/Downloads/sip4/${TARBALL}
+)
+
+MD5SUMS=(
+52d11ca9c1a0d0cddc9b89268bff5929
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  python configure.py || return 1
+  make CC="$CC ${BUILD}" CXX="$CXX ${BUILD}" LINK='$(CXX)' || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://www.riverbankcomputing.com/static/Downloads/sip4/'
+  VERSION_STRING='sip-%version%.tar.gz'
+  VERSION_FILTERS='snapshot'
+}
