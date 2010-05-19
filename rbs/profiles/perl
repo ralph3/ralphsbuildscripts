@@ -2,7 +2,7 @@
 
 DONT_REMOVE=1
 
-VERSION="5.12.0"
+VERSION="5.12.1"
 
 DIR="perl-${VERSION}"
 TARBALL="perl-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://ftp.funet.fi/pub/CPAN/src/${TARBALL}
 )
 
 MD5SUMS=(
-7db7c4b9d6f2e095eaebd9e22d81acc1
+a57b6c82e9319145db72936b5e2fcbc7
 )
 
 
@@ -128,7 +128,4 @@ version_check_info(){
   VERSION_STRING='perl-%version%.tar.gz'
   VERSION_FILTERS="RC"
   ONLY_EVEN_MINORS=1
-  MIRRORS=(
-    'http://ftp.funet.fi/pub/CPAN/src/perl-%version%.tar.gz'
-  )
 }

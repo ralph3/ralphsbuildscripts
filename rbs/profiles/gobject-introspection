@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="0.6.10"
+VERSION="0.6.11"
 
 DIR="gobject-introspection-${VERSION}"
 TARBALL="gobject-introspection-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-cdf7af644a0407c3fd2d57ba2bb3549f
+85d120f7e8692e50441f0f25629d0ea4
 )
 
 build(){
@@ -35,7 +35,4 @@ version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/gobject-introspection/%minor_version%/'
   VERSION_STRING='gobject-introspection-%version%.tar.bz2'
   ONLY_EVEN_MINORS=1
-  MIRRORS=(
-    "http://ftp.gnome.org/pub/GNOME/sources/gobject-introspection/%minor_version%/gobject-introspection-%version%.tar.bz2"
-  )
 }
