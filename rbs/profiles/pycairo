@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.8.8"
+VERSION="1.8.10"
 
 DIR="pycairo-${VERSION}"
 TARBALL="pycairo-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://cairographics.org/releases/${TARBALL}
 )
 
 MD5SUMS=(
-054da6c125cb427a003f5fd6c54f853e
+87421a6a70304120555ba7ba238f3dc3
 )
 
 build(){
@@ -29,7 +29,4 @@ build(){
 version_check_info(){
   ADDRESS='http://cairographics.org/releases/'
   VERSION_STRING='pycairo-%version%.tar.gz'
-  MIRRORS=(
-    'http://cairographics.org/releases/pycairo-%version%.tar.gz'
-  )
 }
