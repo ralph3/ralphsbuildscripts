@@ -445,7 +445,7 @@ label RBS_${RBS_BUILDTARGET}
   append initrd=${ID}_initrd.gz root=/dev/ram0 init=/etc/rc.d/rc.initrd ramdisk_size=16384
 EOF
 
-cp $ROOT/boot/vmlinuz $SLROOT/${ID}_vmlinuz || exit 1
+cp $ROOT/boot/vmlinuz $BROOT/${ID}_vmlinuz || exit 1
 
 echo -n "Building ${ID}_initrd..."
 rm -rf $WORKDIR/initrd || exit 1
