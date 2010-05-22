@@ -554,10 +554,6 @@ cat << "EOF" > $WORKDIR/initrd/etc/rc.d/rc.initrd || exit 1
 
 . /etc/rc.d/rc.functions
 
-echo
-echo " RBS INITRD linux-$(uname -r)-$(uname -m)"
-echo
-
 print_msg "Mounting /proc"
 loadproc mount -n -t proc proc /proc
 echo "3 4 1 6" > /proc/sys/kernel/printk
@@ -598,6 +594,10 @@ cat << "FOO"
   
 FOO
 }
+
+echo
+echo " RBS INITRD linux-$(uname -r)-$(uname -m)"
+echo
 
 bash --rcfile /etc/profile
 
