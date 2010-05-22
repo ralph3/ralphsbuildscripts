@@ -11,7 +11,7 @@ RBSDIR="$PWD"
 source "$RBSDIR/shared" || exit 1
 echo "Reading conf/build.conf."
 source "$CONFDIR/build.conf" || exit 1
-export RBS_CFLAGS RBS_CXXFLAGS RBS_BUILDTARGET RBS_SYSTYPE RBS_BUILDTYPE
+export RBS_CFLAGS RBS_CXXFLAGS RBS_BUILDTARGET RBS_SYSTYPE
 
 [ -z "$RBS_CC" ] && {
   echo "no RBS_CC set in rbs.conf!" >/dev/stderr
@@ -33,32 +33,6 @@ export RBS_CFLAGS RBS_CXXFLAGS RBS_BUILDTARGET RBS_SYSTYPE RBS_BUILDTYPE
   exit 1
 }
 
-CHECKAPPS=""
-case $RBS_BUILDTYPE in
-  TARBALL) ;;
-  BOOTCD|EXDRIVE)
-    CHECKAPPS="${CHECKAPPS} mknod"
-    echo -n "checking for /dev/loop0...  "
-    [ ! -e "/dev/loop0" ] && {
-      echo "Nope!"
-      echo -e "\n  No /dev/loop0 found. This is needed for building the live cd!"
-      echo -e "Load the \"loop\" module or rebuild your kernel with support for loop devices.\n"
-      exit 1
-    }
-    echo "Yep!"
-  ;;
-  *)
-    echo "Unknown BUILDTYPE ($RBS_BUILDTYPE)! Set to TARBALL,BOOTCD, or EXDRIVE." >/dev/stderr
-    exit 1
-  ;;
-esac
-
-case $RBS_BUILDTYPE in
-  BOOTCD)
-    CHECKAPPS="${CHECKAPPS} mkisofs"
-  ;;
-esac
-
 for x in ${CHECKAPPS}; do
     echo -n "checking for ${x}...  "
     $x --version >&/dev/null
@@ -68,6 +42,15 @@ for x in ${CHECKAPPS}; do
     }
     $x --version 2>/dev/null | sed q
 done
+
+echo -n "checking for /dev/loop0...  "
+[ ! -e "/dev/loop0" ] && {
+  echo "Nope!"
+  echo -e "\n  No /dev/loop0 found. This is needed for building the initrd!"
+  echo -e "Load the \"loop\" module or rebuild your kernel with support for loop devices.\n"
+  exit 1
+}
+echo "Yep!"
 
 case $RBS_SYSTYPE in
   32BIT | 64BIT | MULTILIB ) ;;
@@ -128,15 +111,9 @@ EOF
 esac
 
 DCB=
-if [ "$DISABLE_CHROOT_BUILD" != "1" ]; then
-  if [ "$(uname -m)" == "$TARGETARCH" ]; then
+if [ "$DISABLE_CHROOT_BUILD" != "1" ] && \
+   [ "$(uname -m)" == "$TARGETARCH" ]; then
     DCB=1
-  else
-    if [ "$RBS_BUILDTYPE" == "TARBALL" ]; then
-      echo -e "\n\n   ERROR: I can't build a tarball because the build system and target system are different. Change BUILDTYPE to BOOTCD." >/dev/stderr
-      exit 1
-    fi
-  fi
 fi
 
 PKG_PROFILES="$(cat $RBSDIR/list.base) $EXTRA_PACKAGES"
@@ -144,7 +121,7 @@ echo -n "Checking downloaded sources..."
 $RBSDIR/download $PKG_PROFILES || exit 1
 echo "  Done."
 
-WORKDIR="$RBSDIR/.work/${RBS_BUILDTARGET}__${RBS_SYSTYPE}__${RBS_BUILDTYPE}"
+WORKDIR="$RBSDIR/.work/${RBS_BUILDTARGET}__${RBS_SYSTYPE}"
 ROOT="$WORKDIR/root"
 RBS_PROFILE="$ROOT/etc/profile.d/00_rbs.sh"
 STATEDIR="$ROOT/tmp/build-sysroot-state"
@@ -384,7 +361,7 @@ cd "$RBSDIR" || exit 1
 echo -n "RBS: Copying myself to system root..."
 rm -rf $ROOT/usr/src/rbs || exit 1
 mkdir -p $ROOT/usr/src/rbs || exit 1
-tar c --exclude={.work,.cache,.tmp,*rbs_*.iso,*rbs_*.tar.gz,*rbs_*.tar} . 2>/dev/null | \
+tar c --exclude={.work,.cache,.tmp,*rbs_*.tar} . 2>/dev/null | \
   tar x -C $ROOT/usr/src/rbs 2>/dev/null
 echo "  Done."
 
@@ -446,172 +423,122 @@ else
   echo "  Done."
 fi
 
+BROOT="$WORKDIR/broot"
+rm -rf $BROOT || exit 1
+mkdir $BROOT || exit 1
+
+ID=$(dd if=/dev/urandom bs=1024 count=1 2>/dev/null | md5sum | cut -b-5)
+
 echo -n "Rolling back timestamps in sysroot..."
 find $ROOT -exec touch -c -t 197001010000.00 {} \; >&/dev/null || exit 1
 echo "  Done!"
 
 cd $ROOT || exit 1
-echo -n "Creating sysroot.tar.gz..."
-tar czp --exclude=$(basename $CTCDIR) -f $WORKDIR/sysroot.tar.gz * || exit 1
+echo -n "Creating ${ID}_sysroot.tar.gz..."
+tar czp --exclude=$(basename $CTCDIR) -f $BROOT/${ID}_sysroot.tar.gz * || exit 1
 echo "  Done."
 
-if [ "$DCB" == "1" ] && \
-   [ "$RBS_BUILDTYPE" = "BOOTCD" ] && \
-   [ "$(du -bs $WORKDIR/sysroot.tar.gz | tr '\t' ' ' | cut -f1 -d' ')" -gt "760000000" ]; then
-  echo -e "\n\n#### Switching to tarball mode, sysroot to big for cd. ####\n"
-  mv $WORKDIR/sysroot.tar.gz \
-    "$RBSDIR/rbs_${TARGETARCH}_${RBS_SYSTYPE}.tar.gz" || exit 1
-  echo "Done! To cleanup remove the \".work\" directory."
-  exit 0
+cat << EOF > $BROOT/${ID}_syslinux.cfg || exit 1
+default RBS_${RBS_BUILDTARGET}
+label RBS_${RBS_BUILDTARGET}
+  kernel ${ID}_vmlinuz
+  append initrd=${ID}_initrd.gz root=/dev/ram0 init=/etc/rc.d/rc.initrd ramdisk_size=16384
+EOF
+
+cp $ROOT/boot/vmlinuz $SLROOT/${ID}_vmlinuz || exit 1
+
+echo -n "Building ${ID}_initrd..."
+rm -rf $WORKDIR/initrd || exit 1
+mkdir -p $WORKDIR/initrd/{bin,dev,lib,${LIBSDIR},proc,sys,tmp} || exit 1
+mkdir -p $WORKDIR/initrd/{etc/rc.d,mnt/{origin,root}} || exit 1
+ln -sfn bin $WORKDIR/initrd/sbin || exit 1
+mknod -m 600 $WORKDIR/initrd/dev/console c 5 1
+mknod -m 666 $WORKDIR/initrd/dev/null c 1 3
+cp $ROOT/etc/rc.d/rc.{functions,udev} $WORKDIR/initrd/etc/rc.d || exit 1
+touch $WORKDIR/initrd/etc/rc.d/rc.conf
+
+ROOTBINDIR=$ROOT/bin
+ROOTUSRBINDIR=$ROOT/usr/bin
+ROOTSBINDIR=$ROOT/sbin
+ROOTUSRSBINDIR=$ROOT/usr/sbin
+ROOTLIBSDIR=$ROOT/$LIBSDIR
+ROOTUSRLIBSDIR=$ROOT/usr/$LIBSDIR
+ROOTSHAREDIR=$ROOT/usr/share
+if [ -e "$ROOT/$TCDIR" ]; then
+  mkdir -p $WORKDIR/initrd/$TCDIR/share/terminfo/l || return 1
+  ln -sfn /usr/share/terminfo/l/linux $WORKDIR/initrd/$TCDIR/share/terminfo/l/linux || return 1
+  ln -sfn ../$LIBSDIR $WORKDIR/initrd/$TCDIR/$LIBSDIR || return 1
+  ROOTBINDIR=$ROOT/$TCDIR/bin
+  ROOTUSRBINDIR=$ROOTBINDIR
+  ROOTSBINDIR=$ROOTBINDIR
+  ROOTUSRSBINDIR=$ROOTBINDIR
+  ROOTLIBSDIR=$ROOT/$TCDIR/$LIBSDIR
+  ROOTUSRLIBSDIR=$ROOTLIBSDIR
+  ROOTSHAREDIR=$ROOT/$TCDIR/share
 fi
 
-case $RBS_BUILDTYPE in
-  TARBALL)
-    mv $WORKDIR/sysroot.tar.gz \
-      "$RBSDIR/rbs_${TARGETARCH}_${RBS_SYSTYPE}.tar.gz" || exit 1
-  ;;
-  BOOTCD|EXDRIVE)
-    
-    BROOT="$WORKDIR/broot"
-    rm -rf $BROOT || exit 1
-    
-    ID=$(dd if=/dev/urandom bs=1024 count=1 2>/dev/null | md5sum | cut -b-5)
-    
-    case $RBS_BUILDTYPE in
-      BOOTCD)
-        
-        echo -n "Unpacking Syslinux..."
-        cd $WORKDIR || exit 1
-        rm -rf syslinux* || exit 1
-        tar xfj $RBSDIR/.cache/downloads/$(list_sources syslinux | sed q) || exit 1
-        mv syslinux-* syslinux || exit 1
-        echo "  Done."
-        
-        SLROOT=$BROOT/isolinux
-        
-        echo -n "Setting up Isolinux..."
-        mkdir -p $SLROOT || exit 1
-cat << EOF > $SLROOT/isolinux.cfg || exit 1
-default RBS_BOOTCD_${RBS_BUILDTARGET}
-label RBS_BOOTCD_${RBS_BUILDTARGET}
-  kernel ${ID}_vmlinuz
-  append initrd=${ID}_initrd.gz root=/dev/ram0 init=/etc/rc.d/rc.initrd ramdisk_size=16384
-EOF
-        cp $WORKDIR/syslinux/core/isolinux.bin $SLROOT/ || exit 1
-      ;;
-      EXDRIVE)
-        
-        SLROOT=$BROOT/syslinux
-        
-        echo -n "Setting up Syslinux..."
-        mkdir -p $SLROOT || exit 1
-cat << EOF > $SLROOT/${ID}_syslinux.cfg || exit 1
-default RBS_EXDRIVE_${RBS_BUILDTARGET}
-label RBS_EXDRIVE_${RBS_BUILDTARGET}
-  kernel ${ID}_vmlinuz
-  append initrd=${ID}_initrd.gz root=/dev/ram0 init=/etc/rc.d/rc.initrd ramdisk_size=16384
-EOF
-      ;;
-    esac
-    
-    cp $ROOT/boot/vmlinuz $SLROOT/${ID}_vmlinuz || exit 1
-    
-    rm -rf syslinux || exit 1
-    echo "  Done."
-    
-    
-    echo -n "Making Initrd Root..."
-    rm -rf $WORKDIR/initrd || exit 1
-    mkdir -p $WORKDIR/initrd/{bin,dev,lib,${LIBSDIR},proc,sys,tmp} || exit 1
-    mkdir -p $WORKDIR/initrd/{etc/rc.d,mnt/{origin,root}} || exit 1
-    ln -sfn bin $WORKDIR/initrd/sbin || exit 1
-    mknod -m 600 $WORKDIR/initrd/dev/console c 5 1
-    mknod -m 666 $WORKDIR/initrd/dev/null c 1 3
-    cp $ROOT/etc/rc.d/rc.{functions,udev} $WORKDIR/initrd/etc/rc.d || exit 1
-    touch $WORKDIR/initrd/etc/rc.d/rc.conf
-    
-    ROOTBINDIR=$ROOT/bin
-    ROOTUSRBINDIR=$ROOT/usr/bin
-    ROOTSBINDIR=$ROOT/sbin
-    ROOTUSRSBINDIR=$ROOT/usr/sbin
-    ROOTLIBSDIR=$ROOT/$LIBSDIR
-    ROOTUSRLIBSDIR=$ROOT/usr/$LIBSDIR
-    ROOTSHAREDIR=$ROOT/usr/share
-    if [ -e "$ROOT/$TCDIR" ]; then
-      mkdir -p $WORKDIR/initrd/$TCDIR/share/terminfo/l || return 1
-      ln -sfn /usr/share/terminfo/l/linux $WORKDIR/initrd/$TCDIR/share/terminfo/l/linux || return 1
-      ln -sfn ../$LIBSDIR $WORKDIR/initrd/$TCDIR/$LIBSDIR || return 1
-      ROOTBINDIR=$ROOT/$TCDIR/bin
-      ROOTUSRBINDIR=$ROOTBINDIR
-      ROOTSBINDIR=$ROOTBINDIR
-      ROOTUSRSBINDIR=$ROOTBINDIR
-      ROOTLIBSDIR=$ROOT/$TCDIR/$LIBSDIR
-      ROOTUSRLIBSDIR=$ROOTLIBSDIR
-      ROOTSHAREDIR=$ROOT/$TCDIR/share
-    fi
-    
-    for x in bash cat stty basename bzip2 cp grep gzip \
-    ln ls mkdir mv rm sleep tar test touch uname sed dd; do
-      cp $ROOTBINDIR/${x} $WORKDIR/initrd/bin/ || exit 1
-    done
-    
-    for x in mount umount; do
-      cp $ROOT/bin/${x} $WORKDIR/initrd/bin/ || exit 1
-    done
-    
-    for x in cut find ldd; do
-      cp $ROOTUSRBINDIR/${x} $WORKDIR/initrd/bin/ || exit 1
-    done
-    
-    for x in $ROOT/sbin/{*fdisk,*fs*,mkswap,swapon,modprobe,udev*,shutdown,halt}; do
-      if [ ! -L "$x" ]; then
-        cp ${x} $WORKDIR/initrd/bin/ || exit 1
-      fi
-    done
-    
-    cp $ROOTUSRSBINDIR/chroot $WORKDIR/initrd/bin/ || exit 1
-    
-    ln -sfn bash $WORKDIR/initrd/bin/sh || exit 1
-    ln -sfn halt $WORKDIR/initrd/bin/reboot || exit 1
-    
-    for x in ext2 ext3 ext4 ext4dev; do
-      ln -sfn e2fsck $WORKDIR/initrd/bin/fsck.$x || exit 1
-      ln -sfn mke2fs $WORKDIR/initrd/bin/mkfs.$x || exit 1
-    done
-    
-    ln -sfn /proc/mounts $WORKDIR/initrd/etc/mtab || exit 1
-    cp $ROOT/etc/mke2fs.conf $WORKDIR/initrd/etc || exit 1
-    
-    [ -f "$ROOTUSRBINDIR/lddlibc4" ] && {
-      cp $ROOTUSRBINDIR/lddlibc4 $WORKDIR/initrd/bin/ || exit 1
-    }
-    
-    cp $ROOT/usr/bin/{nano,setterm} $WORKDIR/initrd/bin/ || exit 1
-    if [ -e "$ROOT/etc/nanorc" ]; then
-      cp $ROOT/etc/nanorc $WORKDIR/initrd/etc/ || exit 1
-    else
-      cp $ROOT/etc/nanorc.new $WORKDIR/initrd/etc/nanorc || exit 1
-    fi
-    
-    ln -sfn test $WORKDIR/initrd/bin/[
-    
-    cp -a $ROOT/etc/udev $WORKDIR/initrd/etc/ || exit 1
-    
-    cp -a $ROOT/$LIBSDIR/udev $WORKDIR/initrd/${LIBSDIR}/ || exit 1
-    
-    cp $ROOT/$LIBSDIR/{libe2p.so.?,libss.so.?,libuuid.so.?} \
-      $ROOT/$LIBSDIR/{libcom_err.so.?,libext2fs.so.?,libblkid.so.?} \
-      $WORKDIR/initrd/${LIBSDIR}/ || exit 1
-    
-    cp $ROOTLIBSDIR/{ld-linux*.so.?,libc.so.?,libm.so.?,libncurses.so.?} \
-      $ROOTLIBSDIR/{librt.so.?,libpthread.so.?,libdl.so.?,libcrypt.so.?} \
-      $WORKDIR/initrd/$LIBSDIR/ || exit 1
-    
-    cp $ROOTUSRLIBSDIR/libgcc_s.so.? $WORKDIR/initrd/$LIBSDIR/ || exit 1
-    
-    mkdir -p $WORKDIR/initrd/usr/share/terminfo/l || exit 1
-    cp $ROOTSHAREDIR/terminfo/l/linux \
-      $WORKDIR/initrd/usr/share/terminfo/l/ || exit 1
+for x in bash cat stty basename bzip2 cp grep gzip \
+ln ls mkdir mv rm sleep tar test touch uname sed dd; do
+  cp $ROOTBINDIR/${x} $WORKDIR/initrd/bin/ || exit 1
+done
+
+for x in mount umount; do
+  cp $ROOT/bin/${x} $WORKDIR/initrd/bin/ || exit 1
+done
+
+for x in cut find ldd; do
+  cp $ROOTUSRBINDIR/${x} $WORKDIR/initrd/bin/ || exit 1
+done
+
+for x in $ROOT/sbin/{*fdisk,*fs*,mkswap,swapon,modprobe,udev*,shutdown,halt}; do
+  if [ ! -L "$x" ]; then
+    cp ${x} $WORKDIR/initrd/bin/ || exit 1
+  fi
+done
+
+cp $ROOTUSRSBINDIR/chroot $WORKDIR/initrd/bin/ || exit 1
+
+ln -sfn bash $WORKDIR/initrd/bin/sh || exit 1
+ln -sfn halt $WORKDIR/initrd/bin/reboot || exit 1
+
+for x in ext2 ext3 ext4 ext4dev; do
+  ln -sfn e2fsck $WORKDIR/initrd/bin/fsck.$x || exit 1
+  ln -sfn mke2fs $WORKDIR/initrd/bin/mkfs.$x || exit 1
+done
+
+ln -sfn /proc/mounts $WORKDIR/initrd/etc/mtab || exit 1
+cp $ROOT/etc/mke2fs.conf $WORKDIR/initrd/etc || exit 1
+
+[ -f "$ROOTUSRBINDIR/lddlibc4" ] && {
+  cp $ROOTUSRBINDIR/lddlibc4 $WORKDIR/initrd/bin/ || exit 1
+}
+
+cp $ROOT/usr/bin/{nano,setterm} $WORKDIR/initrd/bin/ || exit 1
+if [ -e "$ROOT/etc/nanorc" ]; then
+  cp $ROOT/etc/nanorc $WORKDIR/initrd/etc/ || exit 1
+else
+  cp $ROOT/etc/nanorc.new $WORKDIR/initrd/etc/nanorc || exit 1
+fi
+
+ln -sfn test $WORKDIR/initrd/bin/[
+
+cp -a $ROOT/etc/udev $WORKDIR/initrd/etc/ || exit 1
+
+cp -a $ROOT/$LIBSDIR/udev $WORKDIR/initrd/${LIBSDIR}/ || exit 1
+
+cp $ROOT/$LIBSDIR/{libe2p.so.?,libss.so.?,libuuid.so.?} \
+  $ROOT/$LIBSDIR/{libcom_err.so.?,libext2fs.so.?,libblkid.so.?} \
+  $WORKDIR/initrd/${LIBSDIR}/ || exit 1
+
+cp $ROOTLIBSDIR/{ld-linux*.so.?,libc.so.?,libm.so.?,libncurses.so.?} \
+  $ROOTLIBSDIR/{librt.so.?,libpthread.so.?,libdl.so.?,libcrypt.so.?} \
+  $WORKDIR/initrd/$LIBSDIR/ || exit 1
+
+cp $ROOTUSRLIBSDIR/libgcc_s.so.? $WORKDIR/initrd/$LIBSDIR/ || exit 1
+
+mkdir -p $WORKDIR/initrd/usr/share/terminfo/l || exit 1
+cp $ROOTSHAREDIR/terminfo/l/linux \
+  $WORKDIR/initrd/usr/share/terminfo/l/ || exit 1
 
 cat << "EOF" > $WORKDIR/initrd/etc/profile
 alias reboot='reboot -f'
@@ -628,7 +555,7 @@ cat << "EOF" > $WORKDIR/initrd/etc/rc.d/rc.initrd || exit 1
 . /etc/rc.d/rc.functions
 
 echo
-echo " RBS INITRD running Linux-$(uname -r)-$(uname -m) is Starting UP!"
+echo " RBS INITRD linux-$(uname -r)-$(uname -m)"
 echo
 
 print_msg "Mounting /proc"
@@ -644,15 +571,14 @@ loadproc mount -n -t tmpfs tmpfs /tmp
 EOF
 
 cat << EOF >> $WORKDIR/initrd/etc/rc.d/rc.initrd || exit 1
-print_msg "Attempting to mount origin device"
+print_msg "Lookup origin device"
 sleep 5
 for dv in /dev/{hd?*,sd?*}; do
   dd if=\$dv of=/dev/null ibs=1 count=1 >&/dev/null
   if [ "\$?" = "0" ]; then
     mount -n \$dv /mnt/origin >&/dev/null
     if [ "\$?" = "0" ]; then
-      ls /mnt/origin/*/${ID}_initrd.* >&/dev/null
-      if [ "\$?" = "0" ]; then
+      if [ -f "\$(find /mnt/origin -name ${ID}_initrd.gz 2>/dev/null | sed q)" ]; then
         print_msg_done
         break
       else
@@ -672,14 +598,6 @@ cat << "FOO"
   
 FOO
 }
-
-cat << FOO
-
-   HI! I've got some basic tools for formatting/creating partitions. Mount
- your root fs in /mnt/root. Then run "setup". If ya got 2GB of memory or more,
- run (USE_SHM_SRCDIR=1 setup).
-
-FOO
 
 bash --rcfile /etc/profile
 
@@ -715,12 +633,12 @@ touch /mnt/root/.testfile >&/dev/null || {
 rm /mnt/root/.testfile
 print_msg_done
 
-print_msg "Checking for /mnt/origin/*/${ID}_sysroot.tar.gz"
-ls /mnt/origin/*/${ID}_sysroot.tar.gz >&/dev/null
-if [ "$?" != "0" ]; then
+print_msg "Looking for ${ID}_sysroot.tar.gz..."
+SR=\$(find /mnt/origin -name ${ID}_sysroot.tar.gz 2>/dev/null | sed q)
+if [ ! -f "\${SR}" ]; then
   print_msg_failed
   echo
-  echo "  ${ID}_sysroot.tar.gz not in /mnt/origin/*/!"
+  echo "  ${ID}_sysroot.tar.gz not in /mnt/origin/!"
   echo
   echo "  Try manually mounting your origin device to /mnt/origin."
   echo " If that doesn't work, shoot me."
@@ -730,8 +648,8 @@ fi
 print_msg_done
 
 if [ ! -d "/mnt/root/bin" ]; then
-  print_msg "Unpacking /mnt/origin/*/${ID}_sysroot.tar.gz to /mnt/root"
-  tar xpfz /mnt/origin/*/${ID}_sysroot.tar.gz -C /mnt/root >&/dev/null || {
+  print_msg "Unpacking \${SR} to /mnt/root"
+  tar xpfz \${SR} -C /mnt/root >&/dev/null || {
     print_msg_failed
     exit 1
   }
@@ -767,53 +685,33 @@ if [ -e "/mnt/root/$TCDIR" ]; then
   mount_crap
 fi
 
-echo -e "\n\n  Ok, all done! Now chroot back into /mnt/root and edit your"
-echo    " config files (fstab, rc.conf and stuff). Install extlinux,"
-echo -e " set your root pw and your done!\n"
+echo -e "\n\n  Done."
 exit 0
 EOF
-    chmod 755 $WORKDIR/initrd/bin/setup \
-      $WORKDIR/initrd/etc/rc.d/rc.initrd || exit 1
-    echo "  Done."
-    
-    
-    echo -n "Making Initrd..."
-    dd if=/dev/zero of=$SLROOT/${ID}_initrd bs=1024 count=16384 2>/dev/null
-    mke2fs -m 0 -i 1024 -F $SLROOT/${ID}_initrd >&/dev/null || exit 1
-    rm -rf $WORKDIR/initrd-root || exit 1
-    mkdir -p $WORKDIR/initrd-root || exit 1
-    mount -o loop $SLROOT/${ID}_initrd $WORKDIR/initrd-root || exit 1
-    rm -rf $WORKDIR/initrd-root/lost+found || exit 1
-    cp -a $WORKDIR/initrd/* $WORKDIR/initrd-root/ || exit 1
-    umount -f $WORKDIR/initrd-root || exit 1
-    rm -rf $WORKDIR/initrd{,-root} || exit 1
-    gzip -9 $SLROOT/${ID}_initrd || exit 1
-    echo "  Done."
-    
-    echo -n "Move sysroot tarball to syslinux dir..."
-    mv $WORKDIR/sysroot.tar.gz $SLROOT/${ID}_sysroot.tar.gz || exit 1
-    echo " Done."
-    
-    case $RBS_BUILDTYPE in
-      BOOTCD)
-    echo -n "Making ./${ID}_rbs_${TARGETARCH}_${RBS_SYSTYPE}_BOOTCD.iso..."
-    mkisofs -J -R -l -L -D -b isolinux/isolinux.bin -c isolinux/boot.cat \
-      -no-emul-boot -boot-load-size 4 -boot-info-table \
-      -V "${ID}_RBS_${TARGETARCH}_BOOTCD" \
-      -o $RBSDIR/${ID}_rbs_${TARGETARCH}_${RBS_SYSTYPE}_BOOTCD.iso \
-      $BROOT 2>/dev/null || exit 1
-      ;;
-      EXDRIVE)
-        echo -n "Making ./${ID}_rbs_${TARGETARCH}_${RBS_SYSTYPE}_EXDRIVE.tar..."
-        cd $BROOT || exit 1
-        tar cf $RBSDIR/${ID}_rbs_${TARGETARCH}_${RBS_SYSTYPE}_EXDRIVE.tar * >&/dev/null || exit 1
-      ;;
-    esac
-    echo "  Done."
-    cd $WORKDIR || exit 1
-    rm -rf $BROOT || exit 1
-  ;;
-esac
+chmod 755 $WORKDIR/initrd/bin/setup \
+  $WORKDIR/initrd/etc/rc.d/rc.initrd || exit 1
+echo "  Done."
+
+echo -n "Creating ${ID}_initrd.gz..."
+dd if=/dev/zero of=$BROOT/${ID}_initrd bs=1024 count=16384 2>/dev/null
+mke2fs -m 0 -i 1024 -F $BROOT/${ID}_initrd >&/dev/null || exit 1
+rm -rf $WORKDIR/initrd-root || exit 1
+mkdir -p $WORKDIR/initrd-root || exit 1
+mount -o loop $BROOT/${ID}_initrd $WORKDIR/initrd-root || exit 1
+rm -rf $WORKDIR/initrd-root/lost+found || exit 1
+cp -a $WORKDIR/initrd/* $WORKDIR/initrd-root/ || exit 1
+umount -f $WORKDIR/initrd-root || exit 1
+rm -rf $WORKDIR/initrd{,-root} || exit 1
+gzip -9 $BROOT/${ID}_initrd || exit 1
+echo "  Done."
+
+echo -n "Creating ./${ID}_rbs_${TARGETARCH}_${RBS_SYSTYPE}.tar..."
+cd $BROOT || exit 1
+tar cf $RBSDIR/${ID}_rbs_${TARGETARCH}_${RBS_SYSTYPE}.tar * >&/dev/null || exit 1
+echo "  Done."
+
+cd $WORKDIR || exit 1
+rm -rf $BROOT || exit 1
 
 echo "Done! To cleanup remove the \".work\" directory."
 
