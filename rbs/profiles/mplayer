@@ -2,13 +2,13 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0-20100408"
+VERSION="31217" #as of 20100525 17:10 est
 
 DIR="MPlayer-${VERSION}"
 TARBALL="MPlayer-${VERSION}.tar.xz"
 
 my_src1(){
-  svn co -r {$(echo $VERSION | cut -f2- -d'-' | sed 's%....%&-%;s%..$%-&%')} \
+  svn co -r $VERSION \
     svn://svn.mplayerhq.hu/mplayer/trunk/ $DIR || return 1
 }
 
