@@ -23,7 +23,7 @@ build(){
     --libdir=/usr/$LIBSDIR --enable-shared --enable-pthreads --enable-libfaac \
     --enable-libfaad --enable-libxvid --enable-gpl --enable-nonfree \
     --enable-encoder=mp4a --enable-decoder=mp4a --enable-postproc \
-    --enable-swscale --enable-ffplay || return 1
+    --enable-swscale --enable-x11grab --enable-ffplay || return 1
   make CC="$CC $BUILD" CXX="$CXX $BUILD" || return 1
   make install DESTDIR=$TMPROOT || return 1
   
