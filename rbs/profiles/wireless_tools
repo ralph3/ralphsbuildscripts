@@ -1,0 +1,32 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="29"
+
+TARBALL="wireless_tools.${VERSION}.tar.gz"
+DIR=wireless_tools.$VERSION
+
+SRC1=(
+http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/${TARBALL}
+)
+
+MD5SUMS=(
+e06c222e186f7cc013fd272d023710cb
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  make CC="$CC $BUILD" || return 1
+  make install PREFIX=$TMPROOT/usr \
+  INSTALL_LIB=$TMPROOT/usr/$LIBSDIR || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Tools.html'
+  VERSION_STRING='wireless_tools.%version%.tar.gz'
+  VERSION_FILTERS='pre'
+}
