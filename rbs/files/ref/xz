@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="4.999.9beta"
+VERSION="4.999.9beta-124-gb637"
 
 DIR="xz-${VERSION}"
 TARBALL="xz-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://tukaani.org/xz/${TARBALL}
 )
 
 MD5SUMS=(
-f2073579b6da2fe35d453adee1aaf1b2
+db46d16a317ccbd432031ae95def6650
 )
 
 Tools_Build(){
@@ -43,7 +43,4 @@ build(){
 version_check_info(){
   ADDRESS='http://tukaani.org/xz/'
   VERSION_STRING='xz-%version%.tar.gz'
-  MIRRORS=(
-    'http://tukaani.org/xz/xz-%version%.tar.gz'
-  )
 }

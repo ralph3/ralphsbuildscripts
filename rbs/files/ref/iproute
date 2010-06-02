@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.6.33"
+VERSION="2.6.34"
 
 DIR="iproute2-${VERSION}"
 TARBALL="iproute2-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-b371fca3fcb5e436e69a7c2111d84a3c
+5c5742bdac05a1688f266512e685b83c
 )
 
 build(){
@@ -44,7 +44,4 @@ version_check_info(){
   VERSION_STRING='iproute2-%version%.tar.bz2'
   MINOR_VERSION="2"
   VERSION_FILTERS="rc"
-  MIRRORS=(
-    'http://ftp.gnu.org/gnu/iproute2/iproute2-%version%.tar.bz2'
-  )
 }

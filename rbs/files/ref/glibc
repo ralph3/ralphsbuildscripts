@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="2.11.1"
+VERSION="2.11.2"
 
 DIR="glibc-${VERSION}"
 TARBALL="glibc-${VERSION}.tar.bz2"
@@ -11,7 +11,7 @@ http://ftp.gnu.org/gnu/glibc/$TARBALL
 )
 
 MD5SUMS=(
-6856d5d8b1239556687f0d1217f3f266
+414fc1bad64c0e34ead0bb3d0f191456
 )
 
 #my_src1(){
@@ -206,7 +206,4 @@ version_check_info(){
   ADDRESS='http://ftp.gnu.org/gnu/glibc/'
   VERSION_STRING='glibc-%version%.tar.bz2'
   VERSION_FILTERS="ports linuxthreads libidn"
-  MIRRORS=(
-    'http://ftp.gnu.org/gnu/glibc/glibc-%version%.tar.bz2'
-  )
 }

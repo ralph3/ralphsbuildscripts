@@ -51,7 +51,7 @@ case $1 in
     loadproc /usr/sbin/cupsd
   ;;
   stop)
-    print_msg "Starting Cups"
+    print_msg "Stopping Cups"
     killproc cupsd
   ;;
   restart)

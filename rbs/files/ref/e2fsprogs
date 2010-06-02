@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="1.41.11"
+VERSION="1.41.12"
 
 DIR="e2fsprogs-${VERSION}"
 TARBALL="e2fsprogs-${VERSION}.tar.gz"
@@ -11,7 +11,7 @@ http://prdownloads.sourceforge.net/e2fsprogs/${TARBALL}
 )
 
 MD5SUMS=(
-fb507a40c2706bc38306f150d069e345
+1b24a21fc0c2381ef420961cbfec733f
 )
 
 Tools_Build(){
@@ -57,7 +57,4 @@ version_check_info(){
   ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=2406&package_id=2374'
   VERSION_STRING='e2fsprogs-%version%.tar.gz'
   VERSION_FILTERS='[A-Z] [a-z]'
-  MIRRORS=(
-    'http://prdownloads.sourceforge.net/e2fsprogs/e2fsprogs-%version%.tar.gz'
-  )
 }
