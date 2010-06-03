@@ -27,7 +27,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS="http://sourceforge.net/projects/enlightenment/files/"
+  ADDRESS="http://sourceforge.net/projects/enlightenment/files/imlib2-src"
   VERSION_STRING="imlib2-%version%.tar.gz"
   VERSION_FILTERS='/'
 }
