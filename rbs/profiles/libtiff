@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.9.2"
+VERSION="3.9.3"
 
 DIR="tiff-${VERSION}"
 TARBALL="tiff-${VERSION}.tar.gz"
@@ -13,7 +13,7 @@ ftp://ftp.remotesensing.org/libtiff/old/${TARBALL}
 )
 
 MD5SUMS=(
-93e56e421679c591de7552db13384cb8
+8e9c2ee955ed7d277dca83a972f306be
 )
 
 build(){
@@ -31,7 +31,4 @@ version_check_info(){
   ADDRESS='ftp://ftp.remotesensing.org/libtiff/'
   VERSION_STRING='tiff-%version%.tar.gz'
   VERSION_FILTERS='alpha beta'
-  MIRRORS=(
-    'ftp://ftp.remotesensing.org/libtiff/tiff-%version%.tar.gz'
-  )
 }

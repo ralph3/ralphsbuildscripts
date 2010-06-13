@@ -3,7 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="3.11.1"
+VERSION="3.12"
 
 DIR="module-init-tools-${VERSION}"
 TARBALL="module-init-tools-${VERSION}.tar.bz2"
@@ -13,7 +13,7 @@ http://www.kernel.org/pub/linux/utils/kernel/module-init-tools/${TARBALL}
 )
 
 MD5SUMS=(
-28dfcb9e24cdbeb12b99ac1eb8af7dea
+8b2257ce9abef74c4a44d825d23140f3
 )
 
 MyBuild(){
@@ -46,7 +46,4 @@ version_check_info(){
   ADDRESS='http://www.kernel.org/pub/linux/utils/kernel/module-init-tools/'
   VERSION_STRING='module-init-tools-%version%.tar.bz2'
   VERSION_FILTERS='[a-z] [A-Z]'
-  MIRRORS=(
-    'http://www.kernel.org/pub/linux/utils/kernel/module-init-tools/module-init-tools-%version%.tar.bz2'
-  )
 }

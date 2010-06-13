@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="0.9.5"
+VERSION="0.9.6"
 
 DIR="libXrender-${VERSION}"
 TARBALL="libXrender-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-276dd9e85daf0680616cd9f132b354c9
+3b3b7d076c2384b6c600c0b5f4ba971f
 )
 
 build(){
@@ -27,7 +27,4 @@ build(){
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/lib/'
   VERSION_STRING='libXrender-%version%.tar.bz2'
-  MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/lib/libXrender-%version%.tar.bz2'
-  )
 }

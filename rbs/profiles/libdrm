@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.4.20"
+VERSION="2.4.21"
 
 DIR="libdrm-${VERSION}"
 TARBALL="libdrm-${VERSION}.tar.gz"
@@ -10,7 +10,7 @@ http://dri.freedesktop.org/libdrm/${TARBALL}
 )
 
 MD5SUMS=(
-dcbf9aa0497c84c7e4af15adb0021955
+65a04d1a70b666971fb9e0fb64118a96
 )
 
 build(){
@@ -28,8 +28,4 @@ build(){
 version_check_info(){
   ADDRESS='http://dri.freedesktop.org/libdrm/'
   VERSION_STRING='libdrm-%version%.tar.gz'
-  ##ONLY_EVEN_MINORS=1
-  MIRRORS=(
-    'http://dri.freedesktop.org/libdrm/libdrm-%version%.tar.gz'
-  )
 }

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="258"
+VERSION="259"
 
 DIR="xterm-${VERSION}"
 TARBALL="xterm-${VERSION}.tgz"
@@ -12,7 +12,7 @@ ftp://invisible-island.net/xterm/${TARBALL}
 )
 
 MD5SUMS=(
-bcf4f0ba51f5f58fd5bef76b3d05e40e
+22037e1b794d749072310cb142800f05
 )
 
 build(){
@@ -29,7 +29,4 @@ build(){
 version_check_info(){
   ADDRESS='ftp://invisible-island.net/xterm/'
   VERSION_STRING='xterm-%version%.tgz'
-  MIRRORS=(
-    'ftp://invisible-island.net/xterm/xterm-%version%.tgz'
-  )
 }
