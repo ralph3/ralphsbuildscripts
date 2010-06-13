@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/driver/${TARBALL}
 )
 
 MD5SUMS=(
-91a8baa97c4c8c85d35291fea547dd15
+d41d8cd98f00b204e9800998ecf8427e
 )
 
 build(){
