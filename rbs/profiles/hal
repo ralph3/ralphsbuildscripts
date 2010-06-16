@@ -85,5 +85,5 @@ post_remove(){
 version_check_info(){
   ADDRESS='http://hal.freedesktop.org/releases/'
   VERSION_STRING='hal-%version%.tar.gz'
-  VERSION_FILTERS='rc'
+  VERSION_FILTERS='rc info'
 }

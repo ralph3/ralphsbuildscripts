@@ -251,7 +251,7 @@ download_sources(){
     while true; do
       test_profile $app my_src${N} || break
       if [ ! -e "$DOWNLOADDIR/${DIR}.tar.xz" ]; then
-        download "http://192.168.1.1/rbs-sources/${DIR}.tar.xz" || {
+        download "http://192.168.0.1/rbs-sources/${DIR}.tar.xz" || {
           rm -rf $TMPDIR || return 1
           mkdir -p $TMPDIR || return 1
           cd $TMPDIR || return 1
@@ -277,7 +277,7 @@ download_sources(){
         [ -e "$F" ] && {
           [ -e "${F}.ok" ] || [ "$(md5sum_file $F)" == "$M" ] || [ "$M" == "0" ] && break
         }
-        download "http://192.168.1.1/rbs-sources/$(basename $addr)" || \
+        download "http://192.168.0.1/rbs-sources/$(basename $addr)" || \
           download "$addr"
       done
       [ ! -e "${F}.ok" ] && {

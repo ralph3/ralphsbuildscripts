@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/driver/${TARBALL}
 )
 
 MD5SUMS=(
-d41d8cd98f00b204e9800998ecf8427e
+91a8baa97c4c8c85d35291fea547dd15
 )
 
 build(){
@@ -30,7 +30,4 @@ build(){
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/driver/'
   VERSION_STRING='xf86-video-intel-%version%.tar.bz2'
-  MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/driver/xf86-video-intel-%version%.tar.bz2'
-  )
 }

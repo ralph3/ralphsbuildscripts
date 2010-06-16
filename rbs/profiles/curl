@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="7.20.1"
+VERSION="7.21.0"
 
 TARBALL="curl-${VERSION}.tar.bz2"
 DIR="curl-${VERSION}"
@@ -13,7 +13,7 @@ http://curl.haxx.se/download/${TARBALL}
 )
 
 MD5SUMS=(
-244b16b2a38c70e47130c8494b7371b9
+e1a2a773e93a39f3c04cab92c55bf197
 )
 
 build(){
@@ -34,7 +34,4 @@ build(){
 version_check_info(){
   ADDRESS='http://curl.haxx.se/download/'
   VERSION_STRING='curl-%version%.tar.bz2'
-  MIRRORS=(
-    "http://curl.haxx.se/download/curl-%version%.tar.bz2"
-  )
 }
