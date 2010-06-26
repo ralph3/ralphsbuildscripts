@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="7.8.1"
+VERSION="7.8.2"
 
 DIR="Mesa-${VERSION}"
 
@@ -17,9 +17,9 @@ ftp://ftp.freedesktop.org/pub/mesa/${VERSION}/MesaDemos-${VERSION}.tar.bz2
 )
 
 MD5SUMS=(
-25ec15f8e41fde6d206118cc786dbac4
-6bae516a44c6d26ff3152c960ab648e7
-9ef47f911869657c6bf2f43ebce86b61
+6be2d343a0089bfd395ce02aaf8adb57
+a471807b65e49c325808ba4551be93ed
+757d9e2e06f48b1a52848be9b0307ced
 )
 
 build(){
@@ -61,9 +61,4 @@ version_check_info(){
   ADDRESS='ftp://ftp.freedesktop.org/pub/mesa/%version%/'
   VERSION_STRING='MesaLib-%version%.tar.bz2'
   VERSION_FILTERS='beta'
-  MIRRORS=(
-    'ftp://ftp.freedesktop.org/pub/mesa/%version%/MesaLib-%version%.tar.bz2'
-    'ftp://ftp.freedesktop.org/pub/mesa/%version%/MesaGLUT-%version%.tar.bz2'
-    'ftp://ftp.freedesktop.org/pub/mesa/%version%/MesaDemos-%version%.tar.bz2'
-  )
 }

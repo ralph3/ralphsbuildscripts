@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.6.11"
+VERSION="1.6.12"
 
 DIR="subversion-${VERSION}"
 TARBALL="subversion-${VERSION}.tar.bz2"
@@ -16,8 +16,8 @@ http://subversion.tigris.org/downloads/subversion-deps-${VERSION}.tar.bz2
 )
 
 MD5SUMS=(
-75419159b50661092c4137449940b5cc
-da1bcdd39c34d91e434407f72b844f2f
+a4b1d0d7f3a4587c59da9c1acf9dedd0
+41a91aa26980236958ec508807003203
 )
 
 build(){
@@ -71,7 +71,4 @@ version_check_info(){
   ADDRESS='http://subversion.tigris.org/servlets/ProjectDocumentList?folderID=260&expandFolder=74'
   VERSION_STRING='subversion-%version%.tar.bz2'
   VERSION_FILTERS='deps'
-  MIRRORS=(
-    'http://subversion.tigris.org/downloads/subversion-%version%.tar.bz2'
-  )
 }

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.24.1"
+VERSION="0.24.2"
 
 DIR="vte-${VERSION}"
 TARBALL="vte-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-3b66116e930dde00e1ddbf8277066ea7
+76d5bca203245fedf7eac6d434a16bd9
 )
 
 build(){
@@ -31,7 +31,4 @@ version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/vte/%minor_version%/'
   VERSION_STRING='vte-%version%.tar.bz2'
   ONLY_EVEN_MINORS=1
-  MIRRORS=(
-    "http://ftp.gnome.org/pub/GNOME/sources/vte/%minor_version%/vte-%version%.tar.bz2"
-  )
 }

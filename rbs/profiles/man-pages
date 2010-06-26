@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.24"
+VERSION="3.25"
 
 DIR="man-pages-${VERSION}"
 TARBALL="man-pages-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://www.kernel.org/pub/linux/docs/manpages/${TARBALL}
 )
 
 MD5SUMS=(
-aca98183e51772ce81e17c78a46bea5d
+3c1fbd5b8905e471827daa0ad937f6b1
 )
 
 build(){
@@ -26,7 +26,4 @@ build(){
 version_check_info(){
   ADDRESS='http://www.kernel.org/pub/linux/docs/manpages/'
   VERSION_STRING='man-pages-%version%.tar.bz2'
-  MIRRORS=(
-    'http://www.kernel.org/pub/linux/docs/manpages/man-pages-%version%.tar.bz2'
-  )
 }
