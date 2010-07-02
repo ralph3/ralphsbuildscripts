@@ -3,7 +3,7 @@
 DISABLE_MULTILIB=1
 DISABLE_STRIP=1
 
-VERSION="3.86"
+VERSION="4.01"
 
 DIR="syslinux-${VERSION}"
 TARBALL="syslinux-${VERSION}.tar.bz2"
@@ -13,7 +13,7 @@ http://www.kernel.org/pub/linux/utils/boot/syslinux/${TARBALL}
 )
 
 MD5SUMS=(
-d6fb0231e82190b4932b2aa20274911a
+fbc5b153928d0489e429c7ab4384b0d9
 )
 
 build(){
@@ -31,7 +31,4 @@ build(){
 version_check_info(){
   ADDRESS='http://www.kernel.org/pub/linux/utils/boot/syslinux/'
   VERSION_STRING='syslinux-%version%.tar.bz2'
-  MIRRORS=(
-    'http://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-%version%.tar.bz2'
-  )
 }
