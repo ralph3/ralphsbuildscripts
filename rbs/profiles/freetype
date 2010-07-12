@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.3.12"
+VERSION="2.4.0"
 
 DIR="freetype-${VERSION}"
 TARBALL="freetype-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://prdownloads.sourceforge.net/freetype/${TARBALL}
 )
 
 MD5SUMS=(
-e974a82e5939be8e05ee65f07275d7c5
+6dd4b655bf711f64562198b63b073032
 )
 
 build(){
@@ -29,7 +29,4 @@ version_check_info(){
   ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=3157&package_id=3121'
   VERSION_STRING='freetype-%version%.tar.bz2'
   VERSION_FILTERS='rc'
-  MIRRORS=(
-    'http://prdownloads.sourceforge.net/freetype/freetype-%version%.tar.bz2'
-  )
 }

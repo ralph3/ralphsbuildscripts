@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="2.17.2"
+VERSION="2.18"
 
 DIR="util-linux-ng-${VERSION}"
 TARBALL="util-linux-ng-${VERSION}.tar.bz2"
@@ -11,7 +11,7 @@ http://www.kernel.org/pub/linux/utils/util-linux-ng/v$(echo $VERSION | cut -f-2 
 )
 
 MD5SUMS=(
-4635725a3eef1c57090bac8ea5e082e6
+2f5f71e6af969d041d73ab778c141a77
 )
 
 Tools_Build(){
@@ -62,7 +62,4 @@ version_check_info(){
   ADDRESS='http://www.kernel.org/pub/linux/utils/util-linux-ng/v%minor_version%/'
   VERSION_STRING='util-linux-ng-%version%.tar.bz2'
   VERSION_FILTERS="rc"
-  MIRRORS=(
-    'http://www.kernel.org/pub/linux/utils/util-linux-ng/v%minor_version%/util-linux-ng-%version%.tar.bz2'
-  )
 }

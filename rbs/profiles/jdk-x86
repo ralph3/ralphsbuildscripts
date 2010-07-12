@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="6u20"
+VERSION="6u21"
 
 ONLY32=1
 
@@ -13,7 +13,7 @@ http://dlc.sun.com/dlj/binaries/$TARBALL
 )
 
 MD5SUMS=(
-37afae8ef2481b85b4c9b0356c5d7b40
+b3fbbe55bafedb3f8f93e91d4e809390
 )
 
 build(){
@@ -76,8 +76,5 @@ EOF
 version_check_info(){
   ADDRESS='https://jdk-distros.dev.java.net/developer.html'
   VERSION_STRING='jdk-%version%-dlj-linux-i586.bin'
-  MIRRORS=(
-    'http://dlc.sun.com/dlj/binaries/jdk-%version%-dlj-linux-i586.bin'
-  )
 }
 
