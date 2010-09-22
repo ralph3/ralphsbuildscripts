@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.2.15"
+VERSION="2.2.16"
 
 DIR="httpd-${VERSION}"
 TARBALL="httpd-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://www.reverse.net/pub/apache/httpd/${TARBALL}
 )
 
 MD5SUMS=(
-31fa022dc3c0908c6eaafe73c81c65df
+7f33f2c8b213ad758c009ae46d2795ed
 )
 
 build(){
