@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.30.0"
+VERSION="1.32.0"
 
 DIR="atk-${VERSION}"
 TARBALL="atk-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-548d413775819fef425410739041cac3
+b9a19a3e426cd9ca930f0108c4ee343f
 )
 
 build(){

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.28.1"
+VERSION="2.32.0"
 
 DIR="GConf-${VERSION}"
 TARBALL="GConf-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-27663faf0af4f6a6d534de9270f6d24a
+b161da6a1ab090b649aed3111003b0bb
 )
 
 build(){

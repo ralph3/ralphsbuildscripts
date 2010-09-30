@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.4.8"
+VERSION="1.4.9.1"
 
 DIR="iptables-${VERSION}"
 TARBALL="iptables-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://www.netfilter.org/projects/iptables/files/${TARBALL}
 )
 
 MD5SUMS=(
-697ed89f37af4473a5f6349ba2700f2d
+fbadfb0b5f2dbda49e0ad06a798898e3
 )
 
 build(){

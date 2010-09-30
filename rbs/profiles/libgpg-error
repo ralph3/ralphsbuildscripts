@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.8"
+VERSION="1.9"
 
 DIR="libgpg-error-${VERSION}"
 TARBALL="libgpg-error-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ ftp://ftp.gnupg.org/gcrypt/libgpg-error/${TARBALL}
 )
 
 MD5SUMS=(
-1d2005268a2f096db28cf9cf77b3229a
+521b98aa9395e7eaf0ef2236233a0796
 )
 
 build(){

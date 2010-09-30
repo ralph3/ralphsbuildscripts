@@ -3,7 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="2.66"
+VERSION="2.68"
 
 DIR="autoconf-${VERSION}"
 TARBALL="autoconf-${VERSION}.tar.bz2"
@@ -13,7 +13,7 @@ http://ftp.gnu.org/gnu/autoconf/${TARBALL}
 )
 
 MD5SUMS=(
-d2d22a532ee0e4d6d86a02e6425ecfce
+864d785215aa60d627c91fcb21b05b07
 )
 
 build(){
@@ -30,4 +30,5 @@ build(){
 version_check_info(){
   ADDRESS='http://ftp.gnu.org/gnu/autoconf/'
   VERSION_STRING='autoconf-%version%.tar.bz2'
+  VERSION_FILTERS=latest
 }

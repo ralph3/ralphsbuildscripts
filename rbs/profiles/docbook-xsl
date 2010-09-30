@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.75.2"
+VERSION="1.76.0"
 
 DIR="docbook-xsl-${VERSION}"
 TARBALL="docbook-xsl-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://prdownloads.sourceforge.net/docbook/${TARBALL}
 )
 
 MD5SUMS=(
-0c76a58a8e6cb5ab49f819e79917308f
+6413843525fcaa7f58e4bd30d5192270
 )
 
 build(){
