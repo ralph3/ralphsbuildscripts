@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.1.1"
+VERSION="1.1.2"
 
 DIR="font-util-${VERSION}"
 TARBALL="font-util-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/font/${TARBALL}
 )
 
 MD5SUMS=(
-5c735ae6916b65186f3c876d76c27ce3
+6a56a1a93f2e07f0323db988e4ebfcce
 )
 
 build(){

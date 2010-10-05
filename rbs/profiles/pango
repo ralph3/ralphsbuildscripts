@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.28.1"
+VERSION="1.28.3"
 
 DIR="pango-${VERSION}"
 TARBALL="pango-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-bab5b4eb3fde6b0a5bfe98d25e668741
+caa74baea47e7e16bc73c89f9089d522
 )
 
 build(){

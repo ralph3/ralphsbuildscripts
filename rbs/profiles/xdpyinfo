@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.1.0"
+VERSION="1.2.0"
 
 DIR="xdpyinfo-${VERSION}"
 TARBALL="xdpyinfo-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-d1d516610316138105cd07064b257c5c
+c52fda7bbc80e74b7839f29298cb1d77
 )
 
 build(){

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="7.8.2"
+VERSION="7.9"
 
 DIR="Mesa-${VERSION}"
 
@@ -17,9 +17,8 @@ ftp://ftp.freedesktop.org/pub/mesa/${VERSION}/MesaDemos-${VERSION}.tar.bz2
 )
 
 MD5SUMS=(
-6be2d343a0089bfd395ce02aaf8adb57
-a471807b65e49c325808ba4551be93ed
-757d9e2e06f48b1a52848be9b0307ced
+82c740c49d572baa6da2b1a1eee90bca
+20d07419d1929f833fdb36bced290ad5
 )
 
 build(){
@@ -32,8 +31,7 @@ build(){
   
   mkdir -p $SRCDIR || return 1
   for x in MesaLib-${VERSION}.tar.bz2 \
-           MesaGLUT-${VERSION}.tar.bz2 \
-           MesaDemos-${VERSION}.tar.bz2; do
+           MesaGLUT-${VERSION}.tar.bz2; do
     echo -n "Unpacking ${x}..."
     tar xfj $DOWNLOADDIR/$x -C $SRCDIR || return 1
     echo " done"
@@ -44,11 +42,7 @@ build(){
     --libdir=/usr/$LIBSDIR || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
-  
-  mkdir -vp $TMPROOT/usr/bin || return 1
-  install -m755 -v progs/xdemos/{glxinfo,glxgears} $TMPROOT/usr/bin/ || return 1
-  set_multiarch $TMPROOT/usr/bin/{glxinfo,glxgears} || return 1
-  
+
   if [ "$SYSTYPE" == "MULTILIB" ] && [ "$BUILD" == "$BUILD32" ]; then
     rm -rf $TMPROOT/$LIBSDIR/dri || return 1
   fi
@@ -60,5 +54,5 @@ build(){
 version_check_info(){
   ADDRESS='ftp://ftp.freedesktop.org/pub/mesa/%version%/'
   VERSION_STRING='MesaLib-%version%.tar.bz2'
-  VERSION_FILTERS='beta'
+  VERSION_FILTERS='beta current demos'
 }

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.1.7"
+VERSION="0.1.9"
 
 DIR="lxterminal-${VERSION}"
 TARBALL="lxterminal-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://prdownloads.sourceforge.net/lxde/${TARBALL}
 )
 
 MD5SUMS=(
-b9123d3736c7c37a59c406ff4ee0b26c
+cb10cc667611dce3c141294712049c43
 )
 
 build(){

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.25"
+VERSION="3.28"
 
 DIR="man-pages-${VERSION}"
 TARBALL="man-pages-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://www.kernel.org/pub/linux/docs/manpages/${TARBALL}
 )
 
 MD5SUMS=(
-3c1fbd5b8905e471827daa0ad937f6b1
+adc79328fce994eb88e9ac9ddfd84b6f
 )
 
 build(){

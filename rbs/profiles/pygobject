@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.20.0"
+VERSION="2.26.0"
 
 DIR="pygobject-${VERSION}"
 TARBALL="pygobject-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-10e1fb79be3d698476a28b1e1b0c5640
+7e3352c4b83ce8dc15290e86dd9c2be0
 )
 
 build(){

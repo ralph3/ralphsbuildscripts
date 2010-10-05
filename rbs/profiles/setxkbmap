@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.1.0"
+VERSION="1.2.0"
 
 DIR="setxkbmap-${VERSION}"
 TARBALL="setxkbmap-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-2f902e0a89aaf2b19e06e7f26c6efb3a
+2f6df89201eb9a2cbfb905d6b82a191e
 )
 
 build(){

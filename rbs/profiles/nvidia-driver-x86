@@ -2,12 +2,12 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="195.36.24"
+VERSION="260.19.06"
 
 DISABLE_STRIP=1
 
-TARBALL="NVIDIA-Linux-x86-${VERSION}-pkg1.run"
-DIR="NVIDIA-Linux-x86-${VERSION}-pkg1"
+TARBALL="NVIDIA-Linux-x86-${VERSION}.run"
+DIR="NVIDIA-Linux-x86-${VERSION}"
 
 SRC1=(
 http://us.download.nvidia.com/XFree86/Linux-x86/$VERSION/$TARBALL
@@ -15,7 +15,7 @@ ftp://download.nvidia.com/XFree86/Linux-x86/$VERSION/$TARBALL
 )
 
 MD5SUMS=(
-4d0449184a4aebaa262b2ec55ceb258a
+845154d89f9c56bbfcd9554213053bed
 )
 
 build(){
@@ -110,6 +110,6 @@ post_upgrade(){
 
 version_check_info(){
   ADDRESS='ftp://download.nvidia.com/XFree86/Linux-x86/%version%/'
-  VERSION_STRING='NVIDIA-Linux-x86-%version%-pkg1.run'
+  VERSION_STRING='NVIDIA-Linux-x86-%version%.run'
   VERSION_FILTERS='latest'
 }

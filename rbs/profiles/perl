@@ -2,7 +2,7 @@
 
 DONT_REMOVE=1
 
-VERSION="5.12.1"
+VERSION="5.12.2"
 
 DIR="perl-${VERSION}"
 TARBALL="perl-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://ftp.funet.fi/pub/CPAN/src/${TARBALL}
 )
 
 MD5SUMS=(
-a57b6c82e9319145db72936b5e2fcbc7
+af2df531d46b77fdf0d97eecb03eddb2
 )
 
 
