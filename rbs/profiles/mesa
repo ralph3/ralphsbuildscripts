@@ -12,10 +12,6 @@ SRC2=(
 ftp://ftp.freedesktop.org/pub/mesa/${VERSION}/MesaGLUT-${VERSION}.tar.bz2
 )
 
-SRC3=(
-ftp://ftp.freedesktop.org/pub/mesa/${VERSION}/MesaDemos-${VERSION}.tar.bz2
-)
-
 MD5SUMS=(
 82c740c49d572baa6da2b1a1eee90bca
 20d07419d1929f833fdb36bced290ad5
