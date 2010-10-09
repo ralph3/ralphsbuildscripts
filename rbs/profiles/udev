@@ -41,8 +41,8 @@ MyBuild(){
   
   mkdir -p $MYDEST/etc/udev/rules.d || return 1
   
-  install -v -m644 rules/packages/40-pilot-links.rules \
-    $MYDEST/etc/udev/rules.d/ || return 1
+##  install -v -m644 rules/packages/40-pilot-links.rules \
+##    $MYDEST/etc/udev/rules.d/ || return 1
   
 cat > $MYDEST/etc/udev/rules.d/25-rbs.rules << "EOF" || return 1
 # hotplug
