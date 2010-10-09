@@ -19,6 +19,8 @@ build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   
+  tar xfz bind/bind.tar.gz -C bind/ || return 1
+  
   CC="$CC $BUILD" CXX="$CXX $BUILD" CFLAGS="$CFLAGS -D_GNU_SOURCE" \
     ./configure --prefix=/usr --libdir=/usr/$LIBSDIR \
     --sysconfdir=/etc || return 1
