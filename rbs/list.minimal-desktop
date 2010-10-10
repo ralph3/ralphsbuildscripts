@@ -4,8 +4,6 @@ docbook-xsl
 xmlto
 alsa-utils
 openbox
-gperf
-xcb-util
 startup-notification
 obconf
 leafpad

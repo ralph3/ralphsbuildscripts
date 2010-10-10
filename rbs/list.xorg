@@ -101,7 +101,11 @@ xkbprint
 xkbutils
 xkill
 xlsatoms
+
+gperf
+xcb-util
 xlsclients
+
 xlsfonts
 xmodmap
 xrandr
