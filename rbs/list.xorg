@@ -74,6 +74,7 @@ libxxf86dga
 libxxf86misc
 libxxf86vm
 
+talloc
 mesa
 
 xbitmaps
