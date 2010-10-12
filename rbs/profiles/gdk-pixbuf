@@ -1,0 +1,80 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="2.22.0"
+
+DIR="gdk-pixbuf-${VERSION}"
+TARBALL="gdk-pixbuf-${VERSION}.tar.bz2"
+
+SRC1=(
+  $(gnome_mirrors gdk-pixbuf)
+)
+
+MD5SUMS=(
+0447e70f7bada542182d12e6459442b0
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/usr/$LIBSDIR --sysconfdir=/usr/$LIBSDIR \
+    --disable-gtk-doc || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  set_multiarch $TMPROOT/usr/bin/gdk-pixbuf-query-loaders || return 1
+  mkdir -p $TMPROOT/usr/sbin || return 1
+cat << "EOF" > $TMPROOT/usr/sbin/setup-gdk || return 1
+#!/bin/bash
+
+[ "$(id -u)" != "0" ] && {
+  echo "Run me as root please." >/dev/stderr
+  exit 1
+}
+
+query_crap(){
+  F=$(pkg-config gdk-pixbuf-2.0 --variable gdk_pixbuf_cache_file)
+  if [ "$F" != "" ] && [ -d "$(dirname $F)" ]; then
+    echo -n "Updating ${F}..."
+    gdk-pixbuf-query-loaders > $F || return 1
+    echo "  Done."
+  fi
+  return 0
+}
+
+case $SYSTYPE in
+  MULTILIB)
+    export USE_ARCH=32
+    export PKG_CONFIG_PATH=$PKG_CONFIG_PATH32
+    query_crap || exit 1
+    export USE_ARCH=64
+    export PKG_CONFIG_PATH=$PKG_CONFIG_PATH64
+    query_crap || exit 1
+  ;;
+  *)
+    query_crap || exit 1
+  ;;
+esac
+
+exit 0
+EOF
+  chmod 755 $TMPROOT/usr/sbin/setup-gdk || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+post_install(){
+  setup-gdk || return 1
+}
+
+post_upgrade(){
+  post_install
+}
+
+version_check_info(){
+  ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/gdk-pixbuf/%minor_version%/'
+  VERSION_STRING='gdk-pixbuf-%version%.tar.bz2'
+  MINOR_VERSION_FILTERS='[3,5,7,9]0'
+  ONLY_EVEN_MINORS=1
+}

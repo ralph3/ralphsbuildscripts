@@ -7,6 +7,7 @@ libtiff
 atk
 pango
 cups
+gdk-pixbuf
 gtk+
 pygobject
 pycairo
