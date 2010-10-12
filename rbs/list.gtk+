@@ -9,8 +9,8 @@ pango
 cups
 gdk-pixbuf
 gtk+
-pygobject
 pycairo
+pygobject
 libglade
 pygtk
 gtk-engines
