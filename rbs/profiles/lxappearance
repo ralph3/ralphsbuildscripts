@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.4.0"
+VERSION="0.5.0"
 
 DIR="lxappearance-${VERSION}"
 TARBALL="lxappearance-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://prdownloads.sourceforge.net/lxde/${TARBALL}
 )
 
 MD5SUMS=(
-751426a9c4b6090b9fabb8dde593c50a
+7eabab6f4a358dbc6a84e260a0e7f6c2
 )
 
 build(){

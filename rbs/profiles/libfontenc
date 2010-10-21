@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.5"
+VERSION="1.1.0"
 
 DIR="libfontenc-${VERSION}"
 TARBALL="libfontenc-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-4f0d8191819be9f2bdf9dad49a65e43b
+11d3c292f05a90f6f67840a9e9c3d9b8
 )
 
 build(){

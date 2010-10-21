@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="4.999.9beta-180-ge23e"
+VERSION="4.999.9beta-212-gacbc"
 
 DIR="xz-${VERSION}"
 TARBALL="xz-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://tukaani.org/xz/${TARBALL}
 )
 
 MD5SUMS=(
-de1c25df069dfbbbeb608b856d000c2b
+9b475359622f67aea6774139585d5e33
 )
 
 Tools_Build(){

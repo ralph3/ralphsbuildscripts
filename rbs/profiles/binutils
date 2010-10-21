@@ -3,17 +3,17 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="2.20.1"
+VERSION="2.20.51.0.11"
 
 DIR="binutils-${VERSION}"
 TARBALL="binutils-${VERSION}.tar.bz2"
 
 SRC1=(
-  http://ftp.gnu.org/gnu/binutils/${TARBALL}
+  http://ftp.kernel.org/pub/linux/devel/binutils/${TARBALL}
 )
 
 MD5SUMS=(
-9cdfb9d6ec0578c166d3beae5e15c4e5
+d2306466e669700abbb3d1a64b10d5d2
 )
 
 Cross_Tools_Build(){
@@ -84,6 +84,7 @@ build(){
       esac
     ;;
   esac
+  mkdir -p $SRCDIR || return 1
   cd $SRCDIR || return 1
   rm -rf $DIR binutils-build || return 1
   unpack_tarball $TARBALL || return 1
@@ -104,9 +105,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://ftp.gnu.org/gnu/binutils/'
+  ADDRESS='http://ftp.kernel.org/pub/linux/devel/binutils/'
   VERSION_STRING='binutils-%version%.tar.bz2'
-  MIRRORS=(
-    'http://ftp.gnu.org/gnu/binutils/binutils-%version%.tar.bz2'
-  )
+  VERSION_FILTERS='[a-z]'
 }
