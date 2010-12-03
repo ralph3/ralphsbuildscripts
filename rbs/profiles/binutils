@@ -3,7 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="2.20.51.0.11"
+VERSION="2.21.51.0.1"
 
 DIR="binutils-${VERSION}"
 TARBALL="binutils-${VERSION}.tar.bz2"
@@ -13,7 +13,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-d2306466e669700abbb3d1a64b10d5d2
+3e8b6349f38d6e0feba317055f0ced14
 )
 
 Cross_Tools_Build(){
