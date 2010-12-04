@@ -6,7 +6,6 @@ DIR="alsa-lib-${VERSION}"
 TARBALL="alsa-lib-${VERSION}.tar.bz2"
 
 SRC1=(
-http://ftp.silug.org/pub/alsa/lib/${TARBALL}
 ftp://ftp.alsa-project.org/pub/lib/${TARBALL}
 )
 
@@ -26,10 +25,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://ftp.silug.org/pub/alsa/lib/'
+  ADDRESS='ftp://ftp.alsa-project.org/pub/lib/'
   VERSION_STRING='alsa-lib-%version%.tar.bz2'
   VERSION_FILTERS='[a-z] [A-Z]'
-  MIRRORS=(
-    'http://ftp.silug.org/pub/alsa/lib/alsa-lib-%version%.tar.bz2'
-  )
 }

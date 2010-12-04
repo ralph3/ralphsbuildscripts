@@ -8,7 +8,6 @@ DIR="alsa-utils-${VERSION}"
 TARBALL="alsa-utils-${VERSION}.tar.bz2"
 
 SRC1=(
-http://ftp.silug.org/pub/alsa/utils/${TARBALL}
 ftp://ftp.alsa-project.org/pub/utils/${TARBALL}
 )
 
@@ -62,10 +61,7 @@ post_install(){
 }
 
 version_check_info(){
-  ADDRESS='http://ftp.silug.org/pub/alsa/utils/'
+  ADDRESS='ftp://ftp.alsa-project.org/pub/utils/'
   VERSION_STRING='alsa-utils-%version%.tar.bz2'
   VERSION_FILTERS='rc'
-  MIRRORS=(
-    'http://ftp.silug.org/pub/alsa/utils/alsa-utils-%version%.tar.bz2'
-  )
 }

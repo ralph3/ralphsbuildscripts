@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.2"
+VERSION="1.0.3"
 
 DIR="xkill-${VERSION}"
 TARBALL="xkill-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-dca031355b4afcf8517a8258eeb730c3
+e7f0d57b6ba49c384e9cf8c9ff3243c1
 )
 
 build(){

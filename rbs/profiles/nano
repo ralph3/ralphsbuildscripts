@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.2.5"
+VERSION="2.2.6"
 
 DIR="nano-${VERSION}"
 TARBALL="nano-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://ftp.gnu.org/pub/gnu/nano/${TARBALL}
 )
 
 MD5SUMS=(
-77a10a49589f975ce98350a4527a2ebf
+03233ae480689a008eb98feb1b599807
 )
 
 MyBuild(){

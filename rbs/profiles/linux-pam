@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="1.1.2"
+VERSION="1.1.3"
 
 DIR="Linux-PAM-${VERSION}"
 TARBALL="Linux-PAM-${VERSION}.tar.bz2"
@@ -15,8 +15,8 @@ http://www.kernel.org/pub/linux/libs/pam/documentation/Linux-PAM-${VERSION}-docs
 )
 
 MD5SUMS=(
-81173dfeffe69d726081f9c5667cd3e7
-6c0ce3e77e9e60b7ca78390e15a91c3f
+6db7fcb5db6253350e3a4648ceac40e7
+83bb379cde2f1585833035fb378fab95
 )
 
 build(){

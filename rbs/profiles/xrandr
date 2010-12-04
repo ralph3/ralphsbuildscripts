@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.3.3"
+VERSION="1.3.4"
 
 DIR="xrandr-${VERSION}"
 TARBALL="xrandr-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-5b2dcfb0d9b736afaf78f6ce7651259c
+d6d20038257eba5178b523e10239d51c
 )
 
 build(){

@@ -3,17 +3,17 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="2.21.51.0.1"
+VERSION="2.20.1"
 
 DIR="binutils-${VERSION}"
 TARBALL="binutils-${VERSION}.tar.bz2"
 
 SRC1=(
-  http://ftp.kernel.org/pub/linux/devel/binutils/${TARBALL}
+  http://ftp.gnu.org/pub/gnu/binutils/${TARBALL}
 )
 
 MD5SUMS=(
-3e8b6349f38d6e0feba317055f0ced14
+9cdfb9d6ec0578c166d3beae5e15c4e5
 )
 
 Cross_Tools_Build(){
@@ -105,7 +105,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://ftp.kernel.org/pub/linux/devel/binutils/'
+  ADDRESS='http://ftp.gnu.org/pub/gnu/binutils/'
   VERSION_STRING='binutils-%version%.tar.bz2'
   VERSION_FILTERS='[a-z]'
 }

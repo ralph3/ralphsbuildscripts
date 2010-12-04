@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.3"
+VERSION="1.0.4"
 
 DIR="xgamma-${VERSION}"
 TARBALL="xgamma-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-e8a88bf1a18f35b724619849dca97f4f
+34d22b130bffd8aa857eae6d9da4bbb1
 )
 
 build(){

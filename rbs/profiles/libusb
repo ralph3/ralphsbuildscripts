@@ -29,10 +29,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://sourceforge.net/projects/libusb/files/'
+  ADDRESS='http://sourceforge.net/projects/libusb/files/libusb-0.1%20%28LEGACY%29/'
   VERSION_STRING='libusb-%version%.tar.gz'
   VERSION_FILTERS='/'
-  MIRRORS=(
-    'http://prdownloads.sourceforge.net/libusb/libusb-%version%.tar.gz'
-  )
 }
