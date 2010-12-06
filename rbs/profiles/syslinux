@@ -18,9 +18,19 @@ a7ca38a0a5786b6efae8fb01a1ae8070
 
 build(){
   unpack_tarball $TARBALL || return 1
-  cd $SRCDIR/$DIR || return 1
-  make clean
-  make CC="$CC $BUILD" || return 1
+  case $($CC -dumpmachine | cut -f1 -d'-') in
+    i?86)
+    ;;
+    x86_64)
+      cd $SRCDIR/$DIR || return 1
+      make clean
+      make CC="$CC $BUILD" || return 1
+    ;;
+    *)
+      echo "error not ready for this arch!"
+      return 1
+    ;;
+  esac
   mkdir -vp $TMPROOT/usr/src || return 1
   cp -va $SRCDIR/$DIR $TMPROOT/usr/src/ || return 1
   ln -vsfn $DIR $TMPROOT/usr/src/syslinux || return 1
