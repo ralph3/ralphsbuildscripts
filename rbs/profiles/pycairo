@@ -2,17 +2,19 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.8.10"
+#1.8.10 uses the new waf build system which i'm not setup for yet.
+
+VERSION="1.8.8"
 
 DIR="pycairo-${VERSION}"
-TARBALL="pycairo-${VERSION}.tar.bz2"
+TARBALL="pycairo-${VERSION}.tar.gz"
 
 SRC1=(
 http://cairographics.org/releases/${TARBALL}
 )
 
 MD5SUMS=(
-ddc544943d791e3c22ca8f019e10e1e3
+054da6c125cb427a003f5fd6c54f853e
 )
 
 build(){
@@ -28,5 +30,5 @@ build(){
 
 version_check_info(){
   ADDRESS='http://cairographics.org/releases/'
-  VERSION_STRING='pycairo-%version%.tar.bz2'
+  VERSION_STRING='pycairo-%version%.tar.gz'
 }
