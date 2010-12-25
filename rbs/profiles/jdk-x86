@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="6u22"
+VERSION="6u23"
 
 ONLY32=1
 
@@ -13,7 +13,7 @@ http://dlc.sun.com/dlj/binaries/$TARBALL
 )
 
 MD5SUMS=(
-2204fea1b2593f3cc196a0a92b80b18f
+cd02f6e8f46fb4171811150cb820c6ed
 )
 
 build(){

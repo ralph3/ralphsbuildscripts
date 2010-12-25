@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="260.19.26"
+VERSION="260.19.29"
 
 DISABLE_STRIP=1
 
@@ -15,7 +15,7 @@ ftp://download.nvidia.com/XFree86/Linux-x86_64/$VERSION/$TARBALL
 )
 
 MD5SUMS=(
-9dcc48a01f0eb83206ba1ec88ff435aa
+0539f7af29e19971745811e971b074f8
 )
 
 build(){
