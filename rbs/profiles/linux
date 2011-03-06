@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.6.34.7"
+VERSION="2.6.37.2"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://www.kernel.org/pub/linux/kernel/v2.6/${TARBALL}
 )
 
 MD5SUMS=(
-8964e26120e84844998a673464a980ea
+89f681bc7c917a84aa7470da6eed5101
 )
 
 source_setup(){
@@ -145,6 +145,5 @@ build(){
 version_check_info(){
   ADDRESS='http://www.kernel.org/pub/linux/kernel/v%minor_version%/'
   VERSION_STRING='linux-%version%.tar.bz2'
-  VERSION_FILTERS='2.6.3[5-7]'
   ONLY_EVEN_MINORS=1
 }
