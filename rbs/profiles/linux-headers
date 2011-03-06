@@ -3,7 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="2.6.36.4"
+VERSION="2.6.34.7"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.bz2"
@@ -13,7 +13,7 @@ http://www.kernel.org/pub/linux/kernel/v2.6/${TARBALL}
 )
 
 MD5SUMS=(
-c05dd941d0e249695e9f72568888e1bf
+8964e26120e84844998a673464a980ea
 )
 
 Cross_Tools_Build(){
