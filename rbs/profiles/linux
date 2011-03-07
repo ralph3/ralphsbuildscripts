@@ -116,6 +116,26 @@ build(){
     echo "Done."
   fi
   cd $HDSRCDIR/$DIR || return 1
+  
+  
+cat << "EOF" | patch -Np1 || return 1
+diff -Naur linux-2.6.37.2/drivers/gpu/drm/i915/intel_opregion.c linux-2.6.37.2.patched/drivers/gpu/drm/i915/intel_opregion.c
+--- linux-2.6.37.2/drivers/gpu/drm/i915/intel_opregion.c	2011-02-24 18:09:00.000000000 -0500
++++ linux-2.6.37.2.patched/drivers/gpu/drm/i915/intel_opregion.c	2011-03-07 18:34:57.000000000 -0500
+@@ -474,7 +474,9 @@
+ 	void *base;
+ 	u32 asls, mboxes;
+ 	int err = 0;
+-
++	
++	return -ENOTSUPP;
++	
+ 	pci_read_config_dword(dev->pdev, PCI_ASLS, &asls);
+ 	DRM_DEBUG_DRIVER("graphic opregion physical addr: 0x%x\n", asls);
+ 	if (asls == 0) {
+EOF
+  
+  
   make mrproper || return 1
   cp $KCONF .config || return 1
   
