@@ -3,17 +3,23 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="2.6.37.2"
+VERSION="2.6.38"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.bz2"
+KPATCH="patch-2.6.38-git18.bz2"
 
 SRC1=(
 http://www.kernel.org/pub/linux/kernel/v2.6/${TARBALL}
 )
 
+SRC2=(
+http://www.kernel.org/pub/linux/kernel/v2.6/snapshots/$KPATCH
+)
+
 MD5SUMS=(
-89f681bc7c917a84aa7470da6eed5101
+7d471477bfa67546f902da62227fa976
+ff098feae3934fdf4eebd5066a90a173
 )
 
 Cross_Tools_Build(){
@@ -32,6 +38,9 @@ Cross_Tools_Build(){
   esac
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+  if [ -f "$DOWNLOADDIR/$KPATCH" ]; then
+    bzcat $DOWNLOADDIR/$KPATCH | patch -Np1 || return 1
+  fi
   
   mkdir -vp $TCDIR/include || return 1
   make mrproper || return 1
@@ -39,7 +48,6 @@ Cross_Tools_Build(){
   make ARCH=$KARCH INSTALL_HDR_PATH=$TCDIR headers_install || return 1
   find $TCDIR/include -type d -exec chmod -v 755 {} \;
   find $TCDIR/include -type f -exec chmod -v 644 {} \;
-  ###sed -i 's/\tu8/\t__u8/' $TCDIR/include/scsi/scsi.h || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
@@ -60,13 +68,15 @@ build(){
   esac
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+  if [ -f "$DOWNLOADDIR/$KPATCH" ]; then
+    bzcat $DOWNLOADDIR/$KPATCH | patch -Np1 || return 1
+  fi
   
   make mrproper || return 1
   make ARCH=$KARCH headers_check || return 1
   make ARCH=$KARCH INSTALL_HDR_PATH=$TMPROOT/usr headers_install || return 1
   find $TMPROOT -type d -exec chmod -v 755 {} \;
   find $TMPROOT -type f -exec chmod -v 644 {} \;
-  ### sed -i 's/\tu8/\t__u8/' $TMPROOT/usr/include/scsi/scsi.h || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
