@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.10.31"
+VERSION="0.10.32"
 
 DIR="gstreamer-${VERSION}"
 TARBALL="gstreamer-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://gstreamer.freedesktop.org/src/gstreamer/${TARBALL}
 )
 
 MD5SUMS=(
-a21fb08bdb578d972c7c14e77da8fbb6
+442bc3d37b8511a73379143e7531d726
 )
 
 build(){

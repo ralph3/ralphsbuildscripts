@@ -3,7 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="4.1"
+VERSION="4.2"
 
 DIR="bash-${VERSION}"
 TARBALL="bash-${VERSION}.tar.gz"
@@ -13,7 +13,7 @@ http://ftp.gnu.org/gnu/bash/${TARBALL}
 )
 
 MD5SUMS=(
-9800d8724815fd84994d9be65ab5e7b8
+3fb927c7c33022f1c327f14a81c0d4b0
 )
 
 CaT_BaSH_ProfileStuff(){

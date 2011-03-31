@@ -2,23 +2,26 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.6.38"
+#2.6.37-39-rc1 causes black console when enabling kernel modeset with i915
+
+VERSION="2.6.36.4"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.bz2"
-KPATCH="patch-2.6.38-git18.bz2"
+KPATCH=
+##KPATCH="patch-2.6.38-git18.bz2"
 
 SRC1=(
 http://www.kernel.org/pub/linux/kernel/v2.6/${TARBALL}
 )
 
-SRC2=(
-http://www.kernel.org/pub/linux/kernel/v2.6/snapshots/$KPATCH
-)
+##SRC2=(
+##http://www.kernel.org/pub/linux/kernel/v2.6/snapshots/$KPATCH
+##)
 
 MD5SUMS=(
-7d471477bfa67546f902da62227fa976
-ff098feae3934fdf4eebd5066a90a173
+c05dd941d0e249695e9f72568888e1bf
+##ff098feae3934fdf4eebd5066a90a173
 )
 
 source_setup(){
@@ -131,6 +134,7 @@ build(){
   if [ -f "$DOWNLOADDIR/$KPATCH" ]; then
     bzcat $DOWNLOADDIR/$KPATCH | patch -Np1 || return 1
   fi
+  
   make mrproper || return 1
   cp $KCONF .config || return 1
   

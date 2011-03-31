@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.7.9"
+VERSION="2.7.11"
 
 DIR="pidgin-${VERSION}"
 TARBALL="pidgin-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://prdownloads.sourceforge.net/pidgin/${TARBALL}
 )
 
 MD5SUMS=(
-9bc6cf953ed7d383b215fa8487bf8829
+07c2a2535b4d7436b5ec7685fe063fec
 )
 
 build(){

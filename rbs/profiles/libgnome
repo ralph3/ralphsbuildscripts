@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.32.0"
+VERSION="2.32.1"
 
 DIR="libgnome-${VERSION}"
 TARBALL="libgnome-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-b27a0c61918fad8492d84b407a72bd7c
+a4345e6087ae6195d65a4674ffdca559
 )
 
 build(){

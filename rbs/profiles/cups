@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.4.5"
+VERSION="1.4.6"
 
 DIR="cups-${VERSION}"
 TARBALL="cups-${VERSION}-source.tar.bz2"
@@ -12,7 +12,7 @@ http://ftp.easysw.com/pub/cups/${VERSION}/${TARBALL}
 )
 
 MD5SUMS=(
-50729f6fc46ba54223e0eaf5009f3419
+de8fb5a29c36554925c0c6a6e2c0dae1
 )
 
 build(){

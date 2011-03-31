@@ -8,7 +8,7 @@ DIR="iproute2-${VERSION}"
 TARBALL="iproute2-${VERSION}.tar.bz2"
 
 SRC1=(
-  http://developer.osdl.org/dev/iproute2/download/$TARBALL
+http://developer.osdl.org/dev/iproute2/download/$TARBALL
 )
 
 MD5SUMS=(

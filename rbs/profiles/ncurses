@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="5.7"
+VERSION="5.8"
 
 DIR="ncurses-${VERSION}"
 TARBALL="ncurses-${VERSION}.tar.gz"
@@ -11,7 +11,7 @@ http://ftp.gnu.org/gnu/ncurses/${TARBALL}
 )
 
 MD5SUMS=(
-cce05daf61a64501ef6cd8da1f727ec6
+20ed3fa7599937f0ca268d9088837a64
 )
 
 Cross_Tools_Build(){
