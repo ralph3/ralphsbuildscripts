@@ -1,8 +1,5 @@
 #!/bin/bash
 
-DONT_REMOVE=1
-DISABLE_MULTILIB=1
-
 VERSION="1.1.0"
 
 DIR="yasm-${VERSION}"
@@ -19,8 +16,9 @@ MD5SUMS=(
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
-    --host=$BUILDTARGET --prefix=/usr || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" CFLAGS="$CFLAGS -fPIC" \
+  CXXFLAGS="$CXXFLAGS -fPIC" ./configure --build=$BUILDHOST \
+    --host=$BUILDTARGET --prefix=/usr --libdir=/usr/$LIBSDIR || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   cd ../ || return 1

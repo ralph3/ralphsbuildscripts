@@ -29,7 +29,4 @@ build(){
 version_check_info(){
   ADDRESS="http://sourceforge.net/projects/lxde/files/"
   VERSION_STRING="lxtask-%version%.tar.gz"
-  MIRRORS=(
-    "http://prdownloads.sourceforge.net/lxde/lxtask-%version%.tar.gz"
-  )
 }

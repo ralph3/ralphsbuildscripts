@@ -164,5 +164,6 @@ build(){
 version_check_info(){
   ADDRESS='http://www.kernel.org/pub/linux/kernel/v%minor_version%/'
   VERSION_STRING='linux-%version%.tar.bz2'
+  VERSION_FILTERS='2.6.3[7-8]'
   ONLY_EVEN_MINORS=1
 }

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.22.0"
+VERSION="2.24.0"
 
 DIR="pygtk-${VERSION}"
 TARBALL="pygtk-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-e9bba9cd4cdaccb22a7991cc2f7c8373
+a1051d5794fd7696d3c1af6422d17a49
 )
 
 build(){

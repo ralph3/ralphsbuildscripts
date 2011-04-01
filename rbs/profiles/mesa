@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="7.9"
+VERSION="7.10.1"
 
 DIR="Mesa-${VERSION}"
 
@@ -13,8 +13,8 @@ ftp://ftp.freedesktop.org/pub/mesa/${VERSION}/MesaGLUT-${VERSION}.tar.bz2
 )
 
 MD5SUMS=(
-82c740c49d572baa6da2b1a1eee90bca
-20d07419d1929f833fdb36bced290ad5
+efe8da4d80c2a5d32a800770b8ce5dfa
+637bb8a20fdad89f7382b4ea83f896e3
 )
 
 build(){
@@ -50,5 +50,5 @@ build(){
 version_check_info(){
   ADDRESS='ftp://ftp.freedesktop.org/pub/mesa/%version%/'
   VERSION_STRING='MesaLib-%version%.tar.bz2'
-  VERSION_FILTERS='beta current demos tmp'
+  VERSION_FILTERS='beta current demos tmp older'
 }

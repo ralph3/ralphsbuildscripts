@@ -9,7 +9,7 @@ DIR="sysvinit-${VERSION}"
 TARBALL="sysvinit-${VERSION}.tar.gz"
 
 SRC1=(
-ftp://ftp.cistron.nl/pub/people/miquels/sysvinit/${TARBALL}
+ftp://ftp.radius.cistron.nl/pub/people/miquels/sysvinit/${TARBALL}
 )
 
 MD5SUMS=(
@@ -48,9 +48,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='ftp://ftp.cistron.nl/pub/people/miquels/sysvinit/'
+  ADDRESS='ftp://ftp.radius.cistron.nl/pub/people/miquels/sysvinit/'
   VERSION_STRING='sysvinit-%version%.tar.gz'
-  MIRRORS=(
-    'ftp://ftp.cistron.nl/pub/people/miquels/sysvinit/sysvinit-%version%.tar.gz'
-  )
 }

@@ -29,5 +29,4 @@ build(){
 version_check_info(){
   ADDRESS='http://sourceforge.net/projects/lcms/files/'
   VERSION_STRING='lcms-%version%.tar.gz'
-  ##VERSION_FILTERS='mac'
 }

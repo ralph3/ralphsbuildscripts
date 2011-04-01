@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.6.1"
+VERSION="0.6.2"
 
 DIR="ffmpeg-${VERSION}"
 TARBALL="${DIR}.tar.bz2"
@@ -12,7 +12,7 @@ http://www.ffmpeg.org/releases/$TARBALL
 )
 
 MD5SUMS=(
-4f5d732d25eedfb072251b5314ba2093
+f7819307dad55aa0d6b40ac0e862884d
 )
 
 build(){
@@ -40,5 +40,5 @@ build(){
 version_check_info(){
   ADDRESS='http://www.ffmpeg.org/releases/'
   VERSION_STRING='ffmpeg-%version%.tar.bz2'
-  VERSION_FILTERS='export checkout'
+  VERSION_FILTERS='export checkout git snapshot'
 }

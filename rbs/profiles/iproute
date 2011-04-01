@@ -43,5 +43,5 @@ version_check_info(){
   ADDRESS='http://developer.osdl.org/dev/iproute2/download/'
   VERSION_STRING='iproute2-%version%.tar.bz2'
   MINOR_VERSION="2"
-  VERSION_FILTERS="rc"
+  VERSION_FILTERS="rc 2.6.3[7,8]"
 }

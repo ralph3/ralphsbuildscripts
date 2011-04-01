@@ -9,7 +9,7 @@ DIR="iana-etc-${VERSION}"
 TARBALL="iana-etc-${VERSION}.tar.bz2"
 
 SRC1=(
-http://www.sethwklein.net/projects/iana-etc/downloads/${TARBALL}
+http://www.sethwklein.net/${TARBALL}
 )
 
 MD5SUMS=(
@@ -27,9 +27,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://www.sethwklein.net/projects/iana-etc/downloads/'
+  ADDRESS='http://sethwklein.net/iana-etc'
   VERSION_STRING='iana-etc-%version%.tar.bz2'
-  MIRRORS=(
-    'http://www.sethwklein.net/projects/iana-etc/downloads/iana-etc-%version%.tar.bz2'
-  )
 }
