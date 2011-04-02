@@ -237,7 +237,7 @@ list_sources(){
 }
 
 download_sources(){
-  local N SRC F M TN
+  local N SRC F M TN NOTARBALL
   mkdir -p $DOWNLOADDIR || return 1
   cd $DOWNLOADDIR || return 1
   for app in $*; do
@@ -256,10 +256,13 @@ download_sources(){
           mkdir -p $TMPDIR || return 1
           cd $TMPDIR || return 1
           echo "Running my_src${N} for ${app}..."
+          NOTARBALL=0
           my_src${N} || return 1
-          echo "Making ${DIR}.tar.xz..."
-          tar cpfJ $DOWNLOADDIR/${DIR}.tar.xz $DIR || return 1
-          cd $DOWNLOADDIR || return 1
+          if [ "$NOTARBALL" = "0" ]; then
+            echo "Making ${DIR}.tar.xz..."
+            tar cpfJ $DOWNLOADDIR/${DIR}.tar.xz $DIR || return 1
+            cd $DOWNLOADDIR || return 1
+          fi
           echo "Cleaning up..."
           rm -rf $TMPDIR || return 1
           echo "Done. :)"
