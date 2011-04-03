@@ -2,7 +2,9 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.10.0"
+##1.10.0 hangs on startup
+
+VERSION="1.9.5"
 
 DIR="xorg-server-${VERSION}"
 TARBALL="xorg-server-${VERSION}.tar.bz2"
@@ -12,7 +14,7 @@ http://xorg.freedesktop.org/releases/individual/xserver/${TARBALL}
 )
 
 MD5SUMS=(
-57c143c5cfa507680933b6c4904f829c
+662566559f4f27638658b50632ce98de
 )
 
 build(){
