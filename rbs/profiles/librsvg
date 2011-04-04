@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.32.1"
+VERSION="2.34.0"
 
 DIR="librsvg-${VERSION}"
 TARBALL="librsvg-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-4b00d0fee130c936644892c152f42db7
+5eb2fcd0765aa5e47a4999985e3c27ab
 )
 
 build(){

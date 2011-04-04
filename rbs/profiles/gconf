@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.32.1"
+VERSION="2.32.2"
 
 DIR="GConf-${VERSION}"
 TARBALL="GConf-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-e3952c493cabee2903690fc4d203dca3
+0d19e59b8997b9968695ca863dd0acc8
 )
 
 build(){
@@ -32,7 +32,4 @@ version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/GConf/%minor_version%/'
   VERSION_STRING='GConf-%version%.tar.bz2'
   ONLY_EVEN_MINORS=1
-  MIRRORS=(
-    'http://ftp.gnome.org/pub/GNOME/sources/GConf/%minor_version%/GConf-%version%.tar.bz2'
-  )
 }
