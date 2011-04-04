@@ -1,18 +1,16 @@
 #!/bin/bash
 
-DISABLE_MULTILIB=1
+VERSION="2.1"
 
-VERSION="0.1.6"
-
-DIR="gegl-${VERSION}"
-TARBALL="gegl-${VERSION}.tar.bz2"
+DIR="nettle-${VERSION}"
+TARBALL="nettle-${VERSION}.tar.gz"
 
 SRC1=(
-ftp://ftp.gimp.org/pub/gegl/$(cut -f-2 -d'.' <<< $VERSION)/${TARBALL}
+http://ftp.gnu.org/gnu/nettle/${TARBALL}
 )
 
 MD5SUMS=(
-af5e5a7d3c7ddfaa2b3414de2a7e9113
+2bfaf16234a5d8deb96cd23f53a682bb
 )
 
 build(){
@@ -27,6 +25,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='ftp://ftp.gimp.org/pub/gegl/%minor_version%/'
-  VERSION_STRING='gegl-%version%.tar.bz2'
+  ADDRESS='http://ftp.gnu.org/gnu/nettle/'
+  VERSION_STRING='nettle-%version%.tar.gz'
 }

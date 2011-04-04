@@ -2,24 +2,24 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.1.6"
+VERSION="1.2.2"
 
-DIR="gegl-${VERSION}"
-TARBALL="gegl-${VERSION}.tar.bz2"
+DIR="libogg-${VERSION}"
+TARBALL="libogg-${VERSION}.tar.gz"
 
 SRC1=(
-ftp://ftp.gimp.org/pub/gegl/$(cut -f-2 -d'.' <<< $VERSION)/${TARBALL}
+http://downloads.xiph.org/releases/ogg/${TARBALL}
 )
 
 MD5SUMS=(
-af5e5a7d3c7ddfaa2b3414de2a7e9113
+5a9fcabc9a1b7c6f1cd75ddc78f36c56
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
-    --libdir=/usr/$LIBSDIR || return 1
+  --libdir=/usr/$LIBSDIR || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   cd ../ || return 1
@@ -27,6 +27,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='ftp://ftp.gimp.org/pub/gegl/%minor_version%/'
-  VERSION_STRING='gegl-%version%.tar.bz2'
+  ADDRESS='http://downloads.xiph.org/releases/ogg/'
+  VERSION_STRING='libogg-%version%.tar.gz'
+  VERSION_FILTERS='beta rc'
 }

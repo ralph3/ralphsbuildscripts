@@ -4,7 +4,7 @@ DISABLE_MULTILIB=1
 
 VERSION="0.1.3"
 
-DIR="screenlets"
+DIR="screenlets-$VERSION"
 TARBALL="screenlets-${VERSION}.tar.gz"
 
 SRC1=(

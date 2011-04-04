@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.1.7-20090601"
+VERSION="0.1.7-20110403"
 
 DIR="epdfview-${VERSION}"
 TARBALL="epdfview-${VERSION}.tar.xz"
@@ -43,7 +43,4 @@ build(){
 version_check_info(){
   ADDRESS='http://trac.emma-soft.com/epdfview/wiki/Download'
   VERSION_STRING='epdfview-%version%.tar.bz2'
-  MIRRORS=(
-    'http://trac.emma-soft.com/epdfview/chrome/site/releases/epdfview-%version%.tar.bz2'
-  )
 }

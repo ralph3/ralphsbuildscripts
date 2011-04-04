@@ -18,6 +18,85 @@ MD5SUMS=(
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+  
+cat << "EOF" | patch -Np1 || return 1
+diff -Naur imlib2-1.4.4/src/modules/loaders/loader_png.c imlib2-1.4.4.patched/src/modules/loaders/loader_png.c
+--- imlib2-1.4.4/src/modules/loaders/loader_png.c	2010-02-11 15:02:11.000000000 -0500
++++ imlib2-1.4.4.patched/src/modules/loaders/loader_png.c	2011-04-03 17:10:35.000000000 -0400
+@@ -58,7 +58,7 @@
+              fclose(f);
+              return 0;
+           }
+-        if (setjmp(png_ptr->jmpbuf))
++        if (setjmp(png_jmpbuf(png_ptr)))
+           {
+              png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+              fclose(f);
+@@ -238,7 +238,7 @@
+    png_structp         png_ptr;
+    png_infop           info_ptr;
+    DATA32             *ptr;
+-   int                 x, y, j;
++   int                 x, y, j, interlace;
+    png_bytep           row_ptr, data = NULL;
+    png_color_8         sig_bit;
+    int                 pl = 0;
+@@ -265,7 +265,7 @@
+         png_destroy_write_struct(&png_ptr, (png_infopp) NULL);
+         return 0;
+      }
+-   if (setjmp(png_ptr->jmpbuf))
++   if (setjmp(png_jmpbuf(png_ptr)))
+      {
+         fclose(f);
+         png_destroy_write_struct(&png_ptr, (png_infopp) & info_ptr);
+@@ -274,11 +274,11 @@
+      }
+ 
+    /* check whether we should use interlacing */
++   interlace = PNG_INTERLACE_NONE;
+    if ((tag = __imlib_GetTag(im, "interlacing")) && tag->val)
+      {
+ #ifdef PNG_WRITE_INTERLACING_SUPPORTED
+-          png_ptr->interlaced = PNG_INTERLACE_ADAM7;
+-          num_passes = png_set_interlace_handling(png_ptr);
++          interlace = PNG_INTERLACE_ADAM7;
+ #endif
+      }
+ 
+@@ -286,7 +286,7 @@
+    if (im->flags & F_HAS_ALPHA)
+      {
+         png_set_IHDR(png_ptr, info_ptr, im->w, im->h, 8,
+-                     PNG_COLOR_TYPE_RGB_ALPHA, png_ptr->interlaced,
++                     PNG_COLOR_TYPE_RGB_ALPHA, interlace,
+                      PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
+ #ifdef WORDS_BIGENDIAN
+         png_set_swap_alpha(png_ptr);
+@@ -297,7 +297,7 @@
+    else
+      {
+         png_set_IHDR(png_ptr, info_ptr, im->w, im->h, 8, PNG_COLOR_TYPE_RGB,
+-                     png_ptr->interlaced, PNG_COMPRESSION_TYPE_BASE,
++                     interlace, PNG_COMPRESSION_TYPE_BASE,
+                      PNG_FILTER_TYPE_BASE);
+         data = malloc(im->w * 3 * sizeof(char));
+      }
+@@ -343,7 +343,11 @@
+    png_write_info(png_ptr, info_ptr);
+    png_set_shift(png_ptr, &sig_bit);
+    png_set_packing(png_ptr);
+-
++   
++#ifdef PNG_WRITE_INTERLACING_SUPPORTED
++     num_passes = png_set_interlace_handling(png_ptr);
++#endif
++   
+    for (pass = 0; pass < num_passes; pass++)
+      {
+       ptr = im->data;
+EOF
+  
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc || return 1
   make || return 1
