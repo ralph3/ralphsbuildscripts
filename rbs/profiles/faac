@@ -43,9 +43,6 @@ EOF
 }
 
 version_check_info(){
-  ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=704&package_id=10773'
+  ADDRESS='http://sourceforge.net/projects/faac/files/faac-src/faac-%version%/'
   VERSION_STRING='faac-%version%.tar.gz'
-  MIRRORS=(
-    "http://prdownloads.sourceforge.net/faac/faac-%version%.tar.gz"
-  )
 }
