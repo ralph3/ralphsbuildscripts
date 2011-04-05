@@ -16,4 +16,5 @@ pygtk
 gtk-engines
 perl-xml-simple
 icon-naming-utils
+hicolor-icon-theme
 gnome-icon-theme
