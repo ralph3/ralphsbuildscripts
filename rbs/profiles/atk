@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.32.0"
+VERSION="2.0.0"
 
 DIR="atk-${VERSION}"
 TARBALL="atk-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-b9a19a3e426cd9ca930f0108c4ee343f
+f9a0efa29c38c9a35ec83b7f460fce9b
 )
 
 build(){
@@ -30,7 +30,4 @@ version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/atk/%minor_version%/'
   VERSION_STRING='atk-%version%.tar.bz2'
   ONLY_EVEN_MINORS=1
-  MIRRORS=(
-    "http://ftp.gnome.org/pub/GNOME/sources/atk/%minor_version%/atk-%version%.tar.bz2"
-  )
 }

@@ -1,7 +1,8 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="5.8"
+
+VERSION="5.9"
 
 DIR="ncurses-${VERSION}"
 TARBALL="ncurses-${VERSION}.tar.gz"
@@ -11,7 +12,7 @@ http://ftp.gnu.org/gnu/ncurses/${TARBALL}
 )
 
 MD5SUMS=(
-20ed3fa7599937f0ca268d9088837a64
+8cb9c412e5f2d96bc6f459aa8c6282a1
 )
 
 Cross_Tools_Build(){
@@ -65,7 +66,5 @@ build(){
 version_check_info(){
   ADDRESS='http://ftp.gnu.org/gnu/ncurses/'
   VERSION_STRING='ncurses-%version%.tar.gz'
-  MIRRORS=(
-    'http://ftp.gnu.org/gnu/ncurses/ncurses-%version%.tar.gz'
-  )
+  VERSION_FILTERS='5.9'
 }

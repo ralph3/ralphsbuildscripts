@@ -2,6 +2,7 @@
 
 DISABLE_MULTILIB=1
 
+#3.0 uses gtk3
 VERSION="2.30.6"
 
 DIR="libwnck-${VERSION}"
