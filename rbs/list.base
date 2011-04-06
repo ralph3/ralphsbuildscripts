@@ -78,5 +78,7 @@ python
 syslinux
 bootscripts
 wireless_tools
+expat
 neon
 subversion
+git
