@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="0.10.6"
+VERSION="0.10.7"
 
 DIR="gobject-introspection-${VERSION}"
 TARBALL="gobject-introspection-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-73a4b44d25f62f751825b30c621103ce
+86d039314b38a8c7dd315a71a50e086d
 )
 
 build(){

@@ -27,6 +27,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS="http://sourceforge.net/projects/lxde/files/menu-cache/menu-cache %version%"
+  ADDRESS="http://sourceforge.net/projects/lxde/files/menu-cache/menu-cache %version%/"
   VERSION_STRING="menu-cache-%version%.tar.gz"
 }

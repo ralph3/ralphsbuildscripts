@@ -27,7 +27,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://sourceforge.net/projects/net-snmp/files/'
+  ADDRESS='http://sourceforge.net/projects/net-snmp/files/net-snmp/%version%/'
   VERSION_STRING='net-snmp-%version%.tar.gz'
-  VERSION_FILTERS='rc pre'
+  VERSION_FILTERS='or he ^\. load to pre'
 }

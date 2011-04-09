@@ -31,9 +31,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS="http://sourceforge.net/projects/lxde/files/"
+  ADDRESS="http://sourceforge.net/projects/lxde/files/LXTerminal (terminal emulator)/LXTerminal %version%/"
   VERSION_STRING="lxterminal-%version%.tar.gz"
-  MIRRORS=(
-    "http://prdownloads.sourceforge.net/lxde/lxterminal-%version%.tar.gz"
-  )
 }

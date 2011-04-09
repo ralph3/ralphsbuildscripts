@@ -39,11 +39,11 @@ filter_minors(){
 }
 
 get_dir_data(){
-  filter_minors "$(get_data $1 | grep -iv -e ' ' \
-    -e '^/a$' -e 'html$' -e 'head$' \
-    -e 'body$' -e 'title$' -e 'pre$' \
-    -e 'font$' -e 'h[0-9]$' -e 'hr$' \
-    -e '/.*/' | grep '/$' | grep "^${PRE}." | tr -d '/')"
+  if [ -n "$(grep -i "sourceforge.net"<<<"$1")" ]; then
+    filter_minors "$(get_data "$1" | grep -iv -e '^/a$' -e 'html$' -e 'head$' -e 'body$' -e 'title$' -e 'pre$' -e 'font$' -e 'h[0-9]$' -e 'hr$' -e '/.*/' | grep "^${PRE}." | sed -e '/\//d' -e '/:/d' -e '/;/d' -e '/,/d' -e'/  /d' -e '/%/d' -e '/=/d' | grep '\.')"
+  else
+    filter_minors "$(get_data "$1" | grep -iv -e ' ' -e '^/a$' -e 'html$' -e 'head$' -e 'body$' -e 'title$' -e 'pre$' -e 'font$' -e 'h[0-9]$' -e 'hr$' -e '/.*/' | grep '/$' | grep "^${PRE}." | tr -d '/')"
+  fi
 }
 
 echo "<check-versions begin>"
@@ -89,12 +89,16 @@ for PRO in $PROFILES; do
           exit 1
         ;;
       esac
+      
+      #for debug
+      #echo "$DATA"
+      
       ADDRESS="$(
                   echo $taddr)/$(sort -V <<< "$DATA" | \
                     tail -n1)/$(cut -f3- -d'%' <<<"$ADDRESS"
                 )"
     done
-
+    
     unset PRE SUF
     
     DATA=$(get_data "$ADDRESS")
@@ -104,7 +108,10 @@ for PRO in $PROFILES; do
     fi
     PRE=$(sed -e 's%\%version\%%\n%g' <<<$VERSION_STRING | sed -e '1!d')
     SUF=$(sed -e 's%\%version\%%\n%g' <<<$VERSION_STRING | sed -e '2!d')
-
+      
+      #for debug
+      #echo "$DATA"
+      
     VLIST=$(
               grep "^.*${PRE}.*${SUF}" <<<"$DATA" | \
                 sed -e "s%^.*${PRE}%%g" -e "s%${SUF}.*$%%g"

@@ -27,6 +27,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS="http://sourceforge.net/projects/lxde/files/"
+  ADDRESS="http://sourceforge.net/projects/lxde/files/LXTask (task manager)/LXTask %version%/"
   VERSION_STRING="lxtask-%version%.tar.gz"
+  VERSION_FILTERS='('
 }

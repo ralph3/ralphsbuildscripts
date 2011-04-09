@@ -7,18 +7,19 @@ VERSION="33215"
 DIR="MPlayer-${VERSION}"
 TARBALL="MPlayer-${VERSION}.tar.xz"
 
-my_src1(){
+my_src(){
   git --version || return 1
   svn co -r $VERSION \
     svn://svn.mplayerhq.hu/mplayer/trunk/ $DIR || return 1
   cd $DIR || return 1
   git clone --depth 1 git://git.videolan.org/ffmpeg.git ffmpeg || return 1
   cd ../ || return 1
+  echo -n "Making ${TARBALL}..."
+  tar cfJ $TARBALL $DIR || return 1
+  mkdir -p $DOWNLOADDIR || return 1
+  mv $TARBALL $DOWNLOADDIR/ || return 1
+  echo " Done."
 }
-
-#SRC1=(
-#http://www.mplayerhq.hu/MPlayer/releases/$TARBALL
-#)
 
 SRC1=( http://www.mplayerhq.hu/MPlayer/skins/Industrial-1.0.tar.bz2 )
 

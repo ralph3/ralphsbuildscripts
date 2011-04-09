@@ -7,9 +7,14 @@ VERSION="0.1.7-20110403"
 DIR="epdfview-${VERSION}"
 TARBALL="epdfview-${VERSION}.tar.xz"
 
-my_src1(){
+my_src(){
   svn co -r {$(echo $VERSION | cut -f2- -d'-' | sed 's%....%&-%;s%..$%-&%')} \
     svn://svn.emma-soft.com/epdfview/trunk $DIR || return 1
+  echo -n "Making ${TARBALL}..."
+  tar cfJ $TARBALL $DIR || return 1
+  mkdir -p $DOWNLOADDIR || return 1
+  mv $TARBALL $DOWNLOADDIR/ || return 1
+  echo " Done."
 }
 
 #SRC1=(

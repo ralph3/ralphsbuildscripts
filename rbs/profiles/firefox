@@ -4,33 +4,33 @@ DISABLE_MULTILIB=1
 
 VERSION="4.0"
 
-TARBALL="firefox-${VERSION}.tar.bz2"
-TARBALL86="firefox-${VERSION}-x86.tar.bz2"
-TARBALL64="firefox-${VERSION}-x86_64.tar.bz2"
+TARBALL="firefox-${VERSION}.tar"
 
-my_src1(){
-  NOTARBALL=1
+MOZTARBALL="firefox-${VERSION}.tar.bz2"
+
+my_src(){
+  mkdir 32 64 || return 1
+  cd 32 || return 1
+  download http://releases.mozilla.org/pub/mozilla.org/firefox/releases/${VERSION}/linux-i686/en-US/$MOZTARBALL || return 1
+  cd ../64 || return 1
+  download http://releases.mozilla.org/pub/mozilla.org/firefox/releases/${VERSION}/linux-x86_64/en-US/$MOZTARBALL || return 1
+  cd ../ || return 1
+  echo -n "Making ${TARBALL}..."
+  tar cf $TARBALL 32 64 || return 1
   mkdir -p $DOWNLOADDIR || return 1
-  cd $DOWNLOADDIR || return 1
-  if [ ! -e "$TARBALL86" ]; then
-    download http://releases.mozilla.org/pub/mozilla.org/firefox/releases/${VERSION}/linux-i686/en-US/${TARBALL} || return 1
-    mv $TARBALL $TARBALL86 || return 1
-  fi
-  if [ ! -e "$TARBALL64" ]; then
-    download http://releases.mozilla.org/pub/mozilla.org/firefox/releases/${VERSION}/linux-x86_64/en-US/${TARBALL} || return 1
-    mv $TARBALL $TARBALL64 || return 1
-  fi
+  mv $TARBALL $DOWNLOADDIR/ || return 1
+  echo " Done."
   return
 }
 
 build(){
-  local TB
+  local B
   case $(gcc -dumpmachine | cut -f1 -d'-') in
     i686)
-      TB=$TARBALL86
+      B=32
     ;;
     x86_64)
-      TB=$TARBALL64
+      B=64
     ;;
     *)
       echo "ARCH not supported" > /dev/stderr
@@ -38,9 +38,10 @@ build(){
     ;;
   esac
   
-  echo -n "Unpacking ${TB}..."
+  echo -n "Unpacking ${TARBALL}->${B}/${MOZTARBALL}..."
   mkdir -p $TMPROOT/usr/$LIBSDIR || return 1
-  tar xfj $DOWNLOADDIR/$TB -C $TMPROOT/usr/$LIBSDIR/ || return 1
+  tar xfO $DOWNLOADDIR/$TARBALL $B/$MOZTARBALL | \
+    tar xj -C $TMPROOT/usr/$LIBSDIR/ || return 1
   echo " Done."
   
   mkdir -p $TMPROOT/usr/bin || return 1
@@ -62,7 +63,7 @@ EOF
 }
 
 version_check_info(){
-  ADDRESS='ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%version%/source/'
-  VERSION_STRING='firefox-%version%.source.tar.bz2'
+  ADDRESS='ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%version%/linux-i686/en-US/'
+  VERSION_STRING='firefox-%version%.tar.bz2'
   VERSION_FILTERS='[a-z] [A-Z]'
 }

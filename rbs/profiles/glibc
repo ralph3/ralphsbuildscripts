@@ -14,11 +14,6 @@ MD5SUMS=(
 38808215a7c40aa0bb47a5e6d3d12475
 )
 
-#my_src1(){
-#  cvs -z3 -d :pserver:anoncvs:anoncvs@sources.redhat.com:/cvs/glibc \
-#    export -r glibc-$(echo $VERSION | tr "." "_") -d $DIR libc || return 1
-#}
-
 rbs_do_glibc_patching(){
 
 cat << "EOF" | patch -Np1 || return 1

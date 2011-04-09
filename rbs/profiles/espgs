@@ -49,7 +49,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=18073&package_id=19793'
+  ADDRESS='http://sourceforge.net/projects/espgs/files/espgs/%version%/'
   VERSION_STRING='espgs-%version%-source.tar.bz2'
-  VERSION_FILTERS='[a-z] [A-Z]'
+  VERSION_FILTERS='[a-z] [A-Z] ^\.'
 }
