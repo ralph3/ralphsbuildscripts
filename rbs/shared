@@ -247,7 +247,8 @@ download_sources(){
       return 1
     fi
     source $PROFILEDIR/$app || return 1
-    test_profile $app my_src && {
+    test_profile $app my_src
+    if [ "$?" == "0" ]; then
       if [ ! -e "$DOWNLOADDIR/$TARBALL" ]; then
         download "http://192.168.0.1/rbs-sources/$TARBALL" || {
           rm -rf $TMPDIR || return 1
@@ -260,7 +261,7 @@ download_sources(){
           echo "Done. :)"
         }
       fi
-    }
+    fi
     N=1
     while true; do
       eval "SRC=( \$(for x in \"\${SRC$N[@]}\"; do echo "\"\$x\""; done) )"
