@@ -250,7 +250,8 @@ download_sources(){
     test_profile $app my_src
     if [ "$?" == "0" ]; then
       if [ ! -e "$DOWNLOADDIR/$TARBALL" ]; then
-        download "http://192.168.0.1/rbs-sources/$TARBALL" || {
+        download "http://192.168.0.1/rbs-sources/$TARBALL"
+        if [ "$?" != "0" ]; then
           rm -rf $TMPDIR || return 1
           mkdir -p $TMPDIR || return 1
           cd $TMPDIR || return 1
@@ -259,7 +260,7 @@ download_sources(){
           echo "Cleaning up..."
           rm -rf $TMPDIR || return 1
           echo "Done. :)"
-        }
+        fi
       fi
     fi
     N=1
