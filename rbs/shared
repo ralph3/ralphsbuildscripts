@@ -237,7 +237,7 @@ list_sources(){
 }
 
 download_sources(){
-  local N SRC F M TN NOTARBALL
+  local N SRC F M TN
   mkdir -p $DOWNLOADDIR || return 1
   cd $DOWNLOADDIR || return 1
   for app in $*; do
@@ -247,7 +247,6 @@ download_sources(){
       return 1
     fi
     source $PROFILEDIR/$app || return 1
-      while true; do
     test_profile $app my_src
     if [ "$?" == "0" ]; then
       if [ ! -e "$DOWNLOADDIR/$TARBALL" ]; then
@@ -264,8 +263,6 @@ download_sources(){
         fi
       fi
     fi
-        break
-      done
     N=1
     while true; do
       eval "SRC=( \$(for x in \"\${SRC$N[@]}\"; do echo "\"\$x\""; done) )"
