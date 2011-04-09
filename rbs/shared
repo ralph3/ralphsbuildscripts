@@ -247,7 +247,7 @@ download_sources(){
       return 1
     fi
     source $PROFILEDIR/$app || return 1
-    test_profile $app my_src
+    test_profile $app my_src1
     if [ "$?" == "0" ]; then
       if [ ! -e "$DOWNLOADDIR/$TARBALL" ]; then
         download "http://192.168.0.1/rbs-sources/$TARBALL"
@@ -255,8 +255,8 @@ download_sources(){
           rm -rf $TMPDIR || return 1
           mkdir -p $TMPDIR || return 1
           cd $TMPDIR || return 1
-          echo "Running my_src for ${app}..."
-          my_src || return 1
+          echo "Running my_src1 for ${app}..."
+          my_src1 || return 1
           echo "Cleaning up..."
           rm -rf $TMPDIR || return 1
           echo "Done. :)"

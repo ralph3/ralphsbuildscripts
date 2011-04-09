@@ -8,7 +8,7 @@ TARBALL="firefox-${VERSION}.tar"
 
 MOZTARBALL="firefox-${VERSION}.tar.bz2"
 
-my_src(){
+my_src1(){
   mkdir 32 64 || return 1
   cd 32 || return 1
   download http://releases.mozilla.org/pub/mozilla.org/firefox/releases/${VERSION}/linux-i686/en-US/$MOZTARBALL || return 1

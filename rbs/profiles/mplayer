@@ -7,7 +7,7 @@ VERSION="33215"
 DIR="MPlayer-${VERSION}"
 TARBALL="MPlayer-${VERSION}.tar.xz"
 
-my_src(){
+my_src1(){
   git --version || return 1
   svn co -r $VERSION \
     svn://svn.mplayerhq.hu/mplayer/trunk/ $DIR || return 1
