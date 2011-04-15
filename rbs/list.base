@@ -78,6 +78,7 @@ python
 syslinux
 bootscripts
 wireless_tools
+gpm
 expat
 neon
 subversion

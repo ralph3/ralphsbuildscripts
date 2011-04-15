@@ -34,7 +34,7 @@ build(){
   sed -i 's@^# Every automatically generated MANPATH includes these fields@# Set MANPATH using a profile script in /etc/profile.d instead of here.@' $TMPROOT/etc/man.conf || return 1
   
   sed -i -e '/^\.gz/d' -e '/^\.lzma/d' -e '/^\.z/d' -e '/^\.Z/d' \
-    -e '/^\.F/d' -e '/^\.Y/d' $TMPROOT/etc/man.conf || return 1
+    -e '/^\.F/d' -e '/^\.Y/d' -e '/^\.xz/d' $TMPROOT/etc/man.conf || return 1
   
   echo -e ".gz\t\tgzip -c -d\n.xz\t\txz -c -d" >> \
     $TMPROOT/etc/man.conf || return 1

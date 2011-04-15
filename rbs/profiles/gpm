@@ -1,0 +1,101 @@
+#!/bin/bash
+
+DONT_REMOVE=1
+DISABLE_MULTILIB=1
+
+VERSION="1.20.6"
+
+DIR="gpm-${VERSION}"
+TARBALL="gpm-${VERSION}.tar.bz2"
+
+SRC1=(
+http://www.nico.schottelius.org/software/gpm/archives/${TARBALL}
+)
+
+MD5SUMS=(
+6b534da16dc1b28ba828dea89e520f6f
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  
+cat << "EOF" | patch -Np1 || return 1
+Submitted By: Craig Jackson craigmjackson at gmail.com
+Date: 2009-04-14
+Initial Package Version: 1.20.6
+Upstream Status: Unknown
+Origin: http://archives.linuxfromscratch.org/mail-archives/blfs-dev/2003-May/002916.html
+Description: Don't output debug messages on screen.
+Original Patch By: Alexander E. Patrakov semzx at newmail.ru
+
+diff -ur gpm-1.20.6.orig/src/lib/report-lib.c gpm-1.20.6/src/lib/report-lib.c 
+--- gpm-1.20.6.orig/src/lib/report-lib.c	2009-02-09 01:58:53.000000000 -0800
++++ gpm-1.20.6/src/lib/report-lib.c	2009-04-14 19:33:22.547018468 -0700
+@@ -31,7 +31,8 @@
+    va_list ap;
+ 
+    if (stat == GPM_STAT_DEBUG) return;
+-
++   if (stat != GPM_STAT_OOPS)
++	return;
+    va_start(ap,text);
+ 
+    switch(stat) {
+diff -ur gpm-1.20.6.orig/src/report.c gpm-1.20.6/src/report.c 
+--- gpm-1.20.6.orig/src/report.c	2009-02-09 01:58:53.000000000 -0800
++++ gpm-1.20.6/src/report.c	2009-04-14 19:35:54.672311860 -0700
+@@ -76,6 +76,8 @@
+ #ifdef HAVE_VSYSLOG
+    va_list ap2;
+ #endif
++   if (stat <= GPM_STAT_INFO)
++	return;
+ 
+    va_start(ap,text);
+    va_copy(ap3, ap);
+EOF
+  
+  CC="$CC $BUILD -fPIC" CXX="$CXX $BUILD -fPIC" ./configure --prefix=/usr \
+    --sysconfdir=/etc --libdir=/usr/$LIBSDIR || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  mkdir -p $TMPROOT/etc || return 1
+  cp conf/gpm-root.conf $TMPROOT/etc/gpm-root.conf.tmpnew || return 1
+  mkdir -p $TMPROOT/etc/rc.d || return 1
+cat << "EOF" >$TMPROOT/etc/rc.d/rc.gpm
+#!/bin/bash
+
+. /etc/rc.d/rc.conf
+. /etc/rc.d/rc.functions
+
+case "$1" in
+  start)
+    print_msg "Starting GPM..."
+    loadproc gpm -m /dev/psaux -t imps2
+  ;;
+  stop)
+    print_msg "Stopping GPM..."
+    killproc gpm
+  ;;
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+  ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    return 1
+  ;;
+esac
+EOF
+  chmod 744 $TMPROOT/etc/rc.d/rc.gpm || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://www.nico.schottelius.org/software/gpm/archives/'
+  VERSION_STRING='gpm-%version%.tar.bz2'
+  ##VERSION_FILTERS=latest
+}

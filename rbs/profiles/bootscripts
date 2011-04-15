@@ -218,6 +218,7 @@ SYSTEM_INIT=(
   loadkeys
   localnet
   sysklogd
+  gpm
 )
 EOF
   
