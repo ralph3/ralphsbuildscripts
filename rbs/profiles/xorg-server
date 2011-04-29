@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-##1.10.0 hangs on startup
+#synaptics driver doesn't like 1.10.x and the 4.0 version doesn't like my laptop.
 
 VERSION="1.9.5"
 

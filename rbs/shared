@@ -239,7 +239,6 @@ list_sources(){
 download_sources(){
   local N SRC F M TN
   mkdir -p $DOWNLOADDIR || return 1
-  cd $DOWNLOADDIR || return 1
   for app in $*; do
     unset_profile
     if [ ! -f "$PROFILEDIR/$app" ]; then
@@ -247,6 +246,7 @@ download_sources(){
       return 1
     fi
     source $PROFILEDIR/$app || return 1
+    cd $DOWNLOADDIR || return 1
     test_profile $app my_src1
     if [ "$?" == "0" ]; then
       if [ ! -e "$DOWNLOADDIR/$TARBALL" ]; then
@@ -273,6 +273,7 @@ download_sources(){
         [ -e "$F" ] && {
           [ -e "${F}.ok" ] || [ "$(md5sum_file $F)" == "$M" ] || [ "$M" == "0" ] && break
         }
+        cd $DOWNLOADDIR || return 1
         download "http://192.168.0.1/rbs-sources/$(basename $addr)" || \
           download "$addr"
       done
