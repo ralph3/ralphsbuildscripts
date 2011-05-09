@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.10"
+VERSION="0.11"
 
 DIR="startup-notification-${VERSION}"
 TARBALL="startup-notification-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://www.freedesktop.org/software/startup-notification/releases/${TARBALL}
 )
 
 MD5SUMS=(
-bca0ed1c74bc4e483ea2ed12a5717354
+375167f8b1f44689a238526343bd74f0
 )
 
 build(){

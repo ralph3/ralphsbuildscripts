@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="167"
+VERSION="168"
 
 DIR="udev-${VERSION}"
 TARBALL="udev-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://www.kernel.org/pub/linux/utils/kernel/hotplug/${TARBALL}
 )
 
 MD5SUMS=(
-4b37e1222f06c14c24147de346aa0bad
+4a466078532ab5dd5c35acc3ea2ec9a1
 )
 
 MyBuild(){

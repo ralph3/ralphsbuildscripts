@@ -3,7 +3,7 @@
 DISABLE_MULTILIB=1
 DISABLE_STRIP=1
 
-VERSION="4.03"
+VERSION="4.04"
 
 DIR="syslinux-${VERSION}"
 TARBALL="syslinux-${VERSION}.tar.bz2"
@@ -13,7 +13,7 @@ http://www.kernel.org/pub/linux/utils/boot/syslinux/${TARBALL}
 )
 
 MD5SUMS=(
-a7ca38a0a5786b6efae8fb01a1ae8070
+a3936208767eb7ced65320abe2e33a10
 )
 
 build(){
