@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.1.1"
+VERSION="1.2.0"
 
 DIR="resourceproto-${VERSION}"
 TARBALL="resourceproto-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-8ff0525ae7502b48597b78d00bc22284
+cfdb57dae221b71b2703f8e2980eaaf4
 )
 
 build(){

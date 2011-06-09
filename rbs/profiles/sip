@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="4.12.2"
+VERSION="4.12.3"
 
 DIR="sip-${VERSION}"
 TARBALL="sip-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://www.riverbankcomputing.com/static/Downloads/sip4/${TARBALL}
 )
 
 MD5SUMS=(
-9df80f88e0e4022cdd8a8891c6c38048
+d0f1fa60494db04b4d115d4c2d92f79e
 )
 
 build(){
