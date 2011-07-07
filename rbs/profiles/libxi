@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.4.2"
+VERSION="1.4.3"
 
 DIR="libXi-${VERSION}"
 TARBALL="libXi-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-3d14f7bfc4a4335cf0144de9b67a5444
+792e8a7ddc7175911d69f823d38eaff6
 )
 
 build(){

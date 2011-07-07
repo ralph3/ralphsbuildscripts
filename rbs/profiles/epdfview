@@ -2,33 +2,33 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.1.7-20110403"
+VERSION="0.1.8"
 
 DIR="epdfview-${VERSION}"
-TARBALL="epdfview-${VERSION}.tar.xz"
+TARBALL="epdfview-${VERSION}.tar.bz2"
 
-my_src1(){
-  svn co -r {$(echo $VERSION | cut -f2- -d'-' | sed 's%....%&-%;s%..$%-&%')} \
-    svn://svn.emma-soft.com/epdfview/trunk $DIR || return 1
-  echo -n "Making ${TARBALL}..."
-  tar cfJ $TARBALL $DIR || return 1
-  mkdir -p $DOWNLOADDIR || return 1
-  mv $TARBALL $DOWNLOADDIR/ || return 1
-  echo " Done."
-}
+#my_src1(){
+#  svn co -r {$(echo $VERSION | cut -f2- -d'-' | sed 's%....%&-%;s%..$%-&%')} \
+#    svn://svn.emma-soft.com/epdfview/trunk $DIR || return 1
+#  echo -n "Making ${TARBALL}..."
+#  tar cfJ $TARBALL $DIR || return 1
+#  mkdir -p $DOWNLOADDIR || return 1
+#  mv $TARBALL $DOWNLOADDIR/ || return 1
+#  echo " Done."
+#}
 
-#SRC1=(
-#  http://trac.emma-soft.com/epdfview/chrome/site/releases/${TARBALL}
-#)
-#
-#MD5SUMS=(
-#cce9edb41b4a8308e0ef0eea24b5a1ab
-#)
+SRC1=(
+  http://trac.emma-soft.com/epdfview/chrome/site/releases/${TARBALL}
+)
+
+MD5SUMS=(
+e50285b01612169b2594fea375f53ae4
+)
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  ./autogen.sh || return 1
+  ##./autogen.sh || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/usr/$LIBSDIR --libexecdir=/usr/sbin --sysconfdir=/etc \
     --localstatedir=/var/lib || return 1

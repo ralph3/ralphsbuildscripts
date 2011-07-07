@@ -184,7 +184,7 @@ download(){
   case $HOST in
     "prdownloads.sourceforge.net")
       SFSUF=`echo $1 | rev | cut -f-2 -d '/' | rev`
-      for sfhost in easynews optusnet switch puzzle heanet kent jaist ovh \
+      for sfhost in optusnet switch puzzle heanet kent jaist ovh \
         cogent belnet nchc; do
         URL="http://${sfhost}.dl.sourceforge.net/sourceforge/$SFSUF"
         R=`wget --server-response --spider $TURL 2>&1 | grep "Content-Type: text/html"`

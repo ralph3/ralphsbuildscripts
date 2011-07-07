@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="5.6.1"
+VERSION="5.7"
 
 DIR="net-snmp-${VERSION}"
 TARBALL="net-snmp-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://prdownloads.sourceforge.net/net-snmp/${TARBALL}
 )
 
 MD5SUMS=(
-b4e30ead5783b0bb1d280172c6095ea4
+1038e960d6d616c64c0979180daf0e19
 )
 
 build(){

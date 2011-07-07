@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.8"
+VERSION="1.0.9"
 
 DIR="mkfontscale-${VERSION}"
 TARBALL="mkfontscale-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-5210c9385c6cc4a00ce829d8dc9c819b
+3d1dc487f3e859f4e5c46540cb49abd3
 )
 
 build(){
