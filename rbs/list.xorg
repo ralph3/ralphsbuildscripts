@@ -41,9 +41,9 @@ xtrans
 libfontenc
 libice
 libpthread-stubs
+libpciaccess
 libdrm
 libfs
-libpciaccess
 libsm
 libxau
 libxcb
