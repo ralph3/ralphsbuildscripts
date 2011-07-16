@@ -1,0 +1,59 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="11b1"
+
+DIR="flash-player-${VERSION}"
+TARBALL="flash-player-${VERSION}.tar.bz2"
+
+SRC1=(
+http://ralphsbuildscripts.googlecode.com/files/$TARBALL
+)
+
+MD5SUMS=(
+ae29cafcca03c62267701a0fbc4de2f5
+)
+
+build(){
+  local BITS
+  case $($CC -dumpmachine | cut -f1 -d'-') in
+    i?86)
+      BITS=32
+    ;;
+    x86_64)
+      case $LIBSDIR in
+        $LIBSDIR32)
+          BITS=32
+        ;;
+        $LIBSDIR64)
+          BITS=64
+        ;;
+      esac
+    ;;
+    *)
+      echo "error arch not supported!" >/dev/stderr
+      return 1
+    ;;
+  esac
+  
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  
+  mkdir -vp $TMPROOT/usr/$LIBSDIR/flash-player || return 1
+  cp -v $BITS/*.so $TMPROOT/usr/$LIBSDIR/flash-player/ || return 1
+  
+  mkdir -p $TMPROOT/etc/profile.d
+cat << EOF > $TMPROOT/etc/profile.d/flash-player.sh
+if [ -z "\$MOZ_PLUGIN_PATH" ]; then
+  MOZ_PLUGIN_PATH=/usr/$LIBSDIR/flash-player
+else
+  MOZ_PLUGIN_PATH=\$MOZ_PLUGIN_PATH:/usr/$LIBSDIR/flash-player
+fi
+export MOZ_PLUGIN_PATH
+EOF
+  chmod 755 $TMPROOT/etc/profile.d/flash-player.sh || exit 1
+  source $TMPROOT/etc/profile.d/flash-player.sh || exit 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
