@@ -1,0 +1,40 @@
+#!/bin/bash
+
+DONT_REMOVE=1
+DISABLE_MULTILIB=1
+
+VERSION="3_12_10"
+
+TVERSION="$(tr '_' '.' <<< "$VERSION")"
+DIR="nss-${TVERSION}"
+TARBALL="nss-${TVERSION}-with-nspr-4.8.8.tar.gz"
+
+SRC1=(
+http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_${VERSION}_RTM/src/$TARBALL
+)
+
+MD5SUMS=(
+04822dfeb29817e6048e1431e9ed7d49
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR/mozilla/security/nss || return 1
+  
+  if [ "$LIBSDIR" == "$LIBSDIR64" ]; then
+    make CC="$CC $BUILD" CXX="$CXX $BUILD" USE_64=1 BUILD_OPT=1 PKG_CONFIG_ALLOW_SYSTEM_LIBS=1 \
+      nss_build_all || return 1
+  else
+    make CC="$CC $BUILD" CXX="$CXX $BUILD" BUILD_OPT=1 PKG_CONFIG_ALLOW_SYSTEM_LIBS=1 \
+      nss_build_all || return 1
+  fi
+  return 1
+  
+  cd $SRCDIR || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/'
+  VERSION_STRING='NSS_%version%_RTM'
+}
