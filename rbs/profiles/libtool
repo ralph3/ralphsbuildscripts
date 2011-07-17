@@ -1,5 +1,7 @@
 #!/bin/bash
 
+DISABLE_MULTILIB=1
+
 VERSION="2.4"
 
 DIR="libtool-${VERSION}"
