@@ -5,25 +5,18 @@ DISABLE_MULTILIB=1
 
 #2.6.37 - 3.0-rc6 causes black console when enabling kernel modeset with i915
 
-VERSION="2.6.39.3"
+VERSION="3.0-rc7"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.bz2"
-KPATCH=
-##KPATCH="patch-2.6.38-git18.bz2"
 
 SRC1=(
 http://www.kernel.org/pub/linux/kernel/v2.6/${TARBALL}
 http://www.kernel.org/pub/linux/kernel/v3.0/testing/$TARBALL
 )
 
-##SRC2=(
-##http://www.kernel.org/pub/linux/kernel/v2.6/snapshots/$KPATCH
-##)
-
 MD5SUMS=(
-5afede829846587e798f2631c2ece84f
-##ff098feae3934fdf4eebd5066a90a173
+a1c1c1c6158f22936a4763afbd339f5a
 )
 
 Cross_Tools_Build(){
@@ -42,9 +35,6 @@ Cross_Tools_Build(){
   esac
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  if [ -f "$DOWNLOADDIR/$KPATCH" ]; then
-    bzcat $DOWNLOADDIR/$KPATCH | patch -Np1 || return 1
-  fi
   
   mkdir -vp $TCDIR/include || return 1
   make mrproper || return 1
@@ -72,9 +62,6 @@ build(){
   esac
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  if [ -f "$DOWNLOADDIR/$KPATCH" ]; then
-    bzcat $DOWNLOADDIR/$KPATCH | patch -Np1 || return 1
-  fi
   
   make mrproper || return 1
   make ARCH=$KARCH headers_check || return 1
