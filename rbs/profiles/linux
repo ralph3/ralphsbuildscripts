@@ -2,9 +2,9 @@
 
 DISABLE_MULTILIB=1
 
-#2.6.37 - 3.0-rc6 causes black console when enabling kernel modeset with i915
+#2.6.37 - 3.0-rc7 causes black console when enabling kernel modeset with i915
 
-VERSION="3.0-rc7"
+VERSION="2.6.36.4"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.bz2"
@@ -15,7 +15,7 @@ http://www.kernel.org/pub/linux/kernel/v3.0/testing/$TARBALL
 )
 
 MD5SUMS=(
-a1c1c1c6158f22936a4763afbd339f5a
+c05dd941d0e249695e9f72568888e1bf
 )
 
 source_setup(){
