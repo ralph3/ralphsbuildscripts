@@ -1,0 +1,33 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="3.2.0"
+
+DIR="BeautifulSoup-${VERSION}"
+TARBALL="BeautifulSoup-${VERSION}.tar.gz"
+
+SRC1=(
+http://www.crummy.com/software/BeautifulSoup/download/3.x/${TARBALL}
+)
+
+MD5SUMS=(
+ef1e78f7689ea61314f7bddebcfde88c
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  python setup.py build || return 1
+  python setup.py install --root $TMPROOT || return 1
+  if [ ! -e "$TMPROOT/usr/$LIBSDIR" ]; then
+    mv $TMPROOT/usr/lib $TMPROOT/usr/$LIBSDIR || return 1
+  fi
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://www.crummy.com/software/BeautifulSoup/'
+  VERSION_STRING='BeautifulSoup-%version%.tar.gz'
+}

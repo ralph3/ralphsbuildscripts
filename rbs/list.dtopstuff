@@ -24,6 +24,7 @@ gnome-python-desktop
 python-imaging
 dbus-python
 pyxdg
+beautifulsoup
 screenlets
 aspell
 aspell-en
@@ -52,6 +53,6 @@ faac
 faad
 xvidcore
 lame
+yasm
 ffmpeg
-xvidcap
 mplayer

@@ -4,31 +4,41 @@ DISABLE_MULTILIB=1
 
 VERSION="6u26"
 
-TARBALL="jdk-${VERSION}-dlj-linux-amd64.bin"
+TARBALL32="jdk-${VERSION}-dlj-linux-i586.bin"
+TARBALL64="jdk-${VERSION}-dlj-linux-amd64.bin"
 
 SRC1=(
-http://dlc.sun.com/dlj/binaries/$TARBALL
+http://dlc.sun.com/dlj/binaries/$TARBALL32
+)
+
+SRC2=(
+http://dlc.sun.com/dlj/binaries/$TARBALL64
 )
 
 MD5SUMS=(
+d54e58b69e4db80f267435be679a66b9
 43f4e9699afce82d3ebae841c59d02fb
 )
 
 build(){
-  check_my_arch(){
-    case $($CC -dumpmachine | cut -f1 -d'-') in
-      x86_64)
-        return 0
-      ;;
-    esac
-    echo "I can only be installed on x86_64!"
-    return 1
-  }
-  check_my_arch || return 1
-  local DIR
+  local DIR BIN JARC
+  case $($CC -dumpmachine | cut -f1 -d'-') in
+    i*86)
+      BIN=$TARBALL32
+      JARC=i386
+    ;;
+    x86_64)
+      BIN=$TARBALL64
+      JARC=amd64
+    ;;
+    *)
+      echo "Wrong arch!" >/dev/stderr
+      return 1
+  esac
+
   mkdir -p $TMPROOT/usr/$LIBSDIR $SRCDIR/jdk || return 1
   cd $SRCDIR/jdk || return 1
-  sh $DOWNLOADDIR/$TARBALL --accept-license --unpack || return 1
+  sh $DOWNLOADDIR/$BIN --accept-license --unpack || return 1
   cd * || return 1
   DIR=$PWD
   cd ../ || return 1
@@ -37,21 +47,22 @@ build(){
   mkdir -p $TMPROOT/etc/{ld.so.conf,profile}.d
 
 cat << EOF > $TMPROOT/etc/ld.so.conf.d/jdk.conf
-/usr/$LIBSDIR/jdk/jre/lib/amd64
-/usr/$LIBSDIR/jdk/jre/lib/amd64/jli
-/usr/$LIBSDIR/jdk/jre/lib/amd64/motif21
-/usr/$LIBSDIR/jdk/jre/lib/amd64/native_threads
-/usr/$LIBSDIR/jdk/jre/lib/amd64/server
-/usr/$LIBSDIR/jdk/jre/lib/amd64/xawt
+/usr/$LIBSDIR/jdk/jre/lib/$JARC
+/usr/$LIBSDIR/jdk/jre/lib/$JARC/client
+/usr/$LIBSDIR/jdk/jre/lib/$JARC/jli
+/usr/$LIBSDIR/jdk/jre/lib/$JARC/motif21
+/usr/$LIBSDIR/jdk/jre/lib/$JARC/native_threads
+/usr/$LIBSDIR/jdk/jre/lib/$JARC/server
+/usr/$LIBSDIR/jdk/jre/lib/$JARC/xawt
 EOF
 
 cat << EOF > $TMPROOT/etc/profile.d/jdk.sh
 PATH=\$PATH:/usr/$LIBSDIR/jdk/bin:/usr/$LIBSDIR/jdk/jre/bin
 
 if [ -z "\$MOZ_PLUGIN_PATH" ]; then
-  MOZ_PLUGIN_PATH=/usr/$LIBSDIR/jdk/jre/lib/amd64
+  MOZ_PLUGIN_PATH=/usr/$LIBSDIR/jdk/jre/lib/$JARC
 else
-  MOZ_PLUGIN_PATH=\$MOZ_PLUGIN_PATH:/usr/$LIBSDIR/jdk/jre/lib/amd64
+  MOZ_PLUGIN_PATH=\$MOZ_PLUGIN_PATH:/usr/$LIBSDIR/jdk/jre/lib/$JARC
 fi
 
 if [ -z "\$MANPATH" ]; then
@@ -70,5 +81,5 @@ EOF
 
 version_check_info(){
   ADDRESS='https://jdk-distros.dev.java.net/developer.html'
-  VERSION_STRING='jdk-%version%-dlj-linux-amd64.bin'
+  VERSION_STRING='jdk-%version%-dlj-linux-i586.bin'
 }

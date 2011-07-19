@@ -21,7 +21,7 @@ build(){
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure \
     --arch=$(echo $BUILDTARGET | cut -f1 -d'-') --prefix=/usr \
     --libdir=/usr/$LIBSDIR --enable-shared --enable-pthreads --enable-libfaac \
-    --enable-libfaad --enable-libxvid --enable-gpl --enable-nonfree \
+    --enable-libxvid --enable-gpl --enable-nonfree \
     --enable-encoder=mp4a --enable-decoder=mp4a --enable-postproc \
     --enable-swscale --enable-x11grab --enable-ffplay \
     --enable-libmp3lame || return 1
