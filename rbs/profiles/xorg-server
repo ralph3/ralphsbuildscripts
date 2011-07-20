@@ -2,9 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-#synaptics driver doesn't like 1.10.x and the 4.0 version doesn't like my laptop.
-
-VERSION="1.9.5"
+VERSION="1.10.3"
 
 DIR="xorg-server-${VERSION}"
 TARBALL="xorg-server-${VERSION}.tar.bz2"
@@ -14,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/xserver/${TARBALL}
 )
 
 MD5SUMS=(
-662566559f4f27638658b50632ce98de
+fc1bb18a09244cd43a998625a6a1b071
 )
 
 build(){
