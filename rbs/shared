@@ -28,7 +28,6 @@ gnome_mirrors(){
 local V
 V=$(echo $VERSION | cut -f-2 -d'.')
 cat << EOF
-http://ftp.belnet.be/mirror/ftp.gnome.org/sources/$1/$V/$TARBALL
 http://mirror.aarnet.edu.au/pub/GNOME/sources/$1/$V/$TARBALL
 http://ftp.gnome.org/pub/GNOME/sources/$1/$V/$TARBALL
 EOF
