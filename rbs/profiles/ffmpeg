@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.8"
+VERSION="0.8.1"
 
 DIR="ffmpeg-${VERSION}"
 TARBALL="${DIR}.tar.bz2"
@@ -12,7 +12,7 @@ http://www.ffmpeg.org/releases/$TARBALL
 )
 
 MD5SUMS=(
-7e9b8c8a6952de0c477027e48249f3ed
+e9c497e221b5594df477bcbf318f4bce
 )
 
 build(){

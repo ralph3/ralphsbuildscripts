@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.1"
+VERSION="2.2"
 
 DIR="nettle-${VERSION}"
 TARBALL="nettle-${VERSION}.tar.gz"
@@ -10,7 +10,7 @@ http://ftp.gnu.org/gnu/nettle/${TARBALL}
 )
 
 MD5SUMS=(
-2bfaf16234a5d8deb96cd23f53a682bb
+9a9c6102eb9909019f8a13b67578cdfe
 )
 
 build(){
