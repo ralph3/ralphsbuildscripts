@@ -9,6 +9,7 @@ mpc
 file
 gcc
 sed
+glib
 pkg-config
 ncurses
 util-linux
