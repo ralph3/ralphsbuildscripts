@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#USE_SHM_SRCDIR=1
-#EXTRA_PACKAGES="$(cat $RBSDIR/list.xorg)"
+USE_SHM_SRCDIR=1
+#EXTRA_PACKAGES="$(cat $RBSDIR/list.{xorg,gtk+,minimal-desktop,dtopstuff}) flash-player jdk"
 #DISABLE_CHROOT_BUILD=0
 
 RBS_CC="gcc"
 RBS_CXX="g++"
-RBS_CFLAGS="-march=k8 -O2 -pipe"
+RBS_CFLAGS="-march=i686 -O2 -pipe"
 RBS_CXXFLAGS="$RBS_CFLAGS"
 
-RBS_BUILDTARGET="x86_64-unknown-linux-gnu"
-RBS_SYSTYPE="64BIT"         # 32BIT, 64BIT, or MULTILIB
+RBS_BUILDTARGET="i686-pc-linux-gnu"
+RBS_SYSTYPE="32BIT"         # 32BIT, 64BIT, or MULTILIB
