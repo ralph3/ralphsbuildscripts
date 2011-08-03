@@ -41,7 +41,6 @@ less
 make
 man-pages
 man
-module-init-tools
 patch
 psmisc
 linux-pam
@@ -57,7 +56,6 @@ dosfstools
 iptables
 libpcap
 libusb
-linux
 mktemp
 nano
 nasm
@@ -84,3 +82,10 @@ expat
 neon
 subversion
 git
+perl-xml-namespacesupport
+libxml2
+libxslt
+perl-xml-sax
+docbook2x
+module-init-tools
+linux

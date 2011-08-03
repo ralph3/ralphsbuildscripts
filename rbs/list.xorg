@@ -1,7 +1,4 @@
-expat
 dbus
-libxml2
-libxslt
 libpng
 freetype
 fontconfig

@@ -22,16 +22,24 @@ MyBuild(){
   
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  touch modprobe.conf.5 || return 1
+  #for x in modprobe.conf.5 modules.dep.5 depmod.conf.5 depmod.8 insmod.8 \
+  #  lsmod.8 rmmod.8 modprobe.8; do
+  #  touch $x || return 1
+  #done
+  ##echo '.so man5/modprobe.conf.5' > modprobe.d.5 || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --prefix=/ --enable-zlib \
     --with-moddir=/$LIBSDIR/modules || return 1
-  sed -i '/MAN5 =/d;/MAN8 =/d' Makefile || return 1
-  make || return 1
-  make install DESTDIR=$MYDEST || return 1
-  mv $MYDEST/bin/lsmod $MYDEST/sbin/ || return 1
+  #sed -i '/MAN5 =/d;/MAN8 =/d' Makefile || return 1
+  #sed -i 's%modindex_LDADD = $(LDADD) libmodtools.a%& \\%' Makefile || return 1
+  make
   cd ../ || return 1
   rm -rf $DIR || return 1
+  read
+  return 1
+  make install DESTDIR=$MYDEST || return 1
+  mv $MYDEST/bin/lsmod $MYDEST/sbin/ || return 1
+
 }
 
 Tools_Build(){
