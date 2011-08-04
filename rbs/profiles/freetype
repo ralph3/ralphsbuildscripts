@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.4.5"
+VERSION="2.4.6"
 
 DIR="freetype-${VERSION}"
 TARBALL="freetype-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://prdownloads.sourceforge.net/freetype/${TARBALL}
 )
 
 MD5SUMS=(
-90428a6d8ec4876cd1eb94858c2a59b0
+5e6510613f612809d2d7862592b92ab7
 )
 
 build(){

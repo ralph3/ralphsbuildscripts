@@ -43,6 +43,8 @@ libdrm
 libfs
 libsm
 libxau
+libxml2
+libxslt
 libxcb
 libx11
 libxext

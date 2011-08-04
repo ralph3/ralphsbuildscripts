@@ -3,9 +3,8 @@ docbook-xml
 docbook-xsl
 xmlto
 alsa-utils
-openbox
 startup-notification
-obconf
+openbox
 leafpad
 lxappearance
 lxtask
@@ -15,3 +14,5 @@ dbus-glib
 libnotify
 libidl
 firefox
+flash-player
+jdk
