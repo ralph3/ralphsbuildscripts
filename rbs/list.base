@@ -84,10 +84,5 @@ expat
 neon
 subversion
 git
-perl-xml-namespacesupport
-libxml2
-libxslt
-perl-xml-sax
-docbook2x
 module-init-tools
 linux
