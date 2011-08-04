@@ -29,7 +29,4 @@ build(){
 version_check_info(){
   ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=20003&package_id=14380'
   VERSION_STRING='aalib-%version%.tar.gz'
-  MIRRORS=(
-    "http://prdownloads.sourceforge.net/aa-project/aalib-%version%.tar.gz"
-  )
 }

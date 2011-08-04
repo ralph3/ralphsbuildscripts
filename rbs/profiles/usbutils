@@ -2,28 +2,32 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.72"
+VERSION="0.91"
 
 DIR="usbutils-${VERSION}"
-TARBALL="usbutils-${VERSION}.tar.gz"
+TARBALL="usbutils-${VERSION}.tar.bz2"
 
 SRC1=(
-http://prdownloads.sourceforge.net/linux-usb/${TARBALL}
+http://www.kernel.org/pub/linux/utils/usb/usbutils/${TARBALL}
 )
 
 MD5SUMS=(
-  ee345fe605ffcfce843dae4aed81122b
+24893cb24fcf1a77c24c5ba5c25172e3
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  sed -i 's|DEST=|&/usr/share/|' update-usbids.sh || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --prefix=/usr || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
-  install -v -m755 update-usbids.sh $TMPROOT/usr/sbin/update-usbids || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://www.kernel.org/pub/linux/utils/usb/usbutils/'
+  VERSION_STRING='usbutils-%version%.tar.bz2'
+  VERSION_FILTERS='[0-9][0-9][0-9]'
 }
