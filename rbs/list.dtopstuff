@@ -37,11 +37,11 @@ pidgin
 giflib
 imlib2
 giblib
-curl
 feh
 poppler
 epdfview
 babl
+sdl
 gegl
 aalib
 lcms

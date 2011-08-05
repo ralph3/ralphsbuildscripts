@@ -14,5 +14,6 @@ dbus-glib
 libnotify
 libidl
 firefox
+curl
 flash-player
 jdk
