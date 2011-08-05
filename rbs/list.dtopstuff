@@ -23,7 +23,6 @@ libwnck
 gnome-python-desktop
 python-imaging
 dbus-python
-pyxdg
 beautifulsoup
 screenlets
 aspell

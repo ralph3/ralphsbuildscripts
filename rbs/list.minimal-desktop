@@ -4,6 +4,7 @@ docbook-xsl
 xmlto
 alsa-utils
 startup-notification
+pyxdg
 openbox
 leafpad
 lxappearance
