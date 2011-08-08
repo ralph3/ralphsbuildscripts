@@ -3,9 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-#2.6.37 - 3.0.1 causes black console when enabling kernel modeset with i915
-
-VERSION="2.6.36.4"
+VERSION="3.0.1"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.bz2"
@@ -16,7 +14,7 @@ http://www.kernel.org/pub/linux/kernel/v$(cut -f-2 -d'.'<<<$VERSION)/testing/$TA
 )
 
 MD5SUMS=(
-c05dd941d0e249695e9f72568888e1bf
+aed949984b878b7fb77ffe9cbee8ce0c
 )
 
 Cross_Tools_Build(){
