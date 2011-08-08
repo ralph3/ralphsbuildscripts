@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-#2.6.37 - 3.0 causes black console when enabling kernel modeset with i915
+#2.6.37 - 3.0.1 causes black console when enabling kernel modeset with i915
 
 VERSION="2.6.36.4"
 
