@@ -1,7 +1,7 @@
 #!/bin/bash
 
 USE_SHM_SRCDIR=1
-#EXTRA_PACKAGES="$(cat $RBSDIR/list.{xorg,gtk+,minimal-desktop,dtopstuff}) flash-player jdk"
+#EXTRA_PACKAGES="$(cat $RBSDIR/list.{xorg,gtk+,minimal-desktop,dtopstuff})"
 #DISABLE_CHROOT_BUILD=0
 
 RBS_CC="gcc"
