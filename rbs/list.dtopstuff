@@ -30,6 +30,7 @@ aspell-en
 enchant
 gtkspell
 nettle
+p11-kit
 gnutls
 gstreamer
 pidgin
