@@ -33,7 +33,7 @@ build(){
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --target=$BUILDTARGET \
     --prefix=/usr --libdir=/usr/$LIBSDIR --confdir=/etc/mplayer \
-    --enable-largefiles --enable-gui --enable-tv-v4l1 \
+     --enable-gui --enable-tv-v4l1 \
     --enable-tv-v4l2 || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
