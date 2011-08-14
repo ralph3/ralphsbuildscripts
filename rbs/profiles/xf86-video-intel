@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.15.0"
+VERSION="2.16.0"
 
 DIR="xf86-video-intel-${VERSION}"
 TARBALL="xf86-video-intel-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/driver/${TARBALL}
 )
 
 MD5SUMS=(
-ba56ae395a9769ada1fef2014468bee9
+e0406c50a747c358654b93cb23bf7375
 )
 
 build(){
