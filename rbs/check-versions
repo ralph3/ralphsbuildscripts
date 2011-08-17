@@ -42,7 +42,7 @@ get_dir_data(){
   if [ -n "$(grep -i "sourceforge.net"<<<"$1")" ]; then
     filter_minors "$(get_data "$1" | grep -iv -e '^/a$' -e 'html$' -e 'head$' -e 'body$' -e 'title$' -e 'pre$' -e 'font$' -e 'h[0-9]$' -e 'hr$' -e '/.*/' | grep "^${PRE}." | sed -e '/\//d' -e '/:/d' -e '/;/d' -e '/,/d' -e'/  /d' -e '/%/d' -e '/=/d' | grep '\.')"
   else
-    filter_minors "$(get_data "$1" | grep -iv -e ' ' -e '^/a$' -e 'html$' -e 'head$' -e 'body$' -e 'title$' -e 'pre$' -e 'font$' -e 'h[0-9]$' -e 'hr$' -e '/.*/' | grep '/$' | grep "^${PRE}." | tr -d '/')"
+    filter_minors "$(get_data "$1" | grep -iv -e ' ' -e '^/a$' -e 'html$' -e 'head$' -e 'body$' -e 'title$' -e 'pre$' -e 'font$' -e 'h[0-9]$' -e 'hr$' -e '/.*/' | grep '/$' | grep "^${PRE}." | tr -d '/' | sed -e '/br/d')"
   fi
 }
 

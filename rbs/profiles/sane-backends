@@ -8,7 +8,7 @@ DIR="sane-backends-${VERSION}"
 TARBALL="sane-backends-${VERSION}.tar.gz"
 
 SRC1=(
-ftp://ftp.sane-project.org/pub/sane/sane-backends-${VERSION}/${TARBALL}
+ftp://ftp2.sane-project.org/pub/sane/sane-backends-${VERSION}/${TARBALL}
 )
 
 MD5SUMS=(
@@ -28,6 +28,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='ftp://ftp.sane-project.org/pub/sane/sane-backends-%version%/'
+  ADDRESS='ftp://ftp2.sane-project.org/pub/sane/sane-backends-%version%/'
   VERSION_STRING='sane-backends-%version%.tar.gz'
 }

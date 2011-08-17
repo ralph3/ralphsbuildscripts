@@ -30,5 +30,5 @@ build(){
 version_check_info(){
   ADDRESS='http://sourceforge.net/projects/wvware/files/libwmf/%version%/'
   VERSION_STRING='libwmf-%version%.tar.gz'
-  VERSION_FILTERS='or he load ^\. to'
+  VERSION_FILTERS='or he load ^\. to our'
 }

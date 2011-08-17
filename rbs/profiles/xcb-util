@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.3.6"
+VERSION="0.3.8"
 
 DIR="xcb-util-${VERSION}"
 TARBALL="xcb-util-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xcb.freedesktop.org/dist/${TARBALL}
 )
 
 MD5SUMS=(
-dd8968b8ee613cb027a8ef1fcbdc8fc9
+8ce019c4bbf20dce246b98f177cfccff
 )
 
 build(){
@@ -29,7 +29,5 @@ build(){
 version_check_info(){
   ADDRESS='http://xcb.freedesktop.org/dist/'
   VERSION_STRING='xcb-util-%version%.tar.bz2'
-  MIRRORS=(
-    'http://xcb.freedesktop.org/dist/xcb-util-%version%.tar.bz2'
-  )
+  VERSION_FILTERS='wm render key image'
 }
