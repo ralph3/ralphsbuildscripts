@@ -50,7 +50,7 @@ ls /etc/profile.d/*.sh >&/dev/null && {
   done
 }
 
-PS1='[ \u@\h:\w ]$ '
+PS1='[ \D{%H:%M:%S} \u@\h:\w ]\$ '
 alias dir='ls --color=auto -F -b -T 0'
 alias ls='ls --color=auto -F -b -T 0'
 export PATH HISTSIZE HISTIGNORE TERM PS1

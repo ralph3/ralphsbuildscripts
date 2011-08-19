@@ -30,4 +30,5 @@ build(){
 version_check_info(){
   ADDRESS='http://www.crummy.com/software/BeautifulSoup/'
   VERSION_STRING='BeautifulSoup-%version%.tar.gz'
+  VERSION_FILTERS='b'
 }
