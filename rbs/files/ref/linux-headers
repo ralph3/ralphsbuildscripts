@@ -3,17 +3,18 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="2.6.34"
+VERSION="3.0.3"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.bz2"
 
 SRC1=(
-http://www.kernel.org/pub/linux/kernel/v2.6/${TARBALL}
+http://www.kernel.org/pub/linux/kernel/v$(cut -f-2 -d'.'<<<$VERSION)/${TARBALL}
+http://www.kernel.org/pub/linux/kernel/v$(cut -f-2 -d'.'<<<$VERSION)/testing/$TARBALL
 )
 
 MD5SUMS=(
-10eebcb0178fb4540e2165bfd7efc7ad
+6a8af5f6733b3db970197e65b3db712c
 )
 
 Cross_Tools_Build(){
@@ -39,7 +40,6 @@ Cross_Tools_Build(){
   make ARCH=$KARCH INSTALL_HDR_PATH=$TCDIR headers_install || return 1
   find $TCDIR/include -type d -exec chmod -v 755 {} \;
   find $TCDIR/include -type f -exec chmod -v 644 {} \;
-  sed -i 's/\tu8/\t__u8/' $TCDIR/include/scsi/scsi.h || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
@@ -66,7 +66,6 @@ build(){
   make ARCH=$KARCH INSTALL_HDR_PATH=$TMPROOT/usr headers_install || return 1
   find $TMPROOT -type d -exec chmod -v 755 {} \;
   find $TMPROOT -type f -exec chmod -v 644 {} \;
-  sed -i 's/\tu8/\t__u8/' $TMPROOT/usr/include/scsi/scsi.h || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }

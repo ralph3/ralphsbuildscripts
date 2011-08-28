@@ -1,0 +1,31 @@
+#!/bin/bash
+
+VERSION="0.1.3"
+
+DIR="libusb-compat-${VERSION}"
+TARBALL="libusb-compat-${VERSION}.tar.bz2"
+
+SRC1=(
+http://prdownloads.sourceforge.net/libusb/${TARBALL}
+)
+
+MD5SUMS=(
+570ac2ea085b80d1f74ddc7c6a93c0eb
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+    --host=$BUILDTARGET --prefix=/usr --libdir=/usr/$LIBSDIR || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  set_multiarch $TMPROOT/usr/bin/libusb-config || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://sourceforge.net/projects/libusb/files/libusb-compat-0.1/libusb-compat-%version%/'
+  VERSION_STRING='libusb-compat-%version%.tar.bz2'
+}

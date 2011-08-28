@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="1.1.1"
+VERSION="1.1.4"
 
 DIR="Linux-PAM-${VERSION}"
 TARBALL="Linux-PAM-${VERSION}.tar.bz2"
@@ -15,8 +15,8 @@ http://www.kernel.org/pub/linux/libs/pam/documentation/Linux-PAM-${VERSION}-docs
 )
 
 MD5SUMS=(
-9b3d952b173d5b9836cbc7e8de108bee
-a8f77330be4a6bc73e0e584a599649b0
+e9af5fb27bb22edb55d077e2888b3ebc
+551adb27696058ae278999785fc35bbf
 )
 
 build(){
@@ -27,7 +27,7 @@ build(){
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --libdir=/usr/$LIBSDIR \
     --sbindir=/$LIBSDIR/security --enable-securedir=/$LIBSDIR/security \
-    --enable-read-both-confs || return 1
+    --enable-read-both-confs --disable-nis || return 1
   cd doc/specs || return 1
   make CC=gcc CXX=g++ || return 1
   cd ../../ || return 1

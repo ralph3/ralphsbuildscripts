@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.20.1"
+VERSION="2.24.5"
 
 DIR="gtk+-${VERSION}"
 TARBALL="gtk+-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-53e6f3a93bd22934878fc4a4a34c68aa
+aebeb2e9efc2e541dc9631546aed7900
 )
 
 build(){
@@ -24,9 +24,7 @@ build(){
     --libdir=/usr/$LIBSDIR --sysconfdir=/usr/$LIBSDIR \
     --disable-gtk-doc --without-libjasper || return 1
   make || return 1
-  make install prefix=$TMPROOT/usr libdir=$TMPROOT/usr/$LIBSDIR \
-    sysconfdir=$TMPROOT/usr/$LIBSDIR || return 1
-  set_multiarch $TMPROOT/usr/bin/gdk-pixbuf-query-loaders || return 1
+  make install DESTDIR=$TMPROOT || return 1
   set_multiarch $TMPROOT/usr/bin/gtk-query-immodules-${MV} || return 1
   mkdir -p $TMPROOT/usr/sbin || return 1
 cat << "EOF" > $TMPROOT/usr/sbin/setup-gtk || return 1
@@ -41,9 +39,6 @@ GTKMV="$(cat /var/lib/packages/current/gtk+/version | cut -b1).0"
 
 query_crap(){
   if [ -d "/usr/${1}/gtk-${GTKMV}" ]; then
-    echo -n "Updating /usr/$1/gtk-${GTKMV}/gdk-pixbuf.loaders..."
-    gdk-pixbuf-query-loaders > /usr/$1/gtk-${GTKMV}/gdk-pixbuf.loaders || return 1
-    echo "  Done."
     echo -n "Updating /usr/$1/gtk-${GTKMV}/gtk.immodules..."
     gtk-query-immodules-${GTKMV} > /usr/$1/gtk-${GTKMV}/gtk.immodules || return 1
     echo "  Done."
@@ -81,6 +76,7 @@ post_upgrade(){
 version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/gtk+/%minor_version%/'
   VERSION_STRING='gtk+-%version%.tar.bz2'
+  MINOR_VERSION=2
   MINOR_VERSION_FILTERS='[3,5,7,9]0'
   ONLY_EVEN_MINORS=1
 }

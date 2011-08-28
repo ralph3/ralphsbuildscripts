@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.4.0"
+VERSION="0.5.1"
 
 DIR="lxappearance-${VERSION}"
 TARBALL="lxappearance-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://prdownloads.sourceforge.net/lxde/${TARBALL}
 )
 
 MD5SUMS=(
-751426a9c4b6090b9fabb8dde593c50a
+34d157a7fe97ef0b93db8fab3f251e07
 )
 
 build(){
@@ -27,9 +27,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS="http://sourceforge.net/projects/lxde/files/"
+  ADDRESS="http://sourceforge.net/projects/lxde/files/LXAppearance"
   VERSION_STRING="lxappearance-%version%.tar.gz"
-  MIRRORS=(
-    "http://prdownloads.sourceforge.net/lxde/lxappearance-%version%.tar.gz"
-  )
 }

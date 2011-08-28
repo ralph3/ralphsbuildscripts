@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.6.34"
+VERSION="2.6.35"
 
 DIR="iproute2-${VERSION}"
 TARBALL="iproute2-${VERSION}.tar.bz2"
 
 SRC1=(
-  http://developer.osdl.org/dev/iproute2/download/$TARBALL
+http://developer.osdl.org/dev/iproute2/download/$TARBALL
 )
 
 MD5SUMS=(
-5c5742bdac05a1688f266512e685b83c
+b0f281b3124bf04669e18f5fe16d4934
 )
 
 build(){
@@ -43,5 +43,5 @@ version_check_info(){
   ADDRESS='http://developer.osdl.org/dev/iproute2/download/'
   VERSION_STRING='iproute2-%version%.tar.bz2'
   MINOR_VERSION="2"
-  VERSION_FILTERS="rc"
+  VERSION_FILTERS="rc 2.6.3[7,8]"
 }

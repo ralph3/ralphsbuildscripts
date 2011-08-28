@@ -2,18 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.23"
+VERSION="1.0.24.2"
 
 DIR="alsa-utils-${VERSION}"
 TARBALL="alsa-utils-${VERSION}.tar.bz2"
 
 SRC1=(
-http://ftp.silug.org/pub/alsa/utils/${TARBALL}
 ftp://ftp.alsa-project.org/pub/utils/${TARBALL}
 )
 
 MD5SUMS=(
-cb0cf46029ac9549cf3a31bff6a4f4e1
+8238cd57cb301d1c36bcf0ecb59ce6b2
 )
 
 build(){
@@ -62,10 +61,7 @@ post_install(){
 }
 
 version_check_info(){
-  ADDRESS='http://ftp.silug.org/pub/alsa/utils/'
+  ADDRESS='ftp://ftp.alsa-project.org/pub/utils/'
   VERSION_STRING='alsa-utils-%version%.tar.bz2'
   VERSION_FILTERS='rc'
-  MIRRORS=(
-    'http://ftp.silug.org/pub/alsa/utils/alsa-utils-%version%.tar.bz2'
-  )
 }

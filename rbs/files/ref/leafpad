@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.8.17"
+VERSION="0.8.18.1"
 
 DIR="leafpad-${VERSION}"
 TARBALL="leafpad-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://nongnu.askapache.com/leafpad/${TARBALL}
 )
 
 MD5SUMS=(
-d39acdf4d31de309d484511bdc9f5924
+254a72fc67505e3aa52884c729cd7b97
 )
 
 build(){

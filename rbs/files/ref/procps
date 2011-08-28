@@ -19,6 +19,8 @@ MD5SUMS=(
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+  sed -i -e 's@\*/module.mk@proc/module.mk ps/module.mk@' \
+    Makefile || return 1
   sed -i -e "/^install  :=/s/--owner 0 --group 0//" \
     -e "/^ldconfig :=/s/= ldconfig/=/" Makefile || return 1
   make CC="$CC $BUILD" CXX="$CXX $BUILD" OPT="$CFLAGS -O2" \

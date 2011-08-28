@@ -2,12 +2,12 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="195.36.24"
+VERSION="280.04"
 
 DISABLE_STRIP=1
 
-TARBALL="NVIDIA-Linux-x86_64-${VERSION}-pkg2.run"
-DIR="NVIDIA-Linux-x86_64-${VERSION}-pkg2"
+TARBALL="NVIDIA-Linux-x86_64-${VERSION}.run"
+DIR="NVIDIA-Linux-x86_64-${VERSION}"
 
 SRC1=(
 http://download.nvidia.com/XFree86/Linux-x86_64/$VERSION/$TARBALL
@@ -15,7 +15,7 @@ ftp://download.nvidia.com/XFree86/Linux-x86_64/$VERSION/$TARBALL
 )
 
 MD5SUMS=(
-47a699d2acba3ac49c96f32ae93eba7a
+b27e2f82877fcbd8c84a2c6f6141266f
 )
 
 build(){
@@ -37,80 +37,49 @@ build(){
   
   sh $DOWNLOADDIR/$TARBALL --extract-only || return 1
   
-  cd $DIR || return 1
+  cd $DIR/kernel || return 1
   
-  sed -i "s%/lib/modules%/${LIBSDIR}/modules%g" $(grep -rl "/lib/modules" *) || return 1
-  
-  cd usr/src/nv || return 1
-  for f in Makefile.kbuild Makefile.nvidia; do
-    sed -i 's%modprobe%true%g;s%sh makedevices.sh%@true%g' $f || return 1
-    sed -i 's%depmod%true%g;s%-o root -g root%%g' $f || return 1
-  done
-  sed -i 's%rmmod_sanity_check)%foo1)%' conftest.sh || return 1
-  sed -i 's%suser_sanity_check)%foo2)%' conftest.sh || return 1
-  
-  make MODULE_ROOT=$TMPROOT/$LIBSDIR/modules/$(uname -r)/kernel/drivers install || return 1
-  gzip -v9 $TMPROOT/$LIBSDIR/modules/$(uname -r)/kernel/drivers/video/nvidia.ko || return 1
-  mv $TMPROOT/$LIBSDIR/modules/$(uname -r)/kernel/drivers/video/nvidia.ko.gz \
+  make module || return 1
+  gzip -v9 nvidia.ko || return 1
+  mkdir -vp $TMPROOT/$LIBSDIR/modules/$(uname -r)/kernel/drivers/video || return 1
+  install -vm 0644 nvidia.ko.gz \
     $TMPROOT/$LIBSDIR/modules/$(uname -r)/kernel/drivers/video/nvidia.ko || return 1
   
-  REV=$(echo $VERSION | cut -f1 -d'-')
-  
-  cd $SRCDIR/$DIR
+  cd ../ || return 1
   
   if [ "$SYSTYPE" == "MULTILIB" ]; then
-    mkdir -pv $TMPROOT/usr/$LIBSDIR32/tls || return 1
+    mkdir -pv $TMPROOT/usr/$LIBSDIR32 || return 1
+    cd 32 || return 1
     
-    for x in libGL libGLcore libnvidia-tls; do
-      install -vm 0755 usr/lib32/${x}.so.${REV} \
-        $TMPROOT/usr/$LIBSDIR32/ || return 1
-      ln -vsf ${x}.so.${REV} \
-        $TMPROOT/usr/$LIBSDIR32/${x}.so || return 1
-      ln -vsf ${x}.so.${REV} \
-        $TMPROOT/usr/$LIBSDIR32/${x}.so.1 || return 1
+    for x in *.so.*; do
+      install -vm 0755 $x $TMPROOT/usr/$LIBSDIR32/ || return 1
+      SN=$(cut -f1 -d'.' <<< "$x").so
+      ln -vsf $x \
+        $TMPROOT/usr/$LIBSDIR32/$SN || return 1
+      ln -vsf $x \
+        $TMPROOT/usr/$LIBSDIR32/${SN}.1 || return 1
     done
     
-    install -vm 0755 usr/lib32/tls/libnvidia-tls.so.${REV} \
-      $TMPROOT/usr/$LIBSDIR32/tls/ || return 1
+    cd ../ || return 1
   fi
   
-  mkdir -vp $TMPROOT/usr/$LIBSDIR/{tls,X11/modules/{drivers,extensions}} \
-    $TMPROOT/usr/{bin,share/{applications,doc/nvidia,man/man1}} || return 1
+  mkdir -vp $TMPROOT/usr/$LIBSDIR/X11/modules/{drivers,extensions} || return 1
   
-  for x in libGL libGLcore libnvidia-tls; do
-    install -vm 0755 usr/lib/${x}.so.${REV} \
-      $TMPROOT/usr/$LIBSDIR/ || return 1
-    ln -vsf ${x}.so.${REV} \
-      $TMPROOT/usr/$LIBSDIR/${x}.so || return 1
-    ln -vsf ${x}.so.${REV} \
-      $TMPROOT/usr/$LIBSDIR/${x}.so.1 || return 1
-  done
+    for x in *.so.*; do
+      install -vm 0755 $x $TMPROOT/usr/$LIBSDIR/ || return 1
+      SN=$(cut -f1 -d'.' <<< "$x").so
+      ln -vsf $x \
+        $TMPROOT/usr/$LIBSDIR/$SN || return 1
+      ln -vsf $x \
+        $TMPROOT/usr/$LIBSDIR/${SN}.1 || return 1
+    done
   
-  install -vm 0755 usr/X11R6/lib/modules/drivers/nvidia_drv.so \
+  mv $TMPROOT/usr/$LIBSDIR/libglx.so* \
+    $TMPROOT/usr/$LIBSDIR/X11/modules/extensions/ || return 1
+  
+  install -vm 0755 nvidia_drv.so \
     $TMPROOT/usr/$LIBSDIR/X11/modules/drivers || return 1
 
-  install -vm 0755 usr/X11R6/lib/modules/extensions/libglx.so.${REV} \
-    $TMPROOT/usr/$LIBSDIR/X11/modules/extensions/libglx.so || return 1
-
-  install -vm 0755 usr/X11R6/lib/libXvMCNVIDIA.so.${REV} \
-    $TMPROOT/usr/$LIBSDIR || return 1
-  
-  install -vm 0755 usr/lib/tls/libnvidia-tls.so.${REV} \
-    $TMPROOT/usr/$LIBSDIR/tls/ || return 1
-  
-  cp -av usr/share/doc/* $TMPROOT/usr/share/doc/nvidia || return 1
-  cp -av usr/share/pixmaps $TMPROOT/usr/share/ || return 1
-  
-  for x in nvidia-settings nvidia-xconfig; do
-    install -vm 0755 usr/bin/$x $TMPROOT/usr/bin/ || exit 1
-    zcat usr/share/man/man1/${x}.1.gz > \
-      $TMPROOT/usr/share/man/man1/${x}.1 || exit 1
-  done
-
-  sed "s%__UTILS_PATH__%/usr/bin%;s%__PIXMAP_PATH__%/usr/share/pixmaps%" \
-    usr/share/applications/nvidia-settings.desktop > \
-    $TMPROOT/usr/share/applications/nvidia-settings.desktop || exit 1
-  
   cd $SRCDIR || return 1
   rm -rf $DIR || return 1
 }
@@ -133,7 +102,7 @@ post_upgrade(){
 
 version_check_info(){
   ADDRESS='ftp://download.nvidia.com/XFree86/Linux-x86_64/%version%/'
-  VERSION_STRING='NVIDIA-Linux-x86_64-%version%-pkg2.run'
-  VERSION_FILTERS='latest'
+  VERSION_STRING='NVIDIA-Linux-x86_64-%version%.run'
+  VERSION_FILTERS='latest no-compat'
 }
 

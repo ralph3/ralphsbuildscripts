@@ -3,17 +3,17 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="2.86"
+VERSION="2.88dsf"
 
 DIR="sysvinit-${VERSION}"
-TARBALL="sysvinit-${VERSION}.tar.gz"
+TARBALL="sysvinit-${VERSION}.tar.bz2"
 
 SRC1=(
-ftp://ftp.cistron.nl/pub/people/miquels/sysvinit/${TARBALL}
+http://download.savannah.gnu.org/releases/sysvinit/${TARBALL}
 )
 
 MD5SUMS=(
-7d5d61c026122ab791ac04c8a84db967
+6eda8a97b86e0a6f59dabbf25202aa6f
 )
 
 MyBuild(){
@@ -48,9 +48,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='ftp://ftp.cistron.nl/pub/people/miquels/sysvinit/'
-  VERSION_STRING='sysvinit-%version%.tar.gz'
-  MIRRORS=(
-    'ftp://ftp.cistron.nl/pub/people/miquels/sysvinit/sysvinit-%version%.tar.gz'
-  )
+  ADDRESS='http://download.savannah.gnu.org/releases/sysvinit/'
+  VERSION_STRING='sysvinit-%version%.tar.bz2'
+  VERSION_FILTERS='latest'
 }

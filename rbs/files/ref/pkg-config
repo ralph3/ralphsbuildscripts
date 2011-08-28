@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.25"
+VERSION="0.26"
 
 DIR="pkg-config-${VERSION}"
 TARBALL="pkg-config-${VERSION}.tar.gz"
@@ -12,14 +12,16 @@ SRC1=(
 )
 
 MD5SUMS=(
-a3270bab3f4b69b7dc6dbdacbcae9745
+47525c26a9ba7ba14bf85e01509a7234
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
-    --libdir=/usr/$LIBSDIR --with-pc-path=/usr/share/pkgconfig || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" GLIB_LIBS="-L/usr/$LIBSDIR -lglib-2.0" \
+    GLIB_CFLAGS="-I/usr/include/glib-2.0 -I/usr/$LIBSDIR/glib-2.0/include" \
+    ./configure --prefix=/usr --libdir=/usr/$LIBSDIR \
+    --with-pc-path=/usr/share/pkgconfig || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   mkdir -p $TMPROOT/etc/profile.d

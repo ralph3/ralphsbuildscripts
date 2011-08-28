@@ -1,0 +1,30 @@
+#!/bin/bash
+
+VERSION="2.2"
+
+DIR="nettle-${VERSION}"
+TARBALL="nettle-${VERSION}.tar.gz"
+
+SRC1=(
+http://ftp.gnu.org/gnu/nettle/${TARBALL}
+)
+
+MD5SUMS=(
+9a9c6102eb9909019f8a13b67578cdfe
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/usr/$LIBSDIR || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://ftp.gnu.org/gnu/nettle/'
+  VERSION_STRING='nettle-%version%.tar.gz'
+}

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.5.2"
+VERSION="0.8.2"
 
 DIR="ffmpeg-${VERSION}"
 TARBALL="${DIR}.tar.bz2"
@@ -12,7 +12,7 @@ http://www.ffmpeg.org/releases/$TARBALL
 )
 
 MD5SUMS=(
-451eb428ca97a72c00555d50944cdb24
+967d481c98161582d149aced6e3b2f31
 )
 
 build(){
@@ -21,9 +21,10 @@ build(){
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure \
     --arch=$(echo $BUILDTARGET | cut -f1 -d'-') --prefix=/usr \
     --libdir=/usr/$LIBSDIR --enable-shared --enable-pthreads --enable-libfaac \
-    --enable-libfaad --enable-libxvid --enable-gpl --enable-nonfree \
+    --enable-libxvid --enable-gpl --enable-nonfree \
     --enable-encoder=mp4a --enable-decoder=mp4a --enable-postproc \
-    --enable-swscale --enable-x11grab --enable-ffplay || return 1
+    --enable-swscale --enable-x11grab --enable-ffplay \
+    --enable-libmp3lame || return 1
   make CC="$CC $BUILD" CXX="$CXX $BUILD" || return 1
   make install DESTDIR=$TMPROOT || return 1
   
@@ -39,5 +40,5 @@ build(){
 version_check_info(){
   ADDRESS='http://www.ffmpeg.org/releases/'
   VERSION_STRING='ffmpeg-%version%.tar.bz2'
-  VERSION_FILTERS='export checkout'
+  VERSION_FILTERS='export checkout git snapshot rc'
 }

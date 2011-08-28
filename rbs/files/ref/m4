@@ -3,7 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="1.4.14"
+VERSION="1.4.16"
 
 DIR="m4-${VERSION}"
 TARBALL="m4-${VERSION}.tar.bz2"
@@ -13,7 +13,7 @@ http://ftp.gnu.org/gnu/m4/${TARBALL}
 )
 
 MD5SUMS=(
-e6fb7d08d50d87e796069cff12a52a93
+8a7cef47fecab6272eb86a6be6363b2f
 )
 
 Tools_Build(){

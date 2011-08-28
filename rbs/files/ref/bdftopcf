@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.2"
+VERSION="1.0.3"
 
 DIR="bdftopcf-${VERSION}"
 TARBALL="bdftopcf-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-148f20d28caaa69bbe7dcca7c2674fb6
+4a7a4a848c43c42f7d499b60666434a4
 )
 
 build(){

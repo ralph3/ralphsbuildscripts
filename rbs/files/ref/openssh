@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="5.5p1"
+VERSION="5.8p2"
 
 DIR="openssh-$VERSION"
 TARBALL="openssh-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/${TARBALL}
 )
 
 MD5SUMS=(
-88633408f4cb1eb11ec7e2ec58b519eb
+0541579adf9d55abb15ef927048d372e
 )
 
 build(){

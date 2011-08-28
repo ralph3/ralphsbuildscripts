@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="6.13.0"
+VERSION="6.14.2"
 
 DIR="xf86-video-ati-${VERSION}"
 TARBALL="xf86-video-ati-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/driver/${TARBALL}
 )
 
 MD5SUMS=(
-7b2642442091808002963920c7693aeb
+111ec4aef32a4298df7e38afa8bef373
 )
 
 build(){
@@ -29,8 +29,6 @@ build(){
 
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/driver/'
+  VERSION_FILTERS='.90'
   VERSION_STRING='xf86-video-ati-%version%.tar.bz2'
-  MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/driver/xf86-video-ati-%version%.tar.bz2'
-  )
 }

@@ -2,17 +2,18 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.6.34"
+VERSION="3.0.3"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.bz2"
 
 SRC1=(
-http://www.kernel.org/pub/linux/kernel/v2.6/${TARBALL}
+http://www.kernel.org/pub/linux/kernel/v$(cut -f-2 -d'.'<<<$VERSION)/${TARBALL}
+http://www.kernel.org/pub/linux/kernel/v$(cut -f-2 -d'.'<<<$VERSION)/testing/$TARBALL
 )
 
 MD5SUMS=(
-10eebcb0178fb4540e2165bfd7efc7ad
+6a8af5f6733b3db970197e65b3db712c
 )
 
 source_setup(){
@@ -28,13 +29,17 @@ source_setup(){
     echo "Done."
   fi
   cd $SRCDIR/$DIR || return 1
+  if [ -f "$DOWNLOADDIR/$KPATCH" ]; then
+    bzcat $DOWNLOADDIR/$KPATCH | patch -Np1 || return 1
+  fi
   make mrproper || return 1
   cp $(grep /boot/ /var/lib/packages/current/linux/filelist | grep config | sed q) .config || return 1
   sed -i "s%/lib/modules%/${LIBSDIR}/modules%g" $(grep -rl "/lib/modules" *)
   make scripts || return 1
   make prepare || return 1
-  ln -sfn $SRCDIR/$DIR /$LIBSDIR/modules/$(uname -r)/build || return 1
-  ln -sfn $SRCDIR/$DIR /$LIBSDIR/modules/$(uname -r)/source || return 1
+  ln -vsfn $SRCDIR/$DIR /$LIBSDIR/modules/$(uname -r)/build || return 1
+  ln -vsfn $SRCDIR/$DIR /$LIBSDIR/modules/$(uname -r)/source || return 1
+  ln -vsfn $SRCDIR/$DIR /usr/src/linux || return 1
   cd $SRCDIR || return 1
 }
 
@@ -68,6 +73,9 @@ Tools_Build(){
   fi
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+  if [ -f "$DOWNLOADDIR/$KPATCH" ]; then
+    bzcat $DOWNLOADDIR/$KPATCH | patch -Np1 || return 1
+  fi
   make mrproper || return 1
   sed '/=m/d' $KCONF > .config || return 1
   sed -i "s%/lib/modules%/${LIBSDIR}/modules%g" $(grep -rl "/lib/modules" *) || return 1
@@ -115,7 +123,11 @@ build(){
     tar xfj $DOWNLOADDIR/$TARBALL -C $HDSRCDIR || return 1
     echo "Done."
   fi
-  cd $HDSRCDIR/$DIR || return 1
+  cd $HDSRCDIR/$DIR || return 1  
+  if [ -f "$DOWNLOADDIR/$KPATCH" ]; then
+    bzcat $DOWNLOADDIR/$KPATCH | patch -Np1 || return 1
+  fi
+  
   make mrproper || return 1
   cp $KCONF .config || return 1
   
@@ -145,5 +157,6 @@ build(){
 version_check_info(){
   ADDRESS='http://www.kernel.org/pub/linux/kernel/v%minor_version%/'
   VERSION_STRING='linux-%version%.tar.bz2'
+  VERSION_FILTERS='2.6.3[7-8]'
   ONLY_EVEN_MINORS=1
 }

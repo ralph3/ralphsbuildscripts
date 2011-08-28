@@ -30,9 +30,8 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://www.tcpdump.org/release/'
+  ADDRESS='http://www.tcpdump.org/'
   VERSION_STRING='libpcap-%version%.tar.gz'
-  MIRRORS=(
-    'http://www.tcpdump.org/release/libpcap-%version%.tar.gz'
-  )
+  VERSION_FILTERS='rc'
+  MINOR_VERSION='1.1'
 }

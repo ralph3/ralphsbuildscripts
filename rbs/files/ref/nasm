@@ -26,10 +26,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://sourceforge.net/projects/nasm/files/'
+  ADDRESS='http://sourceforge.net/projects/nasm/files/nasm sources/%version%/'
   VERSION_STRING='nasm-%version%.tar.bz2'
-  VERSION_FILTERS='[a-z]'
-  MIRRORS=(
-    'http://prdownloads.sourceforge.net/nasm/nasm-%version%.tar.bz2'
-  )
+  VERSION_FILTERS='[a-z] [A-Z]'
 }

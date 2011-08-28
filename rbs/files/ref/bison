@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="2.4.2"
+VERSION="2.5"
 
 DIR="bison-${VERSION}"
 TARBALL="bison-${VERSION}.tar.gz"
@@ -11,7 +11,7 @@ http://ftp.gnu.org/gnu/bison/${TARBALL}
 )
 
 MD5SUMS=(
-6fc502f135738e98fecf1e5c8de38d62
+687e1dcd29452789d34eaeea4c25abe4
 )
 
 build(){

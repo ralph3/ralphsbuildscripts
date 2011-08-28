@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.5"
+VERSION="0.12"
 
 DIR="hicolor-icon-theme-${VERSION}"
 TARBALL="hicolor-icon-theme-${VERSION}.tar.gz"
 
 SRC1=(
-http://freedesktop.org/software/icon-theme/releases/${TARBALL}
+http://icon-theme.freedesktop.org/releases/${TARBALL}
 )
 
 MD5SUMS=(
-947c7f6eb68fd95c7b86e87f853ceaa0
+55cafbcef8bcf7107f6d502149eb4d87
 )
 
 build(){
@@ -27,9 +27,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://freedesktop.org/software/icon-theme/releases/'
+  ADDRESS='http://icon-theme.freedesktop.org/releases/'
   VERSION_STRING='hicolor-icon-theme-%version%.tar.gz'
-  MIRRORS=(
-    'http://freedesktop.org/software/icon-theme/releases/hicolor-icon-theme-%version%.tar.gz'
-  )
 }

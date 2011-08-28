@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.5"
+VERSION="1.0.6"
 
 DIR="sessreg-${VERSION}"
 TARBALL="sessreg-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-00e834c3cbfd990e9d7d5ddc834242df
+8c8fcda19f4cffe573d43ec9b8255f8e
 )
 
 build(){
@@ -29,7 +29,4 @@ build(){
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/app/'
   VERSION_STRING='sessreg-%version%.tar.bz2'
-  MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/app/sessreg-%version%.tar.bz2'
-  )
 }

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.4.11.2"
+VERSION="3.5.0"
 
 DIR="openbox-${VERSION}"
 TARBALL="openbox-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://openbox.org/dist/openbox/${TARBALL}
 )
 
 MD5SUMS=(
-30e669134fa81df810fe7d1dc59cd931
+00441b53cf14c03566c8e82643544ff9
 )
 
 build(){
@@ -118,7 +118,7 @@ menu.items.font:
 menu.title.text.font: shadow=n:shadowoffset=1:shadowtint=75
 EOF
 
-  for x in autostart.sh menu.xml rc.xml; do
+  for x in autostart menu.xml rc.xml; do
     mv $TMPROOT/etc/xdg/openbox/${x}{,.example} || return 1
   done
   

@@ -1,18 +1,18 @@
 #!/bin/bash
 
-VERSION="4.5.20"
+VERSION="4.6"
 
 ENABLE_MULTILIB=1
 
 DIR="strace-${VERSION}"
-TARBALL="strace-${VERSION}.tar.bz2"
+TARBALL="strace-${VERSION}.tar.xz"
 
 SRC1=(
 http://prdownloads.sourceforge.net/strace/${TARBALL}
 )
 
 MD5SUMS=(
-64dfe10d9db0c1e34030891695ffca4b
+e537b2b1afeec70c0e6e27a0d0fd671e
 )
 
 build(){
@@ -32,8 +32,5 @@ build(){
 
 version_check_info(){
   ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=2861&package_id=2819'
-  VERSION_STRING='strace-%version%.tar.bz2'
-  MIRRORS=(
-    'http://prdownloads.sourceforge.net/strace/strace-%version%.tar.bz2'
-  )
+  VERSION_STRING='strace-%version%.tar.xz'
 }

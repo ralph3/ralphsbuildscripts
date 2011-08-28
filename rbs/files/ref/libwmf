@@ -28,10 +28,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=10501&package_id=11096'
+  ADDRESS='http://sourceforge.net/projects/wvware/files/libwmf/%version%/'
   VERSION_STRING='libwmf-%version%.tar.gz'
-  VERSION_FILTERS='Darwin'
-  MIRRORS=(
-    "http://prdownloads.sourceforge.net/wvware/libwmf-%version%.tar.gz"
-  )
+  VERSION_FILTERS='or he load ^\. to our'
 }

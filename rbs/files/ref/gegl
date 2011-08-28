@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.0.22"
+VERSION="0.1.6"
 
 DIR="gegl-${VERSION}"
 TARBALL="gegl-${VERSION}.tar.bz2"
 
 SRC1=(
-ftp://ftp.gtk.org/pub/gegl/$(cut -f-2 -d'.' <<< $VERSION)/${TARBALL}
+ftp://ftp.gimp.org/pub/gegl/$(cut -f-2 -d'.' <<< $VERSION)/${TARBALL}
 )
 
 MD5SUMS=(
-e2196c2016d16a4479e157f8fdee4162
+af5e5a7d3c7ddfaa2b3414de2a7e9113
 )
 
 build(){
@@ -27,10 +27,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='ftp://ftp.gtk.org/pub/gegl/%minor_version%/'
+  ADDRESS='ftp://ftp.gimp.org/pub/gegl/%minor_version%/'
   VERSION_STRING='gegl-%version%.tar.bz2'
-  MINOR_VERSION='0.0'
-  MIRRORS=(
-    'ftp://ftp.gtk.org/pub/gegl/%minor_version%/gegl-%version%.tar.bz2'
-  )
 }

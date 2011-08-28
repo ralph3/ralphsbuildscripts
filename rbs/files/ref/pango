@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.28.0"
+VERSION="1.28.4"
 
 DIR="pango-${VERSION}"
 TARBALL="pango-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-545ae8becf7ed74008120f96f4b095f4
+3f3989700f04e9117d30544a9078b3a0
 )
 
 build(){
@@ -74,7 +74,4 @@ version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/pango/%minor_version%/'
   VERSION_STRING='pango-%version%.tar.bz2'
   ONLY_EVEN_MINORS=1
-  MIRRORS=(
-    'http://ftp.gnome.org/pub/GNOME/sources/pango/%minor_version%/pango-%version%.tar.bz2'
-  )
 }

@@ -207,9 +207,7 @@ EOF
 }
 
 version_check_info(){
-  ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=59275&package_id=58007'
+  ADDRESS='http://sourceforge.net/projects/synergy2/files/Sources/%version%/'
   VERSION_STRING='synergy-%version%.tar.gz'
-  MIRRORS=(
-    "http://prdownloads.sourceforge.net/synergy2/synergy-%version%.tar.gz"
-  )
+  VERSION_FILTERS='or he ^\. load to our'
 }

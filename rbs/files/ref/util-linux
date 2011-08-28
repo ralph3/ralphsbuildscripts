@@ -1,17 +1,17 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="2.17.2"
+VERSION="2.19.1"
 
-DIR="util-linux-ng-${VERSION}"
-TARBALL="util-linux-ng-${VERSION}.tar.bz2"
+DIR="util-linux-${VERSION}"
+TARBALL="util-linux-${VERSION}.tar.bz2"
 
 SRC1=(
 http://www.kernel.org/pub/linux/utils/util-linux-ng/v$(echo $VERSION | cut -f-2 -d'.')/${TARBALL}
 )
 
 MD5SUMS=(
-4635725a3eef1c57090bac8ea5e082e6
+3eab06f05163dfa65479c44e5231932c
 )
 
 Tools_Build(){
@@ -60,9 +60,6 @@ EOF
 
 version_check_info(){
   ADDRESS='http://www.kernel.org/pub/linux/utils/util-linux-ng/v%minor_version%/'
-  VERSION_STRING='util-linux-ng-%version%.tar.bz2'
-  VERSION_FILTERS="rc"
-  MIRRORS=(
-    'http://www.kernel.org/pub/linux/utils/util-linux-ng/v%minor_version%/util-linux-ng-%version%.tar.bz2'
-  )
+  VERSION_STRING='util-linux-%version%.tar.bz2'
+  VERSION_FILTERS="rc docs pre"
 }

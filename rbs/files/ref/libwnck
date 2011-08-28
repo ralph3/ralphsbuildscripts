@@ -2,7 +2,8 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.30.0"
+#3.0 uses gtk3
+VERSION="2.30.6"
 
 DIR="libwnck-${VERSION}"
 TARBALL="libwnck-${VERSION}.tar.bz2"
@@ -12,7 +13,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-ed79955dabb606ee0e6d112a291005ad
+323127c546d4b6796ae569f3da0892ab
 )
 
 build(){
@@ -48,7 +49,5 @@ version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/libwnck/%minor_version%/'
   VERSION_STRING='libwnck-%version%.tar.bz2'
   ONLY_EVEN_MINORS=1
-  MIRRORS=(
-    'http://ftp.gnome.org/pub/GNOME/sources/libwnck/%minor_version%/libwnck-%version%.tar.bz2'
-  )
+  MINOR_VERSION='2.30'
 }

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.1"
+VERSION="1.1.1"
 
 DIR="libXinerama-${VERSION}"
 TARBALL="libXinerama-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-a2ac01fc0426cdbb713c5d59cf9955ed
+ecd4839ad01f6f637c6fb5327207f89b
 )
 
 build(){

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.0.3"
+VERSION="1.1.0"
 
 DIR="libXdmcp-${VERSION}"
 TARBALL="libXdmcp-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-d60941d471800f41a3f19b24bea855a7
+762b6bbaff7b7d0831ddb4f072f939a5
 )
 
 build(){

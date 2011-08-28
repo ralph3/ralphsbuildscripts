@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.2.0"
+VERSION="1.2.1"
 
 DIR="damageproto-${VERSION}"
 TARBALL="damageproto-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-434b931b02bd83ed9fc44951df81cdac
+998e5904764b82642cc63d97b4ba9e95
 )
 
 build(){

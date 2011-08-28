@@ -1,17 +1,9 @@
 #!/bin/bash
 
 VERSION="0.5.14"
-SYS_VERSION="0.5.14-1"
 
 DIR="hal-${VERSION}"
 TARBALL="hal-${VERSION}.tar.gz"
-
-DEPENDS=(
-  pciutils
-  policykit
-  usbutils
-  util-linux
-)
 
 SRC1=(
 http://hal.freedesktop.org/releases/${TARBALL}
@@ -32,7 +24,7 @@ build(){
       --libdir=/usr/$LIBSDIR --sysconfdir=/etc \
       --libexecdir=/usr/$LIBSDIR/hal \
       --localstatedir=/var --without-macbook \
-      --with-udev-prefix=/$LIBSDIR || return 1
+      --with-udev-prefix=/$LIBSDIR --disable-policy-kit || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   install -v -m755 -d $TMPROOT/var/run/hald || return 1
@@ -93,8 +85,5 @@ post_remove(){
 version_check_info(){
   ADDRESS='http://hal.freedesktop.org/releases/'
   VERSION_STRING='hal-%version%.tar.gz'
-  VERSION_FILTERS='rc'
-  MIRRORS=(
-    'http://hal.freedesktop.org/releases/hal-%version%.tar.gz'
-  )
+  VERSION_FILTERS='rc info'
 }

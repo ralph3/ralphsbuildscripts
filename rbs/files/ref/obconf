@@ -30,7 +30,4 @@ version_check_info(){
   ADDRESS="http://openbox.org/dist/obconf"
   VERSION_STRING="obconf-%version%.tar.gz"
   VERSION_FILTERS='[a-z]'
-  MIRRORS=(
-    "http://openbox.org/dist/obconf/obconf-%version%.tar.gz"
-  )
 }

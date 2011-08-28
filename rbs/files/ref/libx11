@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.3.3"
+VERSION="1.4.4"
 
 DIR="libX11-${VERSION}"
 TARBALL="libX11-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-5d74971360f194ce33d2bd2e4d9b066c
+ed7c382cbf8c13425b6a66bcac0ca5d9
 )
 
 build(){
@@ -30,7 +30,4 @@ version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/lib/'
   VERSION_STRING='libX11-%version%.tar.bz2'
   VERSION_FILTERS='99'
-  MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/lib/libX11-%version%.tar.bz2'
-  )
 }

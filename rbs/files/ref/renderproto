@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.11"
+VERSION="0.11.1"
 
 DIR="renderproto-${VERSION}"
 TARBALL="renderproto-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-b160a9733fe91b666e74fca284333148
+a914ccc1de66ddeb4b611c6b0686e274
 )
 
 build(){

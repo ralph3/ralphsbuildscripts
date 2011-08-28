@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.11.0"
+VERSION="2.16.0"
 
 DIR="xf86-video-intel-${VERSION}"
 TARBALL="xf86-video-intel-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/driver/${TARBALL}
 )
 
 MD5SUMS=(
-91a8baa97c4c8c85d35291fea547dd15
+e0406c50a747c358654b93cb23bf7375
 )
 
 build(){
@@ -29,8 +29,6 @@ build(){
 
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/driver/'
+  VERSION_FILTERS='.90'
   VERSION_STRING='xf86-video-intel-%version%.tar.bz2'
-  MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/driver/xf86-video-intel-%version%.tar.bz2'
-  )
 }

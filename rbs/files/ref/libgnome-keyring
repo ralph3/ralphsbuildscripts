@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.30.1"
+VERSION="3.0.3"
 
 DIR="libgnome-keyring-${VERSION}"
 TARBALL="libgnome-keyring-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-11ce9e5ca66cf934e243ddd68f52adc9
+263495fc7e219c025c64a60c788657e5
 )
 
 build(){
@@ -31,7 +31,4 @@ version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/libgnome-keyring/%minor_version%/'
   VERSION_STRING='libgnome-keyring-%version%.tar.bz2'
   ONLY_EVEN_MINORS=1
-  MIRRORS=(
-    'http://ftp.gnome.org/pub/GNOME/sources/libgnome-keyring/%minor_version%/libgnome-keyring-%version%.tar.bz2'
-  )
 }

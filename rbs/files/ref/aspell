@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.60.6"
+VERSION="0.60.6.1"
 
 DIR="aspell-${VERSION}"
 TARBALL="aspell-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://ftp.gnu.org/gnu/aspell/${TARBALL}
 )
 
 MD5SUMS=(
-bc80f0198773d5c05086522be67334eb
+e66a9c9af6a60dc46134fdacf6ce97d7
 )
 
 build(){
@@ -30,6 +30,7 @@ build(){
 version_check_info(){
   ADDRESS="http://ftp.gnu.org/gnu/aspell/"
   VERSION_STRING="aspell-%version%.tar.gz"
+  VERSION_FILTERS='lang'
   MIRRORS=(
     "http://ftp.gnu.org/gnu/aspell/aspell-%version%.tar.gz"
   )

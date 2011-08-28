@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.1.2"
+VERSION="0.1.4"
 
-DIR="screenlets"
-TARBALL="screenlets-${VERSION}.tar.bz2"
+DIR="screenlets-$VERSION"
+TARBALL="screenlets-${VERSION}.tar.gz"
 
 SRC1=(
 http://launchpad.net/screenlets/trunk/${VERSION}/+download/${TARBALL}
 )
 
 MD5SUMS=(
-8bab8052ff5555481fdbe8a5a6310706
+1789c4b9c74ac8c7de00f98f77ed322a
 )
 
 build(){
@@ -34,8 +34,5 @@ build(){
 
 version_check_info(){
   ADDRESS="https://launchpad.net/screenlets"
-  VERSION_STRING="screenlets-%version%.tar.bz2"
-  MIRRORS=(
-    "http://launchpad.net/screenlets/trunk/%version%/+download/screenlets-%version%.tar.bz2"
-  )
+  VERSION_STRING="screenlets-%version%.tar.gz"
 }

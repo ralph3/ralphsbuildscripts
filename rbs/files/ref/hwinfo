@@ -7,10 +7,6 @@ VERSION="16.0"
 DIR="hwinfo-${VERSION}"
 TARBALL="hwinfo_${VERSION}.orig.tar.gz"
 
-DEPENDS=(
-  hal
-)
-
 SRC1=(
 http://li.archive.ubuntu.com/ubuntu/pool/universe/h/hwinfo/${TARBALL}
 )

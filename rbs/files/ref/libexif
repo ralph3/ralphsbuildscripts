@@ -30,6 +30,7 @@ build(){
 version_check_info(){
   ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=12272&package_id=38136'
   VERSION_STRING='libexif-%version%.tar.bz2'
+  VERSION_FILTERS='gtk'
   MIRRORS=(
     'http://prdownloads.sourceforge.net/libexif/libexif-%version%.tar.bz2'
   )
