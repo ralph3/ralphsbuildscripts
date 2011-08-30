@@ -74,6 +74,7 @@ unzip
 libgpg-error
 libgcrypt
 nettle
+p11-kit
 gnutls
 wget
 which
