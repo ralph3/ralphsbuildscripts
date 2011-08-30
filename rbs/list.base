@@ -73,6 +73,7 @@ screen
 unzip
 libgpg-error
 libgcrypt
+nettle
 gnutls
 wget
 which
