@@ -102,6 +102,7 @@ Tools_Build(){
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+  chown -R root:root $PWD || return 1
   rbs_do_perl_patching || return 1
   sed -i -e "s@pldlflags=''@pldlflags=\"\$cccdlflags\"@g" \
     -e "s@static_target='static'@static_target='static_pic'@g" \
