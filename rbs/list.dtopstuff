@@ -16,8 +16,6 @@ libgnome
 gnome-python
 libcroco
 librsvg
-libgpg-error
-libgcrypt
 libgnome-keyring
 libwnck
 gnome-python-desktop
@@ -31,7 +29,6 @@ enchant
 gtkspell
 nettle
 p11-kit
-gnutls
 gstreamer
 pidgin
 giflib

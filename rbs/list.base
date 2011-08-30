@@ -71,6 +71,9 @@ reiserfsprogs
 rp-pppoe
 screen
 unzip
+libgpg-error
+libgcrypt
+gnutls
 wget
 which
 xz
