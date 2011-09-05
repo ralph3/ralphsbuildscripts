@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.4.1"
+VERSION="1.5.0"
 
 DIR="xf86-input-synaptics-${VERSION}"
 TARBALL="xf86-input-synaptics-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/driver/${TARBALL}
 )
 
 MD5SUMS=(
-2dac10f93918ed5bf7d1039d56880cf4
+41ee749ecbfef98f7fba708cb2afae87
 )
 
 build(){
