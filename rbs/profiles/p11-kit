@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.5"
+VERSION="0.7"
 
 DIR="p11-kit-${VERSION}"
 TARBALL="p11-kit-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://p11-glue.freedesktop.org/releases/${TARBALL}
 )
 
 MD5SUMS=(
-1b4886ed4e6d25ab0b69e6350a804082
+3cf26a9196f84707ca884c362b8dabc8
 )
 
 build(){

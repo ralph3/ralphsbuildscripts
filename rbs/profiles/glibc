@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="2.14"
+VERSION="2.14.1"
 
 DIR="glibc-${VERSION}"
 TARBALL="glibc-${VERSION}.tar.bz2"
@@ -11,7 +11,7 @@ http://ftp.gnu.org/gnu/glibc/$TARBALL
 )
 
 MD5SUMS=(
-1588cc22e796c296223744895ebc4cef
+5869a2620c6917dd392289864c6ce595
 )
 
 rbs_do_glibc_patching(){

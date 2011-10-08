@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.11.7"
+VERSION="3.11.10"
 
 DIR="hplip-${VERSION}"
 TARBALL="hplip-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://prdownloads.sourceforge.net/hplip/${TARBALL}
 )
 
 MD5SUMS=(
-5cb89a00b0c680d8bf9bf4b4f1f863b1
+6143f30f3b6905ef22105176a3b80db0
 )
 
 build(){
