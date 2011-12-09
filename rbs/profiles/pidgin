@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.8.0"
+VERSION="2.10.0"
 
 DIR="pidgin-${VERSION}"
 TARBALL="pidgin-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://prdownloads.sourceforge.net/pidgin/${TARBALL}
 )
 
 MD5SUMS=(
-d1656c443a5d91f4aa0d95915f1f50c3
+e1453c9093c4f32beec19abd14069a3f
 )
 
 build(){
@@ -29,6 +29,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://sourceforge.net/projects/pidgin/files/'
+  ADDRESS='http://sourceforge.net/projects/pidgin/files/Pidgin/'
   VERSION_STRING='pidgin-%version%.tar.bz2'
 }

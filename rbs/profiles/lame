@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.98.4"
+VERSION="3.99.1"
 
 DIR="lame-${VERSION}"
 TARBALL="lame-${VERSION}.tar.gz"
@@ -16,7 +16,7 @@ http://prdownloads.sourceforge.net/lame/${TARBALL}
 )
 
 MD5SUMS=(
-8e9866ad6b570c6c95c8cba48060473f
+2576a7368b5c90a87adc9de6b9f0628c
 )
 
 build(){

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.0.4"
+VERSION="3.1"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.bz2"
@@ -10,10 +10,11 @@ TARBALL="linux-${VERSION}.tar.bz2"
 SRC1=(
 http://www.kernel.org/pub/linux/kernel/v$(cut -f-2 -d'.'<<<$VERSION)/${TARBALL}
 http://www.kernel.org/pub/linux/kernel/v$(cut -f-2 -d'.'<<<$VERSION)/testing/$TARBALL
+http://www.kernel.org/pub/linux/kernel/v$(cut -f-1 -d'.'<<<$VERSION).0/${TARBALL}
 )
 
 MD5SUMS=(
-dff86c657cabe813bda84c72bfb93ae8
+8d43453f8159b2332ad410b19d86a931
 )
 
 source_setup(){
@@ -157,6 +158,6 @@ build(){
 version_check_info(){
   ADDRESS='http://www.kernel.org/pub/linux/kernel/v%minor_version%/'
   VERSION_STRING='linux-%version%.tar.bz2'
-  VERSION_FILTERS='2.6.3[7-8]'
-  ONLY_EVEN_MINORS=1
+  VERSION_FILTERS='rc'
+  #ONLY_EVEN_MINORS=1
 }

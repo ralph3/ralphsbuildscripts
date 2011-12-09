@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.0.3"
+VERSION="3.2.0"
 
 DIR="libgnome-keyring-${VERSION}"
 TARBALL="libgnome-keyring-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-263495fc7e219c025c64a60c788657e5
+37dbf77017e5310c2cc43123433fcc5f
 )
 
 build(){

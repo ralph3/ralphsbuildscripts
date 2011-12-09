@@ -3,7 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="3.0.4"
+VERSION="3.1"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.bz2"
@@ -11,10 +11,11 @@ TARBALL="linux-${VERSION}.tar.bz2"
 SRC1=(
 http://www.kernel.org/pub/linux/kernel/v$(cut -f-2 -d'.'<<<$VERSION)/${TARBALL}
 http://www.kernel.org/pub/linux/kernel/v$(cut -f-2 -d'.'<<<$VERSION)/testing/$TARBALL
+http://www.kernel.org/pub/linux/kernel/v$(cut -f-1 -d'.'<<<$VERSION).0/${TARBALL}
 )
 
 MD5SUMS=(
-dff86c657cabe813bda84c72bfb93ae8
+8d43453f8159b2332ad410b19d86a931
 )
 
 Cross_Tools_Build(){
