@@ -3,7 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="1.8"
+VERSION="1.9.1"
 
 DIR="inetutils-${VERSION}"
 TARBALL="inetutils-${VERSION}.tar.gz"
@@ -13,7 +13,7 @@ $(gnu_mirrors inetutils ${TARBALL})
 )
 
 MD5SUMS=(
-ad8fdcdf1797b9ca258264a6b04e48fd
+944f7196a2b3dba2d400e9088576000c
 )
 
 build(){

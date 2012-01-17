@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="1.41.14"
+VERSION="1.42"
 
 DIR="e2fsprogs-${VERSION}"
 TARBALL="e2fsprogs-${VERSION}.tar.gz"
@@ -11,7 +11,7 @@ http://prdownloads.sourceforge.net/e2fsprogs/${TARBALL}
 )
 
 MD5SUMS=(
-05f70470aea2ef7efbb0845b2b116720
+a3c4ffd7352310ab5e9412965d575610
 )
 
 Tools_Build(){

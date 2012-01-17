@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="0.102"
+VERSION="0.104"
 
 DIR="polkit-${VERSION}"
 TARBALL="polkit-${VERSION}.tar.gz"
@@ -10,7 +10,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-a3726bdb9728c103e58f62131e26693a
+e380b4c6fb1e7bccf854e92edc0a8ce1
 )
 
 build(){

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="4.8.6"
+VERSION="4.9"
 
 DIR="PyQt-x11-gpl-${VERSION}"
 TARBALL="PyQt-x11-gpl-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://www.riverbankcomputing.com/static/Downloads/PyQt4/${TARBALL}
 )
 
 MD5SUMS=(
-9bfd7b08b8e438b83cc50d5c58191f97
+61619500d09d87b6c2a25bd3ea994504
 )
 
 build(){
