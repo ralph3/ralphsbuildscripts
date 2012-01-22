@@ -14,9 +14,13 @@ b40f3889e8d24e1b367763673ca6deb5
 )
 
 build(){
+  local FFIV
+  FFIV=$(cat /var/lib/packages/current/libffi/version)
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDTARGET \
+  CC="$CC $BUILD" CXX="$CXX $BUILD" \
+    LIBFFI_CFLAGS="-I/usr/$LIBSDIR/libffi-$FFIV/include" \
+    LIBFFI_LIBS="-L/usr/$LIBSDIR -lffi" ./configure --build=$BUILDTARGET \
     --host=$BUILDTARGET --prefix=/usr --libdir=/usr/$LIBSDIR || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1

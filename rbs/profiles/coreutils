@@ -3,17 +3,17 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="8.13"
+VERSION="8.15"
 
 DIR="coreutils-${VERSION}"
-TARBALL="coreutils-${VERSION}.tar.gz"
+TARBALL="coreutils-${VERSION}.tar.xz"
 
 SRC1=(
 http://ftp.gnu.org/gnu/coreutils/${TARBALL}
 )
 
 MD5SUMS=(
-f5e8bb4752ee2e876ddd99bda7471f35
+094909fafa86110140b32e4948941545
 )
 
 Tools_Build(){
@@ -56,8 +56,5 @@ build(){
 
 version_check_info(){
   ADDRESS='http://ftp.gnu.org/gnu/coreutils/'
-  VERSION_STRING='coreutils-%version%.tar.gz'
-  MIRRORS=(
-    'http://ftp.gnu.org/gnu/coreutils/coreutils-%version%.tar.gz'
-  )
+  VERSION_STRING='coreutils-%version%.tar.xz'
 }
