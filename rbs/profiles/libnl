@@ -2,23 +2,23 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.12.16"
+VERSION="3.2.6"
 
-DIR="gnutls-${VERSION}"
-TARBALL="gnutls-${VERSION}.tar.bz2"
+DIR="libnl-${VERSION}"
+TARBALL="libnl-${VERSION}.tar.gz"
 
 SRC1=(
-ftp://ftp.gnupg.org/gcrypt/gnutls/${TARBALL}
+http://www.infradead.org/~tgr/libnl/files/${TARBALL}
 )
 
 MD5SUMS=(
-0414bba9760201f27d66787997cbadfb
+edfeaa9771ad4891b81b95902fa0d572
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD " CXX="$CXX $BUILD" ./configure --prefix=/usr \
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc --localstatedir=/var || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
@@ -27,6 +27,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='ftp://ftp.gnupg.org/gcrypt/gnutls/'
-  VERSION_STRING='gnutls-%version%.tar.bz2'
+  ADDRESS='http://www.infradead.org/~tgr/libnl/files/'
+  VERSION_STRING='libnl-%version%.tar.gz'
 }

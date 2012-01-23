@@ -2,17 +2,19 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="178"
+#176-178 has some bug 'binding udev socket'
+
+VERSION="175"
 
 DIR="udev-${VERSION}"
-TARBALL="udev-${VERSION}.tar.bz2"
+TARBALL="udev-${VERSION}.tar.xz"
 
 SRC1=(
 http://www.kernel.org/pub/linux/utils/kernel/hotplug/${TARBALL}
 )
 
 MD5SUMS=(
-2cc516903a09c368c088d8e5e363ae37
+13594eacc1fb076ed910bfd8823fd835
 )
 
 MyBuild(){
@@ -24,12 +26,13 @@ MyBuild(){
   MYDEST=$1
   
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
-    --host=$BUILDTARGET --prefix=/usr --exec-prefix= \
+    --host=$BUILDTARGET --prefix=/usr --bindir=/sbin --sbindir=/sbin \
     --sysconfdir=/etc --libdir=/usr/$LIBSDIR --libexecdir=/$LIBSDIR/udev \
-    --docdir=/usr/share/udev-${VERSION} \
-    --disable-extras --disable-introspection || return 1
+    --docdir=/usr/share/udev-${VERSION} --disable-introspection || return 1
   make || return 1
   make install DESTDIR=$MYDEST || return 1
+  
+  mv -v $TMPROOT/$LIBSDIR/udev/udevd $TMPROOT/sbin/ || return 1
   
   install -dv $MYDEST/etc/udev/devices/{pts,shm} || return 1
   mknod -m0666 $MYDEST/etc/udev/devices/null c 1 3
@@ -254,5 +257,6 @@ build(){
 
 version_check_info(){
   ADDRESS='http://www.kernel.org/pub/linux/utils/kernel/hotplug/'
-  VERSION_STRING='udev-%version%.tar.bz2'
+  VERSION_STRING='udev-%version%.tar.xz'
+  VERSION_FILTERS='17[6-8]'
 }

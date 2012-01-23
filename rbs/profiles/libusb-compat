@@ -16,7 +16,9 @@ MD5SUMS=(
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+  CC="$CC $BUILD" CXX="$CXX $BUILD" \
+    LIBUSB_1_0_CFLAGS="-I/usr/include/libusb-1.0" \
+    LIBUSB_1_0_LIBS="-lusb-1.0" ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --prefix=/usr --libdir=/usr/$LIBSDIR || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1

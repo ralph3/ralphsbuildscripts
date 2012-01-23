@@ -18,6 +18,9 @@ MD5SUMS=(
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+  sed -i \
+    '/if_packet/i#define __aligned_u64 __u64 __attribute__((aligned(8)))' \
+    extensions/libxt_pkttype.c || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/usr/$LIBSDIR --libexecdir=/usr/$LIBSDIR || return 1
   make || return 1

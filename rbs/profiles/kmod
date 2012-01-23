@@ -1,0 +1,38 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="4"
+
+DIR="kmod-${VERSION}"
+TARBALL="kmod-${VERSION}.tar.xz"
+
+SRC1=(
+http://packages.profusion.mobi/kmod//$TARBALL
+)
+
+MD5SUMS=(
+e14450a066a48accd0af1995b3c0232d
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/$LIBSDIR --bindir=/sbin --sbindir=/sbin --sysconfdir=/etc \
+    --with-xz --with-zlib || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  mkdir -vp $TMPROOT/usr/$LIBSDIR || return 1
+  mv -v $TMPROOT/$LIBSDIR/pkgconfig $TMPROOT/usr/$LIBSDIR/ || return 1
+  for x in lsmod rmmod insmod modinfo modprobe depmod; do
+    ln -svn kmod $TMPROOT/sbin/$x || return 1
+  done
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://packages.profusion.mobi/kmod/'
+  VERSION_STRING='kmod-%version%.tar.xz'
+}

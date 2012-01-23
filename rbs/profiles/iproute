@@ -2,26 +2,25 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.6.35"
+VERSION="3.2.0"
 
 DIR="iproute2-${VERSION}"
-TARBALL="iproute2-${VERSION}.tar.bz2"
+TARBALL="iproute2-${VERSION}.tar.xz"
 
 SRC1=(
-http://developer.osdl.org/dev/iproute2/download/$TARBALL
+http://www.kernel.org/pub/linux/utils/net/iproute2/$TARBALL
 )
 
 MD5SUMS=(
-b0f281b3124bf04669e18f5fe16d4934
+6f814291cc3d7f4312cf8c2c052da5f1
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   sed -i '/^TARGETS/s@arpd@@g' misc/Makefile || return 1
-  sed -i "s%/lib/tc%/${LIBSDIR}/tc%g" $(grep -rl "/lib/tc" *) || return 1
-  make CC="$CC $BUILD" CXX="$CXX $BUILD" LIBDIR=/usr/$LIBSDIR \
-    SBINDIR=/sbin || return 1
+  make CC="$CC $BUILD -I/usr/include/libnl3" CXX="$CXX $BUILD" \
+    LIBDIR=/usr/$LIBSDIR SBINDIR=/sbin || return 1
   make LIBDIR=/usr/$LIBSDIR  SBINDIR=/sbin install \
     DESTDIR=$TMPROOT || return 1
   if [ "$LIBSDIR" != "lib" ] && [ -d "$TMPROOT/usr/lib" ]; then
@@ -40,8 +39,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://developer.osdl.org/dev/iproute2/download/'
-  VERSION_STRING='iproute2-%version%.tar.bz2'
-  MINOR_VERSION="2"
-  VERSION_FILTERS="rc 2.6.3[7,8]"
+  ADDRESS='http://www.kernel.org/pub/linux/utils/net/iproute2/'
+  VERSION_STRING='iproute2-%version%.tar.xz'
 }
