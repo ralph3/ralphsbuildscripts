@@ -1,0 +1,31 @@
+#!/bin/bash
+
+VERSION="3.0"
+
+DIR="llvm-${VERSION}.src"
+TARBALL="llvm-${VERSION}.tar.gz"
+
+SRC1=(
+http://llvm.org/releases/$VERSION/$TARBALL
+)
+
+MD5SUMS=(
+a8e5f5f1c1adebae7b4a654c376a6005
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/usr/$LIBSDIR --sysconfdir=/etc || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://llvm.org/releases/download.html#svn'
+  VERSION_STRING='llvm-%version%.tar.gz'
+  VERSION_FILTERS='[a-z][a-z]'
+}
