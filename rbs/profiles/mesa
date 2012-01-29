@@ -35,7 +35,8 @@ build(){
   
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure $CONF --prefix=/usr \
-    --libdir=/usr/$LIBSDIR --enable-xcb || return 1
+    --libdir=/usr/$LIBSDIR --enable-xcb --disable-gallium-llvm \
+    --with-gallium-drivers="swrast" || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
 

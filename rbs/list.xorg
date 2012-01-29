@@ -75,7 +75,6 @@ libxxf86vm
 
 talloc
 makedepend
-llvm
 mesa
 
 xbitmaps
