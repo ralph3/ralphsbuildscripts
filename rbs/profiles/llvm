@@ -22,7 +22,7 @@ build(){
   make install DESTDIR=$TMPROOT || return 1
   
   if [ ! -e "$TMPROOT/usr/$LIBSDIR" ] && [ -e "$TMPROOT/usr/lib" ]; then
-    mv $TMPROOT/usr/lib $TMPROOT/usr/$LIBSDIR || return `
+    mv $TMPROOT/usr/lib $TMPROOT/usr/$LIBSDIR || return 1
   fi
   
   for x in $TMPROOT/usr/bin/*; do
