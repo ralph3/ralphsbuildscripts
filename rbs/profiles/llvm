@@ -20,6 +20,60 @@ build(){
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
+  
+  if [ ! -e "$TMPROOT/usr/$LIBSDIR" ] && [ -e "$TMPROOT/usr/lib" ]; then
+    mv $TMPROOT/usr/lib $TMPROOT/usr/$LIBSDIR || return `
+  fi
+  
+  for x in $TMPROOT/usr/bin/*; do
+    set_multiarch $x || return 1
+  done
+  
+  case $($CC -dumpmachine | cut -f1 -d'-') in
+    x86_64)
+      case $SYSTYPE in
+        MULTILIB)
+  if [ "$DISABLE_MULTILIB" != "1" ]; then
+    mv -v $TMPROOT/usr/include/llvm/Config/config{,-${USE_ARCH}}.h || return 1
+    mv -v $TMPROOT/usr/include/llvm/Config/llvm-config{,-${USE_ARCH}}.h || return 1
+cat > $TMPROOT/usr/include/llvm/Config/config.h << "EOF" || return 1
+#ifndef __STUB__LLVM_CONFIG_H__
+#define __STUB__LLVM_CONFIG_H__
+
+#if defined(__x86_64__) || \
+    defined(__sparc64__) || \
+    defined(__arch64__) || \
+    defined(__powerpc64__) || \
+    defined (__s390x__)
+# include "config-64.h"
+#else
+# include "config-32.h"
+#endif
+
+#endif
+EOF
+
+cat > $TMPROOT/usr/include/llvm/Config/llvm-config.h << "EOF" || return 1
+#ifndef __STUB__LLVMCONFIG_H__
+#define __STUB__LLVMCONFIG_H__
+
+#if defined(__x86_64__) || \
+    defined(__sparc64__) || \
+    defined(__arch64__) || \
+    defined(__powerpc64__) || \
+    defined (__s390x__)
+# include "llvm-config-64.h"
+#else
+# include "llvm-config-32.h"
+#endif
+
+#endif
+EOF
+  fi
+        ;;
+      esac
+    ;;
+  esac
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
