@@ -442,20 +442,17 @@ cat << EOF > $BROOT/${ID}_syslinux.cfg || exit 1
 default RBS_${RBS_BUILDTARGET}
 label RBS_${RBS_BUILDTARGET}
   kernel ${ID}_vmlinuz
-  append initrd=${ID}_initrd.gz root=/dev/ram0 init=/etc/rc.d/rc.initrd ramdisk_size=16384
+  append initrd=${ID}_initrd.gz root=/dev/ram0 init=/bin/boot.sh ramdisk_size=16384
 EOF
 
 cp $ROOT/boot/vmlinuz $BROOT/${ID}_vmlinuz || exit 1
 
 echo -n "Building ${ID}_initrd..."
 rm -rf $WORKDIR/initrd || exit 1
-mkdir -p $WORKDIR/initrd/{bin,dev,lib,${LIBSDIR},proc,sys,tmp} || exit 1
-mkdir -p $WORKDIR/initrd/{etc/rc.d,mnt/{origin,root}} || exit 1
+mkdir -p $WORKDIR/initrd/{bin,dev,etc,lib,mnt,${LIBSDIR},proc,sys,tmp} || exit 1
 ln -sfn bin $WORKDIR/initrd/sbin || exit 1
 mknod -m 600 $WORKDIR/initrd/dev/console c 5 1
 mknod -m 666 $WORKDIR/initrd/dev/null c 1 3
-cp $ROOT/etc/rc.d/rc.{functions,udev} $WORKDIR/initrd/etc/rc.d || exit 1
-touch $WORKDIR/initrd/etc/rc.d/rc.conf
 
 ROOTBINDIR=$ROOT/bin
 ROOTUSRBINDIR=$ROOT/usr/bin
@@ -490,7 +487,7 @@ for x in cut find ldd; do
   cp $ROOTUSRBINDIR/${x} $WORKDIR/initrd/bin/ || exit 1
 done
 
-for x in $ROOT/sbin/{*fdisk,*fs*,mkswap,swapon,modprobe,udev*,shutdown,halt}; do
+for x in $ROOT/sbin/{*fdisk,*fs*,mkswap,swapon,modprobe,shutdown,halt}; do
   if [ ! -L "$x" ]; then
     cp ${x} $WORKDIR/initrd/bin/ || exit 1
   fi
@@ -522,10 +519,6 @@ fi
 
 ln -sfn test $WORKDIR/initrd/bin/[
 
-cp -a $ROOT/etc/udev $WORKDIR/initrd/etc/ || exit 1
-
-cp -a $ROOT/$LIBSDIR/udev $WORKDIR/initrd/${LIBSDIR}/ || exit 1
-
 cp $ROOT/$LIBSDIR/{libe2p.so.?,libss.so.?,libuuid.so.?} \
   $ROOT/$LIBSDIR/{libcom_err.so.?,libext2fs.so.?,libblkid.so.?} \
   $WORKDIR/initrd/${LIBSDIR}/ || exit 1
@@ -549,59 +542,40 @@ alias ls='ls --color=auto -F -b -T 0'
 export PS1='[ RBS INITRD :: \w ]$ '
 EOF
 
-cat << "EOF" > $WORKDIR/initrd/etc/rc.d/rc.initrd || exit 1
+cat << "EOF" > $WORKDIR/initrd/bin/boot.sh || exit 1
 #!/bin/bash
 
-. /etc/rc.d/rc.functions
+echo -n "Mount /proc..."
+mount -n -t proc proc /proc && echo " X"
 
-print_msg "Mounting /proc"
-loadproc mount -n -t proc proc /proc
 echo "3 4 1 6" > /proc/sys/kernel/printk
-print_msg "Mounting /sys"
-loadproc mount -n -t sysfs sysfs /sys
 
-/etc/rc.d/rc.udev start
+mkdir -p /dev/shm
+mount -n -t tmpfs tmpfs /dev/shm
+ln -sfn /proc/self/fd /dev/fd
+ln -sfn /proc/self/fd/0 /dev/stdin
+ln -sfn /proc/self/fd/1 /dev/stdout
+ln -sfn /proc/self/fd/2 /dev/stderr
+ln -sfn /proc/kcore /dev/core
 
-print_msg "Mounting tmpfs on /tmp"
-loadproc mount -n -t tmpfs tmpfs /tmp
-EOF
+echo -n "Mount /sys..."
+mount -n -t sysfs sysfs /sys && echo " X"
 
-cat << EOF >> $WORKDIR/initrd/etc/rc.d/rc.initrd || exit 1
-print_msg "Lookup origin device"
-sleep 5
-for dv in /dev/{hd?*,sd?*}; do
-  dd if=\$dv of=/dev/null ibs=1 count=1 >&/dev/null
-  if [ "\$?" = "0" ]; then
-    mount -n \$dv /mnt/origin >&/dev/null
-    if [ "\$?" = "0" ]; then
-      if [ -f "\$(find /mnt/origin -name ${ID}_initrd.gz 2>/dev/null | sed q)" ]; then
-        print_msg_done
-        break
-      else
-        umount -f /mnt/origin 2>&1 >&/dev/null
-      fi
-    fi
-  fi
-done
+echo -n "Mount tmpfs /tmp..."
+mount -n -t tmpfs tmpfs /tmp && echo " X"
 
-ls /mnt/origin/* >&/dev/null || {
-  print_msg_failed
-cat << "FOO"
-    
-    I'm not smart enough to detect the origin device. You will
-  need to mount it manually to /mnt/origin for the setup script
-  to do it's thing.
-  
-FOO
-}
+echo -n "Mount tmpfs /mnt..."
+mount -n -t tmpfs tmpfs /mnt && echo " X"
+
+mkdir -p /mnt/{origin,root}
 
 echo
-echo " RBS INITRD linux-$(uname -r)-$(uname -m)"
+echo " linux-$(uname -r)-$(uname -m)"
 echo
 
 bash --rcfile /etc/profile
 
-print_msg "Rebooting"
+echo "Reboot..."
 sleep 1
 reboot -f
 EOF
@@ -609,51 +583,33 @@ EOF
 cat << EOF > $WORKDIR/initrd/bin/setup || exit 1
 #!/bin/bash
 
-. /etc/rc.d/rc.functions
-
 mount_crap(){
   if [ ! -d "/mnt/root/dev/shm" ]; then
-    print_msg "Binding /dev to /mnt/root/dev"
-    loadproc mount --bind /dev /mnt/root/dev
+    echo -n "mount --bind /dev /mnt/root/dev..."
+    mount --bind /dev /mnt/root/dev && echo " X"
   fi
   
   if [ ! -f "/mnt/root/proc/cpuinfo" ]; then
-    print_msg "Binding /proc to /mnt/root/proc"
-    loadproc mount --bind /proc /mnt/root/proc
+    echo -n "mount --bind /proc /mnt/root/proc..."
+    mount --bind /proc /mnt/root/proc && echo " X"
   fi
 }
 
-echo
-print_msg "Checking /mnt/root"
-touch /mnt/root/.testfile >&/dev/null || {
-  print_msg_failed
-  echo -e "\n  Cant write to /mnt/root!\n"
-  exit 1
-}
-rm /mnt/root/.testfile
-print_msg_done
-
-print_msg "Looking for ${ID}_sysroot.tar.gz..."
 SR=\$(find /mnt/origin -name ${ID}_sysroot.tar.gz 2>/dev/null | sed q)
 if [ ! -f "\${SR}" ]; then
-  print_msg_failed
   echo
   echo "  ${ID}_sysroot.tar.gz not in /mnt/origin/!"
   echo
-  echo "  Try manually mounting your origin device to /mnt/origin."
-  echo " If that doesn't work, shoot me."
-  echo
   exit 1
 fi
-print_msg_done
 
 if [ ! -d "/mnt/root/bin" ]; then
-  print_msg "Unpacking \${SR} to /mnt/root"
+  echo -n "tar xpfz \${SR} -C /mnt/root..."
   tar xpfz \${SR} -C /mnt/root >&/dev/null || {
-    print_msg_failed
+    echo " !!! FAIL !!!"
     exit 1
   }
-  print_msg_done
+  echo " X"
 fi
 
 mount_crap
@@ -669,13 +625,11 @@ if [ -e "/mnt/root/$TCDIR" ]; then
   echo
   
   if [ -d "/mnt/root/dev/shm" ]; then
-    print_msg "Un-Binding /dev from /mnt/root/dev"
-    loadproc umount /mnt/root/dev
+    umount /mnt/root/dev
   fi
   
   if [ -f "/mnt/root/proc/cpuinfo" ]; then
-    print_msg "Un-Binding /proc from /mnt/root/proc"
-    loadproc umount /mnt/root/proc
+    umount /mnt/root/proc
   fi
   
   echo -en "\nRolling back timestamps in /mnt/root to prevent craziness..."
@@ -689,7 +643,7 @@ echo -e "\n\n  Done."
 exit 0
 EOF
 chmod 755 $WORKDIR/initrd/bin/setup \
-  $WORKDIR/initrd/etc/rc.d/rc.initrd || exit 1
+  $WORKDIR/initrd/bin/boot.sh || exit 1
 echo "  Done."
 
 echo -n "Creating ${ID}_initrd.gz..."

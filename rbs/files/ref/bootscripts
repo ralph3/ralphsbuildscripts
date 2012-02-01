@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.0.4"
+VERSION="2.0.5"
 
 MyBuild(){
   MYDEST=$1
@@ -208,7 +208,7 @@ SERVICES=()
 
 SYSTEM_INIT=(
   mountkernfs
-  udev
+  devices
   swap
   checkfs
   mountfs
@@ -534,6 +534,37 @@ case $1 in
     echo "$IP ${HOSTNAME}.localdomain $HOSTNAME" > /etc/hosts
     echo "127.0.0.1 localhost" >> /etc/hosts
     echo $HOSTS >> /etc/hosts
+  ;;
+esac
+EOF
+  
+cat << "EOF" > $MYDEST/etc/rc.d/rc.devices
+#!/bin/bash
+
+case "$1" in
+  start)
+    echo -n "$0: Setting Device Permissions..."
+      mkdir -p /dev/shm || exit 1
+      mount -t tmpfs tmpfs /dev/shm || exit 1
+      ln -sfn /proc/self/fd /dev/fd || exit 1
+      ln -sfn /proc/self/fd/0 /dev/stdin || exit 1
+      ln -sfn /proc/self/fd/1 /dev/stdout || exit 1
+      ln -sfn /proc/self/fd/2 /dev/stderr || exit 1
+      ln -sfn /proc/kcore /dev/core || exit 1
+      find /dev -name '[p,t]ty*' -exec chmod 666 {} \; || exit 1
+      find /dev -name 'control*' -exec chmod 666 {} \; || exit 1
+      find /dev -name 'pcm*' -exec chmod 666 {} \; || exit 1
+      find /dev -name 'seq' -exec chmod 666 {} \; || exit 1
+      find /dev -name 'timer' -exec chmod 666 {} \; || exit 1
+      find /dev -name 'mixer*' -exec chmod 666 {} \; || exit 1
+      find /dev -name 'sequencer*' -exec chmod 666 {} \; || exit 1
+      find /dev -name 'psaux' -exec chmod 666 {} \; || exit 1
+    echo " X"
+  ;;
+  stop);;
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
   ;;
 esac
 EOF

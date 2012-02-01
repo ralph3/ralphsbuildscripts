@@ -27,7 +27,5 @@ build(){
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/lib/'
   VERSION_STRING='libpciaccess-%version%.tar.bz2'
-  MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/lib/libpciaccess-%version%.tar.bz2'
-  )
+  VERSION_FILTERS='\.9[0-9]'
 }

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.4.26"
+VERSION="2.4.30"
 
 DIR="libdrm-${VERSION}"
 TARBALL="libdrm-${VERSION}.tar.gz"
@@ -10,15 +10,14 @@ http://dri.freedesktop.org/libdrm/${TARBALL}
 )
 
 MD5SUMS=(
-4ae2666aca6b78b20d36a4e64ce5556b
+cd790fb761a83125eceb64162d7d5ce5
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
-    --libdir=/usr/$LIBSDIR --sysconfdir=/etc \
-    --localstatedir=/var || return 1
+    --libdir=/usr/$LIBSDIR --enable-nouveau-experimental-api || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   cd ../ || return 1

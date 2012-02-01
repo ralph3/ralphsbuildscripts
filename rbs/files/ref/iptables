@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.4.12"
+VERSION="1.4.12.2"
 
 DIR="iptables-${VERSION}"
 TARBALL="iptables-${VERSION}.tar.bz2"
@@ -12,12 +12,15 @@ http://www.netfilter.org/projects/iptables/files/${TARBALL}
 )
 
 MD5SUMS=(
-d3f145c2c91daecbb4251bc79390b46c
+212112389c7f10c72efb31a4ed193a4c
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+  sed -i \
+    '/if_packet/i#define __aligned_u64 __u64 __attribute__((aligned(8)))' \
+    extensions/libxt_pkttype.c || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/usr/$LIBSDIR --libexecdir=/usr/$LIBSDIR || return 1
   make || return 1

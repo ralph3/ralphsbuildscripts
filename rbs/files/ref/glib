@@ -14,9 +14,13 @@ MD5SUMS=(
 )
 
 build(){
+  local FFIV
+  FFIV=$(cat /var/lib/packages/current/libffi/version)
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDTARGET \
+  CC="$CC $BUILD" CXX="$CXX $BUILD" \
+    LIBFFI_CFLAGS="-I/usr/$LIBSDIR/libffi-$FFIV/include" \
+    LIBFFI_LIBS="-L/usr/$LIBSDIR -lffi" ./configure --build=$BUILDTARGET \
     --host=$BUILDTARGET --prefix=/usr --libdir=/usr/$LIBSDIR || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
@@ -28,4 +32,5 @@ version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/glib/%minor_version%/'
   VERSION_STRING='glib-%version%.tar.bz2'
   ONLY_EVEN_MINORS=1
+  MINOR_VERSION_FILTERS='2.30'
 }

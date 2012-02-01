@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="0.94"
+VERSION="0.98"
 
 DIR="dbus-glib-${VERSION}"
 TARBALL="dbus-glib-${VERSION}.tar.gz"
@@ -10,7 +10,7 @@ http://dbus.freedesktop.org/releases/dbus-glib/${TARBALL}
 )
 
 MD5SUMS=(
-e1f1506a6f4941e67bffd614b1ad5af6
+3f7f117dc7c8d899d9acfdcbf9253fb8
 )
 
 build(){

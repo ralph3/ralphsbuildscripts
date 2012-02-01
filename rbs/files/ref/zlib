@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="1.2.5"
+VERSION="1.2.6"
 
 DIR="zlib-${VERSION}"
 TARBALL="zlib-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://prdownloads.sourceforge.net/libpng/$TARBALL
 )
 
 MD5SUMS=(
-be1e89810e66150f5b0327984d8625a0
+dc2cfa0d2313ca77224b4d932b2911e9
 )
 
 Tools_Build(){

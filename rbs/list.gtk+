@@ -1,5 +1,3 @@
-glib
-libffi
 cairo
 gobject-introspection
 libjpeg

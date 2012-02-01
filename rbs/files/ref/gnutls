@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.12.8"
+VERSION="2.12.16"
 
 DIR="gnutls-${VERSION}"
 TARBALL="gnutls-${VERSION}.tar.bz2"
@@ -12,13 +12,13 @@ ftp://ftp.gnupg.org/gcrypt/gnutls/${TARBALL}
 )
 
 MD5SUMS=(
-90229bf63ec349ee7f5b5898fadaa01f
+0414bba9760201f27d66787997cbadfb
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+  CC="$CC $BUILD " CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc --localstatedir=/var || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1

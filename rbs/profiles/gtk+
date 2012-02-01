@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.24.8"
+VERSION="2.24.9"
 
 DIR="gtk+-${VERSION}"
-TARBALL="gtk+-${VERSION}.tar.bz2"
+TARBALL="gtk+-${VERSION}.tar.xz"
 
 SRC1=(
   $(gnome_mirrors gtk+)
 )
 
 MD5SUMS=(
-0413187f7e596aef00ccd1b54776ff03
+6d80261125b964aef2f2cbfbb1a9da2a
 )
 
 build(){
@@ -75,7 +75,7 @@ post_upgrade(){
 
 version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/gtk+/%minor_version%/'
-  VERSION_STRING='gtk+-%version%.tar.bz2'
+  VERSION_STRING='gtk+-%version%.tar.xz'
   MINOR_VERSION=2
   MINOR_VERSION_FILTERS='[3,5,7,9]0'
   ONLY_EVEN_MINORS=1

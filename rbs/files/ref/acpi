@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.5"
+VERSION="1.6"
 
 TARBALL="acpi-${VERSION}.tar.gz"
 DIR=acpi-$VERSION
@@ -12,7 +12,7 @@ http://prdownloads.sourceforge.net/acpiclient/${TARBALL}
 )
 
 MD5SUMS=(
-ccfee3d53eba9c9947adafbcc1387611
+68d0104a7825c904e3f45de8682cee19
 )
 
 build(){

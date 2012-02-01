@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="173"
+VERSION="180"
 
 DIR="udev-${VERSION}"
-TARBALL="udev-${VERSION}.tar.bz2"
+TARBALL="udev-${VERSION}.tar.xz"
 
 SRC1=(
 http://www.kernel.org/pub/linux/utils/kernel/hotplug/${TARBALL}
 )
 
 MD5SUMS=(
-91a88a359b60bbd074b024883cc0dbde
+1cf124ab5a124ea35d4748ea414926ec
 )
 
 MyBuild(){
@@ -24,40 +24,33 @@ MyBuild(){
   MYDEST=$1
   
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
-    --host=$BUILDTARGET --prefix=/usr --exec-prefix= \
-    --sysconfdir=/etc --libdir=/usr/$LIBSDIR --libexecdir=/$LIBSDIR/udev \
-    --docdir=/usr/share/udev-${VERSION} \
-    --disable-extras --disable-introspection || return 1
+    --host=$BUILDTARGET --prefix=/usr --bindir=/sbin --sbindir=/sbin \
+    --sysconfdir=/etc --libdir=/$LIBSDIR --libexecdir=/$LIBSDIR \
+    --enable-rule_generator --disable-introspection --disable-keymap \
+    --disable-gudev --with-usb-ids-path=no --with-pci-ids-path=no \
+    --with-systemdsystemunitdir=no || return 1
   make || return 1
   make install DESTDIR=$MYDEST || return 1
   
-  install -dv $MYDEST/etc/udev/devices/{pts,shm} || return 1
-  mknod -m0666 $MYDEST/etc/udev/devices/null c 1 3
-  ln -sfnv /proc/self/fd $MYDEST/etc/udev/devices/fd || return 1
-  ln -sfnv /proc/self/fd/0 $MYDEST/etc/udev/devices/stdin || return 1
-  ln -sfnv /proc/self/fd/1 $MYDEST/etc/udev/devices/stdout || return 1
-  ln -sfnv /proc/self/fd/2 $MYDEST/etc/udev/devices/stderr || return 1
-  ln -sfnv /proc/kcore $MYDEST/etc/udev/devices/core || return 1
+  mv -v $TMPROOT/$LIBSDIR/udev/udevd $TMPROOT/sbin/ || return 1
+  mkdir -vp $TMPROOT/{run,usr/$LIBSDIR} || return 1
+  mv -v $TMPROOT/$LIBSDIR/pkgconfig $TMPROOT/usr/$LIBSDIR/ || return 1
   
   mkdir -p $MYDEST/etc/udev/rules.d || return 1
-  
-##  install -v -m644 rules/packages/40-pilot-links.rules \
-##    $MYDEST/etc/udev/rules.d/ || return 1
   
 cat > $MYDEST/etc/udev/rules.d/25-rbs.rules << "EOF" || return 1
 # hotplug
 ENV{MODALIAS}=="?*",  RUN+="/sbin/modprobe $env{MODALIAS}"
 
 # scsi
-SUBSYSTEM=="scsi_device",  ACTION=="add", ATTRS{type}=="0|7|14", RUN+="/sbin/modprobe sd_mod"
-SUBSYSTEM=="scsi_device",  ACTION=="add", ATTRS{type}=="1", SYSFS{vendor}=="On[sS]tream", RUN+="/sbin/modprobe osst"
-SUBSYSTEM=="scsi_device",  ACTION=="add", ATTRS{type}=="1", RUN+="/sbin/modprobe st"
-SUBSYSTEM=="scsi_device",  ACTION=="add", ATTRS{type}=="[45]", RUN+="/sbin/modprobe sr_mod"
-SUBSYSTEM=="scsi_device",  ACTION=="add", RUN+="/sbin/modprobe sg"
+#SUBSYSTEM=="scsi_device",  ACTION=="add", ATTRS{type}=="0|7|14", RUN+="/sbin/modprobe sd_mod"
+#SUBSYSTEM=="scsi_device",  ACTION=="add", ATTRS{type}=="1", SYSFS{vendor}=="On[sS]tream", RUN+="/sbin/modprobe osst"
+#SUBSYSTEM=="scsi_device",  ACTION=="add", ATTRS{type}=="1", RUN+="/sbin/modprobe st"
+#SUBSYSTEM=="scsi_device",  ACTION=="add", ATTRS{type}=="[45]", RUN+="/sbin/modprobe sr_mod"
+#SUBSYSTEM=="scsi_device",  ACTION=="add", RUN+="/sbin/modprobe sg"
 
 # Core kernel devices
 
-KERNEL=="ptmx",     MODE="0666",    GROUP="tty"
 KERNEL=="random",   MODE="0444"
 KERNEL=="urandom",  MODE="0444"
 KERNEL=="kmem",     MODE="0640",    GROUP="kmem"
@@ -68,7 +61,7 @@ KERNEL=="zero",     MODE="0666"
 KERNEL=="full",     MODE="0666"
 KERNEL=="aio",      MODE="0444"
 KERNEL=="kmsg",     MODE="0600"
-KERNEL=="rtc",      MODE="0666"
+KERNEL=="rtc[0-9]", MODE="0666"
 
 # Comms devices
 
@@ -89,6 +82,8 @@ KERNEL=="ircomm[0-9]*",                 GROUP="dialout"
 
 # TTY's
 
+KERNEL=="ptmx",         MODE="0666",    GROUP="tty"
+KERNEL=="pty*",         GROUP="tty",    MODE="0666"
 KERNEL=="tty",          MODE="0666",    GROUP="tty"
 KERNEL=="tty[0-9]*",    MODE="0666",    GROUP="tty"
 KERNEL=="vcs*",         MODE="0600"
@@ -198,43 +193,46 @@ cat << "EOF" > $MYDEST/etc/rc.d/rc.udev || return 1
 . /etc/rc.d/rc.conf
 . /etc/rc.d/rc.functions
 
-do_udev_crap(){
-  local ret
-  ret=0
-  mount -n -t tmpfs tmpfs /dev -o mode=755 || ret=1
-  echo > /proc/sys/kernel/hotplug || ret=1
-  echo "" > /sys/kernel/uevent_helper || ret=1
-  cp -a /etc/udev/devices/* /dev || ret=1
-  /sbin/udevd --daemon || ret=1
-  mkdir -p /dev/.udev/queue || ret=1
-  /sbin/udevadm trigger || ret=1
-  /sbin/udevadm settle || ret=1
-  return $ret
-}
-
 case $1 in
   start)
-    print_msg "Firing Up Udev"
-    do_udev_crap || {
-      print_msg_failed
-      exit 1
-    }
-    print_msg_done
-    exit 0
+    echo -n "$0: Settings..."
+      echo > /proc/sys/kernel/hotplug || exit 1
+      echo "" > /sys/kernel/uevent_helper || exit 1
+    echo " X"
+    echo -n "$0: mount -t tmpfs tmpfs /run..."
+      echo > /proc/sys/kernel/hotplug || ret=1
+      echo "" > /sys/kernel/uevent_helper || ret=1
+      mount -t tmpfs tmpfs /run || exit 1
+    echo " X"
+    echo -n "$0: /sbin/udevd --daemon..."
+      /sbin/udevd --daemon || exit 1
+    echo " X"
+    echo -n "$0: /sbin/udevadm trigger..."
+      /sbin/udevadm trigger || exit 1
+    echo " X"
+    echo -n "$0: /sbin/udevadm settle..."
+      /sbin/udevadm settle || exit 1
+    echo " X"
   ;;
-  stop) ;;
+  stop)
+    echo -n "$0: killall udevd..."
+      killall udevd || exit 1
+    echo " X"
+  ;;
   restart)
-    print_msg "Stopping udevd"
-    killproc udevd
-    sleep 1
-    print_msg "Restarting udevd"
-    /sbin/udevd --daemon
-    /sbin/udevadm trigger
-    /sbin/udevadm settle
-    evaluate_retval
+    $0 stop || exit 1
+    echo -n "$0: /sbin/udevd --daemon..."
+      /sbin/udevd --daemon || exit 1
+    echo " X"
+    echo -n "$0: /sbin/udevadm trigger..."
+      /sbin/udevadm trigger || exit 1
+    echo " X"
+    echo -n "$0: /sbin/udevadm settle..."
+      /sbin/udevadm settle || exit 1
+    echo " X"
   ;;
   *)
-    echo "Usage: {start}"
+    echo "Usage: {start|stop|restart}"
     exit 1
   ;;
 esac
@@ -254,5 +252,5 @@ build(){
 
 version_check_info(){
   ADDRESS='http://www.kernel.org/pub/linux/utils/kernel/hotplug/'
-  VERSION_STRING='udev-%version%.tar.bz2'
+  VERSION_STRING='udev-%version%.tar.xz'
 }

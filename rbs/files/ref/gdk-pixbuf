@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.23.3"
+VERSION="2.24.0"
 
 DIR="gdk-pixbuf-${VERSION}"
 TARBALL="gdk-pixbuf-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-5d50c5311b4ce460d33983938d92109e
+d8ece3a4ade4a91c768328620e473ab8
 )
 
 build(){

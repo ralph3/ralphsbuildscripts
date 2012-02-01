@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.4"
+VERSION="2.4.2"
 
 DIR="libtool-${VERSION}"
 TARBALL="libtool-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://ftp.gnu.org/gnu/libtool/${TARBALL}
 )
 
 MD5SUMS=(
-b32b04148ecdd7344abc6fe8bd1bb021
+d2f3b7d4627e69e13514a40e72a24d50
 )
 
 build(){

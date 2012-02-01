@@ -2,18 +2,19 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.0.3"
+VERSION="3.2.2"
 
 DIR="linux-${VERSION}"
-TARBALL="linux-${VERSION}.tar.bz2"
+TARBALL="linux-${VERSION}.tar.xz"
 
 SRC1=(
 http://www.kernel.org/pub/linux/kernel/v$(cut -f-2 -d'.'<<<$VERSION)/${TARBALL}
 http://www.kernel.org/pub/linux/kernel/v$(cut -f-2 -d'.'<<<$VERSION)/testing/$TARBALL
+http://www.kernel.org/pub/linux/kernel/v$(cut -f-1 -d'.'<<<$VERSION).0/${TARBALL}
 )
 
 MD5SUMS=(
-6a8af5f6733b3db970197e65b3db712c
+6f001a5877884817bcb2e037d8a6e3fe
 )
 
 source_setup(){
@@ -25,12 +26,8 @@ source_setup(){
   if [ ! -d "$SRCDIR/$DIR" ]; then
     mkdir -p $SRCDIR || return 1
     echo -n "Unpacking ${TARBALL}..."
-    tar xfj $DOWNLOADDIR/$TARBALL -C $SRCDIR || return 1
+    tar xfJ $DOWNLOADDIR/$TARBALL -C $SRCDIR || return 1
     echo "Done."
-  fi
-  cd $SRCDIR/$DIR || return 1
-  if [ -f "$DOWNLOADDIR/$KPATCH" ]; then
-    bzcat $DOWNLOADDIR/$KPATCH | patch -Np1 || return 1
   fi
   make mrproper || return 1
   cp $(grep /boot/ /var/lib/packages/current/linux/filelist | grep config | sed q) .config || return 1
@@ -72,10 +69,6 @@ Tools_Build(){
     fi
   fi
   unpack_tarball $TARBALL || return 1
-  cd $SRCDIR/$DIR || return 1
-  if [ -f "$DOWNLOADDIR/$KPATCH" ]; then
-    bzcat $DOWNLOADDIR/$KPATCH | patch -Np1 || return 1
-  fi
   make mrproper || return 1
   sed '/=m/d' $KCONF > .config || return 1
   sed -i "s%/lib/modules%/${LIBSDIR}/modules%g" $(grep -rl "/lib/modules" *) || return 1
@@ -120,13 +113,10 @@ build(){
   if [ ! -d "$HDSRCDIR/$DIR" ]; then
     mkdir -p $HDSRCDIR || return 1
     echo -n "Unpacking ${TARBALL}..."
-    tar xfj $DOWNLOADDIR/$TARBALL -C $HDSRCDIR || return 1
+    tar xfJ $DOWNLOADDIR/$TARBALL -C $HDSRCDIR || return 1
     echo "Done."
   fi
-  cd $HDSRCDIR/$DIR || return 1  
-  if [ -f "$DOWNLOADDIR/$KPATCH" ]; then
-    bzcat $DOWNLOADDIR/$KPATCH | patch -Np1 || return 1
-  fi
+  cd $HDSRCDIR/$DIR || return 1
   
   make mrproper || return 1
   cp $KCONF .config || return 1
@@ -156,7 +146,7 @@ build(){
 
 version_check_info(){
   ADDRESS='http://www.kernel.org/pub/linux/kernel/v%minor_version%/'
-  VERSION_STRING='linux-%version%.tar.bz2'
-  VERSION_FILTERS='2.6.3[7-8]'
-  ONLY_EVEN_MINORS=1
+  VERSION_STRING='linux-%version%.tar.xz'
+  VERSION_FILTERS='rc'
+  #ONLY_EVEN_MINORS=1
 }

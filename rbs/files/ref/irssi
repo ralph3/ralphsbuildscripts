@@ -30,7 +30,4 @@ version_check_info(){
   ADDRESS='http://www.irssi.org/files/'
   VERSION_STRING='irssi-%version%.tar.bz2'
   VERSION_FILTERS='rc'
-  MIRRORS=(
-    'http://www.irssi.org/files/irssi-%version%.tar.bz2'
-  )
 }

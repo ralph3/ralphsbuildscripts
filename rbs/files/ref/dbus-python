@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="0.84.0"
+VERSION="1.0.0"
 
 DIR="dbus-python-${VERSION}"
 TARBALL="dbus-python-${VERSION}.tar.gz"
@@ -10,7 +10,7 @@ http://dbus.freedesktop.org/releases/dbus-python/${TARBALL}
 )
 
 MD5SUMS=(
-fe69a2613e824463e74f10913708c88a
+775a8235736bf760cdd96e2d76546469
 )
 
 build(){

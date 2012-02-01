@@ -2,7 +2,7 @@
 
 DONT_REMOVE=1
 
-VERSION="5.14.1"
+VERSION="5.14.2"
 
 DIR="perl-${VERSION}"
 TARBALL="perl-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://ftp.funet.fi/pub/CPAN/src/${TARBALL}
 )
 
 MD5SUMS=(
-0b74cffa3a10aee08442f950aecbaeec
+3306fbaf976dcebdcd49b2ac0be00eb9
 )
 
 
@@ -102,6 +102,7 @@ Tools_Build(){
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+  chown -R root:root $PWD || return 1
   rbs_do_perl_patching || return 1
   sed -i -e "s@pldlflags=''@pldlflags=\"\$cccdlflags\"@g" \
     -e "s@static_target='static'@static_target='static_pic'@g" \

@@ -83,7 +83,6 @@ python
 glib
 pkg-config
 kmod
-udev
 e2fsprogs
 libgpg-error
 libgcrypt

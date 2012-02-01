@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.1"
+VERSION="3.2"
 
 DIR="diffutils-${VERSION}"
 TARBALL="diffutils-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://ftp.gnu.org/gnu/diffutils/${TARBALL}
 )
 
 MD5SUMS=(
-29c15b2de8bf33685029e035fa680a6e
+22e4deef5d8949a727b159d6bc65c1cc
 )
 
 Tools_Build(){

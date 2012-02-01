@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="0.96"
+VERSION="0.99"
 
 DIR="XML-SAX-${VERSION}"
 TARBALL="XML-SAX-${VERSION}.tar.gz"
@@ -10,7 +10,7 @@ http://search.cpan.org/CPAN/authors/id/G/GR/GRANTM/${TARBALL}
 )
 
 MD5SUMS=(
-bdcd4119a62505184e211e9dfaef0ab1
+290f5375ae87fdebfdb5bc3854019f24
 )
 
 build(){
@@ -29,5 +29,5 @@ build(){
 version_check_info(){
   ADDRESS='http://search.cpan.org/~grantm/'
   VERSION_STRING='XML-SAX-%version%.tar.gz'
-  VERSION_FILTERS='RTF'
+  VERSION_FILTERS='RTF Base'
 }

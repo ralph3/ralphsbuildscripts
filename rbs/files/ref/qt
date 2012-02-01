@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="4.7.3"
+VERSION="4.8.0"
 
 DIR="qt-everywhere-opensource-src-${VERSION}"
 TARBALL="qt-everywhere-opensource-src-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://get.qt.nokia.com/qt/source/$TARBALL
 )
 
 MD5SUMS=(
-49b96eefb1224cc529af6fe5608654fe
+e8a5fdbeba2927c948d9f477a6abe904
 )
 
 build(){
