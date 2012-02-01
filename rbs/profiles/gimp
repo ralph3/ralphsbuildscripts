@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.6.11"
+VERSION="2.6.12"
 
 DIR="gimp-${VERSION}"
 TARBALL="gimp-${VERSION}.tar.bz2"
@@ -14,14 +14,14 @@ ftp://ftp.gimp.org/pub/gimp/v2.6/${TARBALL}
 )
 
 MD5SUMS=(
-bb2939fe13e54fc7255cef5d097bb5dd
+9f876ee63a0c4a4c83f50f32fb3bbe63
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   
-cat << "EOF" | patch -Np1 || return 1
+cat << "EOF" >/dev/null || return 1
 diff -Naur gimp-2.6.11/plug-ins/common/file-mng.c gimp-2.6.11.patched/plug-ins/common/file-mng.c
 --- gimp-2.6.11/plug-ins/common/file-mng.c	2010-07-02 18:51:56.000000000 -0400
 +++ gimp-2.6.11.patched/plug-ins/common/file-mng.c	2011-04-04 13:49:17.000000000 -0400
@@ -514,7 +514,7 @@ diff -Naur gimp-2.6.11/plug-ins/common/file-png.c gimp-2.6.11.patched/plug-ins/c
 EOF
   
 
-cat << "EOF" | patch -Np1 || return 1
+cat << "EOF" >/dev/null || return 1
 From 69f69eed816b89be9a01a48a1f0643d1fd496118 Mon Sep 17 00:00:00 2001
 From: Nils Philippsen <nils@redhat.com>
 Date: Fri, 6 May 2011 11:58:44 +0200
