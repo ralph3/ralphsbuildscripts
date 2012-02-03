@@ -26,6 +26,7 @@ do_install(){
   DOUP=
   DOINST=
   NOSTRIP=$(exec_profile $1 DISABLE_STRIP)
+  source /etc/profile || return 1
   rm -rf $TMPROOT
   mkdir -p $TMPROOT || return 1
   
