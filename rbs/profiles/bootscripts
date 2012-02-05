@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.0.5"
+VERSION="2.0.7"
 
 MyBuild(){
   MYDEST=$1
@@ -44,7 +44,7 @@ services(){
   local S SS
   if [ "$SYSTEMBOOT" = "1" ]; then
     if [ -z "$SYSTEM_INIT" ]; then
-      S=( mountkernfs udev swap checkfs mountfs cleanfs modules clock loadkeys localnet sysklogd )
+      S=( mountkernfs swap checkfs mountfs devices cleanfs clock loadkeys localnet sysklogd gpm )
     else
       S=( ${SYSTEM_INIT[@]} )
     fi
@@ -208,12 +208,11 @@ SERVICES=()
 
 SYSTEM_INIT=(
   mountkernfs
-  devices
   swap
   checkfs
   mountfs
+  devices
   cleanfs
-  modules
   clock
   loadkeys
   localnet
@@ -414,7 +413,7 @@ case $1 in
 esac
 EOF
   
-cat << "EOF" > $MYDEST/etc/rc.d/rc.modules
+cat << "EOF" > $MYDEST/etc/rc.d/rc.devices
 #!/bin/bash
 
 . /etc/rc.d/rc.conf
@@ -424,10 +423,48 @@ case $1 in
   start)
     print_msg "Running depmod -a"
     loadproc depmod -a
+    
+    /sbin/modinfo --version >/dev/null || exit 1
+    
+    HW="$(find /sys -name modalias -type f -exec cat {} \; | sort | uniq)"
+    
+    for x in $(find /lib*/modules/$(uname -r)/kernel -name '*.ko' -exec \
+    basename {} \; | cut -f1 -d'.'); do
+      /sbin/modinfo -F alias $x | sed 's%\*%\.\*%g' | while read y; do
+        grep "$y" <<< "$HW" >&/dev/null && {
+          print_msg "Auto Load Module $x"
+          loadproc modprobe $x
+          break
+        }
+      done
+    done
+
     for mod in ${MODULES[*]}; do
-      print_msg "Probing Module \"$mod\""
+      print_msg "Load Module \"$mod\""
       loadproc modprobe $mod
     done
+    
+    grep 'snd_.*' /proc/modules >&/dev/null && {
+      for x in snd-mixer-oss snd-seq-oss snd-pcm-oss; do
+        if [ -n "$(find /lib*/modules/$(uname -r)/kernel -name "${x}.ko")" ]; then
+          grep "$x" /proc/modules >&/dev/null || {
+            print_msg "Auto Load Module $x"
+            loadproc modprobe $x
+          }
+        fi
+      done
+    }
+    
+    print_msg "Setting Device Permissions..."
+      find /dev -name '[p,t]ty*' -exec chmod 666 {} \;
+      find /dev -name 'control*' -exec chmod 666 {} \;
+      find /dev -name 'pcm*' -exec chmod 666 {} \;
+      find /dev -name 'seq' -exec chmod 666 {} \;
+      find /dev -name 'timer' -exec chmod 666 {} \;
+      find /dev -name 'mixer*' -exec chmod 666 {} \;
+      find /dev -name 'sequencer*' -exec chmod 666 {} \;
+      find /dev -name 'psaux' -exec chmod 666 {} \;
+    print_msg_done
   ;;
   stop) ;;
   *)
@@ -480,6 +517,13 @@ case $1 in
     ret=0
     [ ! -e /proc/mounts ] && {
       mount -n /proc || ret=1
+      mkdir -p /dev/shm || ret=1
+      mount -t tmpfs tmpfs /dev/shm || ret=1
+      ln -sfn /proc/self/fd /dev/fd || ret=1
+      ln -sfn /proc/self/fd/0 /dev/stdin || ret=1
+      ln -sfn /proc/self/fd/1 /dev/stdout || ret=1
+      ln -sfn /proc/self/fd/2 /dev/stderr || ret=1
+      ln -sfn /proc/kcore /dev/core || ret=1
     }
     echo "3 4 1 6" > /proc/sys/kernel/printk
     [ -d /sys ] && [ ! -d /sys/block ] && {
@@ -537,38 +581,7 @@ case $1 in
   ;;
 esac
 EOF
-  
-cat << "EOF" > $MYDEST/etc/rc.d/rc.devices
-#!/bin/bash
 
-case "$1" in
-  start)
-    echo -n "$0: Setting Device Permissions..."
-      mkdir -p /dev/shm || exit 1
-      mount -t tmpfs tmpfs /dev/shm || exit 1
-      ln -sfn /proc/self/fd /dev/fd || exit 1
-      ln -sfn /proc/self/fd/0 /dev/stdin || exit 1
-      ln -sfn /proc/self/fd/1 /dev/stdout || exit 1
-      ln -sfn /proc/self/fd/2 /dev/stderr || exit 1
-      ln -sfn /proc/kcore /dev/core || exit 1
-      find /dev -name '[p,t]ty*' -exec chmod 666 {} \; || exit 1
-      find /dev -name 'control*' -exec chmod 666 {} \; || exit 1
-      find /dev -name 'pcm*' -exec chmod 666 {} \; || exit 1
-      find /dev -name 'seq' -exec chmod 666 {} \; || exit 1
-      find /dev -name 'timer' -exec chmod 666 {} \; || exit 1
-      find /dev -name 'mixer*' -exec chmod 666 {} \; || exit 1
-      find /dev -name 'sequencer*' -exec chmod 666 {} \; || exit 1
-      find /dev -name 'psaux' -exec chmod 666 {} \; || exit 1
-    echo " X"
-  ;;
-  stop);;
-  *)
-    echo "Usage: $0 {start|stop}"
-    exit 1
-  ;;
-esac
-EOF
-  
   for rc in $MYDEST/etc/rc.d/{rc,rc.*}; do
     chmod 744 $rc
   done
