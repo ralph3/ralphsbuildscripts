@@ -129,10 +129,10 @@ build(){
   
   MODDIR="${TMPROOT}/$LIBSDIR/modules/$(uname -r)/"
   find $TMPROOT -type f -name '*.ko' | while read mod; do
-    echo "gzip: $(echo $mod | sed "s%^${MODDIR}%%")"
+    echo "xz -z9: $(echo $mod | sed "s%^${MODDIR}%%")"
     strip --strip-unneeded $mod >& /dev/null
-    gzip -9 $mod
-    mv -f ${mod}.gz ${mod}
+    xz -z9 $mod || return 1
+    mv -f ${mod}.xz ${mod} || return 1
   done
   mkdir -p $TMPROOT/boot || return 1
   KNAME=$(basename $KCONF | cut -f1 -d'.')-${VERSION}
