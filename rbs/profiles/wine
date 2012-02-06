@@ -6,7 +6,7 @@ VERSION="1.3.38"
 
 ONLY32=1
 
-DIR="wine-${VERSION}"
+DIR="wine-1.4-rc1"
 TARBALL="wine-${VERSION}.tar.bz2"
 
 SRC1=(
