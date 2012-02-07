@@ -71,7 +71,6 @@ unzip
 which
 xz
 zip
-syslinux
 bootscripts
 wireless_tools
 gpm
@@ -80,6 +79,7 @@ neon
 subversion
 libffi
 python
+syslinux
 glib
 pkg-config
 kmod
