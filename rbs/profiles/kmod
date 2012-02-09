@@ -21,10 +21,11 @@ build(){
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/$LIBSDIR --bindir=/sbin --sbindir=/sbin --sysconfdir=/etc \
     --with-xz --with-zlib || return 1
-  grep -r "/$LIBSDIR/modules" * >&/dev/null || {
-    sed -i "s%/lib/modules%/$LIBSDIR/modules%g" \
+  grep -r "/$LIBSDIR/modules" * >&/dev/null
+  if [ "$?" != "0" ]; then
+    sed -i "s%/lib/modules%/${LIBSDIR}/modules%g" \
       $(grep -rl '/lib/modules' *) || return 1
-  }
+  fi
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   mkdir -vp $TMPROOT/usr/$LIBSDIR || return 1
