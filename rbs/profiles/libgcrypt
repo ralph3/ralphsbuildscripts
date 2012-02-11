@@ -21,6 +21,7 @@ build(){
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc --localstatedir=/var || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
+  set_multiarch $TMPROOT/usr/bin/libgcrypt-config || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }

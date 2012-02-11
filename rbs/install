@@ -155,6 +155,7 @@ do_install(){
       rm -rf $TMPROOT/usr/local/$x
     }
   done
+  find "$TMPROOT" -name '*.la' -type f -exec rm -f {} \;
   echo -n "Compressing any manpages found..."
   find -type f | grep "/man/" | grep -vh "\.bz2" | grep -vh "\.gz" | \
   grep -vh "\.xz" | while read file; do
