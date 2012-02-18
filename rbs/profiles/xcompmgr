@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.1.5"
+VERSION="1.1.6"
 
 DIR="xcompmgr-${VERSION}"
 TARBALL="xcompmgr-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-bf8faa8c540bfdcd0252801d8f16d868
+d45afaf2a153e8a5dd93a92955060c9a
 )
 
 build(){
