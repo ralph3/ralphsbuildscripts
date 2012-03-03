@@ -18,6 +18,7 @@ a9b65ef81e036ad8aeaa6c60dbebad4c
 )
 
 source_setup(){
+  local CONFIG
   if [ "$VERSION" != "$(uname -r)" ]; then
     echo "VERSION=$VERSION but running kernel is version $(uname -r)!"
     echo "If you just upgraded your kernel, reboot before setting up the source."
@@ -29,8 +30,16 @@ source_setup(){
     tar xfJ $DOWNLOADDIR/$TARBALL -C $SRCDIR || return 1
     echo "Done."
   fi
+  cd $SRCDIR/$DIR || return 1
   make mrproper || return 1
-  cp $(grep /boot/ /var/lib/packages/current/linux/filelist | grep config | sed q) .config || return 1
+  
+  CONFIG=$(grep /boot/ /var/lib/packages/current/linux/filelist | grep config | sed q)
+  if [ -e "$CONFIG" ]; then
+    cp $CONFIG .config || return 1
+  else
+    cp /boot/$(basename $(grep " / " /etc/fstab | cut -f1 -d' '))/$(basename $CONFIG) .config || return 1
+  fi
+  
   sed -i "s%/lib/modules%/${LIBSDIR}/modules%g" $(grep -rl "/lib/modules" *)
   make scripts || return 1
   make prepare || return 1
