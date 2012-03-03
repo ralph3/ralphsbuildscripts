@@ -43,6 +43,7 @@ source_setup(){
   sed -i "s%/lib/modules%/${LIBSDIR}/modules%g" $(grep -rl "/lib/modules" *)
   make scripts || return 1
   make prepare || return 1
+  make modules_prepare || return 1
   ln -vsfn $SRCDIR/$DIR /$LIBSDIR/modules/$(uname -r)/build || return 1
   ln -vsfn $SRCDIR/$DIR /$LIBSDIR/modules/$(uname -r)/source || return 1
   ln -vsfn $SRCDIR/$DIR /usr/src/linux || return 1
