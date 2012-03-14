@@ -3,7 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="3.2.9"
+VERSION="3.2.11"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.xz"
@@ -15,7 +15,7 @@ http://www.kernel.org/pub/linux/kernel/v$(cut -f-1 -d'.'<<<$VERSION).0/${TARBALL
 )
 
 MD5SUMS=(
-a9b65ef81e036ad8aeaa6c60dbebad4c
+0e3d5a3dab51b3c36940461582bc06df
 )
 
 

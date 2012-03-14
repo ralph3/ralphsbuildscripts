@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.11.4"
+VERSION="1.12.0"
 
 DIR="xorg-server-${VERSION}"
 TARBALL="xorg-server-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/xserver/${TARBALL}
 )
 
 MD5SUMS=(
-256325e9b17dff479d92bed97f6b0adb
+3a3c4281f32c8702749e8f129372a355
 )
 
 build(){
@@ -23,8 +23,6 @@ build(){
     --with-module-dir=/usr/$LIBSDIR/X11/modules || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
-  #cp -va hw/xfree86/parser/xf86{Parser,Optrec}.h \
-  #  $TMPROOT/usr/include/xorg/ || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }

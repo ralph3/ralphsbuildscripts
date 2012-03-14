@@ -8,10 +8,12 @@ TARBALL="Linux-PAM-${VERSION}.tar.bz2"
 
 SRC1=(
 http://www.kernel.org/pub/linux/libs/pam/library/${TARBALL}
+http://mirror.anl.gov/pub/linux/libs/pam/library/$TARBALL
 )
 
 SRC2=(
 http://www.kernel.org/pub/linux/libs/pam/documentation/Linux-PAM-${VERSION}-docs.tar.bz2
+http://mirror.anl.gov/pub/linux/libs/pam/documentation/Linux-PAM-${VERSION}-docs.tar.bz2
 )
 
 MD5SUMS=(
@@ -57,9 +59,6 @@ EOF
 }
 
 version_check_info(){
-  ADDRESS='http://www.kernel.org/pub/linux/libs/pam/library/'
+  ADDRESS='http://mirror.anl.gov/pub/linux/libs/pam/library/'
   VERSION_STRING='Linux-PAM-%version%.tar.bz2'
-  MIRRORS=(
-    'http://www.kernel.org/pub/linux/libs/pam/library/Linux-PAM-%version%.tar.bz2'
-  )
 }

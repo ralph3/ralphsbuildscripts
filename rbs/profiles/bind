@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="9.8.1"
+VERSION="9.9.0"
 
 DIR="bind-${VERSION}"
 TARBALL="bind-${VERSION}.tar.gz"
@@ -12,10 +12,14 @@ http://ftp.isc.org/isc/bind9/$VERSION/${TARBALL}
 )
 
 MD5SUMS=(
-cf31117c5d35af34d4c0702970ad9fb7
+9281d0b04f711d28153ba1ab04a54026
 )
 
 build(){
+  echo "FIXME"
+  return 1
+  
+  
   local RNDC_KEY
   
   unpack_tarball $TARBALL || return 1
@@ -296,7 +300,4 @@ version_check_info(){
   ADDRESS='http://ftp.isc.org/isc/bind9/%version%'
   VERSION_STRING='bind-%version%.tar.gz'
   VERSION_FILTERS='[a-z] [A-Z]'
-  MIRRORS=(
-    'http://ftp.isc.org/isc/bind9/%version%/bind-%version%.tar.gz'
-  )
 }

@@ -269,7 +269,4 @@ version_check_info(){
   VERSION_FILTERS='rc'
   MINOR_VERSION=2
   ONLY_EVEN_MINORS=1
-  MIRRORS=(
-    'http://www.python.org/ftp/python/%version%/Python-%version%.tar.bz2'
-  )
 }

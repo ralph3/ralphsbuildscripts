@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.1.0"
+VERSION="1.1.1"
 
 DIR="libXmu-${VERSION}"
 TARBALL="libXmu-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-6836883a0120e8346cf7f58dc42e465a
+a4efff8de85bd45dd3da124285d10c00
 )
 
 build(){
@@ -27,7 +27,4 @@ build(){
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/lib/'
   VERSION_STRING='libXmu-%version%.tar.bz2'
-  MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/lib/libXmu-%version%.tar.bz2'
-  )
 }

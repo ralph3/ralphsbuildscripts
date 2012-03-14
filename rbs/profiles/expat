@@ -26,9 +26,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=10127&package_id=10780'
-  VERSION_STRING='expat-%version%.tar.gz'
-  MIRRORS=(
-    'http://prdownloads.sourceforge.net/expat/expat-%version%.tar.gz'
-  )
+  ADDRESS='http://sourceforge.net/projects/expat/files/expat/'
+  VERSION_STRING='expat/%version%/'
+  VERSION_FILTERS='[a-z][a-z] [A-Z][A-Z]'
 }

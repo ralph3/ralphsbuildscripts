@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.5.0"
+VERSION="1.6.0"
 
 DIR="libXi-${VERSION}"
 TARBALL="libXi-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-eed79448dd24b31f3fedb1750fc777b3
+2e7f84711035e672c34549eac5660a0f
 )
 
 build(){
@@ -28,7 +28,4 @@ version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/lib/'
   VERSION_STRING='libXi-%version%.tar.bz2'
   VERSION_FILTERS='99'
-  MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/lib/libXi-%version%.tar.bz2'
-  )
 }

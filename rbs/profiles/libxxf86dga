@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.1.2"
+VERSION="1.1.3"
 
 DIR="libXxf86dga-${VERSION}"
 TARBALL="libXxf86dga-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-bbd5fdf63d4c107c8cb710d4df2012b4
+b7f38465c46e7145782d37dbb9da8c09
 )
 
 build(){
@@ -29,7 +29,4 @@ build(){
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/lib/'
   VERSION_STRING='libXxf86dga-%version%.tar.bz2'
-  MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/lib/libXxf86dga-%version%.tar.bz2'
-  )
 }
