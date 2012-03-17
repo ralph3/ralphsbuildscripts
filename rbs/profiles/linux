@@ -120,13 +120,21 @@ build(){
       return 1
     fi
   fi
-  if [ ! -d "$HDSRCDIR/$DIR" ]; then
-    mkdir -p $HDSRCDIR || return 1
+  
+  #if [ ! -d "$HDSRCDIR/$DIR" ]; then
+  #  mkdir -p $HDSRCDIR || return 1
+  #  echo -n "Unpacking ${TARBALL}..."
+  #  tar xfJ $DOWNLOADDIR/$TARBALL -C $HDSRCDIR || return 1
+  #  echo "Done."
+  #fi
+  
+  if [ ! -d "$SRCDIR/$DIR" ]; then
+    mkdir -p $SRCDIR || return 1
     echo -n "Unpacking ${TARBALL}..."
-    tar xfJ $DOWNLOADDIR/$TARBALL -C $HDSRCDIR || return 1
+    tar xfJ $DOWNLOADDIR/$TARBALL -C $SRCDIR || return 1
     echo "Done."
   fi
-  cd $HDSRCDIR/$DIR || return 1
+  cd $SRCDIR/$DIR || return 1
   
   make mrproper || return 1
   cp $KCONF .config || return 1
