@@ -1,0 +1,34 @@
+#!/bin/bash
+
+DONT_REMOVE=1
+DISABLE_MULTILIB=1
+
+VERSION="1.1-20120215"
+
+DIR="dialog-${VERSION}"
+TARBALL="dialog-${VERSION}.tgz"
+
+SRC1=(
+ftp://ftp.invisible-island.net/dialog/${TARBALL}
+)
+
+MD5SUMS=(
+494638fa36e5935a269ec9ab42677c30
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/usr/$LIBSDIR --enable-nls --with-ncurses \
+    --with-libtool --enable-wide || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='ftp://ftp.invisible-island.net/dialog/'
+  VERSION_STRING='dialog-%version%.tgz'
+}
