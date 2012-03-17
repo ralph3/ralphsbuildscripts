@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="5.3.9"
+VERSION="5.4.0"
 
 DIR="php-${VERSION}"
 TARBALL="php-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://us.php.net/distributions/${TARBALL}
 )
 
 MD5SUMS=(
-dd3288ed5c08cd61ac5bf619cb357521
+04bb6f9d71ea86ba05685439d50db074
 )
 
 build(){
@@ -44,7 +44,4 @@ EOF
 version_check_info(){
   ADDRESS='http://www.php.net/downloads.php'
   VERSION_STRING='php-%version%.tar.bz2'
-  MIRRORS=(
-    'http://us3.php.net/distributions/php-%version%.tar.bz2'
-  )
 }

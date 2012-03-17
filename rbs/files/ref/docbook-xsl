@@ -68,11 +68,8 @@ post_upgrade(){
   post_install || return 1
 }
 
-version_check_info(){
-  ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=21935&package_id=16608'
-  VERSION_STRING='docbook-xsl-%version%.tar.bz2'
-  VERSION_FILTERS='pre'
-  MIRRORS=(
-    'http://prdownloads.sourceforge.net/docbook/docbook-xsl-%version%.tar.bz2'
-  )
-}
+#version_check_info(){
+#  ADDRESS='http://sourceforge.net/projects/docbook/files/docbook-xsl/%version%/'
+#  VERSION_STRING='docbook-xsl-%version%.tar.bz2'
+#  VERSION_FILTERS='pre'
+#}

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.3"
+VERSION="1.0.4"
 
 DIR="makedepend-${VERSION}"
 TARBALL="makedepend-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/util/${TARBALL}
 )
 
 MD5SUMS=(
-4e6cb97bbecfbb34f3f644a75e513093
+7acb9a831817fdd11ba7f7aaa3c74fd8
 )
 
 build(){

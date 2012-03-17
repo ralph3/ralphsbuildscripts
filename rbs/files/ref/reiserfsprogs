@@ -8,7 +8,7 @@ DIR="reiserfsprogs-${VERSION}"
 TARBALL="reiserfsprogs-${VERSION}.tar.gz"
 
 SRC1=(
-http://www.kernel.org/pub/linux/utils/fs/reiserfs/${TARBALL}
+http://mirror.anl.gov/pub/linux/utils/fs/reiserfs/${TARBALL}
 )
 
 MD5SUMS=(
@@ -40,10 +40,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://www.kernel.org/pub/linux/utils/fs/reiserfs/'
+  ADDRESS='http://mirror.anl.gov/pub/linux/utils/fs/reiserfs/'
   VERSION_STRING='reiserfsprogs-%version%.tar.gz'
   VERSION_FILTERS='x'
-  MIRRORS=(
-    'http://www.kernel.org/pub/linux/utils/fs/reiserfs/reiserfsprogs-%version%.tar.gz'
-  )
 }

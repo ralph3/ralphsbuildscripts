@@ -1,20 +1,16 @@
 #!/bin/bash
 
-VERSION="7.11.2"
+VERSION="8.0.1"
 
 DIR="Mesa-${VERSION}"
+TARBALL="MesaLib-${VERSION}.tar.bz2"
 
 SRC1=(
-ftp://ftp.freedesktop.org/pub/mesa/$(cut -f1 -d'-' <<< $VERSION)/MesaLib-${VERSION}.tar.bz2
-)
-
-SRC2=(
-ftp://ftp.freedesktop.org/pub/mesa/$(cut -f1 -d'-' <<< $VERSION)/MesaGLUT-${VERSION}.tar.bz2
+ftp://ftp.freedesktop.org/pub/mesa/$(cut -f1 -d'-' <<< $VERSION)/$TARBALL
 )
 
 MD5SUMS=(
-0837c52698fe3252369c3fdb5195afcc
-35ca3a0b54cb6f9d2e0e4eae8f6bb95e
+24eeebf66971809d8f40775a379b36c9
 )
 
 build(){
@@ -25,17 +21,11 @@ build(){
   [ "$SYSTYPE" == "MULTILIB" ] && \
     [ "$BUILD" == "$BUILD32" ] && CONF="--enable-32-bit"
   
-  mkdir -p $SRCDIR || return 1
-  for x in MesaLib-${VERSION}.tar.bz2 \
-           MesaGLUT-${VERSION}.tar.bz2; do
-    echo -n "Unpacking ${x}..."
-    tar xfj $DOWNLOADDIR/$x -C $SRCDIR || return 1
-    echo " done"
-  done
-  
+  unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+  
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure $CONF --prefix=/usr \
-    --libdir=/usr/$LIBSDIR --enable-xcb --disable-gallium-llvm \
+    --libdir=/usr/$LIBSDIR --disable-gallium-llvm \
     --with-gallium-drivers="swrast" || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1

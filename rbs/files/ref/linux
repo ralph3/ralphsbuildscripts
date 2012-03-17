@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.2.2"
+VERSION="3.2.11"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.xz"
@@ -14,10 +14,11 @@ http://www.kernel.org/pub/linux/kernel/v$(cut -f-1 -d'.'<<<$VERSION).0/${TARBALL
 )
 
 MD5SUMS=(
-6f001a5877884817bcb2e037d8a6e3fe
+0e3d5a3dab51b3c36940461582bc06df
 )
 
 source_setup(){
+  local CONFIG
   if [ "$VERSION" != "$(uname -r)" ]; then
     echo "VERSION=$VERSION but running kernel is version $(uname -r)!"
     echo "If you just upgraded your kernel, reboot before setting up the source."
@@ -29,11 +30,20 @@ source_setup(){
     tar xfJ $DOWNLOADDIR/$TARBALL -C $SRCDIR || return 1
     echo "Done."
   fi
+  cd $SRCDIR/$DIR || return 1
   make mrproper || return 1
-  cp $(grep /boot/ /var/lib/packages/current/linux/filelist | grep config | sed q) .config || return 1
+  
+  CONFIG=$(grep /boot/ /var/lib/packages/current/linux/filelist | grep config | sed q)
+  if [ -e "$CONFIG" ]; then
+    cp $CONFIG .config || return 1
+  else
+    cp /boot/$(basename $(grep " / " /etc/fstab | cut -f1 -d' '))/$(basename $CONFIG) .config || return 1
+  fi
+  
   sed -i "s%/lib/modules%/${LIBSDIR}/modules%g" $(grep -rl "/lib/modules" *)
   make scripts || return 1
   make prepare || return 1
+  make modules_prepare || return 1
   ln -vsfn $SRCDIR/$DIR /$LIBSDIR/modules/$(uname -r)/build || return 1
   ln -vsfn $SRCDIR/$DIR /$LIBSDIR/modules/$(uname -r)/source || return 1
   ln -vsfn $SRCDIR/$DIR /usr/src/linux || return 1
@@ -110,13 +120,21 @@ build(){
       return 1
     fi
   fi
-  if [ ! -d "$HDSRCDIR/$DIR" ]; then
-    mkdir -p $HDSRCDIR || return 1
+  
+  #if [ ! -d "$HDSRCDIR/$DIR" ]; then
+  #  mkdir -p $HDSRCDIR || return 1
+  #  echo -n "Unpacking ${TARBALL}..."
+  #  tar xfJ $DOWNLOADDIR/$TARBALL -C $HDSRCDIR || return 1
+  #  echo "Done."
+  #fi
+  
+  if [ ! -d "$SRCDIR/$DIR" ]; then
+    mkdir -p $SRCDIR || return 1
     echo -n "Unpacking ${TARBALL}..."
-    tar xfJ $DOWNLOADDIR/$TARBALL -C $HDSRCDIR || return 1
+    tar xfJ $DOWNLOADDIR/$TARBALL -C $SRCDIR || return 1
     echo "Done."
   fi
-  cd $HDSRCDIR/$DIR || return 1
+  cd $SRCDIR/$DIR || return 1
   
   make mrproper || return 1
   cp $KCONF .config || return 1
@@ -129,10 +147,10 @@ build(){
   
   MODDIR="${TMPROOT}/$LIBSDIR/modules/$(uname -r)/"
   find $TMPROOT -type f -name '*.ko' | while read mod; do
-    echo "gzip: $(echo $mod | sed "s%^${MODDIR}%%")"
+    echo "xz -z9: $(echo $mod | sed "s%^${MODDIR}%%")"
     strip --strip-unneeded $mod >& /dev/null
-    gzip -9 $mod
-    mv -f ${mod}.gz ${mod}
+    xz -z9 $mod || return 1
+    mv -f ${mod}.xz ${mod} || return 1
   done
   mkdir -p $TMPROOT/boot || return 1
   KNAME=$(basename $KCONF | cut -f1 -d'.')-${VERSION}

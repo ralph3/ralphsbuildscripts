@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.1"
+VERSION="2.2"
 
 DIR="inputproto-${VERSION}"
 TARBALL="inputproto-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-c4973f2e65a0ff9a283e665b31b96bb7
+13c8aedaf98a92e282b7e456c0a5bed9
 )
 
 build(){
@@ -30,7 +30,4 @@ version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/proto/'
   VERSION_STRING='inputproto-%version%.tar.bz2'
   VERSION_FILTERS='99'
-  MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/proto/inputproto-%version%.tar.bz2'
-  )
 }

@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.32"
+VERSION="3.37"
 
 DIR="man-pages-${VERSION}"
-TARBALL="man-pages-${VERSION}.tar.bz2"
+TARBALL="man-pages-${VERSION}.tar.xz"
 
 SRC1=(
-http://www.kernel.org/pub/linux/docs/manpages/${TARBALL}
+http://www.kernel.org/pub/linux/docs/man-pages/${TARBALL}
 )
 
 MD5SUMS=(
-1278c5289660e42a597fefd30d9bdcf0
+6b25e0411e203aa28ae2cb25a692a224
 )
 
 build(){
@@ -24,6 +24,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://www.kernel.org/pub/linux/docs/manpages/'
-  VERSION_STRING='man-pages-%version%.tar.bz2'
+  ADDRESS='http://www.kernel.org/pub/linux/docs/man-pages/'
+  VERSION_STRING='man-pages-%version%.tar.xz'
 }

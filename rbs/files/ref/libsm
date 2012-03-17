@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.2.0"
+VERSION="1.2.1"
 
 DIR="libSM-${VERSION}"
 TARBALL="libSM-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-e78c447bf1790552b644eca81b542742
+766de9d1e1ecf8bf74cebe2111d8e2bd
 )
 
 build(){
@@ -27,7 +27,4 @@ build(){
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/lib/'
   VERSION_STRING='libSM-%version%.tar.bz2'
-  MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/lib/libSM-%version%.tar.bz2'
-  )
 }

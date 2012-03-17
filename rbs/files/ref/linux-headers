@@ -3,7 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="3.2.2"
+VERSION="3.2.11"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.xz"
@@ -15,8 +15,9 @@ http://www.kernel.org/pub/linux/kernel/v$(cut -f-1 -d'.'<<<$VERSION).0/${TARBALL
 )
 
 MD5SUMS=(
-6f001a5877884817bcb2e037d8a6e3fe
+0e3d5a3dab51b3c36940461582bc06df
 )
+
 
 Cross_Tools_Build(){
   local KARCH KCONF MODDIR

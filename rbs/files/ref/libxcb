@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.8"
+VERSION="1.8.1"
 
 DIR="libxcb-${VERSION}"
 TARBALL="libxcb-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://xcb.freedesktop.org/dist/${TARBALL}
 )
 
 MD5SUMS=(
-eba59a8887ba6dbaa4cf337766f8d19d
+9da03df9e2f4c048202920d9f6a7e123
 )
 
 build(){
@@ -27,7 +27,4 @@ build(){
 version_check_info(){
   ADDRESS='http://xcb.freedesktop.org/dist/'
   VERSION_STRING='libxcb-%version%.tar.bz2'
-  MIRRORS=(
-    'http://xcb.freedesktop.org/dist/libxcb-%version%.tar.bz2'
-  )
 }

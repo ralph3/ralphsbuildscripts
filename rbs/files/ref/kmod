@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="4"
+VERSION="5"
 
 DIR="kmod-${VERSION}"
 TARBALL="kmod-${VERSION}.tar.xz"
@@ -12,7 +12,7 @@ http://packages.profusion.mobi/kmod//$TARBALL
 )
 
 MD5SUMS=(
-e14450a066a48accd0af1995b3c0232d
+b271c2ec54aba1c67bda63c8579d8c15
 )
 
 build(){
@@ -21,6 +21,11 @@ build(){
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/$LIBSDIR --bindir=/sbin --sbindir=/sbin --sysconfdir=/etc \
     --with-xz --with-zlib || return 1
+  grep -r "/$LIBSDIR/modules" * >&/dev/null
+  if [ "$?" != "0" ]; then
+    sed -i "s%/lib/modules%/${LIBSDIR}/modules%g" \
+      $(grep -rl '/lib/modules' *) || return 1
+  fi
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   mkdir -vp $TMPROOT/usr/$LIBSDIR || return 1

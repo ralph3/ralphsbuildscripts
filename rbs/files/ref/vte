@@ -31,4 +31,5 @@ version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/vte/%minor_version%/'
   VERSION_STRING='vte-%version%.tar.bz2'
   ONLY_EVEN_MINORS=1
+  MINOR_VERSION=0.28
 }

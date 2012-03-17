@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.2.0"
+VERSION="2.3.0"
 
 DIR="libXft-${VERSION}"
 TARBALL="libXft-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-cce3c327258116493b753f157e0360c7
+bd0a8d8cace1dfbb963250bf3eb9a19a
 )
 
 build(){
@@ -30,7 +30,4 @@ build(){
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/lib/'
   VERSION_STRING='libXft-%version%.tar.bz2'
-  MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/lib/libXft-%version%.tar.bz2'
-  )
 }

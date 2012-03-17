@@ -3,7 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="4.6.2"
+VERSION="4.6.3"
 
 DIR="gcc-${VERSION}"
 TARBALL="gcc-${VERSION}.tar.bz2"
@@ -14,7 +14,7 @@ ftp://sources.redhat.com/pub/gcc/releases/gcc-${VERSION}/$TARBALL
 )
 
 MD5SUMS=(
-028115c4fbfb6cfd75d6369f4a90d87e
+773092fe5194353b02bb0110052a972e
 )
 
 GCC_Switch_ToolChain(){
@@ -191,8 +191,5 @@ version_check_info(){
   ADDRESS='http://ftp.gnu.org/gnu/gcc/gcc-%version%/'
   VERSION_STRING='gcc-%version%.tar.bz2'
   VERSION_FILTERS='test obj jav g++ for core ad go'
-  MIRRORS=(
-    'http://ftp.gnu.org/gnu/gcc/gcc-%version%/gcc-%version%.tar.bz2'
-  )
 }
 
