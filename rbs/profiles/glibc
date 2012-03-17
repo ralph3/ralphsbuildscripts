@@ -158,7 +158,7 @@ Cross_Tools_Build(){
     CXX="${BUILDTARGET}-g++ $BUILD" CFLAGS="$XFLAGS -O2 -fgnu89-inline" \
     ../$DIR/configure --prefix=$TCDIR --host=$GLIBC_TARGETHOST \
     --build=$BUILDHOST --libdir=$TCDIR/$LIBSDIR --disable-profile \
-    --enable-add-ons --with-tls --enable-kernel=3.2.9 --with-__thread \
+    --enable-add-ons --with-tls --enable-kernel=2.6.35 --with-__thread \
     --with-binutils=$CTCDIR/bin --with-headers=$TCDIR/include \
     --cache-file=config.cache || return 1
   make LD_LIBRARY_PATH= || return 1
@@ -202,7 +202,7 @@ build(){
   
   CC="$CC $BUILD" CXX="$CXX $BUILD" ../$DIR/configure $CONF --prefix=/usr \
     --libdir=/usr/$LIBSDIR --disable-profile --enable-add-ons \
-    --enable-kernel=3.2.9 --with-__thread \
+    --enable-kernel=2.6.35 --with-__thread \
     --libexecdir=/usr/$LIBSDIR/glibc || return 1
   make || return 1
   make install_root=$TMPROOT install || return 1
