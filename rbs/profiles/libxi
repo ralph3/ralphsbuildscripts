@@ -1,6 +1,8 @@
 #!/bin/bash
 
-VERSION="1.6.0"
+#version 1.6.0 needs libx11 newer than 1.4.4
+
+VERSION="1.5.0"
 
 DIR="libXi-${VERSION}"
 TARBALL="libXi-${VERSION}.tar.bz2"
@@ -10,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-2e7f84711035e672c34549eac5660a0f
+eed79448dd24b31f3fedb1750fc777b3
 )
 
 build(){

@@ -40,7 +40,10 @@ source_setup(){
     cp /boot/$(basename $(grep " / " /etc/fstab | cut -f1 -d' '))/$(basename $CONFIG) .config || return 1
   fi
   
-  sed -i "s%/lib/modules%/${LIBSDIR}/modules%g" $(grep -rl "/lib/modules" *)
+  for d in modules firmware; do
+    sed -i "s%/lib/${d}%/${LIBSDIR}/${d}%g" $(grep -rl "/lib/${d}" *)
+  done
+  
   make scripts || return 1
   make prepare || return 1
   make modules_prepare || return 1
@@ -81,7 +84,11 @@ Tools_Build(){
   unpack_tarball $TARBALL || return 1
   make mrproper || return 1
   sed '/=m/d' $KCONF > .config || return 1
-  sed -i "s%/lib/modules%/${LIBSDIR}/modules%g" $(grep -rl "/lib/modules" *) || return 1
+  
+  for d in modules firmware; do
+    sed -i "s%/lib/${d}%/${LIBSDIR}/${d}%g" $(grep -rl "/lib/${d}" *)
+  done
+  
   yes "" | make ARCH=$KARCH CROSS_COMPILE=${BUILDTARGET}- oldconfig || return 1
   make ARCH=$KARCH CROSS_COMPILE=${BUILDTARGET}- || return 1
   mkdir -p $ROOT/boot || return 1
@@ -139,7 +146,11 @@ build(){
   make mrproper || return 1
   cp $KCONF .config || return 1
   
-  sed -i "s%/lib/modules%/${LIBSDIR}/modules%g" $(grep -rl "/lib/modules" *) || return 1
+  
+  for d in modules firmware; do
+    sed -i "s%/lib/${d}%/${LIBSDIR}/${d}%g" $(grep -rl "/lib/${d}" *)
+  done
+  
   
   yes "" | make oldconfig || return 1
   make || return 1

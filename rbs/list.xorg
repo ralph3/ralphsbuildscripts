@@ -134,6 +134,5 @@ pixman
 xorg-server
 
 xf86-input-keyboard
-xf86-input-evdev
 xf86-input-mouse
 
