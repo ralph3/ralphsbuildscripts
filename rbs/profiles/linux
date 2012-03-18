@@ -40,10 +40,6 @@ source_setup(){
     cp /boot/$(basename $(grep " / " /etc/fstab | cut -f1 -d' '))/$(basename $CONFIG) .config || return 1
   fi
   
-  for d in modules firmware; do
-    sed -i "s%/lib/${d}%/${LIBSDIR}/${d}%g" $(grep -rl "/lib/${d}" *)
-  done
-  
   make scripts || return 1
   make prepare || return 1
   make modules_prepare || return 1
@@ -84,10 +80,6 @@ Tools_Build(){
   unpack_tarball $TARBALL || return 1
   make mrproper || return 1
   sed '/=m/d' $KCONF > .config || return 1
-  
-  for d in modules firmware; do
-    sed -i "s%/lib/${d}%/${LIBSDIR}/${d}%g" $(grep -rl "/lib/${d}" *)
-  done
   
   yes "" | make ARCH=$KARCH CROSS_COMPILE=${BUILDTARGET}- oldconfig || return 1
   make ARCH=$KARCH CROSS_COMPILE=${BUILDTARGET}- || return 1
@@ -146,17 +138,11 @@ build(){
   make mrproper || return 1
   cp $KCONF .config || return 1
   
-  
-  for d in modules firmware; do
-    sed -i "s%/lib/${d}%/${LIBSDIR}/${d}%g" $(grep -rl "/lib/${d}" *)
-  done
-  
-  
   yes "" | make oldconfig || return 1
   make || return 1
   make INSTALL_MOD_PATH=$TMPROOT modules_install || return 1
   
-  MODDIR="${TMPROOT}/$LIBSDIR/modules/$(uname -r)/"
+  MODDIR="${TMPROOT}/lib/modules/$(uname -r)/"
   find $TMPROOT -type f -name '*.ko' | while read mod; do
     echo "xz -z9: $(echo $mod | sed "s%^${MODDIR}%%")"
     strip --strip-unneeded $mod >& /dev/null
