@@ -43,4 +43,5 @@ build(){
 version_check_info(){
   ADDRESS='http://www.kernel.org/pub/linux/utils/boot/syslinux/'
   VERSION_STRING='syslinux-%version%.tar.bz2'
+  VERSION_FILTERS='4\.05'
 }

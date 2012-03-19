@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.8.0"
+VERSION="2.9.0"
 
 DIR="fontconfig-${VERSION}"
 TARBALL="fontconfig-${VERSION}.tar.gz"
@@ -10,7 +10,7 @@ http://fontconfig.org/release/${TARBALL}
 )
 
 MD5SUMS=(
-77e15a92006ddc2adbb06f840d591c0e
+26c83855ed256b5c032baae032fadc4f
 )
 
 build(){
@@ -39,7 +39,4 @@ version_check_info(){
   ADDRESS='http://fontconfig.org/release/'
   VERSION_STRING='fontconfig-%version%.tar.gz'
   VERSION_FILTERS='\.9.$'
-  MIRRORS=(
-    'http://fontconfig.org/release/fontconfig-%version%.tar.gz'
-  )
 }
