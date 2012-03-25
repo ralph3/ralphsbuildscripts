@@ -67,7 +67,7 @@ Tools_Build(){
 }
 
 build(){
-  local PATCHES CONF
+  local PATCHES CONF MAR MRL
   CONF=
   case $(echo $BUILDTARGET | cut -f1 -d'-') in
     i486|i586|i686)
@@ -84,6 +84,14 @@ build(){
       esac
     ;;
   esac
+  
+  MAR=ar
+  MRL=ranlib
+  if [ ! -e "/usr/bin/ranlib" ]; then
+    MAR="${BUILDTARGET}-ar"
+    MRL="${BUILDTARGET}-ranlib"
+  fi
+  
   mkdir -p $SRCDIR || return 1
   cd $SRCDIR || return 1
   rm -rf $DIR binutils-build || return 1
@@ -93,7 +101,7 @@ build(){
   mkdir -p $SRCDIR/binutils-build || return 1
   cd $SRCDIR/binutils-build || return 1
   CC="$CC $BUILD -isystem /usr/include" LDFLAGS="-Wl,-rpath-link,/${LIBSDIR}" \
-  ../$DIR/configure --prefix=/usr --libdir=/usr/$LIBSDIR \
+  AR=$MAR RANLIB=$MRL ../$DIR/configure --prefix=/usr --libdir=/usr/$LIBSDIR \
     --enable-shared $CONF || return 1
   make configure-host || return 1
   make tooldir=/usr/$LIBSDIR/binutils || return 1

@@ -68,14 +68,14 @@ My_GCC_MultiBuild_Func(){
   case $1 in
     CrossToolsStatic|CrossTools|Tools)
       CONF="$CONF --with-native-system-header-dir=$TCDIR"
-##      for x in $(find gcc/config -name linux64.h -o -name linux.h); do
-##        sed -i -e "s@/lib\(64\)\?\(32\)\?/ld@${TCDIR}&@g" \
-##          -e "s@/usr@${TCDIR}@g" $x || return 1
+      for x in $(find gcc/config -name linux64.h -o -name linux.h); do
+        sed -i -e "s@/lib\(64\)\?\(32\)\?/ld@${TCDIR}&@g" \
+          -e "s@/usr@${TCDIR}@g" $x || return 1
 ##cat << FOE >> $x || return 1
 ###undef STANDARD_INCLUDE_DIR
 ###define STANDARD_INCLUDE_DIR 0
 ##FOE
-##      done
+      done
     ;;
   esac
 
