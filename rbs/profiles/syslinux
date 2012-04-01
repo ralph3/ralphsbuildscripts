@@ -3,19 +3,18 @@
 DISABLE_MULTILIB=1
 DISABLE_STRIP=1
 
-#extlinux 4.05 hangs on boot
-
-VERSION="4.04"
+VERSION="4.06-pre3"
 
 DIR="syslinux-${VERSION}"
-TARBALL="syslinux-${VERSION}.tar.bz2"
+TARBALL="syslinux-${VERSION}.tar.xz"
 
 SRC1=(
 http://www.kernel.org/pub/linux/utils/boot/syslinux/${TARBALL}
+http://www.kernel.org/pub/linux/utils/boot/syslinux/Testing/$(cut -f1 -d'-' <<< $VERSION)/$TARBALL
 )
 
 MD5SUMS=(
-a3936208767eb7ced65320abe2e33a10
+c93f646750051345ea85b080b92f7191
 )
 
 build(){
@@ -42,6 +41,5 @@ build(){
 
 version_check_info(){
   ADDRESS='http://www.kernel.org/pub/linux/utils/boot/syslinux/'
-  VERSION_STRING='syslinux-%version%.tar.bz2'
-  VERSION_FILTERS='4\.05'
+  VERSION_STRING='syslinux-%version%.tar.xz'
 }

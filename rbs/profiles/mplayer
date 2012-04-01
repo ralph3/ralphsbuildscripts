@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="33961"  # 20110810
+VERSION="34835"  # 20120330
 
 DIR="MPlayer-${VERSION}"
 TARBALL="MPlayer-${VERSION}.tar.xz"
@@ -32,8 +32,7 @@ build(){
   unpack_tarball "$TARBALL" || return 1
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --target=$BUILDTARGET \
-    --prefix=/usr --libdir=/usr/$LIBSDIR --confdir=/etc/mplayer \
-    --enable-gui || return 1
+    --prefix=/usr --libdir=/usr/$LIBSDIR --confdir=/etc/mplayer || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   install -v -m755 -d $TMPROOT/usr/share/doc/mplayer-${VERSION} || return 1

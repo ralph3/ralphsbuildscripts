@@ -1,0 +1,105 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="1.06"
+
+DIR="bc-${VERSION}"
+TARBALL="bc-${VERSION}.tar.gz"
+
+DEPENDS=(
+  readline
+)
+
+SRC1=(
+http://ftp.gnu.org/gnu/bc/${TARBALL}
+)
+
+MD5SUMS=(
+d44b5dddebd8a7a7309aea6c36fda117
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+cat << "EOF" | patch -Np1 || return 1 #flex invocation
+Submitted By: BLFS Book <blfs-book@linuxfromscratch.org>
+Date: 2003-10-03
+Initial Package Version: 1.06
+Origin: NA
+Description: Fix innvocation of flex.
+--- bc-1.06/configure.orig	2003-03-09 23:54:37.000000000 -0600
++++ bc-1.06/configure	2003-03-09 23:55:00.000000000 -0600
+@@ -2245,7 +2245,7 @@
+ 
+ 
+ if test "$LEX" = "flex" ; then
+- LEX="flex -I8"
++ LEX="flex -I"
+ else
+  if test "$bcrl" = "y" ; then
+   echo "configure: warning: readline works only with flex." 1>&2
+EOF
+
+cat << "EOF" | patch -Np1 || return 1 #readline
+Submitted By: BLFS Book <blfs-book@linuxfromscratch.org>
+Date: 2003-10-03
+Initial Package Version: 1.06
+Origin: NA
+Description: Fix readline access call.
+diff -Naur bc-1.06.orig/bc/scan.l bc-1.06/bc/scan.l
+--- bc-1.06.orig/bc/scan.l	2000-09-13 13:25:47.000000000 -0500
++++ bc-1.06/bc/scan.l	2002-07-09 14:36:34.000000000 -0500
+@@ -143,7 +143,6 @@
+ 
+ /* Definitions for readline access. */
+ extern FILE *rl_instream;
+-_PROTOTYPE(char *readline, (char *));
+ 
+ /* rl_input puts upto MAX characters into BUF with the number put in
+    BUF placed in *RESULT.  If the yy input file is the same as
+
+EOF
+
+cat << "EOF" | patch -Np1 || return 1 #fixes
+Submitted By: Jim Gifford (jim at linuxfromscratch dot org)
+Date: 2003-09-26
+Initial Package Version: 1.06
+Origin: Mandrake CVS
+Description: Fixes a few typos
+ 
+--- bc-1.06/lib/number.c.orig	2003-09-26 21:14:02.000000000 +0000
++++ bc-1.06/lib/number.c	2003-09-26 21:14:26.000000000 +0000
+@@ -34,6 +34,7 @@
+ #include <number.h>
+ #include <assert.h>
+ #include <stdlib.h>
++#include <string.h>
+ #include <ctype.h>/* Prototypes needed for external utility routines. */
+ 
+ #define bc_rt_warn rt_warn
+--- bc-1.06/bc/load.c.orig	2003-09-26 21:14:14.000000000 +0000
++++ bc-1.06/bc/load.c	2003-09-26 21:14:26.000000000 +0000
+@@ -156,7 +156,7 @@
+   long  label_no;
+   long  vaf_name;	/* variable, array or function number. */
+   long  func;
+-  program_counter save_adr;
++  static program_counter save_adr;
+ 
+   /* Initialize. */
+   str = code;
+
+EOF
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+  --libdir=/usr/$LIBSDIR --with-readline || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://ftp.gnu.org/gnu/bc/'
+  VERSION_STRING='bc-%version%.tar.gz'
+}
