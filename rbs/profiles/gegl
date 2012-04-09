@@ -29,4 +29,5 @@ build(){
 version_check_info(){
   ADDRESS='ftp://ftp.gimp.org/pub/gegl/%minor_version%/'
   VERSION_STRING='gegl-%version%.tar.bz2'
+  MINOR_VERSION='0.1'
 }

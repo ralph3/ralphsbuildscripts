@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.24.0"
+VERSION="2.24.1"
 
 DIR="gdk-pixbuf-${VERSION}"
-TARBALL="gdk-pixbuf-${VERSION}.tar.bz2"
+TARBALL="gdk-pixbuf-${VERSION}.tar.xz"
 
 SRC1=(
   $(gnome_mirrors gdk-pixbuf)
 )
 
 MD5SUMS=(
-d8ece3a4ade4a91c768328620e473ab8
+72f39b34b20f68148c1609bd27415412
 )
 
 build(){
@@ -74,7 +74,7 @@ post_upgrade(){
 
 version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/gdk-pixbuf/%minor_version%/'
-  VERSION_STRING='gdk-pixbuf-%version%.tar.bz2'
-  #MINOR_VERSION_FILTERS='[3,5,7,9]0'
+  VERSION_STRING='gdk-pixbuf-%version%.tar.xz'
+  MINOR_VERSION="2.24"
   ONLY_EVEN_MINORS=1
 }

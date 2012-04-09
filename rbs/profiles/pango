@@ -73,5 +73,5 @@ post_upgrade(){
 version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/pango/%minor_version%/'
   VERSION_STRING='pango-%version%.tar.bz2'
-  ONLY_EVEN_MINORS=1
+  MINOR_VERSION='1,28'
 }

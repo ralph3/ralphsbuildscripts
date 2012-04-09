@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="2.20"
+VERSION="2.21.1"
 
 DIR="util-linux-${VERSION}"
 TARBALL="util-linux-${VERSION}.tar.xz"
@@ -11,7 +11,7 @@ http://www.kernel.org/pub/linux/utils/util-linux/v$(echo $VERSION | cut -f-2 -d'
 )
 
 MD5SUMS=(
-2966fae7344d20246bfc635d2982a5f9
+ad602dcd528f340b1329cfa6200d8f80
 )
 
 Tools_Build(){
@@ -19,12 +19,12 @@ Tools_Build(){
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --libdir=$TCDIR/$LIBSDIR --includedir=$TCDIR/include \
-    --enable-arch --enable-login-utils --disable-makeinstall-chown || return 1
+    --enable-arch --disable-login-utils --disable-makeinstall-chown || return 1
   make || return 1
   make install DESTDIR=$ROOT || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --libdir=/$LIBSDIR \
-    --enable-arch --enable-login-utils --disable-makeinstall-chown || return 1
+    --enable-arch --disable-login-utils --disable-makeinstall-chown || return 1
   make || return 1
   make install DESTDIR=$ROOT || return 1
   cd $SRCDIR || return 1

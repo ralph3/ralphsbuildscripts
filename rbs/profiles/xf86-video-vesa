@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.3.0"
+VERSION="2.3.1"
 
 DIR="xf86-video-vesa-${VERSION}"
 TARBALL="xf86-video-vesa-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/driver/${TARBALL}
 )
 
 MD5SUMS=(
-07fa32958aff9b463dd3af5481ef6626
+02e6eacc2d1e07ac893b62481905d6f0
 )
 
 build(){
@@ -30,7 +30,4 @@ build(){
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/driver/'
   VERSION_STRING='xf86-video-vesa-%version%.tar.bz2'
-  MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/driver/xf86-video-vesa-%version%.tar.bz2'
-  )
 }

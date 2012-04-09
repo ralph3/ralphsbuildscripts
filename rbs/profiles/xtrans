@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.2.6"
+VERSION="1.2.7"
 
 DIR="xtrans-${VERSION}"
 TARBALL="xtrans-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-c66f9ffd2da4fb012220c6c40ebc7609
+84c66908cf003ad8c272b0eecbdbaee3
 )
 
 build(){
@@ -29,7 +29,4 @@ build(){
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/lib/'
   VERSION_STRING='xtrans-%version%.tar.bz2'
-  MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/lib/xtrans-%version%.tar.bz2'
-  )
 }

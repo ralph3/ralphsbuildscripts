@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="2.15"
+VERSION="2.13"
 
 DIR="glibc-${VERSION}"
 TARBALL="glibc-${VERSION}.tar.xz"
@@ -11,7 +11,7 @@ http://ftp.gnu.org/gnu/glibc/$TARBALL
 )
 
 MD5SUMS=(
-4f9f3b0e780a8c7179a372d34e9452bc
+cc5d8b1b994fb3b870222565c79853ca
 )
 
 rbs_do_glibc_patching(){
@@ -46,83 +46,6 @@ diff -Naur glibc-2.11.1/sysdeps/unix/sysv/linux/i386/sysdep.h glibc-2.11.1.patch
  
  /* For Linux we can use the system call table in the header file
  	/usr/include/asm/unistd.h
-EOF
-
-#fix firefox crashing with glibc-2.14.1 !!!2.14.1 specific!!!
-cat << "EOF" | patch -Np1 || return 1
-diff -Naur glibc-2.14.1/resolv/res_query.c glibc-2.14.1.patched/resolv/res_query.c
---- glibc-2.14.1/resolv/res_query.c	2011-10-07 05:48:55.000000000 -0400
-+++ glibc-2.14.1.patched/resolv/res_query.c	2012-02-06 06:15:10.000000000 -0500
-@@ -122,6 +122,7 @@
- 		  int *resplen2)
- {
- 	HEADER *hp = (HEADER *) answer;
-+	HEADER *hp2;
- 	int n, use_malloc = 0;
- 	u_int oflags = statp->_flags;
- 
-@@ -239,26 +240,25 @@
- 	  /* __libc_res_nsend might have reallocated the buffer.  */
- 	  hp = (HEADER *) *answerp;
- 
--	/* We simplify the following tests by assigning HP to HP2.  It
--	   is easy to verify that this is the same as ignoring all
--	   tests of HP2.  */
--	HEADER *hp2 = answerp2 ? (HEADER *) *answerp2 : hp;
--
--	if (n < (int) sizeof (HEADER) && answerp2 != NULL
--	    && *resplen2 > (int) sizeof (HEADER))
-+	/* We simplify the following tests by assigning HP to HP2 or
-+	   vice versa.  It is easy to verify that this is the same as
-+	   ignoring all tests of HP or HP2.  */
-+	if (answerp2 == NULL || *resplen2 < (int) sizeof (HEADER))
- 	  {
--	    /* Special case of partial answer.  */
--	    assert (hp != hp2);
--	    hp = hp2;
-+	    hp2 = hp;
- 	  }
--	else if (answerp2 != NULL && *resplen2 < (int) sizeof (HEADER)
--		 && n > (int) sizeof (HEADER))
-+	else
- 	  {
--	    /* Special case of partial answer.  */
--	    assert (hp != hp2);
--	    hp2 = hp;
-+	    hp2 = (HEADER *) *answerp2;
-+	    if (n < (int) sizeof (HEADER))
-+	      {
-+	        hp = hp2;
-+	      }
- 	  }
- 
-+	/* Make sure both hp and hp2 are defined */
-+	assert((hp != NULL) && (hp2 != NULL));
-+
- 	if ((hp->rcode != NOERROR || ntohs(hp->ancount) == 0)
- 	    && (hp2->rcode != NOERROR || ntohs(hp2->ancount) == 0)) {
- #ifdef DEBUG
-EOF
-
-#2.15 cpuid.h error crap
-cat << "EOF" | patch -Np1 || return 1
-diff -Naur glibc-2.15/sysdeps/i386/configure glibc-2.15.patched/sysdeps/i386/configure
---- glibc-2.15/sysdeps/i386/configure	2012-03-19 10:56:58.000000000 -0400
-+++ glibc-2.15.patched/sysdeps/i386/configure	2012-03-22 18:36:49.000000000 -0400
-@@ -633,11 +633,11 @@
- 
- 
- ac_fn_c_check_header_mongrel "$LINENO" "cpuid.h" "ac_cv_header_cpuid_h" "$ac_includes_default"
--if test "x$ac_cv_header_cpuid_h" = xyes; then :
--
--else
--  as_fn_error $? "gcc must provide the <cpuid.h> header" "$LINENO" 5
--fi
-+#if test "x$ac_cv_header_cpuid_h" = xyes; then :
-+#
-+#else
-+#  as_fn_error $? "gcc must provide the <cpuid.h> header" "$LINENO" 5
-+#fi
 EOF
 }
 
@@ -276,5 +199,5 @@ post_install(){
 version_check_info(){
   ADDRESS='http://ftp.gnu.org/gnu/glibc/'
   VERSION_STRING='glibc-%version%.tar.xz'
-  VERSION_FILTERS="ports linuxthreads libidn"
+  VERSION_FILTERS="ports linuxthreads libidn 2.1[4-5]"
 }

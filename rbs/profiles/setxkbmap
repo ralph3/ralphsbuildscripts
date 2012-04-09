@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.2.0"
+VERSION="1.3.0"
 
 DIR="setxkbmap-${VERSION}"
 TARBALL="setxkbmap-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-2f6df89201eb9a2cbfb905d6b82a191e
+1001771344608e120e943a396317c33a
 )
 
 build(){
@@ -29,7 +29,4 @@ build(){
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/app/'
   VERSION_STRING='setxkbmap-%version%.tar.bz2'
-  MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/app/setxkbmap-%version%.tar.bz2'
-  )
 }

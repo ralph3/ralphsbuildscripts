@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.1.1"
+VERSION="2.1.2"
 
 DIR="fontsproto-${VERSION}"
 TARBALL="fontsproto-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-37102ffcaa73f77d700acd6f7a25d8f0
+c5f4f1fb4ba7766eedbc9489e81f3be2
 )
 
 build(){
@@ -29,7 +29,4 @@ build(){
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/proto/'
   VERSION_STRING='fontsproto-%version%.tar.bz2'
-  MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/proto/fontsproto-%version%.tar.bz2'
-  )
 }

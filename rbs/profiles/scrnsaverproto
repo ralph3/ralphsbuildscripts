@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.2.1"
+VERSION="1.2.2"
 
 DIR="scrnsaverproto-${VERSION}"
 TARBALL="scrnsaverproto-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-6af0f2e3369f5f74e69345e214f5fd0d
+edd8a73775e8ece1d69515dd17767bfb
 )
 
 build(){
@@ -29,7 +29,4 @@ build(){
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/proto/'
   VERSION_STRING='scrnsaverproto-%version%.tar.bz2'
-  MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/proto/scrnsaverproto-%version%.tar.bz2'
-  )
 }
