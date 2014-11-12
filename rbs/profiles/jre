@@ -1,0 +1,78 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="20121212"
+
+TARBALL32="jre-${VERSION}-linux-i586.tar.gz"
+TARBALL64="jre-${VERSION}-linux-x64.tar.gz"
+
+SRC1=(
+"http://javadl.sun.com/webapps/download/AutoDL?BundleId=69465&/$TARBALL32"
+)
+
+SRC2=(
+"http://javadl.sun.com/webapps/download/AutoDL?BundleId=69467&/$TARBALL64"
+)
+
+MD5SUMS=(
+56178ed00dab2ebd8268caf5575743f4
+8e17fa7b2152ab11f915c6936542cc12
+)
+
+build(){
+  local DIR BIN JARC
+  case $($CC -dumpmachine | cut -f1 -d'-') in
+    i*86)
+      BIN=$TARBALL32
+      JARC=i386
+    ;;
+    x86_64)
+      BIN=$TARBALL64
+      JARC=amd64
+    ;;
+    *)
+      echo "Wrong arch!" >/dev/stderr
+      return 1
+  esac
+
+  mkdir -p $TMPROOT/usr/$LIBSDIR/jdk $SRCDIR/jre || return 1
+  cd $SRCDIR/jre || return 1
+  tar xvfz $DOWNLOADDIR/$BIN || return 1
+  cd * || return 1
+  DIR=$PWD
+  cd ../ || return 1
+  mv $DIR $TMPROOT/usr/$LIBSDIR/jdk/jre || return 1
+  mkdir -p $TMPROOT/etc/{ld.so.conf,profile}.d
+
+cat << EOF > $TMPROOT/etc/ld.so.conf.d/jre.conf
+/usr/$LIBSDIR/jdk/jre/lib/$JARC
+/usr/$LIBSDIR/jdk/jre/lib/$JARC/client
+/usr/$LIBSDIR/jdk/jre/lib/$JARC/jli
+/usr/$LIBSDIR/jdk/jre/lib/$JARC/motif21
+/usr/$LIBSDIR/jdk/jre/lib/$JARC/native_threads
+/usr/$LIBSDIR/jdk/jre/lib/$JARC/server
+/usr/$LIBSDIR/jdk/jre/lib/$JARC/xawt
+EOF
+
+cat << EOF > $TMPROOT/etc/profile.d/jre.sh
+PATH=\$PATH:/usr/$LIBSDIR/jdk/jre/bin
+
+if [ -z "\$MOZ_PLUGIN_PATH" ]; then
+  MOZ_PLUGIN_PATH=/usr/$LIBSDIR/jdk/jre/lib/$JARC
+else
+  MOZ_PLUGIN_PATH=\$MOZ_PLUGIN_PATH:/usr/$LIBSDIR/jdk/jre/lib/$JARC
+fi
+
+export PATH MOZ_PLUGIN_PATH
+EOF
+  chmod 755 $TMPROOT/etc/profile.d/jre.sh || return 1
+  source $TMPROOT/etc/profile.d/jre.sh || return 1
+  cd $SRCDIR || return 1
+  rm -rf jdk || return 1
+}
+
+version_check_info(){
+  ADDRESS='https://jdk-distros.dev.java.net/developer.html'
+  VERSION_STRING='jdk-%version%-dlj-linux-i586.bin'
+}

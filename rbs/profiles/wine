@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.5.1"
+VERSION="1.5.28"
 
 ONLY32=1
 
@@ -10,11 +10,11 @@ DIR="wine-$VERSION"
 TARBALL="wine-${VERSION}.tar.bz2"
 
 SRC1=(
-http://ibiblio.org/pub/linux/system/emulators/wine/${TARBALL}
+http://mirrors.ibiblio.org/wine/source/1.5/${TARBALL}
 )
 
 MD5SUMS=(
-406c61b0162962ab7f539fefd77229af
+a5b94becaf41a3e7f6d3d85a57a2f8d4
 )
 
 build(){
