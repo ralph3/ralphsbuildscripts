@@ -191,7 +191,7 @@ download(){
         URL="http://${sfhost}.dl.sourceforge.net/sourceforge/$SFSUF"
         R=`wget --server-response --spider $TURL 2>&1 | grep "Content-Type: text/html"`
         [ "$R" = "" ] && {
-          wget --passive-ftp -O `basename $URL` $URL && return 0
+          wget --passive-ftp --no-check-certificate -O `basename $URL` $URL && return 0
         }
       done
 cat << EOF >/dev/stderr
@@ -204,7 +204,7 @@ EOF
     ;;
     *)
       TN=$(mktemp)
-      wget --passive-ftp -O "$TN" $1 || {
+      wget --passive-ftp --no-check-certificate -O "$TN" $1 || {
         rm -f "$TN"
         return 1
       }

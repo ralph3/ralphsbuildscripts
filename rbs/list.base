@@ -91,4 +91,5 @@ p11-kit
 gnutls
 wget
 git
+bc
 linux

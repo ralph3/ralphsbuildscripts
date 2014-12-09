@@ -2,19 +2,19 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.3"
+VERSION="3.18"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.xz"
 
 SRC1=(
-http://www.kernel.org/pub/linux/kernel/v$(cut -f-2 -d'.'<<<$VERSION)/${TARBALL}
-http://www.kernel.org/pub/linux/kernel/v$(cut -f-2 -d'.'<<<$VERSION)/testing/$TARBALL
-http://www.kernel.org/pub/linux/kernel/v$(cut -f-1 -d'.'<<<$VERSION).0/${TARBALL}
+http://www.kernel.org/pub/linux/kernel/v3.x/${TARBALL}
+http://www.kernel.org/pub/linux/kernel/v3.x/testing/$TARBALL
+http://www.kernel.org/pub/linux/kernel/v3.x/${TARBALL}
 )
 
 MD5SUMS=(
-7133f5a2086a7d7ef97abac610c094f5
+9e854df51ca3fef8bfe566dbd7b89241
 )
 
 source_setup(){
@@ -140,7 +140,7 @@ build(){
   
   yes "" | make oldconfig || return 1
   make || return 1
-  make INSTALL_MOD_PATH=$TMPROOT modules_install || return 1
+  make INSTALL_MOD_PATH=$TMPROOT DEPMOD=true modules_install || return 1
   
   MODDIR="${TMPROOT}/lib/modules/$(uname -r)/"
   find $TMPROOT -type f -name '*.ko' | while read mod; do
