@@ -12,7 +12,7 @@ http://www.netfilter.org/projects/iptables/files/${TARBALL}
 )
 
 MD5SUMS=(
-0
+536d048c8e8eeebcd9757d0863ebb0c0
 )
 
 build(){
