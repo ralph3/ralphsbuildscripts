@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.7"
+VERSION="1.0.9"
 
 DIR="xauth-${VERSION}"
 TARBALL="xauth-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-cbcbd8f2156a53b609800bec4c6b6c0e
+7d6003f32838d5b688e2c8a131083271
 )
 
 build(){

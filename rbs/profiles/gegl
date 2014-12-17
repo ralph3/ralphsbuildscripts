@@ -8,7 +8,7 @@ DIR="gegl-${VERSION}"
 TARBALL="gegl-${VERSION}.tar.bz2"
 
 SRC1=(
-ftp://ftp.gimp.org/pub/gegl/$(cut -f-2 -d'.' <<< $VERSION)/${TARBALL}
+http://download.gimp.org/pub/gegl/$(cut -f-2 -d'.' <<< $VERSION)/${TARBALL}
 )
 
 MD5SUMS=(
@@ -27,7 +27,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='ftp://ftp.gimp.org/pub/gegl/%minor_version%/'
+  ADDRESS='http://download.gimp.org/pub/gegl/%minor_version%/'
   VERSION_STRING='gegl-%version%.tar.bz2'
   MINOR_VERSION='0.1'
 }

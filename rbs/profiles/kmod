@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="5"
+VERSION="19"
 
 DIR="kmod-${VERSION}"
 TARBALL="kmod-${VERSION}.tar.xz"
 
 SRC1=(
-http://packages.profusion.mobi/kmod//$TARBALL
+https://www.kernel.org/pub/linux/utils/kernel/kmod/$TARBALL
 )
 
 MD5SUMS=(
-b271c2ec54aba1c67bda63c8579d8c15
+a08643f814aa4efc12211c6e5909f4d9
 )
 
 build(){
@@ -33,6 +33,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://packages.profusion.mobi/kmod/'
+  ADDRESS='https://www.kernel.org/pub/linux/utils/kernel/kmod/'
   VERSION_STRING='kmod-%version%.tar.xz'
 }

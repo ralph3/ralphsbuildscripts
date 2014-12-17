@@ -3,7 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="4.7.0"
+VERSION="4.9.2"
 
 DIR="gcc-${VERSION}"
 TARBALL="gcc-${VERSION}.tar.bz2"
@@ -14,7 +14,7 @@ ftp://sources.redhat.com/pub/gcc/releases/gcc-${VERSION}/$TARBALL
 )
 
 MD5SUMS=(
-2a0f1d99fda235c29d40b561f81d9a77
+4df8ee253b7f3863ad0b86359cd39c43
 )
 
 GCC_Switch_ToolChain(){

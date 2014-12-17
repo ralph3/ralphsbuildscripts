@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.18"
+VERSION="2.20"
 
 DIR="XML-Simple-${VERSION}"
 TARBALL="XML-Simple-${VERSION}.tar.gz"
@@ -10,7 +10,7 @@ http://www.cpan.org/authors/id/G/GR/GRANTM/${TARBALL}
 )
 
 MD5SUMS=(
-593aa8001e5c301cdcdb4bb3b63abc33
+4d10964e123b76eca36678464daa63cd
 )
 
 build(){

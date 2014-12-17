@@ -1,0 +1,32 @@
+#!/bin/bash
+
+DONT_REMOVE=1
+VERSION="1.11"
+
+DIR="gdbm-${VERSION}"
+TARBALL="gdbm-${VERSION}.tar.gz"
+
+SRC1=(
+http://ftp.gnu.org/gnu/gdbm/${TARBALL}
+)
+
+MD5SUMS=(
+72c832680cf0999caedbe5b265c8c1bd
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" \
+    ./configure --prefix=/usr --libdir=/usr/$LIBSDIR --enable-libgdbm-compat || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://ftp.gnu.org/gnu/gdbm/'
+  VERSION_STRING='gdbm-%version%.tar.gz'
+  VERSION_FILTERS='latest'
+}

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.6.20"
+VERSION="0.6.21"
 
 DIR="libexif-${VERSION}"
 TARBALL="libexif-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://prdownloads.sourceforge.net/libexif/${TARBALL}
 )
 
 MD5SUMS=(
-19844ce6b5d075af16f0d45de1e8a6a3
+27339b89850f28c8f1c237f233e05b27
 )
 
 build(){
@@ -28,7 +28,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://sourceforge.net/projects/libexif/files/libexif/'
-  VERSION_STRING='libexif/%version%/'
-  VERSION_FILTERS='[a-z][a-z] [A-Z][A-Z]'
+  ADDRESS='http://sourceforge.net/projects/libexif/files/?source=navbar'
+  VERSION_STRING='libexif-%version%.tar.bz2'
 }

@@ -3,7 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="1.5"
+VERSION="1.5.1"
 
 DIR="sysklogd-${VERSION}"
 TARBALL="sysklogd-${VERSION}.tar.gz"
@@ -13,7 +13,7 @@ http://www.infodrom.org/projects/sysklogd/download/${TARBALL}
 )
 
 MD5SUMS=(
-e053094e8103165f98ddafe828f6ae4b
+c70599ab0d037fde724f7210c2c8d7f8
 )
 
 build(){

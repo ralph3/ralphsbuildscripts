@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.10"
+VERSION="3.11"
 
 DIR="rp-pppoe-${VERSION}"
 TARBALL="rp-pppoe-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://www.roaringpenguin.com/files/download/${TARBALL}
 )
 
 MD5SUMS=(
-d58a13cc4185bca6121a606ff456dec0
+13b5900c56bd602df6cc526e5e520722
 )
 
 build(){
@@ -39,7 +39,5 @@ build(){
 version_check_info(){
   ADDRESS='http://www.roaringpenguin.com/products/pppoe'
   VERSION_STRING='rp-pppoe-%version%.tar.gz'
-  MIRRORS=(
-    'http://www.roaringpenguin.com/files/download/rp-pppoe-%version%.tar.gz'
-  )
+  VERSION_FILTERS='RC'
 }

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+DONT_REMOVE=1
+DISABLE_MULTILIB=1
+
+VERSION="2.7.1"
+
+DIR="man-db-${VERSION}"
+TARBALL="man-db-${VERSION}.tar.xz"
+
+SRC1=(
+http://download.savannah.gnu.org/releases/man-db/${TARBALL}
+)
+
+MD5SUMS=(
+88d32360e2ed18e05de9b528ad336fd8
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+    --host=$BUILDTARGET --prefix=/usr --libdir=/usr/$LIBSDIR \
+    --libexecdir=/usr/$LIBSDIR --sysconfdir=/etc --disable-setuid || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  mv $TMPROOT/etc/man_db.conf{,.tmpnew} || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://download.savannah.gnu.org/releases/man-db/'
+  VERSION_STRING='man-db-%version%.tar.xz'
+}

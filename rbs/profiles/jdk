@@ -2,44 +2,43 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="6u26"
+VERSION="8u25"
 
-TARBALL32="jdk-${VERSION}-dlj-linux-i586.bin"
-TARBALL64="jdk-${VERSION}-dlj-linux-amd64.bin"
+TARBALL32="jdk-${VERSION}-linux-i586.tar.gz"
+TARBALL64="jdk-${VERSION}-linux-x64.tar.gz"
 
 SRC1=(
-http://dlc.sun.com/dlj/binaries/$TARBALL32
+http://build.funtoo.org/distfiles/oracle-java/$TARBALL32
 )
 
 SRC2=(
-http://dlc.sun.com/dlj/binaries/$TARBALL64
+http://build.funtoo.org/distfiles/oracle-java/$TARBALL64
 )
 
 MD5SUMS=(
-d54e58b69e4db80f267435be679a66b9
-43f4e9699afce82d3ebae841c59d02fb
+b5b16247f66643727d9b6d4bc7c5efda
+e145c03a7edc845215092786bcfba77e
 )
 
 build(){
   local DIR BIN JARC
   case $($CC -dumpmachine | cut -f1 -d'-') in
     i*86)
-      BIN=$TARBALL32
+      TARBALL=$TARBALL32
       JARC=i386
     ;;
     x86_64)
-      BIN=$TARBALL64
+      TARBALL=$TARBALL64
       JARC=amd64
     ;;
     *)
       echo "Wrong arch!" >/dev/stderr
       return 1
   esac
-
-  mkdir -p $TMPROOT/usr/$LIBSDIR $SRCDIR/jdk || return 1
-  cd $SRCDIR/jdk || return 1
-  sh $DOWNLOADDIR/$BIN --accept-license --unpack || return 1
-  cd * || return 1
+  
+  mkdir -p $TMPROOT/usr/$LIBSDIR || return 1
+  tar xvfz $DOWNLOADDIR/$TARBALL -C $TMPROOT/usr/$LIBSDIR || return 1
+  cd $TMPROOT/usr/$LIBSDIR/* || return 1
   DIR=$PWD
   cd ../ || return 1
   mv $DIR $TMPROOT/usr/$LIBSDIR/jdk || return 1
@@ -80,6 +79,6 @@ EOF
 }
 
 version_check_info(){
-  ADDRESS='https://jdk-distros.dev.java.net/developer.html'
-  VERSION_STRING='jdk-%version%-dlj-linux-i586.bin'
+  ADDRESS='http://build.funtoo.org/distfiles/oracle-java/'
+  VERSION_STRING='jdk-%version%-linux-i586.tar.gz'
 }

@@ -1,16 +1,16 @@
 #!/bin/bash
 
-VERSION="2.6.7"
+VERSION="2.6.9"
 
 DIR="Python-${VERSION}"
-TARBALL="Python-${VERSION}.tar.bz2"
+TARBALL="Python-${VERSION}.tar.xz"
 
 SRC1=(
 http://www.python.org/ftp/python/${VERSION}/${TARBALL}
 )
 
 MD5SUMS=(
-d40ef58ed88438a870bbeb0ac5d4217b
+933a811f11e3db3d73ae492f6c3a7a76
 )
 
 build(){
@@ -265,7 +265,7 @@ EOF
 
 version_check_info(){
   ADDRESS='http://www.python.org/ftp/python/%version%/'
-  VERSION_STRING='Python-%version%.tar.bz2'
+  VERSION_STRING='Python-%version%.tar.xz'
   VERSION_FILTERS='rc'
   MINOR_VERSION=2
   ONLY_EVEN_MINORS=1

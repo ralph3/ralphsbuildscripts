@@ -1,10 +1,10 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="1.2.6"
+VERSION="1.2.8"
 
 DIR="zlib-${VERSION}"
-TARBALL="zlib-${VERSION}.tar.bz2"
+TARBALL="zlib-${VERSION}.tar.gz"
 
 SRC1=(
 http://www.zlib.net/${TARBALL}
@@ -12,7 +12,7 @@ http://prdownloads.sourceforge.net/libpng/$TARBALL
 )
 
 MD5SUMS=(
-dc2cfa0d2313ca77224b4d932b2911e9
+44d667c142d7cda120332623eab69f40
 )
 
 Tools_Build(){
@@ -43,5 +43,5 @@ build(){
 
 version_check_info(){
   ADDRESS='http://www.zlib.net/'
-  VERSION_STRING='zlib-%version%.tar.bz2'
+  VERSION_STRING='zlib-%version%.tar.gz'
 }

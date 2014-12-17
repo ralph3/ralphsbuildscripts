@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.12.18"
+VERSION="3.3.11"
 
 DIR="gnutls-${VERSION}"
-TARBALL="gnutls-${VERSION}.tar.bz2"
+TARBALL="gnutls-${VERSION}.tar.xz"
 
 SRC1=(
-ftp://ftp.gnupg.org/gcrypt/gnutls/${TARBALL}
+ftp://ftp.gnupg.org/gcrypt/gnutls/v$(echo $VERSION | cut -f-2 -d'.')/${TARBALL}
 )
 
 MD5SUMS=(
-e9215d00d2930e09bc8f23f02b54f2d1
+b657e3010c10cae2244e7ce79ee3d446
 )
 
 build(){
@@ -27,6 +27,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='ftp://ftp.gnupg.org/gcrypt/gnutls/'
-  VERSION_STRING='gnutls-%version%.tar.bz2'
+  ADDRESS='ftp://ftp.gnupg.org/gcrypt/gnutls/v%minor_version%'
+  VERSION_STRING='gnutls-%version%.tar.xz'
 }

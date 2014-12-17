@@ -1,0 +1,31 @@
+#!/bin/bash
+
+DONT_REMOVE=1
+VERSION="1.4.0"
+
+DIR="libpipeline-${VERSION}"
+TARBALL="libpipeline-${VERSION}.tar.gz"
+
+SRC1=(
+http://download.savannah.gnu.org/releases/libpipeline/${TARBALL}
+)
+
+MD5SUMS=(
+660f4ac9340834a231d1516746d03d28
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" \
+    ./configure --prefix=/usr --libdir=/usr/$LIBSDIR || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://download.savannah.gnu.org/releases/libpipeline/'
+  VERSION_STRING='libpipeline-%version%.tar.gz'
+}

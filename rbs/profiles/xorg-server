@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.12.0"
+VERSION="1.16.2"
 
 DIR="xorg-server-${VERSION}"
 TARBALL="xorg-server-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/xserver/${TARBALL}
 )
 
 MD5SUMS=(
-3a3c4281f32c8702749e8f129372a355
+89620960b13515db8d0a8dbb92a1378a
 )
 
 build(){

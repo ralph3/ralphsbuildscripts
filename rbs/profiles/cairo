@@ -1,16 +1,16 @@
 #!/bin/bash
 
-VERSION="1.12.0"
+VERSION="1.12.18"
 
 DIR="cairo-${VERSION}"
-TARBALL="cairo-${VERSION}.tar.gz"
+TARBALL="cairo-${VERSION}.tar.xz"
 
 SRC1=(
 http://cairographics.org/releases/${TARBALL}
 )
 
 MD5SUMS=(
-e6c85575ba7094f88b637bdfd835a751
+8e4ff32b82c3b39387eb6f5c59ef848e
 )
 
 build(){
@@ -26,6 +26,7 @@ build(){
 
 version_check_info(){
   ADDRESS='http://cairographics.org/releases/'
-  VERSION_STRING='cairo-%version%.tar.gz'
+  VERSION_STRING='cairo-%version%.tar.xz'
+  MINOR_VERSION=1.12
   VERSION_FILTERS='[a-z] [A-Z]'
 }

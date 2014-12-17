@@ -2,18 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.18.4"
+VERSION="0.29.0"
 
 DIR="poppler-${VERSION}"
-TARBALL="poppler-${VERSION}.tar.gz"
+TARBALL="poppler-${VERSION}.tar.xz"
 
 SRC1=(
-http://www.vi.kernel.org/pub/mirrors/gentoo/source/distfiles/$TARBALL
 http://poppler.freedesktop.org/${TARBALL}
 )
 
 MD5SUMS=(
-12658f3308597e57f3faff538cc73baf
+7a5d87b7f62db636cc59f73bbd240811
 )
 
 build(){
@@ -29,7 +28,6 @@ build(){
 
 version_check_info(){
   ADDRESS='http://poppler.freedesktop.org/'
-  VERSION_STRING='poppler-%version%.tar.gz'
+  VERSION_STRING='poppler-%version%.tar.xz'
   VERSION_FILTERS='data'
-  ONLY_EVEN_MINORS=1
 }

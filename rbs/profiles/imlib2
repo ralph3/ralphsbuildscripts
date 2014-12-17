@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.4.5"
+VERSION="1.4.6"
 
 DIR="imlib2-${VERSION}"
 TARBALL="imlib2-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://prdownloads.sourceforge.net/enlightenment/${TARBALL}
 )
 
 MD5SUMS=(
-8406786d3852b1b1322c2e4bee3c9e5c
+fbc1160285275e88128a84e6d7f08f8b
 )
 
 build(){

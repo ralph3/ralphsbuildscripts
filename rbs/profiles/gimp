@@ -2,19 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.6.12"
+VERSION="2.8.14"
 
 DIR="gimp-${VERSION}"
 TARBALL="gimp-${VERSION}.tar.bz2"
 
 SRC1=(
-http://gimp.mirrors.hoobly.com/gimp/v2.6/${TARBALL}
-ftp://ftp.cs.umn.edu/pub/gimp/v2.6/${TARBALL}
-ftp://ftp.gimp.org/pub/gimp/v2.6/${TARBALL}
+http://download.gimp.org/pub/gimp/v2.$(echo $VERSION | cut -f2 -d'.')/${TARBALL}
 )
 
 MD5SUMS=(
-9f876ee63a0c4a4c83f50f32fb3bbe63
+233c948203383fa078434cc3f8f925cb
 )
 
 build(){
@@ -31,7 +29,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='ftp://ftp.gimp.org/pub/gimp/v%minor_version%/'
+  ADDRESS='http://download.gimp.org/pub/gimp/v%minor_version%/'
   VERSION_STRING='gimp-%version%.tar.bz2'
   ONLY_EVEN_MINORS=1
 }

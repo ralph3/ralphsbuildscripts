@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="22.16"
+VERSION="22.21"
 
 DIR="psmisc-${VERSION}"
 TARBALL="psmisc-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://prdownloads.sourceforge.net/psmisc/${TARBALL}
 )
 
 MD5SUMS=(
-d52caf26159c905574c2ce4bd792b9ee
+935c0fd6eb208288262b385fa656f1bf
 )
 
 build(){
@@ -30,6 +30,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=15273&package_id=15867'
+  ADDRESS='http://sourceforge.net/projects/psmisc/files/'
   VERSION_STRING='psmisc-%version%.tar.gz'
 }

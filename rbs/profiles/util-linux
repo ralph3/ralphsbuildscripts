@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="2.21.1"
+VERSION="2.25.2"
 
 DIR="util-linux-${VERSION}"
 TARBALL="util-linux-${VERSION}.tar.xz"
@@ -11,7 +11,7 @@ http://www.kernel.org/pub/linux/utils/util-linux/v$(echo $VERSION | cut -f-2 -d'
 )
 
 MD5SUMS=(
-ad602dcd528f340b1329cfa6200d8f80
+cab3d7be354000f629bc601238b629b3
 )
 
 Tools_Build(){

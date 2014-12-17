@@ -1,9 +1,9 @@
 #!/bin/bash
 
-VERSION="1.5.10"
+VERSION="1.6.15"
 
 DIR="libpng-${VERSION}"
-TARBALL="libpng-${VERSION}.tar.bz2"
+TARBALL="libpng-${VERSION}.tar.xz"
 
 SRC1=(
 http://prdownloads.sourceforge.net/libpng/${TARBALL}
@@ -11,7 +11,7 @@ ftp://ftp.simplesystems.org/pub/libpng/png/src/$TARBALL
 )
 
 MD5SUMS=(
-f4395eaf426bdd870446c246df307aae
+a95cb387c53215b034203b41ec57c7e5
 )
 
 build(){
@@ -27,6 +27,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='ftp://ftp.simplesystems.org/pub/libpng/png/src/'
-  VERSION_STRING='libpng-%version%.tar.bz2'
+  ADDRESS='http://sourceforge.net/projects/libpng/files/?source=navbar'
+  VERSION_STRING='libpng-%version%.tar.xz'
+  VERSION_FILTERS='[a-z]'
 }

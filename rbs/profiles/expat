@@ -27,6 +27,6 @@ build(){
 
 version_check_info(){
   ADDRESS='http://sourceforge.net/projects/expat/files/expat/'
-  VERSION_STRING='expat/%version%/'
+  VERSION_STRING='expat-%version%.tar.gz'
   VERSION_FILTERS='[a-z][a-z] [A-Z][A-Z]'
 }

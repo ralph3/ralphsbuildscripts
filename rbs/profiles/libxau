@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.0.7"
+VERSION="1.0.8"
 
 DIR="libXau-${VERSION}"
 TARBALL="libXau-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-2d241521df40d27034413436d1a1465c
+685f8abbffa6d145c0f930f00703b21b
 )
 
 build(){

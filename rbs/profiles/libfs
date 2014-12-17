@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.4"
+VERSION="1.0.6"
 
 DIR="libFS-${VERSION}"
 TARBALL="libFS-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-645f83160cf7b562734e2038045106d1
+a8a0dbd2299b2568d8c919883f5c8501
 )
 
 build(){

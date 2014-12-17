@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="5.0.3"
+VERSION="5.0.7"
 
 DIR="xz-${VERSION}"
-TARBALL="xz-${VERSION}.tar.gz"
+TARBALL="xz-${VERSION}.tar.xz"
 
 SRC1=(
 http://tukaani.org/xz/${TARBALL}
 )
 
 MD5SUMS=(
-fefe52f9ecd521de2a8ce38c21a27574
+d0456c2c3ea3c356369807eef1e2ae65
 )
 
 Tools_Build(){
@@ -42,6 +42,6 @@ build(){
 
 version_check_info(){
   ADDRESS='http://tukaani.org/xz/'
-  VERSION_STRING='xz-%version%.tar.gz'
-  VERSION_FILTERS='alpha'
+  VERSION_STRING='xz-%version%.tar.xz'
+  VERSION_FILTERS='alpha beta'
 }

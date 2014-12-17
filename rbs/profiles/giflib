@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="4.1.6"
+VERSION="5.1.0"
 
 DIR="giflib-${VERSION}"
 TARBALL="giflib-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-7125644155ae6ad33dbc9fc15a14735f
+c7e9f1c10b755ab955156d4c1ac7fc5d
 )
 
 build(){
@@ -30,7 +30,4 @@ version_check_info(){
   ADDRESS='http://sourceforge.net/projects/giflib/files/'
   VERSION_STRING='giflib-%version%.tar.bz2'
   VERSION_FILTERS='/'
-  MIRRORS=(
-    "http://prdownloads.sourceforge.net/libungif/giflib-%version%.tar.bz2"
-  )
 }

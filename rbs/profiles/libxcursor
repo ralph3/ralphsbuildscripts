@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.1.13"
+VERSION="1.1.14"
 
 DIR="libXcursor-${VERSION}"
 TARBALL="libXcursor-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-52efa81b7f26c8eda13510a2fba98eea
+1e7c17afbbce83e2215917047c57d1b3
 )
 
 build(){

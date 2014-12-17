@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="4.0.3"
+VERSION="4.2.1"
 
 DIR="screen-${VERSION}"
 TARBALL="screen-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://ftp.gnu.org/gnu/screen/${TARBALL}
 )
 
 MD5SUMS=(
-8506fd205028a96c741e4037de6e3c42
+419a0594e2b25039239af8b90eda7d92
 )
 
 build(){

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.3"
+VERSION="1.0.4"
 
 DIR="xlsfonts-${VERSION}"
 TARBALL="xlsfonts-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-bf6f3e7074479839d5182ffed735d2be
+5a2b476c2d84759529f01e0cd06145fe
 )
 
 build(){

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.3"
+VERSION="1.0.4"
 
 DIR="xkbutils-${VERSION}"
 TARBALL="xkbutils-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-52ad6d8d87577a8ac736ab5488bec210
+502b14843f610af977dffc6cbf2102d5
 )
 
 build(){

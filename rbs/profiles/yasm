@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DISABLE_MULTILIB=1
-VERSION="1.2.0"
+VERSION="1.3.0"
 
 DIR="yasm-${VERSION}"
 TARBALL="yasm-${VERSION}.tar.gz"
@@ -11,7 +11,7 @@ http://www.tortall.net/projects/yasm/releases/${TARBALL}
 )
 
 MD5SUMS=(
-4cfc0686cf5350dd1305c4d905eb55a6
+fc9e586751ff789b34b1f21d572d96af
 )
 
 build(){

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="3.0.10"
+VERSION="3.2.1"
 
 DIR="libffi-${VERSION}"
 TARBALL="libffi-${VERSION}.tar.gz"
@@ -10,7 +10,7 @@ ftp://sources.redhat.com/pub/libffi/$TARBALL
 )
 
 MD5SUMS=(
-79390673f5d07a8fb342bc09b5055b6f
+83b89587607e3eb65c70d361f13bab43
 )
 
 build(){
@@ -28,7 +28,4 @@ version_check_info(){
   ADDRESS='ftp://sources.redhat.com/pub/libffi/'
   VERSION_STRING='libffi-%version%.tar.gz'
   VERSION_FILTERS='rc'
-  MIRRORS=(
-    "ftp://sources.redhat.com/pub/libffi/libffi-%version%.tar.gz"
-  )
 }

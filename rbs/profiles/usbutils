@@ -2,10 +2,10 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.91"
+VERSION="008"
 
 DIR="usbutils-${VERSION}"
-TARBALL="usbutils-${VERSION}.tar.bz2"
+TARBALL="usbutils-${VERSION}.tar.xz"
 
 SRC1=(
 http://www.kernel.org/pub/linux/utils/usb/usbutils/${TARBALL}
@@ -13,7 +13,7 @@ http://mirror.anl.gov/pub/linux/utils/usb/usbutils/$TARBALL
 )
 
 MD5SUMS=(
-24893cb24fcf1a77c24c5ba5c25172e3
+2780b6ae21264c888f8f30fb2aab1259
 )
 
 build(){
@@ -30,6 +30,5 @@ build(){
 
 version_check_info(){
   ADDRESS='http://mirror.anl.gov/pub/linux/utils/usb/usbutils/'
-  VERSION_STRING='usbutils-%version%.tar.bz2'
-  VERSION_FILTERS='[0-9][0-9][0-9]'
+  VERSION_STRING='usbutils-%version%.tar.xz'
 }

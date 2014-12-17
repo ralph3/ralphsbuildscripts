@@ -3,17 +3,17 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="1.20.6"
+VERSION="1.20.7"
 
 DIR="gpm-${VERSION}"
 TARBALL="gpm-${VERSION}.tar.bz2"
 
 SRC1=(
-http://www.nico.schottelius.org/software/gpm/archives/${TARBALL}
+http://www.ar.linux.it/pub/gpm/${TARBALL}
 )
 
 MD5SUMS=(
-6b534da16dc1b28ba828dea89e520f6f
+bf84143905a6a903dbd4d4b911a2a2b8
 )
 
 build(){
@@ -95,7 +95,7 @@ EOF
 }
 
 version_check_info(){
-  ADDRESS='http://www.nico.schottelius.org/software/gpm/archives/'
+  ADDRESS='http://www.ar.linux.it/pub/gpm/'
   VERSION_STRING='gpm-%version%.tar.bz2'
   VERSION_FILTERS='1.99'
 }

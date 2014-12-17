@@ -1,16 +1,16 @@
 #!/bin/bash
 
-VERSION="2.5.35"
+VERSION="2.5.39"
 
 DIR="flex-${VERSION}"
-TARBALL="flex-${VERSION}.tar.bz2"
+TARBALL="flex-${VERSION}.tar.xz"
 
 SRC1=(
 http://prdownloads.sourceforge.net/flex/${TARBALL}
 )
 
 MD5SUMS=(
-10714e50cea54dc7a227e3eddcd44d57
+477679c37ff8b28248a9b05f1da29a82
 )
 
 build(){
@@ -38,9 +38,6 @@ EOF
 
 version_check_info(){
   ADDRESS='http://sourceforge.net/projects/flex/files/'
-  VERSION_STRING='flex-%version%.tar.bz2'
+  VERSION_STRING='flex-%version%.tar.xz'
   VERSION_FILTERS='/'
-  MIRRORS=(
-    'http://prdownloads.sourceforge.net/flex/flex-%version%.tar.bz2'
-  )
 }

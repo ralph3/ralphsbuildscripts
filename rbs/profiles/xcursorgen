@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.5"
+VERSION="1.0.6"
 
 DIR="xcursorgen-${VERSION}"
 TARBALL="xcursorgen-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-09f56978a62854534deacc8aa8ff3031
+b58a87e6cd7145c70346adad551dba48
 )
 
 build(){

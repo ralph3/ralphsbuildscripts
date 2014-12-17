@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="6.2"
+VERSION="6.3"
 
 DIR="readline-${VERSION}"
 TARBALL="readline-${VERSION}.tar.gz"
@@ -11,7 +11,7 @@ http://ftp.gnu.org/gnu/readline/${TARBALL}
 )
 
 MD5SUMS=(
-67948acb2ca081f23359d0256e9a271c
+33c8fb279e981274f485fd91da77e94a
 )
 
 build(){

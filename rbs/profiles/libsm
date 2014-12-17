@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.2.1"
+VERSION="1.2.2"
 
 DIR="libSM-${VERSION}"
 TARBALL="libSM-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-766de9d1e1ecf8bf74cebe2111d8e2bd
+499a7773c65aba513609fe651853c5f3
 )
 
 build(){

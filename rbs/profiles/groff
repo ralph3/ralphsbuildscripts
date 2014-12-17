@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.21"
+VERSION="1.22.3"
 
 DIR="groff-${VERSION}"
 TARBALL="groff-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://ftp.gnu.org/gnu/groff/${TARBALL}
 )
 
 MD5SUMS=(
-8b8cd29385b97616a0f0d96d0951c5bf
+cc825fa64bc7306a885f2fb2268d3ec5
 )
 
 cross_tools_build(){

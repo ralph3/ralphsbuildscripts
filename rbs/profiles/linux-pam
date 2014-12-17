@@ -1,24 +1,22 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="1.1.4"
+VERSION="1.1.8"
 
 DIR="Linux-PAM-${VERSION}"
 TARBALL="Linux-PAM-${VERSION}.tar.bz2"
 
 SRC1=(
-http://www.kernel.org/pub/linux/libs/pam/library/${TARBALL}
-http://mirror.anl.gov/pub/linux/libs/pam/library/$TARBALL
+https://fedorahosted.org/releases/l/i/linux-pam/${TARBALL}
 )
 
 SRC2=(
-http://www.kernel.org/pub/linux/libs/pam/documentation/Linux-PAM-${VERSION}-docs.tar.bz2
-http://mirror.anl.gov/pub/linux/libs/pam/documentation/Linux-PAM-${VERSION}-docs.tar.bz2
+https://fedorahosted.org/releases/l/i/linux-pam/Linux-PAM-${VERSION}-docs.tar.bz2
 )
 
 MD5SUMS=(
-e9af5fb27bb22edb55d077e2888b3ebc
-551adb27696058ae278999785fc35bbf
+35b6091af95981b1b2cd60d813b5e4ee
+730895d1c6e1c706dc5ffe2419f9b3f5
 )
 
 build(){
@@ -59,6 +57,7 @@ EOF
 }
 
 version_check_info(){
-  ADDRESS='http://mirror.anl.gov/pub/linux/libs/pam/library/'
+  ADDRESS='https://fedorahosted.org/releases/l/i/linux-pam/'
   VERSION_STRING='Linux-PAM-%version%.tar.bz2'
+  VERSION_FILTERS='docs'
 }

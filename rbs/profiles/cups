@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.5.2"
+VERSION="2.0.1"
 
 DIR="cups-${VERSION}"
 TARBALL="cups-${VERSION}-source.tar.bz2"
 
 SRC1=(
-http://ftp.easysw.com/pub/cups/${VERSION}/${TARBALL}
+https://www.cups.org/software/${VERSION}/${TARBALL}
 )
 
 MD5SUMS=(
-9471d2a7c920cfbb17133c32d2e6866f
+7f7c33071035fb20d0879929a42da711
 )
 
 build(){
@@ -75,7 +75,7 @@ post_remove(){
 }
 
 version_check_info(){
-  ADDRESS='http://ftp.easysw.com/pub/cups/%version%/'
+  ADDRESS='https://www.cups.org/'
   VERSION_STRING='cups-%version%-source.tar.bz2'
   VERSION_FILTERS='[a-z]'
 }

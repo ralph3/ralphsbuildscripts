@@ -8,7 +8,7 @@ DIR="which-${VERSION}"
 TARBALL="which-${VERSION}.tar.gz"
 
 SRC1=(
-http://www.xs4all.nl/~carlo17/which/${TARBALL}
+http://ftp.gnu.org/gnu/which/${TARBALL}
 )
 
 MD5SUMS=(
@@ -27,9 +27,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://www.xs4all.nl/~carlo17/which/'
+  ADDRESS='http://ftp.gnu.org/gnu/which/'
   VERSION_STRING='which-%version%.tar.gz'
-  MIRRORS=(
-    'http://www.xs4all.nl/~carlo17/which/which-%version%.tar.gz'
-  )
 }

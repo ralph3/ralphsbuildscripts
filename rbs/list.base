@@ -38,7 +38,9 @@ kbd
 less
 make
 man-pages
-man
+libpipeline
+gdbm
+man-db
 patch
 psmisc
 linux-pam

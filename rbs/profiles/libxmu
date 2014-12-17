@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.1.1"
+VERSION="1.1.2"
 
 DIR="libXmu-${VERSION}"
 TARBALL="libXmu-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-a4efff8de85bd45dd3da124285d10c00
+41d92ab627dfa06568076043f3e089e4
 )
 
 build(){

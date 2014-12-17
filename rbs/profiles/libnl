@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.2.7"
+VERSION="3.2.25"
 
 DIR="libnl-${VERSION}"
 TARBALL="libnl-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://www.infradead.org/~tgr/libnl/files/${TARBALL}
 )
 
 MD5SUMS=(
-6a233a9dffa0ee3a7f6110c95c5410ab
+03f74d0cd5037cadc8cdfa313bbd195c
 )
 
 build(){
@@ -29,4 +29,5 @@ build(){
 version_check_info(){
   ADDRESS='http://www.infradead.org/~tgr/libnl/files/'
   VERSION_STRING='libnl-%version%.tar.gz'
+  VERSION_FILTERS='doc rc'
 }

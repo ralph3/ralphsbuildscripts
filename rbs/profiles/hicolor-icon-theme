@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.12"
+VERSION="0.13"
 
 DIR="hicolor-icon-theme-${VERSION}"
 TARBALL="hicolor-icon-theme-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://icon-theme.freedesktop.org/releases/${TARBALL}
 )
 
 MD5SUMS=(
-55cafbcef8bcf7107f6d502149eb4d87
+21d0f50aa6b8eef02846cda9e5e9324c
 )
 
 build(){

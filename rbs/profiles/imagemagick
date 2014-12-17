@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="6.7.5-10"
+VERSION="6.9.0-0"
 
 DIR="ImageMagick-${VERSION}"
 TARBALL="ImageMagick-${VERSION}.tar.xz"
 
 SRC1=(
-ftp://ftp.imagemagick.org/pub/ImageMagick/legacy/${TARBALL}
+ftp://ftp.imagemagick.org/pub/ImageMagick/releases/${TARBALL}
 )
 
 MD5SUMS=(
-b5298daceff12d0fa723b4b0e4a845bc
+3714e7d5d248c13aee95a7f54970349f
 )
 
 build(){
@@ -28,7 +28,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='ftp://ftp.imagemagick.org/pub/ImageMagick/legacy/'
+  ADDRESS='ftp://ftp.imagemagick.org/pub/ImageMagick/releases/'
   VERSION_STRING='ImageMagick-%version%.tar.xz'
   VERSION_FILTERS='[0-9][0-9][0-9][0-9]'
 }

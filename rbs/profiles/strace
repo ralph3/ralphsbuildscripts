@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="4.6"
+VERSION="4.9"
 
 ENABLE_MULTILIB=1
 
@@ -12,7 +12,7 @@ http://prdownloads.sourceforge.net/strace/${TARBALL}
 )
 
 MD5SUMS=(
-e537b2b1afeec70c0e6e27a0d0fd671e
+885eafadb10f6c60464a266d3929a2a4
 )
 
 build(){
@@ -31,6 +31,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=2861&package_id=2819'
+  ADDRESS='http://sourceforge.net/projects/strace/files/'
   VERSION_STRING='strace-%version%.tar.xz'
 }
