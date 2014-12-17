@@ -12,7 +12,7 @@ http://xcb.freedesktop.org/dist/${TARBALL}
 )
 
 MD5SUMS=(
-0
+2e97feed81919465a04ccc71e4073313
 )
 
 build(){
