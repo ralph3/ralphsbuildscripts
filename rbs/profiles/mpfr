@@ -1,17 +1,17 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="2.4.2"
+VERSION="3.1.2"
 
 DIR="mpfr-${VERSION}"
-TARBALL="mpfr-${VERSION}.tar.bz2"
+TARBALL="mpfr-${VERSION}.tar.xz"
 
 SRC1=(
-  ftp://sources.redhat.com/pub/gcc/infrastructure/$TARBALL
+http://www.mpfr.org/mpfr-current/$TARBALL
 )
 
 MD5SUMS=(
-89e59fe665e2b3ad44a6789f40b059a0
+e3d203d188b8fe60bb6578dd3152e05c
 )
 
 Cross_Tools_Build(){
@@ -51,9 +51,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='ftp://sources.redhat.com/pub/gcc/infrastructure/'
-  VERSION_STRING='mpfr-%version%.tar.bz2'
-  MIRRORS=(
-    'ftp://sources.redhat.com/pub/gcc/infrastructure/mpfr-%version%.tar.bz2'
-  )
+  ADDRESS='http://www.mpfr.org/mpfr-current/'
+  VERSION_STRING='mpfr-%version%.tar.xz'
 }
