@@ -17,8 +17,8 @@ MD5SUMS=(
 Cross_Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  LDFLAGS="-Wl,-rpath,$CTCDIR/$LIBSDIR" \
-    ./configure --prefix=$CTCDIR --disable-doc || return 1
+  LDFLAGS="-Wl,-rpath,$CTCDIR/lib" \
+    ./configure --prefix=$CTCDIR --libdir=$CTCDIR/lib --with-mpfr=$CTCDIR || return 1
   make || return 1
   make install || return 1
   cd ../ || return 1

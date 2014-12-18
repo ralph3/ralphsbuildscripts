@@ -1,17 +1,17 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="5.1.3"
+VERSION="6.0.0a"
 
-DIR="gmp-${VERSION}"
-TARBALL="gmp-${VERSION}.tar.gz"
+DIR="gmp-6.0.0"
+TARBALL="gmp-${VERSION}.tar.xz"
 
 SRC1=(
 http://ftp.gnu.org/gnu/gmp/${TARBALL}
 )
 
 MD5SUMS=(
-4df82299c8dee6697d22f3bb0d0909b0
+1e6da4e434553d2811437aa42c7f7c76
 )
 
 Cross_Tools_Build(){
@@ -74,8 +74,5 @@ EOF
 
 version_check_info(){
   ADDRESS='http://ftp.gnu.org/gnu/gmp/'
-  VERSION_STRING='gmp-%version%.tar.gz'
-  MIRRORS=(
-    'http://ftp.gnu.org/gnu/gmp/gmp-%version%.tar.gz'
-  )
+  VERSION_STRING='gmp-%version%.tar.xz'
 }

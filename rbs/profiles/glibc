@@ -41,9 +41,7 @@ Cross_Tools_Build(){
   mkdir -p $SRCDIR/glibc-build || return 1
   cd $SRCDIR/glibc-build || return 1
   echo "slibdir=$TCDIR/$LIBSDIR" > configparms
-  echo "libc_cv_forced_unwind=yes" > config.cache
-  echo "libc_cv_c_cleanup=yes" >> config.cache
-  echo "libc_cv_ctors_header=yes" >> config.cache
+  echo "libc_cv_ssp=no" > config.cache
   if [ "$DOCRAP" == "1" ]; then
     echo "libc_cv_386_tls=yes" >> config.cache
   fi
@@ -51,9 +49,9 @@ Cross_Tools_Build(){
     CXX="${BUILDTARGET}-g++ $BUILD" CFLAGS="$XFLAGS -O2 -fgnu89-inline" \
     ../$DIR/configure --prefix=$TCDIR --host=$GLIBC_TARGETHOST \
     --build=$BUILDHOST --libdir=$TCDIR/$LIBSDIR --disable-profile \
-    --enable-add-ons --with-tls --enable-kernel=2.6.35 --with-__thread \
+    --enable-add-ons --with-tls --enable-kernel=3.0 --with-__thread \
     --with-binutils=$CTCDIR/bin --with-headers=$TCDIR/include \
-    --cache-file=config.cache || return 1
+    --enable-obsolete-rpc --cache-file=config.cache || return 1
   make LD_LIBRARY_PATH= || return 1
   make install || return 1
   cd ../ || return 1
@@ -96,8 +94,8 @@ build(){
   
   CC="$CC $BUILD" CXX="$CXX $BUILD" ../$DIR/configure $CONF --prefix=/usr \
     --libdir=/usr/$LIBSDIR --disable-profile --enable-add-ons \
-    --enable-kernel=2.6.35 --with-__thread \
-    --libexecdir=/usr/$LIBSDIR/glibc --cache-file=config.cache || return 1
+    --enable-kernel=3.0 --with-__thread \
+    --libexecdir=/usr/$LIBSDIR/glibc --enable-obsolete-rpc --cache-file=config.cache || return 1
   make || return 1
   make install_root=$TMPROOT install || return 1
   mkdir -p $TMPROOT/usr/$LIBSDIR/locale $TMPROOT/etc/ld.so.conf.d || return 1

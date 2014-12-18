@@ -17,7 +17,7 @@ e3d203d188b8fe60bb6578dd3152e05c
 Cross_Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  LDFLAGS="-Wl,-rpath,$CTCDIR/${LIBSDIR}" \
+  LDFLAGS="-Wl,-rpath,$CTCDIR/lib" \
     ./configure --prefix=$CTCDIR --enable-shared \
     --with-gmp=$CTCDIR || return 1
   make || return 1

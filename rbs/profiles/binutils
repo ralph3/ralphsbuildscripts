@@ -41,11 +41,11 @@ Cross_Tools_Build(){
     CONF="$CONF --with-sysroot=${ROOT}"
   fi
   
-  CONF="--host="$BUILDHOST" --target="$BUILDTARGET" --prefix=$PREF --with-lib-path=$TCDIR/$LIBSDIR --disable-nls --enable-shared $CONF"
+  CONF="--host="$BUILDHOST" --target="$BUILDTARGET" --prefix=$PREF --with-lib-path=$TCDIR/$LIBSDIR --disable-nls --enable-shared --disable-werror --enable-plugins $CONF"
   
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-    
+   
   mkdir -p $SRCDIR/binutils-build || return 1
   cd $SRCDIR/binutils-build || return 1
   if [ "$1" == "ToolsBuild" ]; then
@@ -102,7 +102,7 @@ build(){
   cd $SRCDIR/binutils-build || return 1
   CC="$CC $BUILD -isystem /usr/include" LDFLAGS="-Wl,-rpath-link,/${LIBSDIR}" \
   AR=$MAR RANLIB=$MRL ../$DIR/configure --prefix=/usr --libdir=/usr/$LIBSDIR \
-    --enable-shared $CONF || return 1
+    --enable-shared --disable-werror --enable-plugins $CONF || return 1
   make configure-host || return 1
   make tooldir=/usr/$LIBSDIR/binutils || return 1
   make install tooldir=/usr/$LIBSDIR/binutils DESTDIR=$TMPROOT || return 1

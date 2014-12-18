@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.2"
+VERSION="3.3"
 
 DIR="diffutils-${VERSION}"
-TARBALL="diffutils-${VERSION}.tar.gz"
+TARBALL="diffutils-${VERSION}.tar.xz"
 
 SRC1=(
 http://ftp.gnu.org/gnu/diffutils/${TARBALL}
 )
 
 MD5SUMS=(
-22e4deef5d8949a727b159d6bc65c1cc
+99180208ec2a82ce71f55b0d7389f1b3
 )
 
 Tools_Build(){
@@ -39,5 +39,5 @@ build(){
 
 version_check_info(){
   ADDRESS='http://ftp.gnu.org/gnu/diffutils/'
-  VERSION_STRING='diffutils-%version%.tar.gz'
+  VERSION_STRING='diffutils-%version%.tar.xz'
 }

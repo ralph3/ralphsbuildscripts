@@ -19,12 +19,14 @@ Tools_Build(){
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --libdir=$TCDIR/$LIBSDIR --includedir=$TCDIR/include \
-    --enable-arch --disable-login-utils --disable-makeinstall-chown || return 1
+    --enable-arch --disable-login-utils --disable-makeinstall-chown \
+    --without-python || return 1
   make || return 1
   make install DESTDIR=$ROOT || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --libdir=/$LIBSDIR \
-    --enable-arch --disable-login-utils --disable-makeinstall-chown || return 1
+    --enable-arch --disable-login-utils --disable-makeinstall-chown \
+    --without-python || return 1
   make || return 1
   make install DESTDIR=$ROOT || return 1
   cd $SRCDIR || return 1

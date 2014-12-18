@@ -18,7 +18,6 @@ MD5SUMS=(
 Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  sed -i "s/futimens/gl_&/" $(grep -lr futimens *) || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --prefix=$TCDIR || return 1
   sed -i 's@"BINDIR"@/bin@g' gzexe.in || return 1
@@ -31,7 +30,6 @@ Tools_Build(){
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  sed -i "s/futimens/gl_&/" $(grep -lr futimens *) || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --prefix=/usr || return 1
   sed -i 's@"BINDIR"@/bin@g' gzexe.in || return 1

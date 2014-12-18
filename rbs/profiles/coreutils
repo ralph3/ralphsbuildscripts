@@ -19,8 +19,6 @@ abed135279f87ad6762ce57ff6d89c41
 Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  sed -i "/binPROGRAMS_INSTALL=/s:./ginstall:install:" \
-    src/Makefile.in || return 1
   echo "fu_cv_sys_stat_statfs2_bsize=yes" > config.cache || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --prefix=$TCDIR \
