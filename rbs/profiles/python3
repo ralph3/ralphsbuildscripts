@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.7.9"
+VERSION="3.4.2"
 
 DIR="Python-${VERSION}"
 TARBALL="Python-${VERSION}.tar.xz"
@@ -10,12 +10,12 @@ http://www.python.org/ftp/python/${VERSION}/${TARBALL}
 )
 
 MD5SUMS=(
-38d530f7efc373d64a8fb1637e3baaa7
+36fc7327c02c6f12fa24fc9ba78039e3
 )
 
 build(){
-  local PY
-  PY=python
+  local PY b
+  PY=python3
   
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
@@ -29,10 +29,16 @@ build(){
   mv $TMPROOT/usr/$LIBSDIR/$PY/share $TMPROOT/usr/ || return 1
   mv $TMPROOT/usr/$LIBSDIR/$PY/lib/{pkgconfig,*so*} $TMPROOT/usr/$LIBSDIR/ || return 1
   
+  sed -i "s@includedir=@&\"/usr/$LIBSDIR/$PY/include\"   \#@" \
+    $TMPROOT/usr/$LIBSDIR/$PY/bin/python3.?m-config || return 1
+  
   mkdir -p $TMPROOT/usr/bin || return 1
   for file in $TMPROOT/usr/$LIBSDIR/$PY/bin/*; do
-    ln -sfn ../$LIBSDIR/$PY/bin/$(basename $file) \
-      $TMPROOT/usr/bin/$(basename $file) || return 1
+    b=$(basename $file)
+    if [ ! -e "/usr/$LIBSDIR/python/bin/$b" ]; then
+      ln -sfn ../$LIBSDIR/$PY/bin/$b \
+        $TMPROOT/usr/bin/$b || return 1
+    fi
   done
   
   set_multiarch $TMPROOT/usr/bin/* || return 1
@@ -45,5 +51,5 @@ version_check_info(){
   ADDRESS='http://www.python.org/ftp/python/%version%/'
   VERSION_STRING='Python-%version%.tar.xz'
   VERSION_FILTERS='[a-z]'
-  MINOR_VERSION=2
+  MINOR_VERSION=3
 }

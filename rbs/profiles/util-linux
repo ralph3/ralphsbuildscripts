@@ -36,10 +36,8 @@ Tools_Build(){
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  sed -i 's@etc/adjtime@var/lib/hwclock/adjtime@g' \
-    hwclock/hwclock.c || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --libdir=/$LIBSDIR \
-    --enable-partx --disable-wall --enable-write --enable-arch || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime \
+    --libdir=/$LIBSDIR --enable-partx --disable-wall --enable-write --enable-arch || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   find $TMPROOT -name '*.la' -exec rm {} \; || return 1

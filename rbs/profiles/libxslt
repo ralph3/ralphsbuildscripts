@@ -1,16 +1,16 @@
 #!/bin/bash
 
-VERSION="1.1.22"
+VERSION="1.1.28"
 
 DIR="libxslt-${VERSION}"
-TARBALL="libxslt-${VERSION}.tar.bz2"
+TARBALL="libxslt-${VERSION}.tar.gz"
 
 SRC1=(
-  $(gnome_mirrors libxslt)
+http://xmlsoft.org/sources/$TARBALL
 )
 
 MD5SUMS=(
-f2061dddea77257488601e20e2f3b5a7
+9667bf6f9310b957254fdcf6596600b7
 )
 
 build(){
@@ -26,10 +26,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/libxslt/%minor_version%/'
-  VERSION_STRING='libxslt-%version%.tar.bz2'
-  MINOR_VERSION_FILTERS='br'
-  MIRRORS=(
-    'http://ftp.gnome.org/pub/GNOME/sources/libxslt/%minor_version%/libxslt-%version%.tar.bz2'
-  )
+  ADDRESS='http://xmlsoft.org/sources/'
+  VERSION_STRING='libxslt-%version%.tar.gz'
+  VERSION_FILTERS='[a-z]'
 }

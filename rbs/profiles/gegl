@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.1.8"
+VERSION="0.2.0"
 
 DIR="gegl-${VERSION}"
 TARBALL="gegl-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://download.gimp.org/pub/gegl/$(cut -f-2 -d'.' <<< $VERSION)/${TARBALL}
 )
 
 MD5SUMS=(
-c8279b86b3d584ee4f503839fc500425
+32b00002f1f1e316115c4ed922e1dec8
 )
 
 build(){
@@ -24,10 +24,4 @@ build(){
   make install DESTDIR=$TMPROOT || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
-}
-
-version_check_info(){
-  ADDRESS='http://download.gimp.org/pub/gegl/%minor_version%/'
-  VERSION_STRING='gegl-%version%.tar.bz2'
-  MINOR_VERSION='0.1'
 }

@@ -365,7 +365,7 @@ tar c --exclude={.work,.cache,.tmp,*rbs_*.tar} . 2>/dev/null | \
   tar x -C $ROOT/usr/src/rbs 2>/dev/null
 echo "  Done."
 
-mkdir -p $ROOT/{dev,proc,usr/src/rbs/.cache/downloads} || exit 1
+mkdir -p $ROOT/{dev,proc,sys,usr/src/rbs/.cache/downloads} || exit 1
 mknod -m 600 $ROOT/dev/console c 5 1 >&/dev/null
 mknod -m 666 $ROOT/dev/null c 1 3 >&/dev/null
 
@@ -375,9 +375,10 @@ if [ "$DCB" == "1" ]; then
     mount --bind $RBSDIR/.cache/downloads \
       $ROOT/usr/src/rbs/.cache/downloads || exit 1
     echo "  Done"
-    echo -n "Binding <sysroot>/{dev,proc}..."
+    echo -n "Binding <sysroot>/{dev,proc,sys}..."
     mount --bind /dev $ROOT/dev || exit 1
     mount --bind /proc $ROOT/proc || exit 1
+    mount --bind /sys $ROOT/sys || exit 1
     echo "  Done"
     mkdir -p $ROOT/root || exit 1
     [ -e "$ROOT/$TCDIR" ] && {
@@ -387,6 +388,7 @@ if [ "$DCB" == "1" ]; then
       if [ "$?" != "0" ]; then
         umount $ROOT/dev
         umount $ROOT/proc
+        umount $ROOT/sys
         umount $ROOT/usr/src/rbs/.cache/downloads
         exit 1
       fi
@@ -400,6 +402,7 @@ if [ "$DCB" == "1" ]; then
       if [ "$?" != "0" ]; then
         umount $ROOT/dev
         umount $ROOT/proc
+        umount $ROOT/sys
         umount $ROOT/usr/src/rbs/.cache/downloads
         exit 1
       fi
@@ -408,6 +411,7 @@ if [ "$DCB" == "1" ]; then
     echo -n "Unbinding dirs..."
     umount $ROOT/dev || exit 1
     umount $ROOT/proc || exit 1
+    umount $ROOT/sys || exit 1
     umount $ROOT/usr/src/rbs/.cache/downloads || exit 1
     echo "  Done"
     >$STATEDIR/Chroot-Stuff

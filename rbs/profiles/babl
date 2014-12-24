@@ -25,8 +25,3 @@ build(){
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
-
-version_check_info(){
-  ADDRESS='http://download.gimp.org/pub/babl/%minor_version%/'
-  VERSION_STRING='babl-%version%.tar.bz2'
-}

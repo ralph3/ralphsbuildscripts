@@ -43,8 +43,8 @@ source_setup(){
   make scripts || return 1
   make prepare || return 1
   make modules_prepare || return 1
-  ln -vsfn $SRCDIR/$DIR /$LIBSDIR/modules/$(uname -r)/build || return 1
-  ln -vsfn $SRCDIR/$DIR /$LIBSDIR/modules/$(uname -r)/source || return 1
+  ln -vsfn $SRCDIR/$DIR /lib/modules/$(uname -r)/build || return 1
+  ln -vsfn $SRCDIR/$DIR /lib/modules/$(uname -r)/source || return 1
   ln -vsfn $SRCDIR/$DIR /usr/src/linux || return 1
   cd $SRCDIR || return 1
 }
@@ -120,20 +120,14 @@ build(){
     fi
   fi
   
-  #if [ ! -d "$HDSRCDIR/$DIR" ]; then
-  #  mkdir -p $HDSRCDIR || return 1
-  #  echo -n "Unpacking ${TARBALL}..."
-  #  tar xfJ $DOWNLOADDIR/$TARBALL -C $HDSRCDIR || return 1
-  #  echo "Done."
-  #fi
-  
-  if [ ! -d "$SRCDIR/$DIR" ]; then
-    mkdir -p $SRCDIR || return 1
+  if [ ! -d "$HDSRCDIR/$DIR" ]; then
+    mkdir -p $HDSRCDIR || return 1
     echo -n "Unpacking ${TARBALL}..."
-    tar xfJ $DOWNLOADDIR/$TARBALL -C $SRCDIR || return 1
+    tar xfJ $DOWNLOADDIR/$TARBALL -C $HDSRCDIR || return 1
     echo "Done."
   fi
-  cd $SRCDIR/$DIR || return 1
+  
+  cd $HDSRCDIR/$DIR || return 1
   
   make mrproper || return 1
   cp $KCONF .config || return 1

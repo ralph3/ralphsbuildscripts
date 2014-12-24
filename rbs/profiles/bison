@@ -20,7 +20,6 @@ build(){
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --prefix=/usr \
     --libdir=/usr/$LIBSDIR || return 1
-  echo '#define YYENABLE_NLS 1' >> config.h || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   cd ../ || return 1

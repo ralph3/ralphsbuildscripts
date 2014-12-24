@@ -19,7 +19,6 @@ f1f75f0dd5f7dde89ce47585274366f8
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  autoreconf || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1

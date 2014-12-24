@@ -1,10 +1,7 @@
-alsa-lib
-docbook-xml
-docbook-xsl
-xmlto
-alsa-utils
 startup-notification
 pyxdg
+giflib
+imlib2
 openbox
 leafpad
 lxappearance

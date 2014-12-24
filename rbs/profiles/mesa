@@ -14,19 +14,25 @@ b7b37117eecbdfaaf3075acfb063d5a3
 )
 
 build(){
-  local CONF
   unset CFLAGS CXXFLAGS
-  
-  CONF=
-  [ "$SYSTYPE" == "MULTILIB" ] && \
-    [ "$BUILD" == "$BUILD32" ] && CONF="--enable-32-bit"
-  
+
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure $CONF --prefix=/usr \
-    --libdir=/usr/$LIBSDIR --disable-gallium-llvm \
-    --with-gallium-drivers="swrast" || return 1
+  autoreconf -fi || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+    --host=$BUILDTARGET --target=$BUILDTARGET --prefix=/usr \
+    --libdir=/usr/$LIBSDIR \
+            --enable-texture-float         \
+            --enable-gles1                 \
+            --enable-gles2                 \
+            --enable-osmesa                \
+            --enable-xa                    \
+            --enable-gbm                   \
+            --enable-glx-tls               \
+            --with-egl-platforms="drm,x11" \
+            --with-gallium-drivers="nouveau,r600,svga,swrast" \
+            --enable-sysfs || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
 

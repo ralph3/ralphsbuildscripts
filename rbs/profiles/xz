@@ -1,7 +1,5 @@
 #!/bin/bash
 
-DISABLE_MULTILIB=1
-
 VERSION="5.0.7"
 
 DIR="xz-${VERSION}"

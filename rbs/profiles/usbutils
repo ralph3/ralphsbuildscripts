@@ -19,6 +19,8 @@ MD5SUMS=(
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+  ./configure --help
+  return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" LIBUSB_CFLAGS="$CFLAGS" \
     LIBUSB_LIBS="-lusb" ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --prefix=/usr || return 1

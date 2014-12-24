@@ -28,7 +28,6 @@ build(){
   mkdir -p $TMPROOT/bin || return 1
   mv $TMPROOT/usr/bin/ping{,6} $TMPROOT/bin || return 1
   chmod 4755 $TMPROOT/bin/{ping,ping6} || return 1
-  rm -rf $TMPROOT/usr/{bin/ifconfig,sbin,share/man/{man1/{logger,ifconfig}.1,man8/*d.8,man5}}
   cd ../ || return 1
   rm -rf $DIR || return 1
 }

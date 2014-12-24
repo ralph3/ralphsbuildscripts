@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.3.4"
+VERSION="1.0"
 
-DIR="xinit-${VERSION}"
-TARBALL="xinit-${VERSION}.tar.bz2"
+DIR="dri3proto-${VERSION}"
+TARBALL="dri3proto-${VERSION}.tar.bz2"
 
 SRC1=(
-http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
+http://xorg.freedesktop.org/releases/individual/proto/${TARBALL}
 )
 
 MD5SUMS=(
-4e928452dfaf73851413a2d8b8c76388
+a3d2cbe60a9ca1bf3aea6c93c817fee3
 )
 
 build(){
@@ -27,9 +27,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://xorg.freedesktop.org/releases/individual/app/'
-  VERSION_STRING='xinit-%version%.tar.bz2'
-  MIRRORS=(
-    'http://xorg.freedesktop.org/releases/individual/app/xinit-%version%.tar.bz2'
-  )
+  ADDRESS='http://xorg.freedesktop.org/releases/individual/proto/'
+  VERSION_STRING='dri3proto-%version%.tar.bz2'
+  VERSION_FILTERS='\.99'
 }

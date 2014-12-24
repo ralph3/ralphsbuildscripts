@@ -45,7 +45,5 @@ build(){
 version_check_info(){
   ADDRESS='http://ftp.gnu.org/gnu/make/'
   VERSION_STRING='make-%version%.tar.bz2'
-  MIRRORS=(
-    'http://ftp.gnu.org/gnu/make/make-%version%.tar.bz2'
-  )
+  VERSION_FILTERS='4.1'
 }
