@@ -1,6 +1,8 @@
 #!/bin/bash
 
-VERSION="0.104"
+# >= 0.103 needs glib 2.29.x
+
+VERSION="0.102"
 
 DIR="polkit-${VERSION}"
 TARBALL="polkit-${VERSION}.tar.gz"
@@ -10,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-e380b4c6fb1e7bccf854e92edc0a8ce1
+a3726bdb9728c103e58f62131e26693a
 )
 
 build(){
@@ -28,7 +30,4 @@ build(){
 version_check_info(){
   ADDRESS='http://hal.freedesktop.org/releases/'
   VERSION_STRING='polkit-%version%.tar.gz'
-  MIRRORS=(
-    'http://hal.freedesktop.org/releases/polkit-%version%.tar.gz'
-  )
 }

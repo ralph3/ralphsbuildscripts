@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.4.1"
+VERSION="2.4.10"
 
 DIR="httpd-${VERSION}"
 TARBALL="httpd-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://www.reverse.net/pub/apache/httpd/${TARBALL}
 )
 
 MD5SUMS=(
-4366afbea8149ca125af01fd59a2f8a2
+9b5f9342f73a6b1ad4e8c4b0f3f5a159
 )
 
 build(){
@@ -99,8 +99,6 @@ post_remove(){
 version_check_info(){
   ADDRESS='http://www.reverse.net/pub/apache/httpd/'
   VERSION_STRING='httpd-%version%.tar.gz'
+  VERSION_FILTERS='[a-z]'
   ONLY_EVEN_MINORS=1
-  MIRRORS=(
-    'http://www.reverse.net/pub/apache/httpd/httpd-%version%.tar.gz'
-  )
 }

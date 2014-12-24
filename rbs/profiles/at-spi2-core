@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.8.17"
+VERSION="2.14.1"
 
-DIR="irssi-${VERSION}"
-TARBALL="irssi-${VERSION}.tar.bz2"
+DIR="at-spi2-core-${VERSION}"
+TARBALL="at-spi2-core-${VERSION}.tar.xz"
 
 SRC1=(
-http://www.irssi.org/files/${TARBALL}
+  $(gnome_mirrors at-spi2-core)
 )
 
 MD5SUMS=(
-ecf64be47978d89a742b435a81cb47db
+a37993cc50d90465c9aeed95e2ac439a
 )
 
 build(){
@@ -27,7 +27,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://www.irssi.org/files/'
-  VERSION_STRING='irssi-%version%.tar.bz2'
-  VERSION_FILTERS='rc'
+  ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/at-spi2-core/%minor_version%/'
+  VERSION_STRING='at-spi2-core-%version%.tar.xz'
+  ONLY_EVEN_MINORS=1
 }

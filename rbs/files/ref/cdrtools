@@ -8,8 +8,7 @@ DIR="cdrtools-${VERSION}"
 TARBALL="cdrtools-${VERSION}.tar.bz2"
 
 SRC1=(
- http://mirror.cict.fr/blfs/svn/c/${TARBALL}
- ftp://ftp.berlios.de/pub/cdrecord/${TARBALL}
+  http://prdownloads.sourceforge.net/cdrtools/${TARBALL}
 )
 
 MD5SUMS=(
@@ -327,6 +326,7 @@ EOF
 }
 
 version_check_info(){
-  ADDRESS='ftp://ftp.berlios.de/pub/cdrecord/'
+  ADDRESS='http://sourceforge.net/projects/cdrtools/files/'
   VERSION_STRING='cdrtools-%version%.tar.bz2'
+  VERSION_FILTERS='[a-z]'
 }

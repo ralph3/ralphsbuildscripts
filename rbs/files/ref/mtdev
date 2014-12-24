@@ -1,0 +1,31 @@
+#!/bin/bash
+
+VERSION="1.1.5"
+
+DIR="mtdev-${VERSION}"
+TARBALL="mtdev-${VERSION}.tar.gz"
+
+SRC1=(
+http://bitmath.org/code/mtdev/${TARBALL}
+)
+
+MD5SUMS=(
+7fdbc6d16cf6fcc2c5c4537f84141cf8
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/usr/$LIBSDIR --sysconfdir=/etc --localstatedir=/var \
+    --disable-static || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://bitmath.org/code/mtdev/'
+  VERSION_STRING='mtdev-%version%.tar.gz'
+}

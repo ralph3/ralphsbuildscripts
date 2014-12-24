@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.0.9"
+VERSION="2.0.10"
 
 MyBuild(){
   MYDEST=$1
@@ -527,7 +527,8 @@ case $1 in
     ret=0
     [ ! -e /proc/mounts ] && {
       mount -n /proc || ret=1
-      mkdir -p /dev/shm || ret=1
+      mkdir -p /dev/{pts,shm} || ret=1
+      mount /dev/pts || ret=1
       mount -t tmpfs tmpfs /dev/shm || ret=1
       ln -sfn /proc/self/fd /dev/fd || ret=1
       ln -sfn /proc/self/fd/0 /dev/stdin || ret=1

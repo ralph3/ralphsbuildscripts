@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.7.0"
+VERSION="2.9.1"
 
 DIR="xf86-input-evdev-${VERSION}"
 TARBALL="xf86-input-evdev-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/driver/${TARBALL}
 )
 
 MD5SUMS=(
-4449b2e94900e98d2f41c2f46dd0397e
+8f73a98e32dccc9d054b54727cc4093f
 )
 
 build(){

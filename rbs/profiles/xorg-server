@@ -2,7 +2,9 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.16.2"
+# 1.16.x isnt compatible with keyboard driver.
+
+VERSION="1.15.2"
 
 DIR="xorg-server-${VERSION}"
 TARBALL="xorg-server-${VERSION}.tar.bz2"
@@ -12,7 +14,7 @@ http://xorg.freedesktop.org/releases/individual/xserver/${TARBALL}
 )
 
 MD5SUMS=(
-89620960b13515db8d0a8dbb92a1378a
+69229fe5cdf3f20f74665d57b7601d26
 )
 
 build(){

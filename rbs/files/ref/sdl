@@ -2,10 +2,10 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.2.15"
+VERSION="2.0.3"
 
-DIR="SDL-${VERSION}"
-TARBALL="SDL-${VERSION}.tar.gz"
+DIR="SDL2-${VERSION}"
+TARBALL="SDL2-${VERSION}.tar.gz"
 
 SRC1=(
 http://ftp.br.freebsd.org/distfiles/${TARBALL}
@@ -13,7 +13,7 @@ http://www.libsdl.org/release/${TARBALL}
 )
 
 MD5SUMS=(
-9d96df8417572a2afb781a7c4c811a85
+fe6c61d2e9df9ef570e7e80c6e822537
 )
 
 build(){
@@ -30,6 +30,6 @@ build(){
 
 version_check_info(){
   ADDRESS='http://www.libsdl.org/release/'
-  VERSION_STRING='SDL-%version%.tar.gz'
+  VERSION_STRING='SDL2-%version%.tar.gz'
   VERSION_FILTERS='mi de'
 }

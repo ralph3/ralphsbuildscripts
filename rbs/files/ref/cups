@@ -2,30 +2,33 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.5.2"
+VERSION="2.0.1"
 
 DIR="cups-${VERSION}"
 TARBALL="cups-${VERSION}-source.tar.bz2"
 
 SRC1=(
-http://ftp.easysw.com/pub/cups/${VERSION}/${TARBALL}
+https://www.cups.org/software/${VERSION}/${TARBALL}
 )
 
 MD5SUMS=(
-9471d2a7c920cfbb17133c32d2e6866f
+7f7c33071035fb20d0879929a42da711
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-    
+  
   groupadd lp
   useradd -c "Print Service User" -d /dev/null -g lp -s /bin/false lp
   sed -i -e "s@pam/pam@security/pam@g" \
     {config-scripts/cups-pam.m4,scheduler/auth.c,configure} || return 1
   sed -i "s%/lib/cups%/${LIBSDIR}/cups%g" $(grep -rl "/lib/cups" *) || return 1
+  sed -i 's@\-Wno-tautological-compare@@g' configure || return 1
+  
   CC="$CC $BUILD" CXX="$CXX $BUILD" CFLAGS="$CFLAGS -D_GNU_SOURCE" ./configure \
-    --libdir=/usr/$LIBSDIR || return 1
+    --libdir=/usr/$LIBSDIR --disable-avahi --disable-dnssd --disable-systemd || return 1
+  
   make || return 1
   make install BUILDROOT=$TMPROOT || return 1
   if [ "$LIBSDIR" != "lib" ] && [ -d "$TMPROOT/usr/lib" ]; then
@@ -75,7 +78,7 @@ post_remove(){
 }
 
 version_check_info(){
-  ADDRESS='http://ftp.easysw.com/pub/cups/%version%/'
+  ADDRESS='https://www.cups.org/'
   VERSION_STRING='cups-%version%-source.tar.bz2'
   VERSION_FILTERS='[a-z]'
 }

@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.0.20"
+VERSION="0.0.26"
 
 DIR="xmlto-${VERSION}"
 TARBALL="xmlto-${VERSION}.tar.bz2"
 
 SRC1=(
-http://cyberelk.net/tim/data/xmlto/stable/${TARBALL}
+https://fedorahosted.org/releases/x/m/xmlto/${TARBALL}
 )
 
 MD5SUMS=(
-ab814ae352fc028862cbea9d676ab93b
+c90a47c774e0963581c1ba57235f64f4
 )
 
 build(){
@@ -27,9 +27,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS="http://cyberelk.net/tim/data/xmlto/stable/"
+  ADDRESS="https://fedorahosted.org/releases/x/m/xmlto/"
   VERSION_STRING="xmlto-%version%.tar.bz2"
-  MIRRORS=(
-    "http://cyberelk.net/tim/data/xmlto/stable/xmlto-%version%.tar.bz2"
-  )
 }

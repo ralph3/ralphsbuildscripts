@@ -1,0 +1,41 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="3.14.1"
+
+DIR="gsettings-desktop-schemas-${VERSION}"
+TARBALL="gsettings-desktop-schemas-${VERSION}.tar.xz"
+
+SRC1=(
+  $(gnome_mirrors gsettings-desktop-schemas)
+)
+
+MD5SUMS=(
+92d41934212fc7da48648afa3927f4b0
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/usr/$LIBSDIR --sysconfdir=/etc || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+post_install(){
+  glib-compile-schemas /usr/share/glib-2.0/schemas || return 1
+}
+
+post_upgrade(){
+  post_install
+}
+
+version_check_info(){
+  ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/gsettings-desktop-schemas/%minor_version%/'
+  VERSION_STRING='gsettings-desktop-schemas-%version%.tar.xz'
+  ONLY_EVEN_MINORS=1
+}

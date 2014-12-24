@@ -50,7 +50,7 @@ cat << "EOF" > $TMPROOT/etc/fstab.tmpnew
 /dev/hdz4  /somemount2   reiserfs  defaults                   0 0
 proc       /proc         proc      defaults                   0 0
 sysfs      /sys          sysfs     defaults                   0 0
-devpts     /dev/pts      devpts    gid=4,mode=620             0 0
+devpts     /dev/pts devpts         gid=10,mode=620,ptmxmode=666 0 0
 shm        /dev/shm      tmpfs     defaults                   0 0
 usbfs      /proc/bus/usb usbfs     devgid=15,devmode=0666     0 0
 EOF

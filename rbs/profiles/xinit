@@ -22,9 +22,9 @@ build(){
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc --localstatedir=/var || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
-  mkdir -p $TMPROOT/etc/X11/xinit $TMPROOT/usr/share || return 1
-  mv $TMPROOT/usr/$LIBSDIR/X11 $TMPROOT/usr/share/ || return 1
-  rm -rf $TMPROOT/usr/$LIBSDIR || return 1
+  #mkdir -p $TMPROOT/etc/X11/xinit $TMPROOT/usr/share || return 1
+  #mv $TMPROOT/usr/$LIBSDIR/X11 $TMPROOT/usr/share/ || return 1
+  #rm -rf $TMPROOT/usr/$LIBSDIR || return 1
 cat << EOF > $TMPROOT/etc/X11/xorg.conf.new
 Section "Module"
   Load  "dbe"

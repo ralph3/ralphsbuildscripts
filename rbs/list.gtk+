@@ -4,11 +4,11 @@ libtiff
 lcms
 imagemagick
 gegl
+gobject-introspection
 atk
 cairo
 harfbuzz
 pango
-gobject-introspection
 gdk-pixbuf
 gtk+
 libwmf
@@ -29,6 +29,10 @@ icon-naming-utils
 hicolor-icon-theme
 gnome-icon-theme
 gimp
+at-spi2-core
+gsettings-desktop-schemas
+at-spi2-atk
+gtk3
 
 
 
