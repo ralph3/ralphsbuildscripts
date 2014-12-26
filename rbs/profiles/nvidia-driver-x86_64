@@ -1,0 +1,108 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="280.04"
+
+DISABLE_STRIP=1
+
+TARBALL="NVIDIA-Linux-x86_64-${VERSION}.run"
+DIR="NVIDIA-Linux-x86_64-${VERSION}"
+
+SRC1=(
+http://download.nvidia.com/XFree86/Linux-x86_64/$VERSION/$TARBALL
+ftp://download.nvidia.com/XFree86/Linux-x86_64/$VERSION/$TARBALL
+)
+
+MD5SUMS=(
+b27e2f82877fcbd8c84a2c6f6141266f
+)
+
+build(){
+  check_my_arch(){
+    case $($CC -dumpmachine | cut -f1 -d'-') in
+      x86_64)
+        return 0
+      ;;
+    esac
+    echo "I can only be installed on x86_64!"
+    return 1
+  }
+  check_my_arch || return 1
+  $RBSDIR/setup-source linux || return 1
+  local MAJOR MINOR PATCH REV DOCDIR
+  mkdir -p $SRCDIR || return 1
+  cd $SRCDIR || return 1
+  rm -rf $DIR || return 1
+  
+  sh $DOWNLOADDIR/$TARBALL --extract-only || return 1
+  
+  cd $DIR/kernel || return 1
+  
+  make module || return 1
+  gzip -v9 nvidia.ko || return 1
+  mkdir -vp $TMPROOT/$LIBSDIR/modules/$(uname -r)/kernel/drivers/video || return 1
+  install -vm 0644 nvidia.ko.gz \
+    $TMPROOT/$LIBSDIR/modules/$(uname -r)/kernel/drivers/video/nvidia.ko || return 1
+  
+  cd ../ || return 1
+  
+  if [ "$SYSTYPE" == "MULTILIB" ]; then
+    mkdir -pv $TMPROOT/usr/$LIBSDIR32 || return 1
+    cd 32 || return 1
+    
+    for x in *.so.*; do
+      install -vm 0755 $x $TMPROOT/usr/$LIBSDIR32/ || return 1
+      SN=$(cut -f1 -d'.' <<< "$x").so
+      ln -vsf $x \
+        $TMPROOT/usr/$LIBSDIR32/$SN || return 1
+      ln -vsf $x \
+        $TMPROOT/usr/$LIBSDIR32/${SN}.1 || return 1
+    done
+    
+    cd ../ || return 1
+  fi
+  
+  mkdir -vp $TMPROOT/usr/$LIBSDIR/X11/modules/{drivers,extensions} || return 1
+  
+    for x in *.so.*; do
+      install -vm 0755 $x $TMPROOT/usr/$LIBSDIR/ || return 1
+      SN=$(cut -f1 -d'.' <<< "$x").so
+      ln -vsf $x \
+        $TMPROOT/usr/$LIBSDIR/$SN || return 1
+      ln -vsf $x \
+        $TMPROOT/usr/$LIBSDIR/${SN}.1 || return 1
+    done
+  
+  mv $TMPROOT/usr/$LIBSDIR/libglx.so* \
+    $TMPROOT/usr/$LIBSDIR/X11/modules/extensions/ || return 1
+  
+  install -vm 0755 nvidia_drv.so \
+    $TMPROOT/usr/$LIBSDIR/X11/modules/drivers || return 1
+
+  cd $SRCDIR || return 1
+  rm -rf $DIR || return 1
+}
+
+pre_install(){
+  rm -f /usr/lib/libGL.*
+}
+
+pre_upgrade(){
+  pre_install
+}
+
+post_install(){
+  depmod -a || return 1
+}
+
+post_upgrade(){
+  post_install || return 1
+}
+
+version_check_info(){
+  ADDRESS='ftp://download.nvidia.com/XFree86/Linux-x86_64/%version%/'
+  VERSION_STRING='NVIDIA-Linux-x86_64-%version%.run'
+  VERSION_FILTERS='latest no-compat'
+}
+
