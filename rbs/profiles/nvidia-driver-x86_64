@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="280.04"
+VERSION="346.22"
 
 DISABLE_STRIP=1
 
@@ -15,7 +15,7 @@ ftp://download.nvidia.com/XFree86/Linux-x86_64/$VERSION/$TARBALL
 )
 
 MD5SUMS=(
-b27e2f82877fcbd8c84a2c6f6141266f
+ef5f38888196c59b61481922fce0cdfd
 )
 
 build(){
@@ -41,9 +41,9 @@ build(){
   
   make module || return 1
   gzip -v9 nvidia.ko || return 1
-  mkdir -vp $TMPROOT/$LIBSDIR/modules/$(uname -r)/kernel/drivers/video || return 1
+  mkdir -vp $TMPROOT/lib/modules/$(uname -r)/kernel/drivers/video || return 1
   install -vm 0644 nvidia.ko.gz \
-    $TMPROOT/$LIBSDIR/modules/$(uname -r)/kernel/drivers/video/nvidia.ko || return 1
+    $TMPROOT/lib/modules/$(uname -r)/kernel/drivers/video/nvidia.ko || return 1
   
   cd ../ || return 1
   
