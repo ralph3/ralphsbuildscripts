@@ -523,15 +523,27 @@ fi
 
 ln -sfn test $WORKDIR/initrd/bin/[
 
-cp $ROOT/$LIBSDIR/{libe2p.so.?,libss.so.?,libuuid.so.?} \
-  $ROOT/$LIBSDIR/{libcom_err.so.?,libext2fs.so.?,libblkid.so.?} \
-  $WORKDIR/initrd/${LIBSDIR}/ || exit 1
+#cp $ROOT/$LIBSDIR/{libe2p.so.?,libss.so.?,libuuid.so.?} \
+#  $ROOT/$LIBSDIR/{libcom_err.so.?,libext2fs.so.?,libblkid.so.?} \
+#  $WORKDIR/initrd/${LIBSDIR}/ || exit 1
+#
+#cp $ROOTLIBSDIR/{ld-linux*.so.?,libc.so.?,libm.so.?,libncurses.so.?} \
+#  $ROOTLIBSDIR/{librt.so.?,libpthread.so.?,libdl.so.?,libcrypt.so.?} \
+#  $WORKDIR/initrd/$LIBSDIR/ || exit 1
+#
+#cp $ROOTUSRLIBSDIR/libgcc_s.so.? $WORKDIR/initrd/$LIBSDIR/ || exit 1
 
-cp $ROOTLIBSDIR/{ld-linux*.so.?,libc.so.?,libm.so.?,libncurses.so.?} \
-  $ROOTLIBSDIR/{librt.so.?,libpthread.so.?,libdl.so.?,libcrypt.so.?} \
-  $WORKDIR/initrd/$LIBSDIR/ || exit 1
+#try somethin more high tech.
+for f in $WORKDIR/initrd/bin/*; do
+  ldd $f | tr -d '\t' | sed 's@ .*@@'g | while read lib; do
+    b=$(basename $lib)
+    l=$(find {$ROOTLIBSDIR,$ROOTUSRLIBSDIR} -name $b | sed q)
+    if [ ! -e "$WORKDIR/initrd/$LIBSDIR/$b" ] && [ -e "$l" ]; then
+      cp $l $WORKDIR/initrd/$LIBSDIR/$b || exit 1
+    fi
+  done
+done
 
-cp $ROOTUSRLIBSDIR/libgcc_s.so.? $WORKDIR/initrd/$LIBSDIR/ || exit 1
 
 mkdir -p $WORKDIR/initrd/usr/share/terminfo/l || exit 1
 cp $ROOTSHAREDIR/terminfo/l/linux \
