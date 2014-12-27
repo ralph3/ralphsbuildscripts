@@ -133,7 +133,7 @@ build(){
   cp $KCONF .config || return 1
   
   yes "" | make oldconfig || return 1
-  make || return 1
+  make ARCH=$KARCH || return 1
   make INSTALL_MOD_PATH=$TMPROOT DEPMOD=true modules_install || return 1
   
   MODDIR="${TMPROOT}/lib/modules/$(uname -r)/"
