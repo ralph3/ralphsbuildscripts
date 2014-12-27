@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="304.88"
+VERSION="304.125"
 
 DISABLE_STRIP=1
 
@@ -15,7 +15,7 @@ ftp://download.nvidia.com/XFree86/Linux-x86_64/$VERSION/$TARBALL
 )
 
 MD5SUMS=(
-a6d8010c5e4f0d65615a196326a3219c
+3b91df19fa917a414dacd8e87f993
 )
 
 build(){
@@ -102,6 +102,7 @@ post_upgrade(){
 version_check_info(){
   ADDRESS='ftp://download.nvidia.com/XFree86/Linux-x86_64/%version%/'
   VERSION_STRING='NVIDIA-Linux-x86_64-%version%.run'
+  MINOR_VERSION=304
   VERSION_FILTERS='latest no-compat'
 }
 

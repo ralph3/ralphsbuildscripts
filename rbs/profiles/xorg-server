@@ -18,6 +18,7 @@ MD5SUMS=(
 )
 
 build(){
+  unset CFLAGS CXXFLAGS #possible segfault issue on hpa1230n x86_64
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
