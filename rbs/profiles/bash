@@ -3,7 +3,10 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="4.3.30"
+#stick with 4.1 because 4.3.30 breaks check-versions script
+#somethin to do with pipes i guess
+
+VERSION="4.1"
 
 DIR="bash-${VERSION}"
 TARBALL="bash-${VERSION}.tar.gz"
@@ -13,7 +16,7 @@ http://ftp.gnu.org/gnu/bash/${TARBALL}
 )
 
 MD5SUMS=(
-a27b3ee9be83bd3ba448c0ff52b28447
+9800d8724815fd84994d9be65ab5e7b8
 )
 
 CaT_BaSH_ProfileStuff(){
