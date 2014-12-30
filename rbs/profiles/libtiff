@@ -1,7 +1,5 @@
 #!/bin/bash
 
-DISABLE_MULTILIB=1
-
 VERSION="4.0.3"
 
 DIR="tiff-${VERSION}"

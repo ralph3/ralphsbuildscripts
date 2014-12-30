@@ -11,7 +11,6 @@ TARBALL="wine-${VERSION}.tar.bz2"
 
 SRC1=(
 http://prdownloads.sourceforge.net/wine/${TARBALL}
-http://mirrors.ibiblio.org/wine/source/1.5/${TARBALL}
 )
 
 MD5SUMS=(
@@ -22,8 +21,8 @@ build(){
   unset CFLAGS CXXFLAGS
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
-    --libdir=/usr/$LIBSDIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --target=$BUILDTARGET \
+    --prefix=/usr --libdir=/usr/$LIBSDIR || return 1
   make || return 1
   make install prefix=$TMPROOT/usr libdir=$TMPROOT/usr/$LIBSDIR || return 1
   cd ../ || return 1
