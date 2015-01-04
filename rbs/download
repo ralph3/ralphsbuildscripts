@@ -26,7 +26,7 @@ if [ -z "$*" ]; then
   echo "Nothing to do!"
   exit 1
 elif [ "$1" == "all" ]; then
-  PROFILES="$(find $PROFILEDIR -maxdepth 1 -type f | rev | cut -f1 -d'/' | rev)"
+  PROFILES="$(find $PROFILEDIR -maxdepth 1 -type f | rev | cut -f1 -d'/' | rev | sort)"
 fi
 
 download_sources $PROFILES || exit 1
