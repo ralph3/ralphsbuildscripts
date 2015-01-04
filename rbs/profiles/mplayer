@@ -2,12 +2,12 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.1.1"
+VERSION="37351" #20141230
 
 DIR="MPlayer-${VERSION}"
 TARBALL="MPlayer-${VERSION}.tar.xz"
 
-my_src1____(){
+my_src1(){
   git --version || return 1
   svn co -r $VERSION \
     svn://svn.mplayerhq.hu/mplayer/trunk/ $DIR || return 1
@@ -23,11 +23,10 @@ my_src1____(){
 
 SRC1=( http://www.mplayerhq.hu/MPlayer/skins/Industrial-1.0.tar.bz2 )
 
-SRC2=( http://www.mplayerhq.hu/MPlayer/releases/$TARBALL )
+#SRC2=( http://www.mplayerhq.hu/MPlayer/releases/$TARBALL )
 
 MD5SUMS=(
 5c42a64817d46f9ea7abd07f34ccb498
-39dd55f30eb5403f219a606e79a6648a
 )
 
 build(){
