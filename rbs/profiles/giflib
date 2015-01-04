@@ -27,8 +27,9 @@ build(){
   rm -rf $DIR || return 1
 }
 
-version_check_info(){
-  ADDRESS='http://sourceforge.net/projects/giflib/files/'
-  VERSION_STRING='giflib-%version%.tar.bz2'
-  VERSION_FILTERS='/'
-}
+#version_check_info(){
+#  ADDRESS='http://sourceforge.net/projects/giflib/files/'
+#  VERSION_STRING='giflib-%version%.tar.bz2'
+#  VERSION_FILTERS='/'
+#  MINOR_VERSION=4
+#}

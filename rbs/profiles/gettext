@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.19.3"
+VERSION="0.19.4"
 
 DIR="gettext-${VERSION}"
 TARBALL="gettext-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://ftp.gnu.org/gnu/gettext/${TARBALL}
 )
 
 MD5SUMS=(
-c365029ffc866fc4e485d9e5ca60b260
+d3511af1e604a3478900d2c2b4a4a48e
 )
 
 Tools_Build(){

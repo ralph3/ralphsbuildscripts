@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="313"
+VERSION="314"
 
 DIR="xterm-${VERSION}"
 TARBALL="xterm-${VERSION}.tgz"
@@ -12,7 +12,7 @@ ftp://invisible-island.net/xterm/${TARBALL}
 )
 
 MD5SUMS=(
-4c2e85f46d8a96c81daf3f9e6c2e1997
+d6e3c75e3ba537845d6a33d7df313467
 )
 
 build(){

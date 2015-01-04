@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="10.4.0"
+VERSION="10.4.1"
 
 DIR="Mesa-${VERSION}"
 TARBALL="MesaLib-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ ftp://ftp.freedesktop.org/pub/mesa/$(cut -f1 -d'-' <<< $VERSION)/$TARBALL
 )
 
 MD5SUMS=(
-b7b37117eecbdfaaf3075acfb063d5a3
+461ab299aa38937a679c57b401788a42
 )
 
 build(){
