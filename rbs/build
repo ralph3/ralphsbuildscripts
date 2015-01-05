@@ -244,7 +244,7 @@ EOF
   
   BOOTT=
   if [ "$DCB" != "1" ]; then
-    BOOTT="e2fsprogs linux udev bootscripts module-init-tools reiserfsprogs nano sysvinit"
+    BOOTT="e2fsprogs linux bootscripts kmod reiserfsprogs nano sysvinit"
   fi
   
   for x in gmp mpfr mpc zlib binutils gcc ncurses bash bzip2 coreutils diffutils \
