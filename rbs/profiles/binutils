@@ -3,7 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="2.25"
+VERSION="2.24" #2.25 causes some info-recursive error 
 
 DIR="binutils-$VERSION"
 TARBALL="binutils-${VERSION}.tar.bz2"
@@ -13,7 +13,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-d9f3303f802a5b6b0bb73a335ab89d66
+e0f71a7b2ddab0f8612336ac81d9636b
 )
 
 Cross_Tools_Build(){
