@@ -523,25 +523,13 @@ fi
 
 ln -sfn test $WORKDIR/initrd/bin/[
 
-#cp $ROOT/$LIBSDIR/{libe2p.so.?,libss.so.?,libuuid.so.?} \
-#  $ROOT/$LIBSDIR/{libcom_err.so.?,libext2fs.so.?,libblkid.so.?} \
-#  $WORKDIR/initrd/${LIBSDIR}/ || exit 1
-#
-#cp $ROOTLIBSDIR/{ld-linux*.so.?,libc.so.?,libm.so.?,libncurses.so.?} \
-#  $ROOTLIBSDIR/{librt.so.?,libpthread.so.?,libdl.so.?,libcrypt.so.?} \
-#  $WORKDIR/initrd/$LIBSDIR/ || exit 1
-#
-#cp $ROOTUSRLIBSDIR/libgcc_s.so.? $WORKDIR/initrd/$LIBSDIR/ || exit 1
-
-#try somethin more high tech.
-for f in $WORKDIR/initrd/bin/*; do
-  ldd $f | tr -d '\t' | sed 's@ .*@@'g | while read lib; do
-    b=$(basename $lib)
-    l=$(find {$ROOTLIBSDIR,$ROOTUSRLIBSDIR} -name $b | sed q)
-    if [ ! -e "$WORKDIR/initrd/$LIBSDIR/$b" ] && [ -e "$l" ]; then
-      cp $l $WORKDIR/initrd/$LIBSDIR/$b || exit 1
-    fi
-  done
+$ROOT/$CTCDIR/bin/${BUILDTARGET}-readelf -d \
+    $WORKDIR/initrd/bin/* 2>/dev/null | grep 'NEEDED' | cut -f2- -d'[' | tr -d ']' | \
+    sort | uniq | while read lib; do
+  l=$(find {$ROOTLIBSDIR,$ROOTUSRLIBSDIR,$ROOT/lib,$ROOT/usr/$LIBSDIR} -name $lib | sed q)
+  if [ ! -e "$WORKDIR/initrd/$LIBSDIR/$lib" ] && [ -e "$l" ]; then
+    cp $l $WORKDIR/initrd/$LIBSDIR/$lib || exit 1
+  fi
 done
 
 
@@ -671,7 +659,7 @@ mount -o loop $BROOT/${ID}_initrd $WORKDIR/initrd-root || exit 1
 rm -rf $WORKDIR/initrd-root/lost+found || exit 1
 cp -a $WORKDIR/initrd/* $WORKDIR/initrd-root/ || exit 1
 umount -f $WORKDIR/initrd-root || exit 1
-rm -rf $WORKDIR/initrd{,-root} || exit 1
+rm -rf $WORKDIR/initrd-root || exit 1
 gzip -9 $BROOT/${ID}_initrd || exit 1
 echo "  Done."
 
