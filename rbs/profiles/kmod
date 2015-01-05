@@ -15,32 +15,36 @@ MD5SUMS=(
 a08643f814aa4efc12211c6e5909f4d9
 )
 
-MyBuild(){
-  
-  MYDEST=$1
-  
+Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/$LIBSDIR --bindir=/sbin --sbindir=/sbin --sysconfdir=/etc \
     --with-xz || return 1
   make || return 1
-  make install DESTDIR=$MYDEST || return 1
-  mkdir -vp $MYDEST/usr/$LIBSDIR || return 1
-  mv -v $MYDEST/$LIBSDIR/pkgconfig $MYDEST/usr/$LIBSDIR/ || return 1
+  make install DESTDIR=$ROOT || return 1
   for x in lsmod rmmod insmod modinfo modprobe depmod; do
-    ln -svn kmod $MYDEST/sbin/$x || return 1
+    ln -svn kmod $ROOT/sbin/$x || return 1
   done
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
 
-Tools_Build(){
-  MyBuild $ROOT || return 1
-}
-
 build(){
-  MyBuild $TMPROOT || return 1
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/$LIBSDIR --bindir=/sbin --sbindir=/sbin --sysconfdir=/etc \
+    --with-xz || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  mkdir -vp $TMPROOT/usr/$LIBSDIR || return 1
+  mv -v $TMPROOT/$LIBSDIR/pkgconfig $TMPROOT/usr/$LIBSDIR/ || return 1
+  for x in lsmod rmmod insmod modinfo modprobe depmod; do
+    ln -svn kmod $MYDEST/sbin/$x || return 1
+  done
+  cd ../ || return 1
+  rm -rf $DIR || return 1
 }
 
 version_check_info(){
