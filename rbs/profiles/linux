@@ -78,9 +78,9 @@ Tools_Build(){
     fi
   fi
   unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
   make mrproper || return 1
   sed '/=m/d' $KCONF > .config || return 1
-  
   yes "" | make ARCH=$KARCH CROSS_COMPILE=${BUILDTARGET}- oldconfig || return 1
   make ARCH=$KARCH CROSS_COMPILE=${BUILDTARGET}- || return 1
   mkdir -p $ROOT/boot || return 1
