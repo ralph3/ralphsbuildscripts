@@ -18,6 +18,11 @@ MD5SUMS=(
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+  case $(echo $BUILDTARGET | cut -f1 -d'-') in
+    i?86)
+         sed -i -e '/xmmintrin\.h/d' configure || return 1
+    ;;
+  esac
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/usr/$LIBSDIR --enable-mp3rtp || return 1
   make || return 1
