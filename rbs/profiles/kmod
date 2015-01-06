@@ -41,7 +41,7 @@ build(){
   mkdir -vp $TMPROOT/usr/$LIBSDIR || return 1
   mv -v $TMPROOT/$LIBSDIR/pkgconfig $TMPROOT/usr/$LIBSDIR/ || return 1
   for x in lsmod rmmod insmod modinfo modprobe depmod; do
-    ln -svn kmod $MYDEST/sbin/$x || return 1
+    ln -svn kmod $TMPROOT/sbin/$x || return 1
   done
   cd ../ || return 1
   rm -rf $DIR || return 1
