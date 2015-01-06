@@ -24,6 +24,10 @@ if [ -z "$ROOT" ]; then
   ROOT="/"
 fi
 
+rbs_all_profiles(){
+  find $PROFILEDIR -maxdepth 1 -type f | rev | cut -f1 -d'/' | rev | sort
+}
+
 gnome_mirrors(){
 local V
 V=$(echo $VERSION | cut -f-2 -d'.')
