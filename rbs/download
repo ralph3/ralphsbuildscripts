@@ -11,7 +11,7 @@ RBSDIR="$PWD"
 source "$RBSDIR/shared" || exit 1
 
 if [ "$1" == "sync" ]; then
-  for x in $(rbs_all_profiles | sed '/\.ok$/d' | grep -vhFx "$(list_sources $(rbs_all_profiles))"); do
+  for x in $(find $DOWNLOADDIR/* | rev | cut -f1 -d'/' | rev | sed '/\.ok$/d' | grep -vhFx "$(list_sources $(rbs_all_profiles))"); do
     if [ -e "$DOWNLOADDIR/${x}" ]; then
       echo -n "Removing <DOWNLOADDIR>/${x}..."
       rm -f $DOWNLOADDIR/${x}{,.ok}
