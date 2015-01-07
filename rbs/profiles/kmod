@@ -18,7 +18,7 @@ a08643f814aa4efc12211c6e5909f4d9
 Tools_Build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --host=$BUILDTARGET --prefix=/usr \
     --libdir=/$LIBSDIR --bindir=/sbin --sbindir=/sbin --sysconfdir=/etc \
     --with-xz || return 1
   make || return 1

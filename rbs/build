@@ -244,7 +244,7 @@ EOF
   
   BOOTT=
   if [ "$DCB" != "1" ]; then
-    BOOTT="e2fsprogs linux bootscripts kmod reiserfsprogs nano sysvinit"
+    BOOTT="e2fsprogs linux bootscripts kmod reiserfsprogs nano"
   fi
   
   for x in gmp mpfr mpc zlib binutils gcc ncurses bash bzip2 coreutils diffutils \
@@ -479,7 +479,7 @@ if [ -e "$ROOT/$TCDIR" ]; then
 fi
 
 for x in bash cat stty basename bzip2 cp grep gzip \
-ln ls mkdir mv rm sleep tar test touch uname sed dd; do
+ln ls mkdir mv rm sleep tar test touch uname sed dd file; do
   cp $ROOTBINDIR/${x} $WORKDIR/initrd/bin/ || exit 1
 done
 
