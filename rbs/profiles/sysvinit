@@ -16,10 +16,27 @@ MD5SUMS=(
 6eda8a97b86e0a6f59dabbf25202aa6f
 )
 
-MyBuild(){
-  
-  MYDEST=$1
-  
+Tools_Build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  sed -i 's@Sending processes@& started by init@g' \
+    src/init.c || return 1
+  sed -i -e 's@/dev/initctl@$(ROOT)&@g' \
+    -e 's@\(mknod \)-m \([0-9]* \)\(.* \)p@\1\3p; chmod \2\3@g' \
+    -e '/^ifeq/s/$(ROOT)//' \
+    -e 's@/usr/lib@$(ROOT)&@' \
+    src/Makefile || return 1
+  make CFLAGS="-Wall -D_GNU_SOURCE $CFLAGS" CC="$CC $BUILD" \
+    CXX="$CXX $BUILD" ROOT=/ -C src clobber || return 1
+  make CFLAGS="-Wall -D_GNU_SOURCE $CFLAGS" CC="$CC $BUILD" \
+    CXX="$CXX $BUILD" LDFLAGS="/$TCDIR/$LIBSDIR/libcrypt.so.1" ROOT=/ -C src || return 1
+  mkdir -p $ROOT/{{s,}bin,dev,usr/{bin,include,share/man/man{1,5,8}}} || return 1
+  make -C src install ROOT=$ROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   sed -i 's@Sending processes@& started by init@g' \
@@ -33,18 +50,10 @@ MyBuild(){
     CXX="$CXX $BUILD" ROOT=/ -C src clobber || return 1
   make CFLAGS="-Wall -D_GNU_SOURCE $CFLAGS" CC="$CC $BUILD" \
     CXX="$CXX $BUILD" LDFLAGS="/$LIBSDIR/libcrypt.so.1" ROOT=/ -C src || return 1
-  mkdir -p $MYDEST/{{s,}bin,dev,usr/{bin,include,share/man/man{1,5,8}}} || return 1
-  make -C src install ROOT=$MYDEST || return 1
+  mkdir -p $TMPROOT/{{s,}bin,dev,usr/{bin,include,share/man/man{1,5,8}}} || return 1
+  make -C src install ROOT=$TMPROOT || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
-}
-
-Tools_Build(){
-  MyBuild $ROOT || return 1
-}
-
-build(){
-  MyBuild $TMPROOT || return 1
 }
 
 version_check_info(){

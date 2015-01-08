@@ -244,7 +244,7 @@ EOF
   
   BOOTT=
   if [ "$DCB" != "1" ]; then
-    BOOTT="e2fsprogs linux bootscripts kmod reiserfsprogs nano"
+    BOOTT="e2fsprogs linux bootscripts kmod reiserfsprogs nano sysvinit"
   fi
   
   for x in gmp mpfr mpc zlib binutils gcc ncurses bash bzip2 coreutils diffutils \
@@ -526,7 +526,7 @@ ln -sfn test $WORKDIR/initrd/bin/[
 $ROOT/$CTCDIR/bin/${BUILDTARGET}-readelf -d \
     $WORKDIR/initrd/bin/* 2>/dev/null | grep 'NEEDED' | cut -f2- -d'[' | tr -d ']' | \
     sort | uniq | while read lib; do
-  l=$(find {$ROOTLIBSDIR,$ROOTUSRLIBSDIR,$ROOT/lib,$ROOT/usr/$LIBSDIR} -name $lib | sed q)
+  l=$(find {$ROOTLIBSDIR,$ROOTUSRLIBSDIR,$ROOT/$LIBSDIR,$ROOT/usr/$LIBSDIR} -name $lib | sed q)
   if [ ! -e "$WORKDIR/initrd/$LIBSDIR/$lib" ] && [ -e "$l" ]; then
     cp $l $WORKDIR/initrd/$LIBSDIR/$lib || exit 1
   fi
