@@ -479,7 +479,7 @@ if [ -e "$ROOT/$TCDIR" ]; then
 fi
 
 for x in bash cat stty basename bzip2 cp grep gzip \
-ln ls mkdir mv rm sleep tar test touch uname sed dd file; do
+ln ls mkdir mv rm sleep tar test touch uname sed dd; do
   cp $ROOTBINDIR/${x} $WORKDIR/initrd/bin/ || exit 1
 done
 
