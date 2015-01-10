@@ -452,6 +452,7 @@ EOF
 cp $ROOT/boot/vmlinuz $BROOT/${ID}_vmlinuz || exit 1
 
 echo -n "Building ${ID}_initrd..."
+
 rm -rf $WORKDIR/initrd || exit 1
 mkdir -p $WORKDIR/initrd/{bin,dev,etc,lib,mnt,${LIBSDIR},proc,sys,tmp} || exit 1
 ln -sfn bin $WORKDIR/initrd/sbin || exit 1
@@ -465,6 +466,8 @@ ROOTUSRSBINDIR=$ROOT/usr/sbin
 ROOTLIBSDIR=$ROOT/$LIBSDIR
 ROOTUSRLIBSDIR=$ROOT/usr/$LIBSDIR
 ROOTSHAREDIR=$ROOT/usr/share
+SYSREADELF=readelf
+
 if [ -e "$ROOT/$TCDIR" ]; then
   mkdir -p $WORKDIR/initrd/$TCDIR/share/terminfo/l || return 1
   ln -sfn /usr/share/terminfo/l/linux $WORKDIR/initrd/$TCDIR/share/terminfo/l/linux || return 1
@@ -476,6 +479,7 @@ if [ -e "$ROOT/$TCDIR" ]; then
   ROOTLIBSDIR=$ROOT/$TCDIR/$LIBSDIR
   ROOTUSRLIBSDIR=$ROOTLIBSDIR
   ROOTSHAREDIR=$ROOT/$TCDIR/share
+  SYSREADELF=$ROOT/$CTCDIR/bin/${BUILDTARGET}-readelf
 fi
 
 for x in bash cat stty basename bzip2 cp grep gzip \
@@ -523,7 +527,9 @@ fi
 
 ln -sfn test $WORKDIR/initrd/bin/[
 
-$ROOT/$CTCDIR/bin/${BUILDTARGET}-readelf -d \
+$SYSREADELF -d $ROOTLIBSDIR/libc.so.? >/dev/null || exit 1
+
+$SYSREADELF -d \
     $WORKDIR/initrd/bin/* 2>/dev/null | grep 'NEEDED' | cut -f2- -d'[' | tr -d ']' | \
     sort | uniq | while read lib; do
   l=$(find {$ROOTLIBSDIR,$ROOTUSRLIBSDIR,$ROOT/$LIBSDIR,$ROOT/usr/$LIBSDIR} -name $lib | sed q)
