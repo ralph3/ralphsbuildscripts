@@ -538,6 +538,7 @@ $SYSREADELF -d \
   fi
 done
 
+cp $ROOTLIBSDIR/libpthread.so.? $WORKDIR/initrd/$LIBSDIR/ || exit 1
 
 mkdir -p $WORKDIR/initrd/usr/share/terminfo/l || exit 1
 cp $ROOTSHAREDIR/terminfo/l/linux \
