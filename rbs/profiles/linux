@@ -50,15 +50,21 @@ source_setup(){
 }
 
 Tools_Build(){
-  local KARCH KCONF MODDIR KNAME
-  case $($CC -dumpmachine | cut -f1 -d'-') in
+  local KARCH KCONF MODDIR KNAME BZIMG
+  BZIMG=bzImage
+  case $(echo $BUILDTARGET | cut -f1 -d'-') in
     i?86)
       KARCH=i386
-      KCONF="x86-kernel.config"
+      KCONF=x86-kernel.config
     ;;
     x86_64)
       KARCH=x86_64
-      KCONF="x86_64-kernel.config"
+      KCONF=x86_64-kernel.config
+    ;;
+    arm)
+      KARCH=arm
+      KCONF=arm-kernel.config
+      BZIMG=Image
     ;;
     *)
       echo "error not ready for this arch!"
@@ -85,22 +91,28 @@ Tools_Build(){
   make ARCH=$KARCH CROSS_COMPILE=${BUILDTARGET}- || return 1
   mkdir -p $ROOT/boot || return 1
   KNAME=$(basename $KCONF | cut -f1 -d'.')-${VERSION}
-  cp -v arch/$KARCH/boot/bzImage ${ROOT}/boot/$KNAME || return 1
+  cp -v arch/$KARCH/boot/$BZIMG ${ROOT}/boot/$KNAME || return 1
   ln -vsfn $KNAME ${ROOT}/boot/vmlinuz || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
 
 build(){
-  local KARCH KCONF MODDIR KNAME
-  case $($CC -dumpmachine | cut -f1 -d'-') in
-    i486|i586|i686)
+  local KARCH KCONF MODDIR KNAME BZIMG
+  BZIMG=bzImage
+  case $(echo $BUILDTARGET | cut -f1 -d'-') in
+    i?86)
       KARCH=i386
-      KCONF="x86-kernel.config"
+      KCONF=x86-kernel.config
     ;;
     x86_64)
       KARCH=x86_64
-      KCONF="x86_64-kernel.config"
+      KCONF=x86_64-kernel.config
+    ;;
+    arm)
+      KARCH=arm
+      KCONF=arm-kernel.config
+      BZIMG=Image
     ;;
     *)
       echo "error not ready for this arch!"
@@ -145,7 +157,7 @@ build(){
   done
   mkdir -p $TMPROOT/boot || return 1
   KNAME=$(basename $KCONF | cut -f1 -d'.')-${VERSION}
-  cp -v arch/$KARCH/boot/bzImage $TMPROOT/boot/$KNAME || return 1
+  cp -v arch/$KARCH/boot/$BZIMG $TMPROOT/boot/$KNAME || return 1
   ln -vsfn $KNAME $TMPROOT/boot/vmlinuz || return 1
   cp -v System.map $TMPROOT/boot/${KNAME}-System.map || return 1
   cp -v .config $TMPROOT/boot/${KNAME}.config || return 1

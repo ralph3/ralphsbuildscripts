@@ -28,6 +28,9 @@ Cross_Tools_Build(){
     x86_64)
       KARCH=x86_64
     ;;
+    arm)
+      KARCH=arm
+    ;;
     *)
       echo "error not ready for this arch!"
       return 1
@@ -48,12 +51,15 @@ Cross_Tools_Build(){
 
 build(){
   local KARCH KCONF MODDIR
-  case $($CC -dumpmachine | cut -f1 -d'-') in
+  case $(echo $BUILDTARGET | cut -f1 -d'-') in
     i?86)
       KARCH=i386
     ;;
     x86_64)
       KARCH=x86_64
+    ;;
+    arm)
+      KARCH=arm
     ;;
     *)
       echo "error not ready for this arch!"
