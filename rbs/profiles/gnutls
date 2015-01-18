@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="3.3.11"
+VERSION="3.3.12"
 
 DIR="gnutls-${VERSION}"
 TARBALL="gnutls-${VERSION}.tar.xz"
@@ -10,7 +10,7 @@ ftp://ftp.gnupg.org/gcrypt/gnutls/v$(echo $VERSION | cut -f-2 -d'.')/${TARBALL}
 )
 
 MD5SUMS=(
-b657e3010c10cae2244e7ce79ee3d446
+a37b20b4352a5f542367ded904729c90
 )
 
 build(){

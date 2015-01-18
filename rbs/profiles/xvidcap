@@ -159,7 +159,5 @@ EOF
 version_check_info(){
   ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=81535&package_id=83441'
   VERSION_STRING='xvidcap-%version%.tar.gz'
-  MIRRORS=(
-    'http://prdownloads.sourceforge.net/xvidcap/xvidcap-%version%.tar.gz'
-  )
+  VERSION_FILTERS=rc
 }
