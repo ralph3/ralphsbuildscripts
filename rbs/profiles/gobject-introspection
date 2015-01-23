@@ -34,4 +34,5 @@ build(){
 version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/gobject-introspection/%minor_version%/'
   VERSION_STRING='gobject-introspection-%version%.tar.xz'
+  ONLY_EVEN_MINORS=1
 }
