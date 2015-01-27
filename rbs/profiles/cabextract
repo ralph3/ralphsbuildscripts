@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.4"
+VERSION="1.5"
 
 DIR="cabextract-${VERSION}"
 TARBALL="cabextract-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://www.cabextract.org.uk/${TARBALL}
 )
 
 MD5SUMS=(
-79f41f568cf1a3ac105e0687e8bfb7c0
+4e22fc3b36eb028acf2115b44f85930d
 )
 
 build(){
