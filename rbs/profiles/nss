@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3_17_3"
+VERSION="3_17_4"
 
 TVERSION="$(tr '_' '.' <<< "$VERSION")"
 DIR="nss-${TVERSION}"
@@ -13,14 +13,14 @@ http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_${VERSION}_RTM/
 )
 
 MD5SUMS=(
-f5c3de6f008b105fd61c3dbc69be797f
+19771f005b7b24af3b50fe1fd4f553f6
 )
 
 build(){
   local NSPRCONF NSSV
   
   unpack_tarball $TARBALL || return 1
-  cd $SRCDIR/$DIR/mozilla/security/nss || return 1
+  cd $SRCDIR/$DIR/nss || return 1
   
   if [ "$LIBSDIR" == "$LIBSDIR64" ]; then
     make CC="$CC $BUILD" CXX="$CXX $BUILD" USE_64=1 BUILD_OPT=1 PKG_CONFIG_ALLOW_SYSTEM_LIBS=1 \
@@ -30,29 +30,12 @@ build(){
       nss_build_all || return 1
   fi
   
-  cd $SRCDIR/$DIR || return 1
+  cd $SRCDIR/$DIR/nspr || return 1
   
-  NSPRCONF=$(find $PWD/mozilla/nsprpub/*.OBJ/config/nspr-config)
-  
-  sed -i -e "s%/usr/local/lib%/usr/${LIBSDIR}%g" \
-    -e 's%/usr/local%/usr%g' $NSPRCONF || return 1
-  
-  mkdir -p $TMPROOT/usr/$LIBSDIR/pkgconfig || return 1
-cat > $TMPROOT/usr/$LIBSDIR/pkgconfig/nspr.pc << EOF
-prefix=/usr
-exec_prefix=/usr/bin
-libdir=/usr/$LIBSDIR
-includedir=/usr/include/nspr
-
-Name: NSPR
-Description: The Netscape Portable Runtime
-Version: $($NSPRCONF --version)
-Libs: $($NSPRCONF --libs)
-Cflags: $($NSPRCONF --cflags)
-EOF
-  
-  mkdir -p $TMPROOT/usr/bin || return 1
-  cp $NSPRCONF $TMPROOT/usr/bin/ || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+    --host=$BUILDTARGET --prefix=/usr --libdir=/usr/$LIBSDIR || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
   
 cat > $TMPROOT/usr/bin/nss-config << "FOOEOF"
 #!/bin/bash
@@ -217,7 +200,7 @@ FOOEOF
        -e "s/@prefix@/\/usr/" \
        -e "s/@libdir@/${LIBSDIR}/" \
        $TMPROOT/usr/bin/nss-config || return 1
-  chmod 755 $TMPROOT/usr/bin/{nss-config,nspr-config} || return 1
+  chmod 755 $TMPROOT/usr/bin/nss-config || return 1
   
 cat > $TMPROOT/usr/$LIBSDIR/pkgconfig/nss.pc << EOF
 prefix=/usr
@@ -233,12 +216,13 @@ Libs: -L\${libdir} -lssl${NSSV} -lsmime${NSSV} -lnss${NSSV} -lnssutil${NSSV}
 Cflags: -I\${includedir}
 EOF
   
-  install -v -m755 mozilla/dist/*.OBJ/lib/*.so $TMPROOT/usr/$LIBSDIR || return 1
-  install -v -m644 mozilla/dist/*.OBJ/lib/{*.chk,*.a} $TMPROOT/usr/$LIBSDIR || return 1
+  cd $SRCDIR/$DIR || return 1
   
-  mkdir -p $TMPROOT/usr/include/{nss,nspr} || return 1
-  install -v -m644 mozilla/dist/{public,private}/nss/* $TMPROOT/usr/include/nss/ || return 1
-  cp -RLv mozilla/dist/*.OBJ/include/* $TMPROOT/usr/include/nspr/ || return 1
+  install -v -m755 dist/*.OBJ/lib/*.so $TMPROOT/usr/$LIBSDIR || return 1
+  install -v -m644 dist/*.OBJ/lib/{*.chk,*.a} $TMPROOT/usr/$LIBSDIR || return 1
+  
+  mkdir -p $TMPROOT/usr/include/nss || return 1
+  install -v -m644 dist/{public,private}/nss/* $TMPROOT/usr/include/nss/ || return 1
   find $TMPROOT/usr/include -type f -exec chmod 644 {} \; || return 1
   
   cd $SRCDIR || return 1

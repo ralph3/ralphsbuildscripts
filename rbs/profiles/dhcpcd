@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="6.6.7"
+VERSION="6.7.1"
 
 DIR="dhcpcd-${VERSION}"
 TARBALL="dhcpcd-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://roy.marples.name/downloads/dhcpcd/${TARBALL}
 )
 
 MD5SUMS=(
-654cc690d1d490d139946845ea4fbbed
+ffb716b0e9327968e7200d519e1d4c0d
 )
 
 build(){
