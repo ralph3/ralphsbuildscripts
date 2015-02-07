@@ -137,6 +137,7 @@ xkeyboard-config
 xorg-cf-files
 
 pixman
+xcb-util-keysyms
 xorg-server
 
 xf86-input-keyboard
