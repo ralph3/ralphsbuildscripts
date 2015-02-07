@@ -2,9 +2,9 @@
 
 DISABLE_MULTILIB=1
 
-# 1.16.x isnt compatible with keyboard driver on e525.
+# 1.16.x and 1.17.0 isnt compatible with keyboard driver on e525.
 
-VERSION="1.17.0"
+VERSION="1.15.2"
 
 DIR="xorg-server-${VERSION}"
 TARBALL="xorg-server-${VERSION}.tar.bz2"
@@ -14,7 +14,7 @@ http://xorg.freedesktop.org/releases/individual/xserver/${TARBALL}
 )
 
 MD5SUMS=(
-38ecaefa238b04ec4a38f7128e87e239
+69229fe5cdf3f20f74665d57b7601d26
 )
 
 build(){
@@ -32,5 +32,5 @@ build(){
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/xserver/'
   VERSION_STRING='xorg-server-%version%.tar.bz2'
-  VERSION_FILTERS='\.99 \.90 1.16'
+  VERSION_FILTERS='\.99 \.90 1.16 1.17.0'
 }
