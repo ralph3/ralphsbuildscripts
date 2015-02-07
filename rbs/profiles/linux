@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.18.5"
+VERSION="3.18.6"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.xz"
@@ -14,12 +14,12 @@ http://www.kernel.org/pub/linux/kernel/v3.x/${TARBALL}
 )
 
 MD5SUMS=(
-b655fcbc4597aa4b0cbabcfc72983259
+997c8492ebfdc9bb9e6ed8d4945539dd
 )
 
 source_setup(){
   local CONFIG
-  if [ "$VERSION" != "$(uname -r)" ]; then
+  if [ "$VERSION" != "$(uname -r)" ] && [ "${VERSION}-rbs" != "$(uname -r)" ]; then
     echo "VERSION=$VERSION but running kernel is version $(uname -r)!"
     echo "If you just upgraded your kernel, reboot before setting up the source."
     return 1
