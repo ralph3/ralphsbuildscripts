@@ -10,7 +10,7 @@ http://dbus.freedesktop.org/releases/dbus-glib/${TARBALL}
 )
 
 MD5SUMS=(
-05497d2070709cf796f1878c75a72a039
+5497d2070709cf796f1878c75a72a039
 )
 
 build(){
