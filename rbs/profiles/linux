@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.18.6"
+VERSION="3.19"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.xz"
@@ -14,7 +14,7 @@ http://www.kernel.org/pub/linux/kernel/v3.x/${TARBALL}
 )
 
 MD5SUMS=(
-997c8492ebfdc9bb9e6ed8d4945539dd
+d3fc8316d4d4d04b65cbc2d70799e763
 )
 
 source_setup(){
