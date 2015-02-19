@@ -10,7 +10,7 @@ cairo
 harfbuzz
 pango
 gdk-pixbuf
-gtk+
+gtk2
 libwmf
 pycairo
 pygobject
