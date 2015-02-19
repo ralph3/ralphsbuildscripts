@@ -32,5 +32,5 @@ build(){
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/xserver/'
   VERSION_STRING='xorg-server-%version%.tar.bz2'
-  VERSION_FILTERS='\.99 \.90 1.16 1.17.0'
+  VERSION_FILTERS='\.99 \.90 1.16 1.17.[0-1]'
 }
