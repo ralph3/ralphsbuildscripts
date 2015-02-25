@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="1.0.2"
+VERSION="1.0.3"
 
 DIR="mpc-${VERSION}"
 TARBALL="mpc-${VERSION}.tar.gz"
@@ -11,7 +11,7 @@ http://www.multiprecision.org/mpc/download/$TARBALL
 )
 
 MD5SUMS=(
-68fadff3358fb3e7976c7a398a0af4c3
+d6a1d5f8ddea3abd2cc3e98f58352d26
 )
 
 Cross_Tools_Build(){
