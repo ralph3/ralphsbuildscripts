@@ -14,7 +14,7 @@ http://prdownloads.sourceforge.net/wine/${TARBALL}
 )
 
 MD5SUMS=(
-0
+99741c9efece0bf062b39992b63cf5ca
 )
 
 build(){
