@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="4.9"
+VERSION="4.10"
 
 ENABLE_MULTILIB=1
 
@@ -12,7 +12,7 @@ http://prdownloads.sourceforge.net/strace/${TARBALL}
 )
 
 MD5SUMS=(
-885eafadb10f6c60464a266d3929a2a4
+107a5be455493861189e9b57a3a51912
 )
 
 build(){

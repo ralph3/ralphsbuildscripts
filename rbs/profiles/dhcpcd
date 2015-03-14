@@ -30,5 +30,5 @@ build(){
 version_check_info(){
   ADDRESS='http://roy.marples.name/downloads/dhcpcd/'
   VERSION_STRING='dhcpcd-%version%.tar.bz2'
-  VERSION_FILTERS='[a-z]'
+  VERSION_FILTERS='[a-z] 99'
 }

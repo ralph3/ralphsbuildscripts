@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="0.9.38"
+VERSION="0.9.39"
 
 DIR="harfbuzz-${VERSION}"
 TARBALL="harfbuzz-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://www.freedesktop.org/software/harfbuzz/release/${TARBALL}
 )
 
 MD5SUMS=(
-8839e574be8089c0de83768798bf7916
+be4dfeb3d0bc91ac4fa0ccad13b80517
 )
 
 build(){

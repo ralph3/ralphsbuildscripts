@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.28"
+VERSION="1.0.29"
 
 DIR="alsa-utils-${VERSION}"
 TARBALL="alsa-utils-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ ftp://ftp.alsa-project.org/pub/utils/${TARBALL}
 )
 
 MD5SUMS=(
-361552d5b1cacd0a1e7ba09e69990211
+6b289bf874c4c9a63f4b3973093dd404
 )
 
 build(){
