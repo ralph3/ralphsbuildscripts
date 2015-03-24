@@ -28,6 +28,9 @@ perl-xml-simple
 icon-naming-utils
 hicolor-icon-theme
 gnome-icon-theme
+cmake
+openjpeg
+poppler
 gimp
 at-spi2-core
 gsettings-desktop-schemas

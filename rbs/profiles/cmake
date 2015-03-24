@@ -1,0 +1,27 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="3.2.1"
+
+DIR="cmake-${VERSION}"
+TARBALL="cmake-${VERSION}.tar.gz"
+
+SRC1=(
+http://www.cmake.org/files/v$(echo $VERSION | cut -f-2 -d'.')/${TARBALL}
+)
+
+MD5SUMS=(
+63f436aa19b5efc37017759c8d3953ca
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+

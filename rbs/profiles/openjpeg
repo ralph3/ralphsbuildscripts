@@ -1,0 +1,36 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="2.1.0"
+
+DIR="openjpeg-${VERSION}"
+TARBALL="openjpeg-${VERSION}.tar.gz"
+
+SRC1=(
+http://prdownloads.sourceforge.net/openjpeg.mirror/${TARBALL}
+)
+
+MD5SUMS=(
+f6419fcc233df84f9a81eb36633c6db6
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  cmake -DCC="$CC $BUILD" -DCXX="$CXX $BUILD" -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+    -DLIB_INSTALL_DIR:PATH=/usr/$LIBSDIR . || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  if [ "$LIBSDIR" != "lib" ]; then
+    mv $TMPROOT/usr/lib $TMPROOT/usr/$LIBSDIR || return 1
+  fi
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+#version_check_info(){
+#  ADDRESS='http://sourceforge.net/projects/libpng/files/?source=navbar'
+#  VERSION_STRING='libpng-%version%.tar.xz'
+#  VERSION_FILTERS='[a-z]'
+#}
