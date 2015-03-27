@@ -1,0 +1,32 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="3080802"
+
+DIR="sqlite-autoconf-${VERSION}"
+TARBALL="sqlite-autoconf-${VERSION}.tar.gz"
+
+SRC1=(
+http://ftp.lfs-matrix.net/pub/blfs/conglomeration/sqlite/${TARBALL}
+)
+
+MD5SUMS=(
+3425fa580a56880f56bcb887dd26cc06
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/usr/$LIBSDIR --sysconfdir=/etc --localstatedir=/var || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://ftp.lfs-matrix.net/pub/blfs/conglomeration/sqlite/'
+  VERSION_STRING='sqlite-autoconf-%version%.tar.gz'
+}

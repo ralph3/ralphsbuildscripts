@@ -1,0 +1,31 @@
+#!/bin/bash
+
+VERSION="1.8.11.0"
+
+DIR="Alien-SVN-v${VERSION}"
+TARBALL="Alien-SVN-v${VERSION}.tar.gz"
+
+SRC1=(
+http://search.cpan.org/CPAN/authors/id/M/MS/MSCHWERN/${TARBALL}
+)
+
+MD5SUMS=(
+f2c1d9fbab50f92e14213e349e270810
+)
+
+build(){
+  #unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  #perl Build.PL || return 1
+  #./Build || return 1
+  cd src/subversion/subversion/bindings/swig/perl/native || return 1
+  #make test || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://search.cpan.org/CPAN/authors/id/M/MS/MSCHWERN/'
+  VERSION_STRING='Alien-SVN-v%version%.tar.gz'
+}
