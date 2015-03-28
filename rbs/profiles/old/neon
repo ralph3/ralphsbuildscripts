@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.29.6"
+VERSION="0.30.1"
 
 DIR="neon-${VERSION}"
 TARBALL="neon-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://www.webdav.org/neon/${TARBALL}
 )
 
 MD5SUMS=(
-591e0c82e6979e7e615211b386b8f6bc
+231adebe5c2f78fded3e3df6e958878e
 )
 
 build(){

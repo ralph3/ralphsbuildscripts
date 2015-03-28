@@ -76,7 +76,6 @@ expat
 libffi
 python
 python3
-neon
 apr
 apr-util
 sqlite
