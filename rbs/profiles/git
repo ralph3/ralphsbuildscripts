@@ -2,10 +2,10 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.8.5.2"
+VERSION="2.3.4"
 
 DIR="git-${VERSION}"
-TARBALL="git-${VERSION}.tar.bz2"
+TARBALL="git-${VERSION}.tar.xz"
 
 SRC1=(
 http://kernel.org/pub/software/scm/git/${TARBALL}
@@ -13,7 +13,7 @@ http://mirror.anl.gov/pub/software/scm/git/$TARBALL
 )
 
 MD5SUMS=(
-dead8861f14ed61c60f0c2463c811b2a
+eab424a66d52447eecc3fc688967ec03
 )
 
 build(){
@@ -28,7 +28,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://mirror.anl.gov/pub/software/scm/git/'
-  VERSION_STRING='git-%version%.tar.bz2'
+  ADDRESS='http://kernel.org/pub/software/scm/git/'
+  VERSION_STRING='git-%version%.tar.xz'
   VERSION_FILTERS='rc manpages htmldocs core'
 }

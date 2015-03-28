@@ -1,0 +1,33 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="3.0.5"
+
+DIR="swig-${VERSION}"
+TARBALL="swig-${VERSION}.tar.gz"
+
+SRC1=(
+http://downloads.sourceforge.net/swig/${TARBALL}
+)
+
+MD5SUMS=(
+dcb9638324461b9baba8e044fe59031d
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure  --prefix=/usr --libdir=/usr/$LIBSDIR \
+     --without-clisp --without-maximum-compile-warnings || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+#version_check_info(){
+#  ADDRESS='http://ftp.gnu.org/gnu/make/'
+#  VERSION_STRING='make-%version%.tar.bz2'
+#  VERSION_FILTERS='4.1'
+#}

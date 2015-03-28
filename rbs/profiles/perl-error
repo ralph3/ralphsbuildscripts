@@ -1,0 +1,30 @@
+#!/bin/bash
+
+VERSION="0.17023"
+
+DIR="Error-${VERSION}"
+TARBALL="Error-${VERSION}.tar.gz"
+
+SRC1=(
+http://search.cpan.org/CPAN/authors/id/S/SH/SHLOMIF/${TARBALL}
+)
+
+MD5SUMS=(
+98524ffbd268013e00697a5826a83d37
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  perl Makefile.PL || return 1
+  make || return 1
+  make test || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://search.cpan.org/CPAN/authors/id/S/SH/SHLOMIF/'
+  VERSION_STRING='Error-%version%.tar.gz'
+}

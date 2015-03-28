@@ -1,0 +1,33 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="2.3.4"
+
+DIR="scons-${VERSION}"
+TARBALL="scons-${VERSION}.tar.gz"
+
+SRC1=(
+http://prdownloads.sourceforge.net/scons/${TARBALL}
+)
+
+MD5SUMS=(
+91fbbb67c2c65b03c746601baac4a6a5
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  python setup.py install --prefix=/usr  \
+			--install-lib=/usr/$LIBSDIR/python/lib/$(basename $(find /usr/$LIBSDIR/python/lib/python?.? -maxdepth 0))/site-packages \
+                        --optimize=1   \
+                        --install-data=/usr/share \
+			--root $TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://sourceforge.net/projects/scons/files/'
+  VERSION_STRING='scons-%version%.tar.gz'
+}
