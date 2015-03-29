@@ -1,16 +1,16 @@
 #!/bin/bash
 
-VERSION="10.4.4"
+VERSION="10.5.2"
 
-DIR="Mesa-${VERSION}"
-TARBALL="MesaLib-${VERSION}.tar.bz2"
+DIR="mesa-${VERSION}"
+TARBALL="mesa-${VERSION}.tar.xz"
 
 SRC1=(
 ftp://ftp.freedesktop.org/pub/mesa/$(cut -f1 -d'-' <<< $VERSION)/$TARBALL
 )
 
 MD5SUMS=(
-62faf98ac79c5587f8e917e187419e6c
+528b3b0c0ff330766b9788da04a9fabd
 )
 
 build(){
@@ -46,6 +46,6 @@ build(){
 
 version_check_info(){
   ADDRESS='ftp://ftp.freedesktop.org/pub/mesa/%version%/'
-  VERSION_STRING='MesaLib-%version%.tar.bz2'
+  VERSION_STRING='mesa-%version%.tar.xz'
   VERSION_FILTERS='[a-z]'
 }
