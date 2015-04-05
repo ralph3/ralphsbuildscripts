@@ -1,0 +1,33 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="1.0.1"
+
+DIR="Mako-${VERSION}"
+TARBALL="Mako-${VERSION}.tar.gz"
+
+SRC1=(
+https://pypi.python.org/packages/source/M/Mako/$TARBALL
+)
+
+MD5SUMS=(
+9f0aafd177b039ef67b90ea350497a54
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  python3 setup.py install --prefix=/usr  \
+			--install-lib=/usr/$LIBSDIR/python/lib/$(basename $(find /usr/$LIBSDIR/python/lib/python?.? -maxdepth 0))/site-packages \
+                        --optimize=1   \
+                        --install-data=/usr/share \
+			--root $TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+#version_check_info(){
+#  ADDRESS='http://sourceforge.net/projects/scons/files/'
+#  VERSION_STRING='scons-%version%.tar.gz'
+#}

@@ -18,8 +18,6 @@ MD5SUMS=(
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  ./configure --help
-  return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/usr/$LIBSDIR \
     --with-installbuilddir=/usr/$LIBSDIR/apr-1 || return 1

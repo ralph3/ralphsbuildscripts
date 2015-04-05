@@ -81,6 +81,7 @@ libxshmfence
 
 talloc
 makedepend
+mako
 mesa
 
 xbitmaps
