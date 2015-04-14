@@ -9,7 +9,7 @@ DIR="unzip-${APPVERSION}"
 TARBALL="unzip${VERSION}.tar.gz"
 
 SRC1=(
-http://ralphsbuildscripts.googlecode.com/files/$TARBALL
+https://raw.githubusercontent.com/ralph3/ralphsbuildscripts/master/src/unzip/$TARBALL
 )
 
 MD5SUMS=(
