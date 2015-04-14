@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.3.4"
+VERSION="2.3.5"
 
 DIR="git-${VERSION}"
 TARBALL="git-${VERSION}.tar.xz"
@@ -13,7 +13,7 @@ http://mirror.anl.gov/pub/software/scm/git/$TARBALL
 )
 
 MD5SUMS=(
-eab424a66d52447eecc3fc688967ec03
+be8c0bbb0c5ee6ab7cdcffd2c9375fe6
 )
 
 build(){

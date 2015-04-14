@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.7.39"
+VERSION="1.7.40"
 
 ONLY32=1
 
@@ -14,7 +14,7 @@ http://prdownloads.sourceforge.net/wine/${TARBALL}
 )
 
 MD5SUMS=(
-eada8f9fde77a72e1d1f682020d4cbfe
+7c1dc804be000d73bc8c2afa623aa9e5
 )
 
 build(){
