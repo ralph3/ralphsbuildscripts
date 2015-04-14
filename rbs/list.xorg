@@ -144,3 +144,5 @@ xorg-server
 xf86-input-keyboard
 xf86-input-mouse
 
+util-macros
+

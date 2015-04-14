@@ -35,6 +35,7 @@ gimp
 at-spi2-core
 gsettings-desktop-schemas
 at-spi2-atk
+libepoxy
 gtk3
 
 
