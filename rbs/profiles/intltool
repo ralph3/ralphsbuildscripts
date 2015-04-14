@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.40.6"
+VERSION="0.51.0"
 
 DIR="intltool-${VERSION}"
-TARBALL="intltool-${VERSION}.tar.bz2"
+TARBALL="intltool-${VERSION}.tar.gz"
 
 SRC1=(
-  $(gnome_mirrors intltool)
+  https://launchpad.net/intltool/trunk/$VERSION/+download/$TARBALL
 )
 
 MD5SUMS=(
-69bc0353323112f42ad4f9cf351bc3e5
+12e517cac2b57a0121cda351570f1e63
 )
 
 build(){
@@ -29,10 +29,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/intltool/%minor_version%/'
-  VERSION_STRING='intltool-%version%.tar.bz2'
-  ONLY_EVEN_MINORS=1
-  MIRRORS=(
-    'http://ftp.gnome.org/pub/GNOME/sources/intltool/%minor_version%/intltool-%version%.tar.bz2'
-  )
+  ADDRESS='https://launchpad.net/intltool/+download'
+  VERSION_STRING='intltool-%version%.tar.gz'
 }
