@@ -8,7 +8,7 @@ DIR="libepoxy-${VERSION}"
 TARBALL="libepoxy-${VERSION}.tar.gz"
 
 SRC1=(
-http://crux.nu/files/${TARBALL}
+https://raw.githubusercontent.com/ralph3/ralphsbuildscripts/master/src/libepoxy/${TARBALL}
 )
 
 MD5SUMS=(
