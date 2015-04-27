@@ -3,17 +3,17 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="3.19.4"
+VERSION="4.0"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.xz"
 
 SRC1=(
-http://www.kernel.org/pub/linux/kernel/v3.0/${TARBALL}
+https://www.kernel.org/pub/linux/kernel/v4.x/${TARBALL}
 )
 
 MD5SUMS=(
-11479494562dd5d41e909ca44bae042c
+a86916bd12798220da9eb4a1eec3616d
 )
 
 

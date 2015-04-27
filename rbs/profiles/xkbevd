@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.1.3"
+VERSION="1.1.4"
 
 DIR="xkbevd-${VERSION}"
 TARBALL="xkbevd-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-37ed71525c63a9acd42e7cde211dcc5b
+c747faf1f78f5a5962419f8bdd066501
 )
 
 build(){

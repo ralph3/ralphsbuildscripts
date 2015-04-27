@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3_18"
+VERSION="3_18_1"
 
 TVERSION="$(tr '_' '.' <<< "$VERSION")"
 DIR="nss-${TVERSION}"
@@ -13,7 +13,7 @@ http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_${VERSION}_RTM/
 )
 
 MD5SUMS=(
-36889f4c634f58bb72a8160c2141805b
+351c05e47c4be7631023a5a7d677edda
 )
 
 build(){

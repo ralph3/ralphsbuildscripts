@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.3"
+VERSION="1.0.4"
 
 DIR="xkbprint-${VERSION}"
 TARBALL="xkbprint-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-526b5ba87cccd05aa700fa628bcfda3e
+3c25b40de530112c08bf7d229c5c6a28
 )
 
 build(){

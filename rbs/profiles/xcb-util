@@ -29,5 +29,5 @@ build(){
 version_check_info(){
   ADDRESS='http://xcb.freedesktop.org/dist/'
   VERSION_STRING='xcb-util-%version%.tar.bz2'
-  VERSION_FILTERS='wm render key image cursor'
+  VERSION_FILTERS='wm render key image cursor errors'
 }
