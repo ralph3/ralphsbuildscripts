@@ -21,7 +21,8 @@ MyBuild(){
   
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+  CC="$CC $BUILD" CXX="$CXX $BUILD" CFLAGS="$CFLAGS -fgnu89-inline" \
+    ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --prefix=/usr --sbindir=/sbin || return 1
   make || return 1
   make install DESTDIR=$MYDEST || return 1
