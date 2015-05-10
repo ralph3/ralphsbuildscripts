@@ -2,6 +2,7 @@ filesystem
 
 linux-headers
 glibc
+tzdata
 zlib
 binutils
 gmp

@@ -1,0 +1,48 @@
+#!/bin/bash
+
+DONT_REMOVE=1
+DISABLE_MULTILIB=1
+
+VERSION="2015d"
+
+DIR="tzdata${VERSION}"
+TARBALL="tzdata${VERSION}.tar.gz"
+
+SRC1=(
+http://www.iana.org/time-zones/repository/releases/${TARBALL}
+)
+
+MD5SUMS=(
+b595bdc4474b8fc1a15cffc67c66025b
+)
+
+build(){
+  local ZDIR
+  
+  ZDIR=$TMPROOT/usr/share/zoneinfo
+  
+  mkdir -p $SRCDIR/$DIR || return 1
+  tar xfz $DOWNLOADDIR/$TARBALL -C $SRCDIR/$DIR/ || return 1
+  
+  cd $SRCDIR/$DIR || return 1
+  
+  mkdir -vp $ZDIR/{posix,right} || return 1
+  
+  for tz in etcetera southamerica northamerica europe africa antarctica  \
+            asia australasia backward pacificnew systemv; do
+      zic -L /dev/null   -d $ZDIR       -y "sh yearistype.sh" ${tz}
+      zic -L /dev/null   -d $ZDIR/posix -y "sh yearistype.sh" ${tz}
+      zic -L leapseconds -d $ZDIR/right -y "sh yearistype.sh" ${tz}
+  done
+  
+  cp -v zone.tab zone1970.tab iso3166.tab $ZDIR
+  zic -d $ZDIR -p America/New_York
+  
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://www.iana.org/time-zones'
+  VERSION_STRING='tzdata%version%.tar.gz'
+}
