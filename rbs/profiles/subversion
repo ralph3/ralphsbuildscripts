@@ -66,5 +66,5 @@ EOF
 version_check_info(){
   ADDRESS='http://apache.osuosl.org/subversion/'
   VERSION_STRING='subversion-%version%.tar.bz2'
-  VERSION_FILTERS='beta'
+  VERSION_FILTERS='beta rc'
 }

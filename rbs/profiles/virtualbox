@@ -103,5 +103,5 @@ EOF
 version_check_info(){
   ADDRESS='http://download.virtualbox.org/virtualbox/%version%/'
   VERSION_STRING='VirtualBox-%version%-Linux_amd64.run'
-  VERSION_FILTERS='TXT de im rd rp ox Us'
+  VERSION_FILTERS='TXT de im rd rp ox Us BETA'
 }
