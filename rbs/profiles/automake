@@ -3,17 +3,17 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="1.11.2"
+VERSION="1.15"
 
 DIR="automake-${VERSION}"
-TARBALL="automake-${VERSION}.tar.bz2"
+TARBALL="automake-${VERSION}.tar.xz"
 
 SRC1=(
 http://ftp.gnu.org/gnu/automake/${TARBALL}
 )
 
 MD5SUMS=(
-18194e804d415767bae8f703c963d456
+9a1ddb0e053474d9d1105cfe39b0c48d
 )
 
 build(){
@@ -29,8 +29,5 @@ build(){
 
 version_check_info(){
   ADDRESS='http://ftp.gnu.org/gnu/automake/'
-  VERSION_STRING='automake-%version%.tar.bz2'
-  MIRRORS=(
-    'http://ftp.gnu.org/gnu/automake/automake-%version%.tar.bz2'
-  )
+  VERSION_STRING='automake-%version%.tar.xz'
 }

@@ -34,7 +34,7 @@ diff -Naur sessreg-1.1.0/man/Makefile.am sessreg-1.1.0.patched/man/Makefile.am
  # String replacements in MAN_SUBSTS now come from xorg-macros.m4 via configure
  MAN_SUBSTS += -f filenames.sed
 EOF
-
+  
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc --localstatedir=/var || return 1
   make || return 1
