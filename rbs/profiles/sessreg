@@ -19,7 +19,7 @@ build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
 
-cat "EOF" | patch -Np1 || return 1
+cat << "EOF" | patch -Np1 || return 1
 diff -Naur sessreg-1.1.0/man/Makefile.am sessreg-1.1.0.patched/man/Makefile.am
 --- sessreg-1.1.0/man/Makefile.am	2015-01-20 05:00:27.000000000 +0000
 +++ sessreg-1.1.0.patched/man/Makefile.am	2015-05-07 18:32:11.000000000 +0000
