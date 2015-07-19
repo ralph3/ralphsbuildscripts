@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="8u31"
+VERSION="8u45"
 
 TARBALL32="jdk-${VERSION}-linux-i586.tar.gz"
 TARBALL64="jdk-${VERSION}-linux-x64.tar.gz"
@@ -16,8 +16,8 @@ http://build.funtoo.org/distfiles/oracle-java/$TARBALL64
 )
 
 MD5SUMS=(
-4e9aec24367672412c7d10105a2a2bbb
-173e24bc2d5d5ca3469b8e34864a80da
+e68241caf30cb81ae4e985be7218bb6d
+1ad9a5be748fb75b31cd3bd3aa339cac
 )
 
 build(){
