@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="4.0.0"
+VERSION="4.1.1"
 
 DIR="iproute2-${VERSION}"
 TARBALL="iproute2-${VERSION}.tar.xz"
@@ -12,7 +12,7 @@ http://www.kernel.org/pub/linux/utils/net/iproute2/$TARBALL
 )
 
 MD5SUMS=(
-3adc263ade4ee76c35032e8f50b54108
+39290cb3a55d38dd8d10e19a3094109f
 )
 
 build(){
