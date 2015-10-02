@@ -95,7 +95,7 @@ EOF
 }
 
 version_check_info(){
-  ADDRESS='http://www.ar.linux.it/pub/gpm/'
+  ADDRESS='http://www.nico.schottelius.org/software/gpm/archives/'
   VERSION_STRING='gpm-%version%.tar.bz2'
   VERSION_FILTERS='1.99 1.20.7'
 }

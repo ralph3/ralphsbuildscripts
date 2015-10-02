@@ -8,7 +8,7 @@ DIR="giblib-${VERSION}"
 TARBALL="giblib-${VERSION}.tar.gz"
 
 SRC1=(
-http://linuxbrit.co.uk/downloads/${TARBALL}
+http://osl.no.distfiles.macports.org/giblib/${TARBALL}
 )
 
 MD5SUMS=(
@@ -26,10 +26,3 @@ build(){
   rm -rf $DIR || return 1
 }
 
-version_check_info(){
-  ADDRESS="http://linuxbrit.co.uk/downloads/"
-  VERSION_STRING="giblib-%version%.tar.gz"
-  MIRRORS=(
-    "http://linuxbrit.co.uk/downloads/giblib-%version%.tar.gz"
-  )
-}

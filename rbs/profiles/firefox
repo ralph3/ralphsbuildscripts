@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="39.0"
+VERSION="41.0.1"
 
 TARBALL="firefox-${VERSION}.tar"
 
@@ -11,9 +11,9 @@ MOZTARBALL="firefox-${VERSION}.tar.bz2"
 my_src1(){
   mkdir 32 64 || return 1
   cd 32 || return 1
-  download ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${VERSION}/linux-i686/en-US/$MOZTARBALL || return 1
+  download https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${VERSION}/linux-i686/en-US/$MOZTARBALL || return 1
   cd ../64 || return 1
-  download ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${VERSION}/linux-x86_64/en-US/$MOZTARBALL || return 1
+  download https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${VERSION}/linux-x86_64/en-US/$MOZTARBALL || return 1
   cd ../ || return 1
   echo -n "Making ${TARBALL}..."
   tar cf $TARBALL 32 64 || return 1
@@ -63,7 +63,7 @@ EOF
 }
 
 version_check_info(){
-  ADDRESS='ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%version%/linux-i686/en-US/'
+  ADDRESS='https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%version%/linux-i686/en-US/'
   VERSION_STRING='firefox-%version%.tar.bz2'
   VERSION_FILTERS='[a-z] [A-Z]'
 }

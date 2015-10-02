@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.00"
+VERSION="3.01"
 
 DIR="cdrtools-${VERSION}"
 TARBALL="cdrtools-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-c59e3ec265000dc81cf9ba00bae5e5f3
+7d45c5b7e1f78d85d1583b361aee6e8b
 )
 
 build(){

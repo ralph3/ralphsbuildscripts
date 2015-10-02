@@ -190,7 +190,7 @@ download(){
       #
       # disabled cogent belnet. timed out on 20120314
       #
-      for sfhost in optusnet switch puzzle heanet kent jaist ovh \
+      for sfhost in optusnet switch heanet kent jaist ovh \
         nchc; do
         URL="http://${sfhost}.dl.sourceforge.net/sourceforge/$SFSUF"
         R=`wget --server-response --spider $TURL 2>&1 | grep "Content-Type: text/html"`

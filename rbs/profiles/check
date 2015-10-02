@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="0.9.14"
+VERSION="0.10.0"
 
 DIR="check-${VERSION}"
 TARBALL="check-${VERSION}.tar.gz"
@@ -11,7 +11,7 @@ http://prdownloads.sourceforge.net/check/${TARBALL}
 )
 
 MD5SUMS=(
-38263d115d784c17aa3b959ce94be8b8
+53c5e5c77d090e103a17f3ed7fd7d8b8
 )
 
 build(){

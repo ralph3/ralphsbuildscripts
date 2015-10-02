@@ -18,7 +18,7 @@ TARBALL="epdfview-${VERSION}.tar.bz2"
 #}
 
 SRC1=(
-  http://trac.emma-soft.com/epdfview/chrome/site/releases/${TARBALL}
+  http://anduin.linuxfromscratch.org/sources/BLFS/conglomeration/epdfview/${TARBALL}
 )
 
 MD5SUMS=(
@@ -43,9 +43,4 @@ build(){
     $TMPROOT/usr/share/pixmaps/epdfview.png || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
-}
-
-version_check_info(){
-  ADDRESS='http://trac.emma-soft.com/epdfview/wiki/Download'
-  VERSION_STRING='epdfview-%version%.tar.bz2'
 }

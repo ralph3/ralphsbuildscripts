@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="0.17023"
+VERSION="0.17024"
 
 DIR="Error-${VERSION}"
 TARBALL="Error-${VERSION}.tar.gz"
@@ -10,7 +10,7 @@ http://search.cpan.org/CPAN/authors/id/S/SH/SHLOMIF/${TARBALL}
 )
 
 MD5SUMS=(
-98524ffbd268013e00697a5826a83d37
+7e3676a7fb14f65f568f12d4b40a2a72
 )
 
 build(){

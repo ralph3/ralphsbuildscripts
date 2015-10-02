@@ -27,7 +27,3 @@ build(){
   rm -rf $DIR || return 1
 }
 
-version_check_info(){
-  ADDRESS='http://sourceforge.net/projects/libexif/files/?source=navbar'
-  VERSION_STRING='libexif-%version%.tar.bz2'
-}

@@ -62,11 +62,3 @@ EOF
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
-
-version_check_info(){
-  ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/pygobject/%minor_version%/'
-  VERSION_STRING='pygobject-%version%.tar.xz'
-  VERSION_FILTERS='\.90'
-  MINOR_VERSION=2
-  ONLY_EVEN_MINORS=1
-}

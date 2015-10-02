@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.6.3"
+VERSION="1.6.4"
 
 DIR="libgcrypt-${VERSION}"
 TARBALL="libgcrypt-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ ftp://ftp.gnupg.org/gcrypt/libgcrypt/${TARBALL}
 )
 
 MD5SUMS=(
-4262c3aadf837500756c2051a5c4ae5e
+4c13c5fa43147866f993d73ee62af176
 )
 
 build(){

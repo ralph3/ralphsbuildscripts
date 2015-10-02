@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.28"
+VERSION="0.29"
 
 DIR="pkg-config-${VERSION}"
 TARBALL="pkg-config-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-aa3c86e67551adc3ac865160e34a2a0d
+77f27dce7ef88d0634d0d6f90e03a77f
 )
 
 build(){

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.16.1"
+VERSION="3.18.0"
 
 DIR="gsettings-desktop-schemas-${VERSION}"
 TARBALL="gsettings-desktop-schemas-${VERSION}.tar.xz"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-baebbcf3c20591f98876e42fb0a3fd35
+eff2640ecd7553f3bea695f6ec7f4499
 )
 
 build(){

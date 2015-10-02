@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.3.4"
+VERSION="2.4.0"
 
 DIR="scons-${VERSION}"
 TARBALL="scons-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://prdownloads.sourceforge.net/scons/${TARBALL}
 )
 
 MD5SUMS=(
-91fbbb67c2c65b03c746601baac4a6a5
+504d8c2fa426204fe399d239d580b55c
 )
 
 build(){
@@ -29,5 +29,5 @@ build(){
 
 version_check_info(){
   ADDRESS='http://sourceforge.net/projects/scons/files/'
-  VERSION_STRING='scons-%version%.tar.gz'
+  VERSION_STRING='scons-%version%.zip'
 }

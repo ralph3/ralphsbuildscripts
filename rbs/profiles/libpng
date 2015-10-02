@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.6.17"
+VERSION="1.6.18"
 
 DIR="libpng-${VERSION}"
 TARBALL="libpng-${VERSION}.tar.xz"
@@ -11,7 +11,7 @@ ftp://ftp.simplesystems.org/pub/libpng/png/src/$TARBALL
 )
 
 MD5SUMS=(
-430a9b76b78533235cd4b9b26ce75c7e
+6a57c8e0f5469b9c9949a4b43d57b3a1
 )
 
 build(){

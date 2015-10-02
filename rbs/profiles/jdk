@@ -2,22 +2,24 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="8u45"
+VERSION="60"
 
-TARBALL32="jdk-${VERSION}-linux-i586.tar.gz"
-TARBALL64="jdk-${VERSION}-linux-x64.tar.gz"
+TARBALL32="jdk-8u${VERSION}-linux-i586.tar.gz"
+TARBALL64="jdk-8u${VERSION}-linux-x64.tar.gz"
 
 SRC1=(
 http://build.funtoo.org/distfiles/oracle-java/$TARBALL32
+http://enos.itcollege.ee/~jpoial/allalaadimised/jdk8/$TARBALL32
 )
 
 SRC2=(
 http://build.funtoo.org/distfiles/oracle-java/$TARBALL64
+http://enos.itcollege.ee/~jpoial/allalaadimised/jdk8/$TARBALL64
 )
 
 MD5SUMS=(
-e68241caf30cb81ae4e985be7218bb6d
-1ad9a5be748fb75b31cd3bd3aa339cac
+a46d706babbd63f459d7ca6d4057d80f
+b8ca513d4f439782c019cb78cd7fd101
 )
 
 build(){
@@ -79,6 +81,6 @@ EOF
 }
 
 version_check_info(){
-  ADDRESS='http://build.funtoo.org/distfiles/oracle-java/'
-  VERSION_STRING='jdk-%version%-linux-i586.tar.gz'
+  ADDRESS='https://java.com/en/download/'
+  VERSION_STRING='Version 8 Update %version%$'
 }

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="20"
+VERSION="21"
 
 DIR="kmod-${VERSION}"
 TARBALL="kmod-${VERSION}.tar.xz"
@@ -12,7 +12,7 @@ https://www.kernel.org/pub/linux/utils/kernel/kmod/$TARBALL
 )
 
 MD5SUMS=(
-d6f4fef718a50bd88080de6a43bc64d8
+ee246fab2e1cba9fbdcad6a86ec31531
 )
 
 Tools_Build(){

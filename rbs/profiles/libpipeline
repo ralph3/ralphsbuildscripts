@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="1.4.0"
+VERSION="1.4.1"
 
 DIR="libpipeline-${VERSION}"
 TARBALL="libpipeline-${VERSION}.tar.gz"
@@ -11,7 +11,7 @@ http://download.savannah.gnu.org/releases/libpipeline/${TARBALL}
 )
 
 MD5SUMS=(
-660f4ac9340834a231d1516746d03d28
+e54590ec68d6c1239f67b5b44e92022c
 )
 
 build(){

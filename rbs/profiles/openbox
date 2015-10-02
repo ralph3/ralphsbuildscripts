@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.5.2"
+VERSION="3.6.1"
 
 DIR="openbox-${VERSION}"
 TARBALL="openbox-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://openbox.org/dist/openbox/${TARBALL}
 )
 
 MD5SUMS=(
-93df606606053b7e8578a5c116afb8ec
+b72794996c6a3ad94634727b95f9d204
 )
 
 build(){
