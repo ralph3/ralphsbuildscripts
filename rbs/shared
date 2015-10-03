@@ -208,7 +208,7 @@ EOF
     ;;
     *)
       TN=$(mktemp)
-      wget --passive-ftp --no-check-certificate -O "$TN" $1 || {
+      wget -T 2 -t 1 --passive-ftp --no-check-certificate -O "$TN" $1 || {
         rm -f "$TN"
         return 1
       }
