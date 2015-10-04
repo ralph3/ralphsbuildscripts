@@ -128,7 +128,7 @@ for PRO in $PROFILES; do
       echo " ERR VRES empty. Wrong VERSION_FILTERS?"
       continue
     else
-      if [ "$(sort -V <<<"$(echo -e "${VERSION}\n${VRES}")" | tail -n1)" \
+      if [ "$(sort -V <<<"$(echo -e "${VERSION}\n${VRES}")" | tail -n1 | tr -d '\r')" \
            == \
          "$VERSION" ]; then
         echo -en "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
