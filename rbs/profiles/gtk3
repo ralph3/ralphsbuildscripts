@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.18.0"
+VERSION="3.18.1"
 
 DIR="gtk+-${VERSION}"
 TARBALL="gtk+-${VERSION}.tar.xz"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-7bb716b637ab413bdefd773e520c474c
+b4d4d30d90f4831855b410fb6a1fae63
 )
 
 build(){
