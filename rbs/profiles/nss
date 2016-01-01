@@ -2,18 +2,18 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3_20"
+VERSION="3_21"
 
 TVERSION="$(tr '_' '.' <<< "$VERSION")"
 DIR="nss-${TVERSION}"
-TARBALL="nss-${TVERSION}-with-nspr-4.10.8.tar.gz"
+TARBALL="nss-${TVERSION}-with-nspr-4.10.10.tar.gz"
 
 SRC1=(
 http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_${VERSION}_RTM/src/$TARBALL
 )
 
 MD5SUMS=(
-d4c75895593ba7265cb4a93c342d75be
+59f300f56c560376c2e4b01fea959786
 )
 
 build(){

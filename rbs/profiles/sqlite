@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3081101"
+VERSION="3090200"
 
 DIR="sqlite-autoconf-${VERSION}"
 TARBALL="sqlite-autoconf-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://ftp.lfs-matrix.net/pub/blfs/conglomeration/sqlite/${TARBALL}
 )
 
 MD5SUMS=(
-298c8d6af7ca314f68de92bc7a356cbe
+bc4eb5b3fc5cfcb6e059794306cac1ca
 )
 
 build(){

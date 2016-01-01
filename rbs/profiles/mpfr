@@ -41,7 +41,9 @@ Tools_Build(){
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+  CC="$CC -isystem /usr/include $BUILD" CXX="$CXX $BUILD" \
+  LDFLAGS="-Wl,-rpath-link,/usr/$LIBSDIR:/$LIBSDIR ${BUILD}" \
+    ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --prefix=/usr --sysconfdir=/etc --libdir=/usr/$LIBSDIR \
     --enable-shared || return 1
   make || return 1

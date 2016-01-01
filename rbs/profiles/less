@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="451"
+VERSION="481"
 
 DIR="less-${VERSION}"
 TARBALL="less-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://ftp.gnu.org/gnu/less/${TARBALL}
 )
 
 MD5SUMS=(
-765f082658002b2b46b86af4a0da1842
+50ef46065c65257141a7340123527767
 )
 
 build(){

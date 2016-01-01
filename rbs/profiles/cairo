@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.14.2"
+VERSION="1.14.6"
 
 DIR="cairo-${VERSION}"
 TARBALL="cairo-${VERSION}.tar.xz"
@@ -10,7 +10,7 @@ http://cairographics.org/releases/${TARBALL}
 )
 
 MD5SUMS=(
-e1cdfaf1c6c995c4d4c54e07215b0118
+23a0b2f0235431d35238df1d3a517fdb
 )
 
 build(){

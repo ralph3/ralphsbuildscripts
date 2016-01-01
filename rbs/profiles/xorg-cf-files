@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.5"
+VERSION="1.0.6"
 
 DIR="xorg-cf-files-${VERSION}"
 TARBALL="xorg-cf-files-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/util/${TARBALL}
 )
 
 MD5SUMS=(
-4a9cd7fc995ebf8f3cdad5395f9d8eba
+28649f34fa23143f1945aa2750e1472a
 )
 
 build(){

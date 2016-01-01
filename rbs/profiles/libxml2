@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.9.2"
+VERSION="2.9.3"
 
 DIR="libxml2-${VERSION}"
 TARBALL="libxml2-${VERSION}.tar.gz"
@@ -10,7 +10,7 @@ ftp://xmlsoft.org/libxml2/${TARBALL}
 )
 
 MD5SUMS=(
-9e6a9aca9d155737868b3dc5fd82f788
+daece17e045f1c107610e137ab50c179
 )
 
 build(){

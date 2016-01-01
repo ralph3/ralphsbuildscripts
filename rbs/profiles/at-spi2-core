@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.18.0"
+VERSION="2.18.3"
 
 DIR="at-spi2-core-${VERSION}"
 TARBALL="at-spi2-core-${VERSION}.tar.xz"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-a5dcef6339e5a41f7b1a5cbf85d009dd
+fc18801e56f6ce6914126f837d42f556
 )
 
 build(){

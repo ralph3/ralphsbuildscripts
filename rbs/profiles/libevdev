@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.4.4"
+VERSION="1.4.5"
 
 DIR="libevdev-${VERSION}"
 TARBALL="libevdev-${VERSION}.tar.xz"
@@ -10,7 +10,7 @@ http://www.freedesktop.org/software/libevdev/${TARBALL}
 )
 
 MD5SUMS=(
-b66443bb664cfaf2ba7b3f8c238ea951
+b123d91e31d279ecb37bea774f17aae1
 )
 
 build(){

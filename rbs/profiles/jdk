@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="60"
+VERSION="66"
 
 TARBALL32="jdk-8u${VERSION}-linux-i586.tar.gz"
 TARBALL64="jdk-8u${VERSION}-linux-x64.tar.gz"
@@ -10,16 +10,18 @@ TARBALL64="jdk-8u${VERSION}-linux-x64.tar.gz"
 SRC1=(
 http://build.funtoo.org/distfiles/oracle-java/$TARBALL32
 http://enos.itcollege.ee/~jpoial/allalaadimised/jdk8/$TARBALL32
+https://www.reucon.com/cdn/java/$TARBALL32
 )
 
 SRC2=(
 http://build.funtoo.org/distfiles/oracle-java/$TARBALL64
 http://enos.itcollege.ee/~jpoial/allalaadimised/jdk8/$TARBALL64
+https://www.reucon.com/cdn/java/$TARBALL64
 )
 
 MD5SUMS=(
-a46d706babbd63f459d7ca6d4057d80f
-b8ca513d4f439782c019cb78cd7fd101
+8a1f36b29152856a5dd2c3953a4c24a1
+88f31f3d642c3287134297b8c10e61bf
 )
 
 build(){

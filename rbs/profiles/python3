@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="3.5.0"
+VERSION="3.5.1"
 
 DIR="Python-${VERSION}"
 TARBALL="Python-${VERSION}.tar.xz"
@@ -10,7 +10,7 @@ http://www.python.org/ftp/python/${VERSION}/${TARBALL}
 )
 
 MD5SUMS=(
-d149d2812f10cbe04c042232e7964171
+e9ea6f2623fffcdd871b7b19113fde80
 )
 
 build(){

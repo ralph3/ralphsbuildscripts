@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.9.2"
+VERSION="1.9.3"
 
 DIR="subversion-${VERSION}"
 TARBALL="subversion-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://apache.osuosl.org/subversion/${TARBALL}
 )
 
 MD5SUMS=(
-0a7e55bb58fe77072f19e108a56b468b
+243036eb28b50ce517fc228eb3250add
 )
 
 build(){

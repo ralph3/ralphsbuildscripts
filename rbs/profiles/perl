@@ -2,7 +2,7 @@
 
 DONT_REMOVE=1
 
-VERSION="5.22.0"
+VERSION="5.22.1"
 
 DIR="perl-${VERSION}"
 TARBALL="perl-${VERSION}.tar.gz"
@@ -13,7 +13,7 @@ http://www.cpan.org/src/5.0/${TARBALL}
 )
 
 MD5SUMS=(
-e32cb6a8dda0084f2a43dac76318d68d
+19295bbb775a3c36123161b9bf4892f1
 )
 
 Tools_Build(){
