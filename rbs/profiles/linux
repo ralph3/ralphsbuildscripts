@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="4.3.3"
+VERSION="4.14.10"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.xz"
@@ -12,7 +12,7 @@ https://www.kernel.org/pub/linux/kernel/v4.x/${TARBALL}
 )
 
 MD5SUMS=(
-f3068333fa524ff98914cf751d0b5710
+cfab8ee2ee4eb6600a1e7da33a2ff275
 )
 
 source_setup(){
@@ -143,6 +143,7 @@ build(){
   cp $KCONF .config || return 1
   
   yes "" | make oldconfig || return 1
+
   make ARCH=$KARCH || return 1
   make INSTALL_MOD_PATH=$TMPROOT DEPMOD=true modules_install || return 1
   

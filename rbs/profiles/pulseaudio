@@ -1,0 +1,35 @@
+#!/bin/bash
+
+DONT_REMOVE=1
+DISABLE_MULTILIB=1
+
+VERSION="11.1"
+
+DIR="pulseaudio-${VERSION}"
+TARBALL="pulseaudio-${VERSION}.tar.xz"
+
+SRC1=(
+https://www.freedesktop.org/software/pulseaudio/releases/${TARBALL}
+)
+
+MD5SUMS=(
+390de38231d5cdd6b43ada8939eb74f1
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+    --host=$BUILDTARGET --prefix=/usr --sysconfdir=/etc --without-caps || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  sed -i '/load-module module-console-kit/s/^/#/' $TMPROOT/etc/pulse/default.pa || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='https://www.freedesktop.org/software/pulseaudio/releases/'
+  VERSION_STRING='pulseaudio-%version%.tar.xz'
+  #VERSION_FILTERS=latest
+}

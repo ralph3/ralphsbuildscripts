@@ -3,7 +3,7 @@
 DISABLE_MULTILIB=1
 DISABLE_STRIP=1
 
-VERSION="5.0.12-104815"
+VERSION="5.2.4-119785"
 
 TARBALL="VirtualBox-${VERSION}-Linux_amd64.run"
 DIR="VirtualBox-${VERSION}"
@@ -13,7 +13,7 @@ http://download.virtualbox.org/virtualbox/$(echo ${VERSION} | cut -f1 -d'-')/$TA
 )
 
 MD5SUMS=(
-c84e53278a99c56187611f84c9eb23be
+70973209cc9bc0e82e40a34362061f96
 )
 
 build(){

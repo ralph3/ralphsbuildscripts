@@ -11,6 +11,8 @@ lxterminal
 dbus-glib
 libnotify
 libidl
+libsndfile
+pulseaudio
 firefox
 curl
 flash-player

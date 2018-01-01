@@ -1,0 +1,34 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="0.170"
+
+DIR="elfutils-${VERSION}"
+TARBALL="elfutils-${VERSION}.tar.bz2"
+
+SRC1=(
+ftp://sourceware.org/pub/elfutils/$VERSION/${TARBALL}
+)
+
+MD5SUMS=(
+03599aee98c9b726c7a732a2dd0245d5
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+    --host=$BUILDTARGET --prefix=/usr --program-prefix="eu-" \
+    --libdir=/usr/$LIBSDIR || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='ftp://sourceware.org/pub/elfutils/%version%/'
+  VERSION_STRING='elfutils-%version%.tar.bz2'
+  ##VERSION_FILTERS=latest
+}
