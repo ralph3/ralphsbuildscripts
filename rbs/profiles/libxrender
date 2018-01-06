@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="0.9.9"
+VERSION="0.9.10"
 
 DIR="libXrender-${VERSION}"
 TARBALL="libXrender-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-5db92962b124ca3a8147daae4adbd622
+802179a76bded0b658f4e9ec5e1830a4
 )
 
 build(){

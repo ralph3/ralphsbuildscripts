@@ -3,7 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="2015g"
+VERSION="2017c"
 
 DIR="tzdata${VERSION}"
 TARBALL="tzdata${VERSION}.tar.gz"
@@ -13,7 +13,7 @@ http://www.iana.org/time-zones/repository/releases/${TARBALL}
 )
 
 MD5SUMS=(
-8d46e8b225b9a04c75f5c39636435ad6
+1e751e7e08f8b68530674f04619d894d
 )
 
 build(){

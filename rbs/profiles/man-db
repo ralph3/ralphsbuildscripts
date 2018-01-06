@@ -3,7 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="2.7.5"
+VERSION="2.7.6.1"
 
 DIR="man-db-${VERSION}"
 TARBALL="man-db-${VERSION}.tar.xz"
@@ -13,7 +13,7 @@ http://download.savannah.gnu.org/releases/man-db/${TARBALL}
 )
 
 MD5SUMS=(
-37da0bb0400cc7b640f33c26f6052202
+2948d49d0ed7265f60f83aa4a9ac9268
 )
 
 build(){

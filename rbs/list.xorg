@@ -139,6 +139,7 @@ xorg-cf-files
 
 pixman
 xcb-util-keysyms
+libepoxy
 xorg-server
 
 xf86-input-keyboard

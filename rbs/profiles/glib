@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.46.0"
+VERSION="2.54.2"
 
 DIR="glib-${VERSION}"
 TARBALL="glib-${VERSION}.tar.xz"
@@ -10,7 +10,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-6d58f9d70893a63e75c2b7df79375ee7
+50f83e08f080f99b1e2f0ad2b760fb81
 )
 
 build(){
@@ -26,4 +26,10 @@ build(){
   make install DESTDIR=$TMPROOT || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/glib/%minor_version%/'
+  VERSION_STRING='glib-%version%.tar.xz'
+  ONLY_EVEN_MINORS=1
 }

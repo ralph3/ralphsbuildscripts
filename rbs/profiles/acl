@@ -1,0 +1,40 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="2.2.52"
+
+DIR="acl-${VERSION}"
+TARBALL="acl-${VERSION}.src.tar.gz"
+
+SRC1=(
+http://download.savannah.gnu.org/releases/acl/$TARBALL
+)
+
+MD5SUMS=(
+a61415312426e9c2212bd7dc7929abda
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  sed -i -e 's|/@pkg_name@|&-@pkg_version@|' include/builddefs.in || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" INSTALL_USER=root INSTALL_GROUP=root \
+    ./configure --build=$BUILDHOST \
+    --host=$BUILDTARGET --prefix=/usr --libdir=/usr/$LIBSDIR --disable-static || return 1
+  make || return 1
+  make install install-dev install-lib DESTDIR=$TMPROOT || return 1
+  mkdir -p $TMPROOT/$LIBSDIR || return 1
+  chmod -v 755 $TMPROOT/usr/$LIBSDIR/libacl.so || return 1
+  mv -v $TMPROOT/usr/$LIBSDIR/libacl.so.* $TMPROOT/$LIBSDIR || return 1
+  ln -sfv ../../$LIBSDIR/libacl.so.1 $TMPROOT/usr/$LIBSDIR/libacl.so || return 1
+  install -v -m644 doc/*.txt $TMPROOT/usr/share/doc/acl-$VERSION || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://download.savannah.gnu.org/releases/acl/'
+  VERSION_STRING='acl-%version%.src.tar.gz'
+  #VERSION_FILTERS=latest
+}

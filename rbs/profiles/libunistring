@@ -1,0 +1,33 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="0.9.8"
+
+DIR="libunistring-${VERSION}"
+TARBALL="libunistring-${VERSION}.tar.xz"
+
+SRC1=(
+https://ftp.gnu.org/gnu/libunistring/$TARBALL
+)
+
+MD5SUMS=(
+03c60d4f7a77e00a8b31220c0ec22601
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+    --host=$BUILDTARGET --prefix=/usr --libdir=/usr/$LIBSDIR || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='https://ftp.gnu.org/gnu/libunistring/'
+  VERSION_STRING='libunistring-%version%.tar.xz'
+  VERSION_FILTERS=latest
+}

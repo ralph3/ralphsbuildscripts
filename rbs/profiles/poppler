@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.39.0"
+VERSION="0.62.0"
 
 DIR="poppler-${VERSION}"
 TARBALL="poppler-${VERSION}.tar.xz"
@@ -12,14 +12,17 @@ http://poppler.freedesktop.org/${TARBALL}
 )
 
 MD5SUMS=(
-5100960c61b932430b5d74068d71f530
+42b801f2defaccb6b6cf1bf783ee1552
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
-    --libdir=/usr/$LIBSDIR --enable-xpdf-headers --enable-zlib || return 1
+  cmake -DCC="$CC $BUILD" -DCXX="$CXX $BUILD" -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_INSTALL_DIR=/usr/$LIBSDIR -DTESTDATADIR=$PWD/testfiles \
+    -DENABLE_XPDF_HEADERS=ON . || return 1
+  ##CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+  ##  --libdir=/usr/$LIBSDIR --enable-xpdf-headers --enable-zlib || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   cd ../ || return 1

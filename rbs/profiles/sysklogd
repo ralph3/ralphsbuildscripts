@@ -19,6 +19,10 @@ c70599ab0d037fde724f7210c2c8d7f8
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+  
+  sed -i '/Error loading kernel symbols/{n;n;d}' ksym_mod.c || return 1
+  sed -i 's/union wait/int/' syslogd.c || return 1
+  
   sed -i -e 's/-o ${MAN_USER} -g ${MAN_GROUP}//' \
     -e 's/500 -s/500/' Makefile || return 1
   make RPM_OPT_FLAGS="$CFLAGS" CC="$CC $BUILD" CXX="$CXX $BUILD" || return 1

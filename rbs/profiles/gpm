@@ -3,17 +3,17 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="1.20.6"
+VERSION="1.20.7"
 
 DIR="gpm-${VERSION}"
 TARBALL="gpm-${VERSION}.tar.bz2"
 
 SRC1=(
-http://www.ar.linux.it/pub/gpm/${TARBALL}
+https://nico.schottelius.org/software/gpm/archives/${TARBALL}
 )
 
 MD5SUMS=(
-6b534da16dc1b28ba828dea89e520f6f
+bf84143905a6a903dbd4d4b911a2a2b8
 )
 
 build(){
@@ -21,41 +21,72 @@ build(){
   cd $SRCDIR/$DIR || return 1
   
 cat << "EOF" | patch -Np1 || return 1
-Submitted By: Craig Jackson craigmjackson at gmail.com
-Date: 2009-04-14
-Initial Package Version: 1.20.6
-Upstream Status: Unknown
-Origin: http://archives.linuxfromscratch.org/mail-archives/blfs-dev/2003-May/002916.html
-Description: Don't output debug messages on screen.
-Original Patch By: Alexander E. Patrakov semzx at newmail.ru
+Submitted by: Pierre Labastie <pierre dot labastie at neuf dot fr>
+Date: 2017-08-17
+Initial Package Version: 1.20.7
+Origin: Nutyx
+Upstream Status: There are PRs, but nothing committed yet
+Description: Fix build failures introduced by glibc-2.26
 
-diff -ur gpm-1.20.6.orig/src/lib/report-lib.c gpm-1.20.6/src/lib/report-lib.c 
---- gpm-1.20.6.orig/src/lib/report-lib.c	2009-02-09 01:58:53.000000000 -0800
-+++ gpm-1.20.6/src/lib/report-lib.c	2009-04-14 19:33:22.547018468 -0700
-@@ -31,7 +31,8 @@
-    va_list ap;
+diff -Naur gpm-1.20.7-orig/src/daemon/open_console.c gpm-1.20.7/src/daemon/open_console.c
+--- gpm-1.20.7-orig/src/daemon/open_console.c	2012-10-26 21:21:38.000000000 +0000
++++ gpm-1.20.7/src/daemon/open_console.c	2017-08-08 17:58:15.176232558 +0000
+@@ -23,6 +23,10 @@
+ #include <sys/stat.h>               /* stat()            */
+ #include <sys/ioctl.h>              /* ioctl             */
  
-    if (stat == GPM_STAT_DEBUG) return;
++#ifdef HAVE_SYS_SYSMACROS_H
++#include <sys/sysmacros.h>          /* major() w/newer glibc */
++#endif
++
+ /* Linux specific (to be outsourced in gpm2 */
+ #include <linux/serial.h>           /* for serial console check */
+ #include <asm/ioctls.h>            /* for serial console check */
+diff -Naur gpm-1.20.7-orig/src/prog/gpm-root.y gpm-1.20.7/src/prog/gpm-root.y
+--- gpm-1.20.7-orig/src/prog/gpm-root.y	2012-10-26 21:21:38.000000000 +0000
++++ gpm-1.20.7/src/prog/gpm-root.y	2017-08-08 18:00:36.442898559 +0000
+@@ -443,6 +443,7 @@
+ }
+ 
+ /*---------------------------------------------------------------------*/
++#if 0
+ static int f_debug_one(FILE *f, Draw *draw)
+ {
+    DrawItem *ip;
+@@ -465,6 +466,7 @@
+ #undef LINE
+    return 0;
+ }
++#endif
+ 
+ int f_debug(int mode, DrawItem *self, int uid)
+ {
+@@ -960,10 +962,8 @@
+ /*------------*/
+ static inline void scr_restore(int fd, FILE *f, unsigned char *buffer, int vc)
+ {
+-   int x,y, dumpfd;
++   int dumpfd;
+    char dumpname[20];
 -
-+   if (stat != GPM_STAT_OOPS)
-+	return;
-    va_start(ap,text);
- 
-    switch(stat) {
-diff -ur gpm-1.20.6.orig/src/report.c gpm-1.20.6/src/report.c 
---- gpm-1.20.6.orig/src/report.c	2009-02-09 01:58:53.000000000 -0800
-+++ gpm-1.20.6/src/report.c	2009-04-14 19:35:54.672311860 -0700
-@@ -76,6 +76,8 @@
- #ifdef HAVE_VSYSLOG
-    va_list ap2;
- #endif
-+   if (stat <= GPM_STAT_INFO)
-+	return;
- 
-    va_start(ap,text);
-    va_copy(ap3, ap);
+-   x=buffer[2]; y=buffer[3];
+    
+    /* WILL NOT WORK WITH DEVFS! FIXME! */
+    sprintf(dumpname,"/dev/vcsa%i",vc);
+@@ -1196,11 +1196,7 @@
+                                                         LOG_DAEMON : LOG_USER);
+    /* reap your zombies */
+    childaction.sa_handler=reap_children;
+-#if defined(__GLIBC__)
+-   __sigemptyset(&childaction.sa_mask);
+-#else /* __GLIBC__ */
+-   childaction.sa_mask=0;
+-#endif /* __GLIBC__ */
++   sigemptyset(&childaction.sa_mask);
+    childaction.sa_flags=SA_INTERRUPT; /* need to break the select() call */
+    sigaction(SIGCHLD,&childaction,NULL);
 EOF
-  
+  ./autogen.sh || return 1
   CC="$CC $BUILD -fPIC" CXX="$CXX $BUILD -fPIC" ./configure --prefix=/usr \
     --sysconfdir=/etc --libdir=/usr/$LIBSDIR || return 1
   make || return 1
@@ -95,7 +126,7 @@ EOF
 }
 
 version_check_info(){
-  ADDRESS='http://www.nico.schottelius.org/software/gpm/archives/'
+  ADDRESS='https://nico.schottelius.org/software/gpm/archives/'
   VERSION_STRING='gpm-%version%.tar.bz2'
-  VERSION_FILTERS='1.99 1.20.7'
+  VERSION_FILTERS='1.99'
 }

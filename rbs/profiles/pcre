@@ -1,8 +1,6 @@
 #!/bin/bash
 
-DISABLE_MULTILIB=1
-
-VERSION="8.38"
+VERSION="8.41"
 
 DIR="pcre-${VERSION}"
 TARBALL="pcre-${VERSION}.tar.bz2"
@@ -12,14 +10,21 @@ ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/${TARBALL}
 )
 
 MD5SUMS=(
-00aabbfe56d5a48b270f999b508c5ad2
+c160d22723b1670447341b08c58981c1
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr --enable-utf8 \
-  --libdir=/usr/$LIBSDIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/usr/$LIBSDIR --docdir=/usr/share/doc/pcre-$VERSION \
+            --enable-unicode-properties       \
+            --enable-pcre16                   \
+            --enable-pcre32                   \
+            --enable-pcregrep-libz            \
+            --enable-pcregrep-libbz2          \
+            --enable-pcretest-libreadline     \
+            --disable-static || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   set_multiarch $TMPROOT/usr/bin/pcre-config || return 1

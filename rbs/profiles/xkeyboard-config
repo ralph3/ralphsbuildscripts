@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.0"
+VERSION="2.22"
 
 DIR="xkeyboard-config-${VERSION}"
 TARBALL="xkeyboard-config-${VERSION}.tar.bz2"
 
 SRC1=(
-http://xlibs.freedesktop.org/xkbdesc/${TARBALL}
+http://www.x.org/releases/individual/data/xkeyboard-config/$TARBALL
 )
 
 MD5SUMS=(
-bb8a98ee61cdc4bd835fdfd2b5cee3e6
+eb61fb3fd419e817df572b0c8d94a883
 )
 
 build(){
@@ -29,9 +29,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://xlibs.freedesktop.org/xkbdesc/'
+  ADDRESS='http://www.x.org/releases/individual/data/xkeyboard-config/'
   VERSION_STRING='xkeyboard-config-%version%.tar.bz2'
-  MIRRORS=(
-    'http://xlibs.freedesktop.org/xkbdesc/xkeyboard-config-%version%.tar.bz2'
-  )
 }

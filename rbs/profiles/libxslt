@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.1.28"
+VERSION="1.1.32"
 
 DIR="libxslt-${VERSION}"
 TARBALL="libxslt-${VERSION}.tar.gz"
@@ -10,7 +10,7 @@ http://xmlsoft.org/sources/$TARBALL
 )
 
 MD5SUMS=(
-9667bf6f9310b957254fdcf6596600b7
+1fc72f98e98bf4443f1651165f3aa146
 )
 
 build(){

@@ -1,17 +1,17 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="3.1.3"
+VERSION="3.1.6" #Don't go past 3.1 unless have to. gmp and mpc are finicky
 
 DIR="mpfr-${VERSION}"
 TARBALL="mpfr-${VERSION}.tar.xz"
 
 SRC1=(
-http://www.mpfr.org/mpfr-current/$TARBALL
+https://ftp.gnu.org/gnu/mpfr/$TARBALL
 )
 
 MD5SUMS=(
-6969398cd2fbc56a6af570b5273c56a9
+51bfdbf81553966c8d43808122cc81b3
 )
 
 Cross_Tools_Build(){
@@ -53,6 +53,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://www.mpfr.org/mpfr-current/'
+  ADDRESS='https://ftp.gnu.org/gnu/mpfr/'
   VERSION_STRING='mpfr-%version%.tar.xz'
+  MINOR_VERSION='3.1'
 }

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.2.2"
+VERSION="1.2.3"
 
 DIR="libXtst-${VERSION}"
 TARBALL="libXtst-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-25c6b366ac3dc7a12c5d79816ce96a59
+ef8c2c1d16a00bd95b9fdcef63b8a2ca
 )
 
 build(){

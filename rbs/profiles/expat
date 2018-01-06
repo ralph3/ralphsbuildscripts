@@ -1,16 +1,16 @@
 #!/bin/bash
 
-VERSION="2.1.0"
+VERSION="2.2.5"
 
 DIR="expat-${VERSION}"
-TARBALL="expat-${VERSION}.tar.gz"
+TARBALL="expat-${VERSION}.tar.bz2"
 
 SRC1=(
 http://prdownloads.sourceforge.net/expat/${TARBALL}
 )
 
 MD5SUMS=(
-dd7dab7a5fea97d2a6a43f511449b7cd
+789e297f547980fc9ecc036f9a070d49
 )
 
 build(){
@@ -27,6 +27,6 @@ build(){
 
 version_check_info(){
   ADDRESS='http://sourceforge.net/projects/expat/files/expat/'
-  VERSION_STRING='expat-%version%.tar.gz'
+  VERSION_STRING='expat/%version%/stats'
   VERSION_FILTERS='[a-z][a-z] [A-Z][A-Z]'
 }

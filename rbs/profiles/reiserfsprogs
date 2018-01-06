@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.6.24"
+VERSION="3.6.27"
 
 DIR="reiserfsprogs-${VERSION}"
 TARBALL="reiserfsprogs-${VERSION}.tar.xz"
 
 SRC1=(
-http://ftp.kernel.org/pub/linux/kernel/people/jeffm/reiserfsprogs/v${VERSION}/${TARBALL}
+https://www.kernel.org/pub/linux/kernel/people/jeffm/reiserfsprogs/v${VERSION}/${TARBALL}
 )
 
 MD5SUMS=(
-66787380fb418ff7d88a23e47cda7af6
+90c139542725efc6da3a6b1709695395
 )
 
 MyBuild(){
@@ -41,7 +41,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://ftp.kernel.org/pub/linux/kernel/people/jeffm/reiserfsprogs/v%version%/'
+  ADDRESS='https://www.kernel.org/pub/linux/kernel/people/jeffm/reiserfsprogs/v%version%/'
   VERSION_STRING='reiserfsprogs-%version%.tar.xz'
   VERSION_FILTERS='x'
 }

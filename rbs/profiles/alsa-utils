@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.1.0"
+VERSION="1.1.5"
 
 DIR="alsa-utils-${VERSION}"
 TARBALL="alsa-utils-${VERSION}.tar.bz2"
@@ -12,13 +12,13 @@ ftp://ftp.alsa-project.org/pub/utils/${TARBALL}
 )
 
 MD5SUMS=(
-b9d6102fbbd0b68040bb77023ed30c0c
+dfe6ea147a5e07a056919591c2f5dac3
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD -DENABLE_NLS" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc --disable-xmlto || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1

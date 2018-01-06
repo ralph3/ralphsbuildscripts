@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="5.2.2"
+VERSION="5.2.3"
 
 DIR="xz-${VERSION}"
 TARBALL="xz-${VERSION}.tar.xz"
@@ -10,7 +10,7 @@ http://tukaani.org/xz/${TARBALL}
 )
 
 MD5SUMS=(
-e26772b69940085c0632589ab1d52e64
+60fb79cab777e3f71ca43d298adacbd5
 )
 
 Tools_Build(){

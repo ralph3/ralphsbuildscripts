@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.18.6"
+VERSION="3.22.26"
 
 DIR="gtk+-${VERSION}"
 TARBALL="gtk+-${VERSION}.tar.xz"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-e1c41ad4a6012d703a80f7423acf186e
+eeeb8038fe0d386c7516fa46cd4fff6b
 )
 
 build(){
@@ -78,6 +78,6 @@ version_check_info(){
   ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/gtk+/%minor_version%/'
   VERSION_STRING='gtk+-%version%.tar.xz'
   MINOR_VERSION=3
-  MINOR_VERSION_FILTERS='[3,5,7,9]0'
+  MINOR_VERSION_FILTERS='[3,5,7,9][0-9]'
   ONLY_EVEN_MINORS=1
 }

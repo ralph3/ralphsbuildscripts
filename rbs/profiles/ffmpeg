@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.8.4"
+VERSION="3.4.1"
 
 DIR="ffmpeg-${VERSION}"
 TARBALL="${DIR}.tar.bz2"
@@ -12,7 +12,7 @@ http://www.ffmpeg.org/releases/$TARBALL
 )
 
 MD5SUMS=(
-5a312bebaf71688703644c18ef3f26e8
+bbf3fcded80c33968c91bf323a744286
 )
 
 build(){
@@ -20,9 +20,9 @@ build(){
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure \
     --arch=$(echo $BUILDTARGET | cut -f1 -d'-') --prefix=/usr \
-    --libdir=/usr/$LIBSDIR --enable-shared --enable-pthreads --enable-libfaac \
+    --libdir=/usr/$LIBSDIR --enable-shared --enable-pthreads  \
     --enable-libxvid --enable-gpl --enable-nonfree --enable-postproc \
-    --enable-swscale --enable-x11grab --enable-ffplay \
+    --enable-swscale --enable-ffplay \
     --enable-libmp3lame || return 1
   make CC="$CC $BUILD" CXX="$CXX $BUILD" || return 1
   make install DESTDIR=$TMPROOT || return 1

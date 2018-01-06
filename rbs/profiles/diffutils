@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.3"
+VERSION="3.6"
 
 DIR="diffutils-${VERSION}"
 TARBALL="diffutils-${VERSION}.tar.xz"
@@ -12,7 +12,7 @@ http://ftp.gnu.org/gnu/diffutils/${TARBALL}
 )
 
 MD5SUMS=(
-99180208ec2a82ce71f55b0d7389f1b3
+07cf286672ced26fba54cd0313bdc071
 )
 
 Tools_Build(){
@@ -20,6 +20,9 @@ Tools_Build(){
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=${BUILDHOST} \
     --host=${BUILDTARGET} --prefix=$TCDIR || return 1
+    
+  sed -i '/rpl_$/d' lib/config.h || return 1
+    
   make || return 1
   make install || return 1
   cd ../ || return 1
@@ -31,6 +34,9 @@ build(){
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=${BUILDHOST} \
     --host=${BUILDTARGET} --prefix=/usr || return 1
+    
+  sed -i '/rpl_$/d' lib/config.h || return 1
+    
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   cd ../ || return 1

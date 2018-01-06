@@ -2,31 +2,31 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.0.26"
+VERSION="4.1"
 
 DIR="dosfstools-${VERSION}"
 TARBALL="dosfstools-${VERSION}.tar.xz"
 
 SRC1=(
-http://daniel-baumann.ch/files/software/dosfstools/${TARBALL}
+https://github.com/dosfstools/dosfstools/releases/download/v$VERSION/$TARBALL
 )
 
 MD5SUMS=(
-45012f5f56f2aae3afcd62120b9e5a08
+07a1050db1a898e9a2e03b0c4569c4bd
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  make CC="$CC $BUILD" || return 1
-  mkdir -p $TMPROOT/{sbin,usr/share/man/man8} || return 1
-  make install SBINDIR=$TMPROOT/sbin \
-    MANDIR=$TMPROOT/usr/share/man/man8 || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+    --host=$BUILDTARGET --prefix=/usr --sbindir=/sbin || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
 
 version_check_info(){
-  ADDRESS='http://daniel-baumann.ch/files/software/dosfstools/'
+  ADDRESS='https://github.com/dosfstools/dosfstools/releases'
   VERSION_STRING='dosfstools-%version%.tar.xz'
 }

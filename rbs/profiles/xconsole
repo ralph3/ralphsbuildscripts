@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.6"
+VERSION="1.0.7"
 
 DIR="xconsole-${VERSION}"
 TARBALL="xconsole-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-5f2f9d97bd078715dffea2fd05b53544
+5c42e161fcd4289a463366e17683598a
 )
 
 build(){

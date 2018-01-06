@@ -1,0 +1,33 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="1.0.4"
+
+DIR="libmnl-${VERSION}"
+TARBALL="libmnl-${VERSION}.tar.bz2"
+
+SRC1=(
+https://www.netfilter.org/projects/libmnl/files/$TARBALL
+)
+
+MD5SUMS=(
+be9b4b5328c6da1bda565ac5dffadb2d
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+    --host=$BUILDTARGET --prefix=/usr --libdir=/usr/$LIBSDIR || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='https://www.netfilter.org/projects/libmnl/downloads.html'
+  VERSION_STRING='libmnl-%version%.tar.bz2'
+  #VERSION_FILTERS=latest
+}

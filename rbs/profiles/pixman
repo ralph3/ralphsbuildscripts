@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="0.33.6"
+VERSION="0.34.0"
 
 DIR="pixman-${VERSION}"
 TARBALL="pixman-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-e903e990f906bf76166717d6a6582950
+002a4fcb644ddfcb4b0e4191576a0d59
 )
 
 build(){

@@ -3,7 +3,7 @@
 DISABLE_MULTILIB=1
 DISABLE_STRIP=1
 
-VERSION="6.03"
+VERSION="6.04-pre1"
 
 DIR="syslinux-${VERSION}"
 TARBALL="syslinux-${VERSION}.tar.xz"
@@ -14,7 +14,7 @@ http://www.kernel.org/pub/linux/utils/boot/syslinux/Testing/$(cut -f1 -d'-' <<< 
 )
 
 MD5SUMS=(
-92a253df9211e9c20172796ecf388f13
+f9c956fde0de29be297402ecbc8ff4d0
 )
 
 build(){

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.3.3"
+VERSION="1.3.5"
 
 DIR="xvidcore-${VERSION}"
 TARBALL="xvidcore-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://downloads.xvid.org/downloads/$TARBALL
 )
 
 MD5SUMS=(
-f0a77572ac4694038e8519726b2883d9
+6877498cfc5b7f652e1a564699dba655
 )
 
 build(){
@@ -34,6 +34,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://www.xvid.org/'
-  VERSION_STRING='Xvid %version% released'
+  ADDRESS='https://labs.xvid.com/source/'
+  VERSION_STRING='xvidcore-%version%.tar.bz2'
 }

@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="321"
+VERSION="331"
 
 DIR="xterm-${VERSION}"
 TARBALL="xterm-${VERSION}.tgz"
 
 SRC1=(
-ftp://invisible-island.net/xterm/${TARBALL}
+https://invisible-mirror.net/archives/xterm/${TARBALL}
 )
 
 MD5SUMS=(
-801fd9a08a9507edb37b4ec0b8470ca7
+e08455ab7d4fe8acbb0480dfc8d990f3
 )
 
 build(){
@@ -27,6 +27,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='ftp://invisible-island.net/xterm/'
+  ADDRESS='https://invisible-mirror.net/archives/xterm/'
   VERSION_STRING='xterm-%version%.tgz'
 }

@@ -3,7 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="8.24"
+VERSION="8.29"
 
 DIR="coreutils-${VERSION}"
 TARBALL="coreutils-${VERSION}.tar.xz"
@@ -13,7 +13,7 @@ http://ftp.gnu.org/gnu/coreutils/${TARBALL}
 )
 
 MD5SUMS=(
-40efdbce865d2458d8da0a9dcee7c16c
+960cfe75a42c9907c71439f8eb436303
 )
 
 Tools_Build(){

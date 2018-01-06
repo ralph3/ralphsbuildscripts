@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.11.1"
+VERSION="2.12.6"
 
 DIR="fontconfig-${VERSION}"
 TARBALL="fontconfig-${VERSION}.tar.gz"
@@ -10,7 +10,7 @@ http://fontconfig.org/release/${TARBALL}
 )
 
 MD5SUMS=(
-e75e303b4f7756c2b16203a57ac87eba
+00e748c67fad11e7057a71ed385e8bdb
 )
 
 build(){

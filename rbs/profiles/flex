@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.5.39"
+VERSION="2.6.0"
 
 DIR="flex-${VERSION}"
 TARBALL="flex-${VERSION}.tar.xz"
@@ -10,7 +10,7 @@ http://prdownloads.sourceforge.net/flex/${TARBALL}
 )
 
 MD5SUMS=(
-477679c37ff8b28248a9b05f1da29a82
+3cbbfa1554d0b75fad9f8100732454de
 )
 
 build(){
@@ -39,5 +39,5 @@ EOF
 version_check_info(){
   ADDRESS='http://sourceforge.net/projects/flex/files/'
   VERSION_STRING='flex-%version%.tar.xz'
-  VERSION_FILTERS='/'
+  VERSION_FILTERS='/ rc'
 }

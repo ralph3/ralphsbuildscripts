@@ -2,23 +2,23 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.2"
+VERSION="1.4.2" #1.4.3 breaks xorg-server-1.19.6
 
 DIR="libepoxy-${VERSION}"
-TARBALL="libepoxy-${VERSION}.tar.gz"
+TARBALL="libepoxy-${VERSION}.tar.xz"
 
 SRC1=(
-https://raw.githubusercontent.com/ralph3/ralphsbuildscripts/master/src/libepoxy/${TARBALL}
+https://github.com/anholt/libepoxy/releases/download/$VERSION/$TARBALL
 )
 
 MD5SUMS=(
-12d6b7621f086c0c928887c27d90bc30
+632fcfd7ae9d21f5a634326d753a89c4
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./autogen.sh --prefix=/usr \
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/usr/$LIBSDIR || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
@@ -26,8 +26,8 @@ build(){
   rm -rf $DIR || return 1
 }
 
-#version_check_info(){
-#  ADDRESS='http://xorg.freedesktop.org/releases/individual/lib/'
-#  VERSION_STRING='libX11-%version%.tar.bz2'
-#  VERSION_FILTERS='99'
-#}
+version_check_info(){
+  ADDRESS='https://github.com/anholt/libepoxy/releases/'
+  VERSION_STRING='libepoxy-%version%.tar.xz'
+  VERSION_FILTERS='1.4.3'
+}

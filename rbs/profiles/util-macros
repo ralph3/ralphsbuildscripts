@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.19.0"
+VERSION="1.19.1"
 
 DIR="util-macros-${VERSION}"
 TARBALL="util-macros-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/util/${TARBALL}
 )
 
 MD5SUMS=(
-1cf984125e75f8204938d998a8b6c1e1
+6e76e546a4e580f15cebaf8019ef1625
 )
 
 build(){

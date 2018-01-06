@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.5.0"
+VERSION="1.5.1"
 
 DIR="libXrandr-${VERSION}"
 TARBALL="libXrandr-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-309762867e41c6fd813da880d8a1bc93
+28e486f1d491b757173dd85ba34ee884
 )
 
 build(){

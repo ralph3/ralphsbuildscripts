@@ -8,7 +8,7 @@ DIR="dvdrtools-${VERSION}"
 TARBALL="dvdrtools-${VERSION}.tar.bz2"
 
 SRC1=(
-http://download.savannah.gnu.org/releases-noredirect/dvdrtools/${TARBALL}
+https://download-mirror.savannah.gnu.org/releases/dvdrtools/${TARBALL}
 )
 
 MD5SUMS=(
@@ -27,9 +27,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://download.savannah.gnu.org/releases-noredirect/dvdrtools/'
+  ADDRESS='https://download-mirror.savannah.gnu.org/releases/dvdrtools/'
   VERSION_STRING='dvdrtools-%version%.tar.bz2'
-  MIRRORS=(
-    'http://download.savannah.gnu.org/releases-noredirect/dvdrtools/dvdrtools-%version%.tar.bz2'
-  )
 }

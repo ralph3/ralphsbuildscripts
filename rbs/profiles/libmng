@@ -5,14 +5,14 @@ DISABLE_MULTILIB=1
 VERSION="2.0.3"
 
 DIR="libmng-${VERSION}"
-TARBALL="libmng-${VERSION}.tar.gz"
+TARBALL="libmng-${VERSION}.tar.xz"
 
 SRC1=(
 http://prdownloads.sourceforge.net/libmng/${TARBALL}
 )
 
 MD5SUMS=(
-7e9a12ba2a99dff7e736902ea07383d4
+e9e899adb1b681b17f14d91e261878c5
 )
 
 build(){
@@ -28,10 +28,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://sourceforge.net/project/showfiles.php?group_id=5635&package_id=5691'
-  VERSION_STRING='libmng-%version%.tar.gz'
-  VERSION_FILTERS='devel'
-  MIRRORS=(
-    'http://prdownloads.sourceforge.net/libmng/libmng-%version%.tar.gz'
-  )
+  ADDRESS='https://sourceforge.net/projects/libmng/files/libmng-devel/'
+  VERSION_STRING='libmng-devel/%version%/stats/timeline'
+  VERSION_FILTERS='devel mng'
 }

@@ -1,0 +1,39 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="2.4.47"
+
+DIR="attr-${VERSION}"
+TARBALL="attr-${VERSION}.src.tar.gz"
+
+SRC1=(
+http://download.savannah.gnu.org/releases/attr/$TARBALL
+)
+
+MD5SUMS=(
+84f58dec00b60f2dc8fd1c9709291cc7
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  sed -i -e 's|/@pkg_name@|&-@pkg_version@|' include/builddefs.in || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" INSTALL_USER=root INSTALL_GROUP=root \
+    ./configure --build=$BUILDHOST \
+    --host=$BUILDTARGET --prefix=/usr --libdir=/usr/$LIBSDIR --disable-static || return 1
+  make || return 1
+  make install install-dev install-lib DESTDIR=$TMPROOT || return 1
+  mkdir -p $TMPROOT/$LIBSDIR || return 1
+  chmod -v 755 $TMPROOT/usr/$LIBSDIR/libattr.so || return 1
+  mv -v $TMPROOT/usr/$LIBSDIR/libattr.so.* $TMPROOT/$LIBSDIR || return 1
+  ln -sfv ../../$LIBSDIR/libattr.so.1 $TMPROOT/usr/$LIBSDIR/libattr.so || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://download.savannah.gnu.org/releases/attr/'
+  VERSION_STRING='attr-%version%.src.tar.gz'
+  #VERSION_FILTERS=latest
+}

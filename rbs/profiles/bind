@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="9.10.3"
+VERSION="9.11.2"
 
 DIR="bind-${VERSION}"
 TARBALL="bind-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://ftp.isc.org/isc/bind9/$VERSION/${TARBALL}
 )
 
 MD5SUMS=(
-d8cbf04a62a139a841d4bf878087a555
+efca7e5a63a07efba264da9be2fbb57f
 )
 
 build(){

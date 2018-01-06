@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.5.1"
+VERSION="2.0.3"
 
-DIR="libXfont-${VERSION}"
-TARBALL="libXfont-${VERSION}.tar.bz2"
+DIR="libXfont2-${VERSION}"
+TARBALL="libXfont2-${VERSION}.tar.bz2"
 
 SRC1=(
 http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-96f76ba94b4c909230bac1e2dcd551c4
+b7ca87dfafeb5205b28a1e91ac3efe85
 )
 
 build(){
@@ -29,5 +29,5 @@ build(){
 
 version_check_info(){
   ADDRESS='http://xorg.freedesktop.org/releases/individual/lib/'
-  VERSION_STRING='libXfont-%version%.tar.bz2'
+  VERSION_STRING='libXfont2-%version%.tar.bz2'
 }

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="1.11"
+VERSION="1.14"
 
 DIR="gdbm-${VERSION}"
 TARBALL="gdbm-${VERSION}.tar.gz"
@@ -11,7 +11,7 @@ http://ftp.gnu.org/gnu/gdbm/${TARBALL}
 )
 
 MD5SUMS=(
-72c832680cf0999caedbe5b265c8c1bd
+5b519751227f743cc57d7fb08cb69f3c
 )
 
 build(){

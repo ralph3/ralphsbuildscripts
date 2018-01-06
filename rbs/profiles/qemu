@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.5.0"
+VERSION="2.11.0"
 
 DIR=qemu-${VERSION}
-TARBALL="qemu-${VERSION}.tar.bz2"
+TARBALL="qemu-${VERSION}.tar.xz"
 
 SRC1=(
-http://wiki.qemu-project.org/download/${TARBALL}
+https://download.qemu.org/$TARBALL
 )
 
 MD5SUMS=(
-f469f2330bbe76e3e39db10e9ac4f8db
+5c823d2e01934b46a080f9e4d0695805
 )
 
 build(){
@@ -28,7 +28,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://wiki.qemu-project.org/download/'
-  VERSION_STRING='qemu-%version%.tar.bz2'
+  ADDRESS='https://www.qemu.org/download/'
+  VERSION_STRING='qemu-%version%.tar.xz'
   VERSION_FILTERS=rc
 }

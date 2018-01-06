@@ -5,14 +5,14 @@ DISABLE_MULTILIB=1
 VERSION="2.1.11"
 
 DIR="pciutils-${VERSION}"
-TARBALL="pciutils-${VERSION}.tar.bz2"
+TARBALL="pciutils-${VERSION}.tar.xz"
 
 SRC1=(
-http://ftp.kernel.org/pub/software/utils/pciutils/${TARBALL}
+https://www.kernel.org/pub/software/utils/pciutils/${TARBALL}
 )
 
 MD5SUMS=(
-2b3b2147b7bc91f362be55cb49fa1c4e
+1fc64d6b1ec6854bea0ccb0ef89639f6
 )
 
 build(){
@@ -29,10 +29,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://ftp.kernel.org/pub/software/utils/pciutils/'
-  VERSION_STRING='pciutils-%version%.tar.bz2'
+  ADDRESS='https://www.kernel.org/pub/software/utils/pciutils/'
+  VERSION_STRING='pciutils-%version%.tar.xz'
   MINOR_VERSION='2.1'
-  MIRRORS=(
-    'http://ftp.kernel.org/pub/software/utils/pciutils/pciutils-%version%.tar.bz2'
-  )
 }

@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.8.17"
+VERSION="1.0.5"
 
 DIR="irssi-${VERSION}"
-TARBALL="irssi-${VERSION}.tar.bz2"
+TARBALL="irssi-${VERSION}.tar.xz"
 
 SRC1=(
-http://www.irssi.org/files/${TARBALL}
+https://github.com/irssi/irssi/releases/download/$VERSION/$TARBALL
 )
 
 MD5SUMS=(
-ecf64be47978d89a742b435a81cb47db
+21357ac5e9970fa0c79ca971a9a01270
 )
 
 build(){
@@ -27,7 +27,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://www.irssi.org/files/'
-  VERSION_STRING='irssi-%version%.tar.bz2'
+  ADDRESS='https://github.com/irssi/irssi/releases'
+  VERSION_STRING='irssi-%version%.tar.xz'
   VERSION_FILTERS='rc'
 }

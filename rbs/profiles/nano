@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.4.3"
+VERSION="2.8.7"
 
 DIR="nano-${VERSION}"
 TARBALL="nano-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://ftp.gnu.org/pub/gnu/nano/${TARBALL}
 )
 
 MD5SUMS=(
-0acc0ca68eee68ef38f899532a4873c6
+90020cdacf4a63c16ed122b206e67085
 )
 
 MyBuild(){
@@ -27,9 +27,8 @@ MyBuild(){
     --enable-multibuffer --enable-nanorc || return 1
   make || return 1
   make install DESTDIR=$MYDEST || return 1
-  mkdir -p $MYDEST/{etc,usr/share/doc/nano/examples} || return 1
-  cp doc/nanorc.sample $MYDEST/usr/share/doc/nano/examples || return 1
-  cp doc/nanorc.sample $MYDEST/etc/nanorc.new
+  mkdir -p $MYDEST/etc || return 1
+  cp $MYDEST/usr/share/nano/nanorc.nanorc $MYDEST/etc/nanorc.new || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }

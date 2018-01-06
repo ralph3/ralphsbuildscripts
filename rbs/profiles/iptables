@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.6.0"
+VERSION="1.6.1"
 
 DIR="iptables-${VERSION}"
 TARBALL="iptables-${VERSION}.tar.bz2"
@@ -12,17 +12,15 @@ http://www.netfilter.org/projects/iptables/files/${TARBALL}
 )
 
 MD5SUMS=(
-27ba3451cb622467fc9267a176f19a31
+ab38a33806b6182c6f53d6afb4619add
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  sed -i \
-    '/if_packet/i#define __aligned_u64 __u64 __attribute__((aligned(8)))' \
-    extensions/libxt_pkttype.c || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
-    --libdir=/usr/$LIBSDIR --libexecdir=/usr/$LIBSDIR || return 1
+    --libdir=/usr/$LIBSDIR --libexecdir=/usr/$LIBSDIR --sbindir=/sbin \
+    --enable-libipq --with-xtlibdir=/$LIBSDIR/xtables || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   cd ../ || return 1

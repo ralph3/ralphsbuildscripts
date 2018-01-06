@@ -1,17 +1,17 @@
 #!/bin/bash
 
-VERSION="4.0.6"
+VERSION="4.0.9"
 
 DIR="tiff-${VERSION}"
 TARBALL="tiff-${VERSION}.tar.gz"
 
 SRC1=(
-ftp://ftp.remotesensing.org/libtiff/${TARBALL}
-ftp://ftp.remotesensing.org/libtiff/old/${TARBALL}
+http://download.osgeo.org/libtiff/${TARBALL}
+http://download.osgeo.org/libtiff/old/${TARBALL}
 )
 
 MD5SUMS=(
-d1d2e940dea0b5ad435f21f03d96dd72
+54bad211279cc93eb4fca31ba9bfdc79
 )
 
 build(){
@@ -26,7 +26,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='ftp://ftp.remotesensing.org/libtiff/'
+  ADDRESS='http://download.osgeo.org/libtiff/'
   VERSION_STRING='tiff-%version%.tar.gz'
   VERSION_FILTERS='alpha beta'
 }

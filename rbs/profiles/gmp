@@ -1,9 +1,9 @@
 #!/bin/bash
 
 DONT_REMOVE=1
-VERSION="6.1.0"
+VERSION="6.0.0a" #Don't go past 6.0, mpc and mpfr are finicky
 
-DIR="gmp-$VERSION"
+DIR="gmp-6.0.0"
 TARBALL="gmp-${VERSION}.tar.xz"
 
 SRC1=(
@@ -11,7 +11,7 @@ http://ftp.gnu.org/gnu/gmp/${TARBALL}
 )
 
 MD5SUMS=(
-a9868ef2556ad6a2909babcd1428f3c7
+1e6da4e434553d2811437aa42c7f7c76
 )
 
 Cross_Tools_Build(){
@@ -75,4 +75,5 @@ EOF
 version_check_info(){
   ADDRESS='http://ftp.gnu.org/gnu/gmp/'
   VERSION_STRING='gmp-%version%.tar.xz'
+  MINOR_VERSION='6.0'
 }

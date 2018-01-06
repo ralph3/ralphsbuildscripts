@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="0.13.4"
+VERSION="0.14"
 
 DIR="libpciaccess-${VERSION}"
 TARBALL="libpciaccess-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-ace78aec799b1cf6dfaea55d3879ed9f
+8f436e151d5106a9cfaa71857a066d33
 )
 
 build(){

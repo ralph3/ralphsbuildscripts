@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.2.0"
+VERSION="0.3.1"
 
 DIR="lxterminal-${VERSION}"
-TARBALL="lxterminal-${VERSION}.tar.gz"
+TARBALL="lxterminal-${VERSION}.tar.xz"
 
 SRC1=(
 http://prdownloads.sourceforge.net/lxde/${TARBALL}
 )
 
 MD5SUMS=(
-e80ad1b6e26212f3d43908c2ad87ba4d
+91febe1ec15297844333cb70f237b4b7
 )
 
 build(){
@@ -32,5 +32,5 @@ build(){
 
 version_check_info(){
   ADDRESS="http://sourceforge.net/projects/lxde/files/LXTerminal (terminal emulator)/LXTerminal %version%/"
-  VERSION_STRING="lxterminal-%version%.tar.gz"
+  VERSION_STRING="lxterminal-%version%.tar.xz"
 }

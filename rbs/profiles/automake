@@ -3,7 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="1.15"
+VERSION="1.15.1"
 
 DIR="automake-${VERSION}"
 TARBALL="automake-${VERSION}.tar.xz"
@@ -13,7 +13,7 @@ http://ftp.gnu.org/gnu/automake/${TARBALL}
 )
 
 MD5SUMS=(
-9a1ddb0e053474d9d1105cfe39b0c48d
+24cd3501b6ad8cd4d7e2546f07e8b4d4
 )
 
 build(){

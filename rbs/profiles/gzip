@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.6"
+VERSION="1.8"
 
 DIR="gzip-${VERSION}"
 TARBALL="gzip-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://ftp.gnu.org/gnu/gzip/${TARBALL}
 )
 
 MD5SUMS=(
-38603cb2843bf5681ff41aab3bcd6a20
+732553152814b22dc35aa0267df5286c
 )
 
 Tools_Build(){
