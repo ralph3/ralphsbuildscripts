@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.4.5"
+VERSION="0.7.7"
 
 DIR="libnotify-${VERSION}"
-TARBALL="libnotify-${VERSION}.tar.bz2"
+TARBALL="libnotify-${VERSION}.tar.xz"
 
 SRC1=(
-  http://www.galago-project.org/files/releases/source/libnotify//$TARBALL
+  $(gnome_mirrors libnotify)
 )
 
 MD5SUMS=(
-  6a8388f93309dbe336bbe5fc0677de6b
+e9d911f6a22435e0b922f2fe71212b59
 )
 
 build(){
@@ -27,9 +27,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://www.galago-project.org/files/releases/source/libnotify/'
-  VERSION_STRING='libnotify-%version%.tar.bz2'
-  MIRRORS=(
-    "http://www.galago-project.org/files/releases/source/libnotify/libnotify-%version%.tar.bz2"
-  )
+  ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/libnotify/%minor_version%/'
+  VERSION_STRING='libnotify-%version%.tar.xz'
+  #ONLY_EVEN_MINORS=1
 }
