@@ -68,6 +68,7 @@ EOF
 
 post_install(){
   setup-gtk3 || return 1
+  glib-compile-schemas /usr/share/glib-2.0/schemas
 }
 
 post_upgrade(){
