@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="58.0b14"
+VERSION="57.0.4"
 
 TARBALL="firefox-${VERSION}.tar"
 
@@ -65,5 +65,5 @@ EOF
 version_check_info(){
   ADDRESS='https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/%version%/linux-i686/en-US/'
   VERSION_STRING='firefox-%version%.tar.bz2'
-  VERSION_FILTERS='[a-z][a-z] [A-Z][A-Z]'
+  VERSION_FILTERS='[a-z][a-z] [A-Z][A-Z] b'
 }

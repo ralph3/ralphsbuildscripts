@@ -1,0 +1,89 @@
+#!/bin/bash
+
+DONT_REMOVE=1
+DISABLE_MULTILIB=1
+
+VERSION="4.2.8p10"
+
+DIR="ntp-${VERSION}"
+TARBALL="ntp-${VERSION}.tar.gz"
+
+SRC1=(
+https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/${TARBALL}
+)
+
+MD5SUMS=(
+745384ed0dedb3f66b33fe84d66466f9
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  
+  sed -e "s/https/http/" \
+    -e 's/"(\\S+)"/"?([^\\s"]+)"?/' \
+    -i scripts/update-leap/update-leap.in || return 1
+  
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
+    --host=$BUILDTARGET --prefix=/usr --libdir=/usr/$LIBSDIR --bindir=/usr/sbin    \
+    --sysconfdir=/etc --with-lineeditlibs=readline \
+    --docdir=/usr/share/doc/ntp-$VERSION || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  
+  install -v -d $TMPROOT/var/lib/ntp || return 1
+  
+  mkdir -vp $TMPROOT/etc/rc.d || return 1
+  
+cat > $TMPROOT/etc/ntp.conf.new << "EOF" || return 1
+# Asia
+server 0.asia.pool.ntp.org
+
+# Australia
+server 0.oceania.pool.ntp.org
+
+# Europe
+server 0.europe.pool.ntp.org
+
+# North America
+server 0.north-america.pool.ntp.org
+
+# South America
+server 2.south-america.pool.ntp.org
+
+driftfile /var/lib/ntp/ntp.drift
+pidfile   /var/run/ntpd.pid
+
+leapfile  /etc/ntp.leapseconds
+EOF
+  
+cat > $TMPROOT/etc/rc.d/rc.ntpd << "EOF" || return 1
+#!/bin/bash
+
+. /etc/rc.d/rc.conf
+. /etc/rc.d/rc.functions
+
+case $1 in
+  start)
+    print_msg "Starting Network Time Protocol Daemon"
+    loadproc /usr/sbin/ntpd
+  ;;
+  stop)
+    print_msg "Stopping Network Time Protocol Daemon"
+    killproc ntpd
+  ;;
+  *)
+    echo "Usage: {start|stop}"
+    exit 1
+  ;;
+esac
+EOF
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/'
+  VERSION_STRING='ntp-%version%.tar.gz'
+  ##VERSION_FILTERS=latest
+}
