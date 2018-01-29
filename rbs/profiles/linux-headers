@@ -3,7 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="4.14.12"
+VERSION="4.14.14"
 
 DIR="linux-${VERSION}"
 TARBALL="linux-${VERSION}.tar.xz"
@@ -13,7 +13,7 @@ https://www.kernel.org/pub/linux/kernel/v4.x/${TARBALL}
 )
 
 MD5SUMS=(
-746e5b2f0ab0ace9e33f436fcb69f2e1
+2b772ad12fddd77ade316d87bc62a499
 )
 
 

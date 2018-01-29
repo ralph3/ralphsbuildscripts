@@ -1,0 +1,63 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="9.0.4"
+
+TARBALL="jre-${VERSION}_linux-x64_bin.tar.gz"
+
+SRC1=(
+http://build.funtoo.org/distfiles/oracle-java/$TARBALL
+http://ftp.heanet.ie/mirrors/funtoo/distfiles/oracle-java/$TARBALL
+)
+
+MD5SUMS=(
+f894ae55b8405932f4b6a75e4bf40f52
+)
+
+build(){
+  local DIR BIN JARC
+  case $($CC -dumpmachine | cut -f1 -d'-') in
+    x86_64)
+      TARBALL=$TARBALL
+      JARC=amd64
+    ;;
+    *)
+      echo "Wrong arch only x86_64!" >/dev/stderr
+      return 1
+  esac
+  
+  mkdir -p $TMPROOT/usr/$LIBSDIR || return 1
+  tar xvfz $DOWNLOADDIR/$TARBALL -C $TMPROOT/usr/$LIBSDIR || return 1
+  cd $TMPROOT/usr/$LIBSDIR/* || return 1
+  DIR=$PWD
+  cd ../ || return 1
+  mv $DIR $TMPROOT/usr/$LIBSDIR/jre || return 1
+  mkdir -p $TMPROOT/etc/{ld.so.conf,profile}.d
+
+cat << EOF > $TMPROOT/etc/ld.so.conf.d/jre.conf
+/usr/$LIBSDIR/jre/lib
+/usr/$LIBSDIR/jre/lib/jli
+/usr/$LIBSDIR/jre/lib/native_threads
+/usr/$LIBSDIR/jre/lib/server
+EOF
+
+cat << EOF > $TMPROOT/etc/profile.d/jre.sh
+PATH=\$PATH:/usr/$LIBSDIR/jre/bin
+
+if [ -z "\$MOZ_PLUGIN_PATH" ]; then
+  MOZ_PLUGIN_PATH=/usr/$LIBSDIR/jre/lib
+else
+  MOZ_PLUGIN_PATH=\$MOZ_PLUGIN_PATH:/usr/$LIBSDIR/jre/lib
+fi
+
+export PATH MOZ_PLUGIN_PATH
+EOF
+  chmod 755 $TMPROOT/etc/profile.d/jre.sh || return 1
+  source $TMPROOT/etc/profile.d/jre.sh || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://build.funtoo.org/distfiles/oracle-java/'
+  VERSION_STRING='jre-%version%_linux-x64_bin.tar.gz'
+}
