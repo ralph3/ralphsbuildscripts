@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.8"
+VERSION="0.8.2"
 
 DIR="nftables-${VERSION}"
 TARBALL="nftables-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://www.netfilter.org/projects/nftables/files/${TARBALL}
 )
 
 MD5SUMS=(
-9fe666f6281e3e377e2e818152336b25
+50c2b737d5b650803a94cfe5bde830b6
 )
 
 build(){

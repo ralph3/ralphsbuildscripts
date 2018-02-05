@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.1.10"
+VERSION="2.1.11"
 
 DIR="talloc-${VERSION}"
 TARBALL="talloc-${VERSION}.tar.gz"
@@ -10,7 +10,7 @@ http://samba.org/ftp/talloc/${TARBALL}
 )
 
 MD5SUMS=(
-48b8822a76797bb143e3e38ed738c320
+452596f904ca2b10322bdaabf147a721
 )
 
 build(){

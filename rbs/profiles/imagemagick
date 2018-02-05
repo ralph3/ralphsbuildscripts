@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="7.0.7-21"
+VERSION="7.0.7-22"
 
 DIR="ImageMagick-${VERSION}"
 TARBALL="ImageMagick-${VERSION}.tar.xz"
@@ -12,7 +12,7 @@ ftp://ftp.imagemagick.org/pub/ImageMagick/releases/${TARBALL}
 )
 
 MD5SUMS=(
-13972f5bfd91bb697dc680c05ac53334
+980c249173d0e97cb62c21e15c89e52a
 )
 
 build(){

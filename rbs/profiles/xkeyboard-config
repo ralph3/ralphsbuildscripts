@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.22"
+VERSION="2.23.1"
 
 DIR="xkeyboard-config-${VERSION}"
 TARBALL="xkeyboard-config-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://www.x.org/releases/individual/data/xkeyboard-config/$TARBALL
 )
 
 MD5SUMS=(
-eb61fb3fd419e817df572b0c8d94a883
+875cbd09ab8394277fd16070326abbae
 )
 
 build(){
