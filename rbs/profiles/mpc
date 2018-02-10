@@ -47,8 +47,3 @@ build(){
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
-
-version_check_info(){
-  ADDRESS='http://www.multiprecision.org/index.php?prog=mpc&page=download'
-  VERSION_STRING='mpc-%version%.tar.gz'
-}

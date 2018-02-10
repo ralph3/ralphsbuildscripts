@@ -1,7 +1,5 @@
 #!/bin/bash
 
-DISABLE_MULTILIB=1
-
 VERSION="0.9.8"
 
 DIR="libunistring-${VERSION}"

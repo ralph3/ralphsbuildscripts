@@ -26,9 +26,9 @@ build(){
   rm -rf $DIR || return 1
 }
 
-version_check_info(){
-  ADDRESS='http://sourceforge.net/projects/lcms/files/lcms/%version%/'
-  VERSION_STRING='lcms-%version%.tar.gz'
-  MINOR_VERSION=1
-  VERSION_FILTERS='or he ^\. load to'
-}
+#version_check_info(){
+#  ADDRESS='http://sourceforge.net/projects/lcms/files/lcms/%version%/'
+#  VERSION_STRING='lcms-%version%.tar.gz'
+#  MINOR_VERSION=1
+#  VERSION_FILTERS='or he ^\. load to'
+#}

@@ -27,7 +27,7 @@ build(){
   rm -rf $DIR || return 1
 }
 
-version_check_info(){
-  ADDRESS='http://sourceforge.net/projects/faac/files/faac-src/faac-%version%/'
-  VERSION_STRING='faac-%version%.tar.gz'
-}
+#version_check_info(){
+#  ADDRESS='https://sourceforge.net/projects/faac/files/latest/download'
+#  VERSION_STRING='faac-%version%.tar.gz'
+#}

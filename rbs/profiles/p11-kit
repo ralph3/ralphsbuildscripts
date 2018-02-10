@@ -1,18 +1,16 @@
 #!/bin/bash
 
-DISABLE_MULTILIB=1
-
-VERSION="0.23.2"
+VERSION="0.23.9"
 
 DIR="p11-kit-${VERSION}"
 TARBALL="p11-kit-${VERSION}.tar.gz"
 
 SRC1=(
-http://p11-glue.freedesktop.org/releases/${TARBALL}
+https://github.com/p11-glue/p11-kit/releases/download/$VERSION/$TARBALL
 )
 
 MD5SUMS=(
-738af2442331fc22f440df9bee9b062a
+5fcc836b0b7f7b834ff0998aed2aa9e6
 )
 
 build(){
@@ -28,6 +26,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://p11-glue.freedesktop.org/releases/'
+  ADDRESS='https://github.com/p11-glue/p11-kit/releases'
   VERSION_STRING='p11-kit-%version%.tar.gz'
 }

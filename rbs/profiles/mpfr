@@ -52,8 +52,3 @@ build(){
   rm -rf $DIR || return 1
 }
 
-version_check_info(){
-  ADDRESS='https://ftp.gnu.org/gnu/mpfr/'
-  VERSION_STRING='mpfr-%version%.tar.xz'
-  MINOR_VERSION='3.1'
-}

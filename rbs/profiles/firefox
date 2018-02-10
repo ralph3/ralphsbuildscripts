@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="58.0.1"
+VERSION="58.0.2"
 
 TARBALL="firefox-${VERSION}.tar"
 

@@ -71,9 +71,3 @@ EOF
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
-
-version_check_info(){
-  ADDRESS='http://ftp.gnu.org/gnu/gmp/'
-  VERSION_STRING='gmp-%version%.tar.xz'
-  MINOR_VERSION='6.0'
-}

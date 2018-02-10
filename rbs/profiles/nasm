@@ -25,8 +25,8 @@ build(){
   rm -rf $DIR || return 1
 }
 
-version_check_info(){
-  ADDRESS='http://sourceforge.net/projects/nasm/files/nasm sources/%version%/'
-  VERSION_STRING='nasm-%version%.tar.bz2'
-  VERSION_FILTERS='[a-z] [A-Z]'
-}
+#version_check_info(){
+#  ADDRESS='http://sourceforge.net/projects/nasm/files/nasm sources/%version%/'
+#  VERSION_STRING='nasm-%version%.tar.bz2'
+#  VERSION_FILTERS='[a-z] [A-Z]'
+#}
