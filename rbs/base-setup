@@ -42,7 +42,7 @@ export USE_SHM_SRCDIR
 }
 
 mkdir -p $TCDIR/state || exit 1
-for x in perl; do
+for x in perl bison; do
   STATE="$TCDIR/state/Tools__${x}"
   [ ! -e "$STATE" ] && {
     exec_profile $x Tools_Build || exit 1

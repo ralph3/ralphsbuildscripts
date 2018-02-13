@@ -89,13 +89,9 @@ build(){
   mkdir -p $SRCDIR/glibc-build || return 1
   cd $SRCDIR/glibc-build || return 1
   
-  echo "slibdir=/$LIBSDIR" > configparms
-  echo "libc_cv_ssp=no" > config.cache
-  
   CC="$CC $BUILD" CXX="$CXX $BUILD" ../$DIR/configure $CONF --prefix=/usr \
-    --libdir=/usr/$LIBSDIR --disable-profile --enable-add-ons \
-    --enable-kernel=3.0 --with-__thread \
-    --libexecdir=/usr/$LIBSDIR/glibc --enable-obsolete-rpc --cache-file=config.cache || return 1
+    --libdir=/usr/$LIBSDIR --enable-kernel=3.0 --libexecdir=/usr/$LIBSDIR/glibc \
+    --disable-werror libc_cv_slibdir=/$LIBSDIR || return 1
   make || return 1
   make install_root=$TMPROOT install || return 1
   mkdir -p $TMPROOT/usr/$LIBSDIR/locale $TMPROOT/etc/ld.so.conf.d || return 1
