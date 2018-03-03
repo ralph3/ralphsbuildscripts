@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.4.2" #1.4.3 breaks xorg-server-1.19.6
+VERSION="1.5.0" #1.4.3 breaks xorg-server-1.19.6 (1.4.2 last good, trying 1.5.0)
 
 DIR="libepoxy-${VERSION}"
 TARBALL="libepoxy-${VERSION}.tar.xz"
@@ -12,7 +12,7 @@ https://github.com/anholt/libepoxy/releases/download/$VERSION/$TARBALL
 )
 
 MD5SUMS=(
-632fcfd7ae9d21f5a634326d753a89c4
+63fe3847789258254dcd7e3fdb9e7f5e
 )
 
 build(){

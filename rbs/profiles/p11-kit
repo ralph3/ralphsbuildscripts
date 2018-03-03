@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="0.23.9"
+VERSION="0.23.10"
 
 DIR="p11-kit-${VERSION}"
 TARBALL="p11-kit-${VERSION}.tar.gz"
@@ -10,7 +10,7 @@ https://github.com/p11-glue/p11-kit/releases/download/$VERSION/$TARBALL
 )
 
 MD5SUMS=(
-5fcc836b0b7f7b834ff0998aed2aa9e6
+0692fe6245e8d2ca5cc0b49b813b0be2
 )
 
 build(){

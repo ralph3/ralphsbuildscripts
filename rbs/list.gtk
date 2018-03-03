@@ -8,6 +8,7 @@ gobject-introspection
 atk
 cairo
 harfbuzz
+fribidi
 pango
 gdk-pixbuf
 gtk2

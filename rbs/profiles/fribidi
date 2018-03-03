@@ -2,24 +2,24 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.41.1"
+VERSION="1.0.1"
 
-DIR="pango-${VERSION}"
-TARBALL="pango-${VERSION}.tar.xz"
+DIR="fribidi-${VERSION}"
+TARBALL="fribidi-${VERSION}.tar.bz2"
 
 SRC1=(
-  $(gnome_mirrors pango)
+https://github.com/fribidi/fribidi/releases/download/v$VERSION/$TARBALL
 )
 
 MD5SUMS=(
-bebb9e80aa0418db7e30116da8bea661
+43dc37bd95551d69a7b04c05f1d95721
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
-    --libdir=/usr/$LIBSDIR --sysconfdir=/usr/$LIBSDIR || return 1
+    --libdir=/usr/$LIBSDIR || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   cd ../ || return 1
@@ -27,6 +27,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/pango/%minor_version%/'
-  VERSION_STRING='pango-%version%.tar.xz'
+  ADDRESS='https://github.com/fribidi/fribidi/releases'
+  VERSION_STRING='fribidi-%version%.tar.bz2'
 }

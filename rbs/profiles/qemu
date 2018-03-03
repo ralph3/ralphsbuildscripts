@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.11.0"
+VERSION="2.11.1"
 
 DIR=qemu-${VERSION}
 TARBALL="qemu-${VERSION}.tar.xz"
@@ -12,7 +12,7 @@ https://download.qemu.org/$TARBALL
 )
 
 MD5SUMS=(
-5c823d2e01934b46a080f9e4d0695805
+0ee48c0f0cae47cc5d05408e03cd199e
 )
 
 build(){

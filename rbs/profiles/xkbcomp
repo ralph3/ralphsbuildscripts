@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.4.0"
+VERSION="1.4.1"
 
 DIR="xkbcomp-${VERSION}"
 TARBALL="xkbcomp-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-cc22b232bc78a303371983e1b48794ab
+07df9790d30f9a369d20a418af784de0
 )
 
 build(){

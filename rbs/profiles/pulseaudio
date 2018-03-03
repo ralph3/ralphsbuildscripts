@@ -63,7 +63,9 @@ diff -Naur pulseaudio-11.1/src/pulsecore/memfd-wrappers.h pulseaudio-11.1.patche
  
  #endif
 EOF
-
+  
+  AUTOPOINT='intltoolize --automake --copy' autoreconf -fiv || return 1
+  
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --build=$BUILDHOST \
     --host=$BUILDTARGET --prefix=/usr --sysconfdir=/etc --without-caps || return 1
   make || return 1

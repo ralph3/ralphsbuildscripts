@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.1.0"
+VERSION="1.1.1"
 
 DIR="irssi-${VERSION}"
 TARBALL="irssi-${VERSION}.tar.xz"
@@ -12,7 +12,7 @@ https://github.com/irssi/irssi/releases/download/$VERSION/$TARBALL
 )
 
 MD5SUMS=(
-159ac7a24a06b439ce227dcce51271a0
+1eb33d621c163827ee076f5c8ca2b5ee
 )
 
 build(){

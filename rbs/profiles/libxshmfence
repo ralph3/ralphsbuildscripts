@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.2"
+VERSION="1.3"
 
 DIR="libxshmfence-${VERSION}"
 TARBALL="libxshmfence-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://xorg.freedesktop.org/releases/individual/lib/${TARBALL}
 )
 
 MD5SUMS=(
-66662e76899112c0f99e22f2fc775a7e
+42dda8016943dc12aff2c03a036e0937
 )
 
 build(){

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.4.89"
+VERSION="2.4.90"
 
 DIR="libdrm-${VERSION}"
 TARBALL="libdrm-${VERSION}.tar.gz"
@@ -10,7 +10,7 @@ http://dri.freedesktop.org/libdrm/${TARBALL}
 )
 
 MD5SUMS=(
-4379fa4e3868feb5d5319c854a8280f8
+f417488bc6450849b9d571bc2938d194
 )
 
 build(){

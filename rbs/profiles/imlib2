@@ -2,22 +2,24 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.4.10"
+VERSION="1.5.0"
 
 DIR="imlib2-${VERSION}"
 TARBALL="imlib2-${VERSION}.tar.gz"
 
 SRC1=(
-http://prdownloads.sourceforge.net/enlightenment/${TARBALL}
+https://git.enlightenment.org/legacy/imlib2.git/snapshot/$TARBALL
 )
 
 MD5SUMS=(
-b26b12458141e5006586d6b3f933679c
+ae2f2c2dd03b0bf2ce547920f23321cb
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+  ./autogen.sh
+  make distclean
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc || return 1
   make || return 1
@@ -27,7 +29,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS="http://sourceforge.net/projects/enlightenment/files/imlib2-src/"
-  VERSION_STRING='imlib2-src/%version%/'
-  VERSION_FILTERS='[a-z][a-z] [A-Z][A-Z]'
+  ADDRESS="https://git.enlightenment.org/legacy/imlib2.git/"
+  VERSION_STRING='imlib2-%version%.tar.gz'
 }
