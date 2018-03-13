@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.4"
+VERSION="1.0.5"
 
 DIR="xcursor-themes-${VERSION}"
 TARBALL="xcursor-themes-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/data/${TARBALL}
 )
 
 MD5SUMS=(
-fdfb0ad9cfceed60e3bfe9f18765aa0d
+34a93df23e4aa9ee2832a4af33da3ceb
 )
 
 build(){

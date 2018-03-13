@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.12"
+VERSION="1.13"
 
 DIR="xcb-proto-${VERSION}"
 TARBALL="xcb-proto-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xcb.freedesktop.org/dist/${TARBALL}
 )
 
 MD5SUMS=(
-14e60919f859560f28426a685a555962
+abe9aa4886138150bbc04ae4f29b90e3
 )
 
 build(){

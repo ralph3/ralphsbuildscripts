@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.8.1"  #0.8.2 has bug compiling.
+VERSION="0.8.3"  #0.8.2 has bug compiling. 0.8.1 good. trying 0.8.3
 
 DIR="nftables-${VERSION}"
 TARBALL="nftables-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://www.netfilter.org/projects/nftables/files/${TARBALL}
 )
 
 MD5SUMS=(
-7468ed2effac96d54f128b44abbbec73
+a604501c10a302fa417410b16f293d2c
 )
 
 build(){

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.12"
+VERSION="1.13"
 
 DIR="libxcb-${VERSION}"
 TARBALL="libxcb-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://xcb.freedesktop.org/dist/${TARBALL}
 )
 
 MD5SUMS=(
-28e552bd78bc1050b6b26ca1db0e5bb6
+c2b6cf928afa16b0047c974e7aaa783f
 )
 
 build(){

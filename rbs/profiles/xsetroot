@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.1.1"
+VERSION="1.1.2"
 
 DIR="xsetroot-${VERSION}"
 TARBALL="xsetroot-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-7211b31ec70631829ebae9460999aa0b
+5fe769c8777a6e873ed1305e4ce2c353
 )
 
 build(){

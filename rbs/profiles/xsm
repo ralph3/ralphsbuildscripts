@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.3"
+VERSION="1.0.4"
 
 DIR="xsm-${VERSION}"
 TARBALL="xsm-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/app/${TARBALL}
 )
 
 MD5SUMS=(
-2a9818eba05556e6e99be87d9b3974c4
+bd32c14f09d58f46084b6a8f20e6e8f1
 )
 
 build(){
