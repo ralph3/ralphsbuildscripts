@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="59.0"
+VERSION="59.0.1"
 
 TARBALL="firefox-${VERSION}.tar"
 
@@ -45,7 +45,14 @@ build(){
   echo " Done."
   
   mkdir -p $TMPROOT/usr/bin || return 1
-  ln -sfn ../$LIBSDIR/firefox/firefox $TMPROOT/usr/bin/firefox || return 1
+  
+cat << EOF > $TMPROOT/usr/bin/firefox || return 1
+#!/bin/bash
+
+MOZ_DISABLE_CONTENT_SANDBOX=1 /usr/$LIBSDIR/firefox/firefox \$@
+exit \$?
+EOF
+  chmod 755 $TMPROOT/usr/bin/firefox || return 1
   
   mkdir -p $TMPROOT/usr/share/applications || return 1
 cat << EOF > $TMPROOT/usr/share/applications/firefox.desktop || return 1

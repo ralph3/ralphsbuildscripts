@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="11.2.202.559"
+VERSION="29.0.0.113"
 
 DIR="flash-plugin-${VERSION}"
 TARBALL="flash-plugin-${VERSION}.tar.xz"
@@ -12,7 +12,7 @@ https://raw.githubusercontent.com/ralph3/ralphsbuildscripts/master/src/flash-plu
 )
 
 MD5SUMS=(
-8df146078175a1c4074cca91cc74f0f0
+ba41444f0579cacbb93fe95db99fa861
 )
 
 build(){

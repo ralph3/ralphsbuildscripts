@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.8.3"  #0.8.2 has bug compiling. 0.8.1 good. trying 0.8.3
+VERSION="0.8.3"
 
 DIR="nftables-${VERSION}"
 TARBALL="nftables-${VERSION}.tar.bz2"
@@ -19,7 +19,8 @@ build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
-    --libdir=/usr/$LIBSDIR --libexecdir=/usr/$LIBSDIR --sbindir=/sbin || return 1
+    --libdir=/usr/$LIBSDIR --libexecdir=/usr/$LIBSDIR --sbindir=/sbin \
+    --disable-man-doc || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   cd ../ || return 1

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.28.0"
+VERSION="2.26.2"
 
 DIR="at-spi2-core-${VERSION}"
 TARBALL="at-spi2-core-${VERSION}.tar.xz"
@@ -12,7 +12,7 @@ SRC1=(
 )
 
 MD5SUMS=(
-9c42f79636ed1c0e908b7483d789b32e
+4a042e4c801fdb793788b749eab21485
 )
 
 build(){
@@ -27,7 +27,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/at-spi2-core/%minor_version%/'
+  ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/at-spi2-core/2.26/'
   VERSION_STRING='at-spi2-core-%version%.tar.xz'
   ONLY_EVEN_MINORS=1
 }
