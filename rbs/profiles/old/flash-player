@@ -2,17 +2,17 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="11b1"
+VERSION="29.0.0.113"
 
-DIR="flash-player-${VERSION}"
-TARBALL="flash-player-${VERSION}.tar.bz2"
+DIR="flash-plugin-${VERSION}"
+TARBALL="flash-plugin-${VERSION}.tar.xz"
 
 SRC1=(
-http://ralphsbuildscripts.googlecode.com/files/$TARBALL
+https://raw.githubusercontent.com/ralph3/ralphsbuildscripts/master/src/flash-plugin/${TARBALL}
 )
 
 MD5SUMS=(
-ae29cafcca03c62267701a0fbc4de2f5
+ba41444f0579cacbb93fe95db99fa861
 )
 
 build(){
