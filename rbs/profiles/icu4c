@@ -1,0 +1,33 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="61_1"
+
+DIR="icu4c-${VERSION}"
+TARBALL="icu4c-${VERSION}-src.tgz"
+
+SRC1=(
+http://download.icu-project.org/files/icu4c/61.1/${TARBALL}
+)
+
+MD5SUMS=(
+68fe38999fef94d622bd6843d43c0615
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/icu/source || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/usr/$LIBSDIR || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://download.icu-project.org/files/icu4c/%minor_version%/'
+  VERSION_STRING='icu4c-%version%-src.tgz'
+  MINOR_VERSION_FILTERS='[a-z]'
+}

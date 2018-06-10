@@ -1,0 +1,87 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="3.3.1"
+
+DIR="postfix-${VERSION}"
+TARBALL="postfix-${VERSION}.tar.gz"
+
+SRC1=(
+ftp://ftp.porcupine.org/mirrors/postfix-release/official/$TARBALL
+)
+
+MD5SUMS=(
+4381c6492f415e4a69cf5099d4acea76
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  
+  mkdir -p /var/spool/postfix $TMPROOT/var/spool/postfix /var/mail
+  groupadd -g 32 postfix
+  groupadd -g 33 postdrop
+  useradd -c "Postfix Daemon User" -d /var/spool/postfix -g postfix \
+          -s /bin/false -u 32 postfix
+  chown -v postfix:postfix /var/mail
+  
+  sed -i 's/.\x08//g' README_FILES/* || return 1
+  
+  make CCARGS='-DHAS_MYSQL -DUSE_TLS -I/usr/include/openssl/' \
+    AUXLIBS='-lz -lm -lssl -lcrypto' \
+    makefiles || return 1
+  
+  make CC="$CC $BUILD" CXX="$CXX $BUILD" || return 1
+  
+  sh postfix-install -non-interactive \
+    install_root=$TMPROOT \
+    daemon_directory=/usr/$LIBSDIR/postfix \
+    manpage_directory=/usr/share/man \
+    html_directory=/usr/share/doc/postfix-${VERSION}/html \
+    readme_directory=/usr/share/doc/postfix-${VERSION}/readme || return 1
+  
+  mkdir -p $TMPROOT/etc/rc.d
+cat << "EOF" > $TMPROOT/etc/rc.d/rc.postfix
+#!/bin/bash
+
+. /etc/rc.d/rc.conf
+. /etc/rc.d/rc.functions
+
+case "$1" in
+  start)
+    print_msg "Starting Postfix SMTP Server"
+    /usr/sbin/postfix start 2> /dev/null
+    evaluate_retval
+  ;;
+  stop)
+    print_msg "Stopping Postfix SMTP Server"
+    kill $(cat /var/spool/postfix/pid/master.pid) 2>/dev/null
+    evaluate_retval
+  ;;
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+  ;;
+  *)
+    echo "Usage: {start|stop|restart}"
+    exit 1
+  ;;
+esac
+EOF
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+post_remove(){
+  userdel postfix
+  groupdel postfix
+  groupdel postdrop
+}
+
+version_check_info(){
+  ADDRESS='ftp://ftp.porcupine.org/mirrors/postfix-release/official/'
+  VERSION_STRING='postfix-%version%.tar.gz'
+  VERSION_FILTERS='[a-z]'
+}

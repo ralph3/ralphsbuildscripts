@@ -1,0 +1,113 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="2.3.1"
+
+DIR="dovecot-${VERSION}"
+TARBALL="dovecot-${VERSION}.tar.gz"
+
+SRC1=(
+https://dovecot.org/releases/$(cut -f-2 -d'.' <<< $VERSION)/$TARBALL
+)
+
+MD5SUMS=(
+fc89b6130bcc09e99ae21003b474acc2
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+
+  CC="$CC $BUILD" CXX="$CXX $BUILD" \
+    ./configure --prefix=/usr \
+      --libdir=/usr/$LIBSDIR --sysconfdir=/etc --localstatedir=/var \
+      --docdir=/usr/share/doc/dovecot-$VERSION \
+      --disable-static || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  
+  mkdir $TMPROOT/etc/dovecot
+  cp -rv $TMPROOT/usr/share/doc/dovecot-$VERSION/example-config/* \
+    $TMPROOT/etc/dovecot || return 1
+  
+  sed -i '/^\!include / s/^/#/' $TMPROOT/etc/dovecot/dovecot.conf || return 1
+  mv $TMPROOT/etc/dovecot/dovecot.conf{,.new}
+  mkdir -p $TMPROOT/var/mail
+  
+cat > $TMPROOT/etc/dovecot/local.conf.new << "EOF"
+protocols = imap
+ssl = no
+# The next line is only needed if you have no IPv6 network interfaces
+listen = *
+mail_location = mbox:~/Mail:INBOX=/var/mail/%u
+userdb {
+  driver = passwd
+}
+passdb {
+  driver = shadow
+}
+EOF
+  
+  mkdir -p $TMPROOT/etc/rc.d
+cat << "EOF" > $TMPROOT/etc/rc.d/rc.dovecot
+#!/bin/bash
+
+. /etc/rc.d/rc.conf
+. /etc/rc.d/rc.functions
+
+case "$1" in
+  start)
+    print_msg "Starting Dovecot Mail Server"
+    dovecot &
+    print_msg_done
+  ;;
+  stop)
+    print_msg "Stopping Dovecot Mail Server"
+    killproc dovecot
+  ;;
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+  ;;
+  *)
+    echo "Usage: {start|stop|restart}"
+    exit 1
+  ;;
+esac
+EOF
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+pre_install(){
+  groupadd -g 42 dovecot
+  useradd -c "Dovecot unprivileged user" -d /dev/null -u 42 \
+          -g dovecot -s /bin/false dovecot
+  groupadd -g 43 dovenull
+  useradd -c "Dovecot login user" -d /dev/null -u 43 \
+        -g dovenull -s /bin/false dovenull 
+}
+
+post_install(){
+  chmod -v 1777 /var/mail
+}
+
+post_upgrade(){
+  pre_install
+  chmod -v 1777 /var/mail
+}
+
+post_remove(){
+  userdel dovecot
+  userdel dovenull
+  groupdel dovecot
+  groupdel dovenull
+}
+
+version_check_info(){
+  ADDRESS='https://dovecot.org/download.html'
+  VERSION_STRING='dovecot-%version%.tar.gz'
+  VERSION_FILTERS='[a-z]'
+}

@@ -1,0 +1,177 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="10.2.15"
+
+DIR="mariadb-${VERSION}"
+TARBALL="mariadb-${VERSION}.tar.gz"
+
+SRC1=(
+http://files6.directadmin.com/services/customapache/all/mariadb/10.2/${VERSION}/$TARBALL
+http://mirrors.n-ix.net/mariadb/mariadb-${VERSION}/source/$TARBALL
+)
+
+MD5SUMS=(
+43365d193747905c285b33d0fe5b6d2f
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+
+  sed -i "s@data/test@\${INSTALL_MYSQLTESTDIR}@g" sql/CMakeLists.txt || return 1
+  sed -i '/void..coc_malloc/{s/char ./&x/; s/int/& y/}' mysys_ssl/openssl.c || return 1
+  
+  cmake  -DCC="$CC $BUILD" -DCXX="$CXX $BUILD" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DINSTALL_DOCDIR=share/doc/mariadb-$VERSION \
+        -DINSTALL_DOCREADMEDIR=share/doc/mariadb-$VERSION \
+        -DINSTALL_MANDIR=share/man \
+        -DINSTALL_MYSQLSHAREDIR=share/mysql \
+        -DINSTALL_MYSQLTESTDIR=share/mysql/test \
+        -DINSTALL_PLUGINDIR=$LIBSDIR/mysql/plugin \
+        -DINSTALL_SBINDIR=sbin \
+        -DINSTALL_SCRIPTDIR=bin \
+        -DINSTALL_SQLBENCHDIR=share/mysql/bench \
+        -DINSTALL_SUPPORTFILESDIR=share/mysql \
+        -DMYSQL_DATADIR=/srv/mysql \
+        -DMYSQL_UNIX_ADDR=/run/mysqld/mysqld.sock \
+        -DWITH_EXTRA_CHARSETS=complex \
+        -DWITH_EMBEDDED_SERVER=ON \
+        -DSKIP_TESTS=ON \
+        -DTOKUDB_OK=0 || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  
+  ln -sfv $TMPROOT/usr/include/mysql/{mariadb,mysql}_version.h || return 1
+  
+  install -v -dm 755 $TMPROOT/etc/mysql || return 1
+  
+cat > $TMPROOT/etc/mysql/my.cnf << "EOF" || return 1
+# Begin /etc/mysql/my.cnf
+
+# The following options will be passed to all MySQL clients
+[client]
+#password       = your_password
+port            = 3306
+socket          = /run/mysqld/mysqld.sock
+
+# The MySQL server
+[mysqld]
+port            = 3306
+socket          = /run/mysqld/mysqld.sock
+datadir         = /srv/mysql
+skip-external-locking
+key_buffer_size = 16M
+max_allowed_packet = 1M
+sort_buffer_size = 512K
+net_buffer_length = 16K
+myisam_sort_buffer_size = 8M
+
+# Don't listen on a TCP/IP port at all.
+skip-networking
+
+# required unique id between 1 and 2^32 - 1
+server-id       = 1
+
+# Uncomment the following if you are using BDB tables
+#bdb_cache_size = 4M
+#bdb_max_lock = 10000
+
+# InnoDB tables are now used by default
+innodb_data_home_dir = /srv/mysql
+innodb_log_group_home_dir = /srv/mysql
+# All the innodb_xxx values below are the default ones:
+innodb_data_file_path = ibdata1:12M:autoextend
+# You can set .._buffer_pool_size up to 50 - 80 %
+# of RAM but beware of setting memory usage too high
+innodb_buffer_pool_size = 128M
+innodb_log_file_size = 48M
+innodb_log_buffer_size = 16M
+innodb_flush_log_at_trx_commit = 1
+innodb_lock_wait_timeout = 50
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+# Remove the next comment character if you are not familiar with SQL
+#safe-updates
+
+[isamchk]
+key_buffer = 20M
+sort_buffer_size = 20M
+read_buffer = 2M
+write_buffer = 2M
+
+[myisamchk]
+key_buffer_size = 20M
+sort_buffer_size = 20M
+read_buffer = 2M
+write_buffer = 2M
+
+[mysqlhotcopy]
+interactive-timeout
+
+# End /etc/mysql/my.cnf
+EOF
+  
+  mkdir -p $TMPROOT/etc/rc.d
+cat << "EOF" > $TMPROOT/etc/rc.d/rc.mysql
+#!/bin/bash
+
+. /etc/rc.d/rc.conf
+. /etc/rc.d/rc.functions
+
+case "$1" in
+  start)
+    print_msg "Starting MySQL Server"
+    mysqld --user=mysql >&/dev/null&
+    print_msg_done
+  ;;
+  stop)
+    print_msg "Stopping MySQL Server"
+    killproc mysqld
+  ;;
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+  ;;
+  *)
+    echo "Usage: {start|stop|restart}"
+    exit 1
+  ;;
+esac
+EOF
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+pre_install(){
+  groupadd -g 40 mysql
+  useradd -c "MySQL Server" -d /srv/mysql -g mysql -s /bin/false -u 40 mysql
+}
+
+post_install(){
+  chown -R mysql:mysql /srv/mysql /var/run/mysql
+  install -v -m755 -o mysql -g mysql -d /run/mysqld
+}
+
+post_upgrade(){
+  mysql_post_install
+}
+
+post_remove(){
+  userdel mysql
+}
+
+version_check_info(){
+  ADDRESS='https://downloads.mariadb.org/'
+  VERSION_STRING='Download %version% Stable Now!'
+  MINOR_VERSION='10.2'
+}
