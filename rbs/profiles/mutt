@@ -1,0 +1,55 @@
+#!/bin/bash
+
+VERSION="1.10.0"
+
+DIR="mutt-${VERSION}"
+TARBALL="mutt-${VERSION}.tar.gz"
+
+SRC1=(
+http://ftp.mutt.org/pub/mutt/${TARBALL}
+)
+
+MD5SUMS=(
+cc676ca91b8fd53513e6e9cb2cea97fc
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  
+  groupadd -g 36 mail
+  
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/usr/$LIBSDIR                           \
+            --sysconfdir=/etc                       \
+            --with-docdir=/usr/share/doc/mutt-1.10.0 \
+            --with-ssl                              \
+            --enable-external-dotlock               \
+            --enable-pop                            \
+            --enable-imap                           \
+            --enable-hcache                         \
+            --enable-sidebar || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+post_install(){
+  chown root:mail /usr/bin/mutt_dotlock
+  chmod -v 2755 /usr/bin/mutt_dotlock
+}
+
+post_upgrade(){
+  post_install
+}
+
+post_remove(){
+  groupdel mail
+}
+
+version_check_info(){
+  ADDRESS='http://ftp.mutt.org/pub/mutt/'
+  VERSION_STRING='mutt-%version%.tar.gz'
+  #VERSION_FILTERS='[a-z]'
+}

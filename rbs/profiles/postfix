@@ -43,6 +43,7 @@ build(){
     html_directory=/usr/share/doc/postfix-${VERSION}/html \
     readme_directory=/usr/share/doc/postfix-${VERSION}/readme || return 1
   
+  
   mkdir -p $TMPROOT/etc/rc.d
 cat << "EOF" > $TMPROOT/etc/rc.d/rc.postfix
 #!/bin/bash
@@ -72,8 +73,22 @@ case "$1" in
   ;;
 esac
 EOF
+  
+  find $TMPROOT/etc -type f -exec mv {}{,.new} \;
+  
   cd ../ || return 1
   rm -rf $DIR || return 1
+}
+
+post_install(){
+  chown -R postfix /var/spool/postfix /var/lib/postfix/
+  chown root:root /var/spool/postfix /var/spool/postfix/pid
+  chown root:postdrop /usr/sbin/postqueue /usr/sbin/postdrop
+  chown -R postfix:postdrop /var/spool/postfix/public /var/spool/postfix/maildrop
+}
+
+post_upgrade(){
+  post_install
 }
 
 post_remove(){
