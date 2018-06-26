@@ -1,0 +1,60 @@
+#!/bin/bash
+
+VERSION="0.8"
+
+DIR="make-ca-${VERSION}"
+TARBALL="make-ca-${VERSION}.tar.gz"
+
+SRC1=(
+https://github.com/djlucas/make-ca/archive/v${VERSION}/$TARBALL
+https://github.com/ninja-build/ninja/archive/v${VERSION}/$TARBALL
+)
+
+SRC2=(
+http://www.cacert.org/certs/root.crt
+)
+
+SRC3=(
+http://www.cacert.org/certs/class3.crt
+)
+
+SRC4=(
+https://hg.mozilla.org/releases/mozilla-release/raw-file/default/security/nss/lib/ckfw/builtins/certdata.txt
+)
+
+MD5SUMS=(
+1f0176c4fa89274971b2826a97f303f7
+fb262d55709427e2e9acadf2c1298c99
+95c1c1820c0ed1de88d512cb10e25182
+0b67e7d80d0f93373bf86be9d5831b8a
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  mkdir -vp $TMPROOT/etc/ssl/local || return 1
+  cp $DOWNLOADDIR/certdata.txt $TMPROOT/etc/ssl/local || return 1
+  cp $DOWNLOADDIR/{root,class3}.crt . || return 1
+  openssl x509 -in root.crt -text -fingerprint -setalias "CAcert Class 1 root" \
+          -addtrust serverAuth -addtrust emailProtection -addtrust codeSigning \
+          > $TMPROOT/etc/ssl/local/CAcert_Class_1_root.pem || return 1
+  openssl x509 -in class3.crt -text -fingerprint -setalias "CAcert Class 3 root" \
+          -addtrust serverAuth -addtrust emailProtection -addtrust codeSigning \
+          > $TMPROOT/etc/ssl/local/CAcert_Class_3_root.pem || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+post_install(){
+ make-ca -C /etc/ssl/local/certdata.txt
+}
+
+post_upgrade(){
+post_install
+}
+
+#version_check_info(){
+#  ADDRESS='https://github.com/mesonbuild/meson/releases/'
+#  VERSION_STRING='meson-%version%.tar.gz'
+#}

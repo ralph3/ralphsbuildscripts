@@ -1,0 +1,33 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="0.13.1"
+
+DIR="json-c-${VERSION}"
+TARBALL="json-c-${VERSION}.tar.gz"
+
+SRC1=(
+https://s3.amazonaws.com/json-c_releases/releases/$TARBALL
+)
+
+MD5SUMS=(
+04969ad59cc37bddd83741a08b98f350
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/usr/$LIBSDIR || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+#version_check_info(){
+#  ADDRESS='https://sourceforge.net/projects/libpng/files/libpng16/'
+#  VERSION_STRING='libpng16/%version%/stats/timeline'
+#  VERSION_FILTERS='[a-z]'
+#}

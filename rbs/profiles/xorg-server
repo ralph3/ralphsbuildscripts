@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.19.5" ## 1.19.6 causes crashes on startup.
+VERSION="1.20.0" ## 1.19.6 causes crashes on startup. 1.19.5 last good
 
 DIR="xorg-server-${VERSION}"
 TARBALL="xorg-server-${VERSION}.tar.bz2"
@@ -12,42 +12,12 @@ http://xorg.freedesktop.org/releases/individual/xserver/${TARBALL}
 )
 
 MD5SUMS=(
-4ac6feeae6790436ce9de879ca9a3bf8
+c1ca1ea0a905ea788da03c77cc38b06e
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-
-cat << "EOF" | patch -Np1 || return 1
-diff -Naur xorg-server-1.15.2/hw/xfree86/sdksyms.sh xorg-server-1.15.2.patched/hw/xfree86/sdksyms.sh
---- xorg-server-1.15.2/hw/xfree86/sdksyms.sh	2014-06-26 06:02:12.000000000 +0000
-+++ xorg-server-1.15.2.patched/hw/xfree86/sdksyms.sh	2015-05-09 09:27:02.000000000 +0000
-@@ -351,6 +351,23 @@
- /^extern[ 	]/  {
-     if (sdk) {
- 	n = 3;
-+	
-+	# detect the following gcc5 cpp pattern and skip it:
-+	# extern
-+	# # 320 "../../include/os.h" 3 4
-+	#     __attribute__((visibility("default")))
-+	# # 320 "../../include/os.h"
-+	# Note in this case the "extern " or "extern void " always has
-+	# a trailing space
-+	if ($0 ~ "^extern.* $") {
-+	    getline;
-+	    getline;
-+	    getline;
-+	    getline;
-+	    n = 1;
-+	    while ($n == " ")
-+		n++;
-+	}
- 
- 	# skip attribute, if any
- 	while ($n ~ /^(__attribute__|__global)/ ||
-EOF
 
   CC="$CC $BUILD" CXX="$CXX $BUILD" CFLAGS="$CFLAGS -Wredundant-decls" \
     ./configure --prefix=/usr \

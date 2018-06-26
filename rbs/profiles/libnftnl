@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.9"
+VERSION="1.1.1"
 
 DIR="libnftnl-${VERSION}"
 TARBALL="libnftnl-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ https://www.netfilter.org/projects/libnftnl/files/$TARBALL
 )
 
 MD5SUMS=(
-6c4f392faab5745933553b4354be5d8d
+c2d35f59cef2d142d5fa19e456b4afdc
 )
 
 build(){

@@ -18,6 +18,64 @@ d1177739bf1ceb07f57421f0cee191e0
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
+cat << "EOF" | patch -Np1 || return 1
+diff --git a/configure.ac b/configure.ac
+index 3cfe974..0055a8c 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -399,40 +399,19 @@ AC_ARG_WITH(freetype,[  --with-freetype=DIR     use freetype2 in DIR],[
+ 	fi
+ ])
+ 
+-if [ test -n "$FREETYPE_DIR" ]; then
+-	AC_PATH_PROG(FREETYPE_CONFIG,freetype-config, ,[$FREETYPE_DIR/bin:$PATH])
+-else
+-	AC_PATH_PROG(FREETYPE_CONFIG,freetype-config)
+-fi
+-
+-if [ test -n "$FREETYPE_CONFIG" ]; then
+-	if [ test -n "$FREETYPE_DIR" ]; then
+-		freetype_cflags="`$FREETYPE_CONFIG --cflags` -I$FREETYPE_DIR/include"
+-		freetype_libs=`$FREETYPE_CONFIG --libs`
+-	else
+-		freetype_cflags=`$FREETYPE_CONFIG --cflags`
+-		freetype_libs=`$FREETYPE_CONFIG --libs`
+-	fi
+-else
+-	if [ test -n "$FREETYPE_DIR" ]; then
+-		freetype_cflags="-I$FREETYPE_DIR/include/freetype2 -I$FREETYPE_DIR/include"
+-		freetype_libs="-L$FREETYPE_DIR/lib -lfreetype"
+-	else
+-		freetype_cflags=""
+-		freetype_libs="-lfreetype"
+-	fi
+-fi
+-
+-CPPFLAGS="$freetype_cflags $CPPFLAGS"
+-LDFLAGS="$LDFLAGS $freetype_libs"
++PKG_CHECK_MODULES(FREETYPE2, freetype2, 
++    CFLAGS="$CFLAGS $FREETYPE2_CFLAGS"
++    LDFLAGS="$LDFLAGS $FREETYPE2_LIBS",
++    AC_MSG_ERROR([*** Unable to find FreeType2 library (http://www.freetype.org/)])
++)
+ 
+ AC_CHECK_LIB(freetype,FT_Init_FreeType,[
+-	WMF_FT_LDFLAGS="$freetype_libs"
++	WMF_FT_LDFLAGS="$FREETYPE2_LIBS"
+ ],[	AC_MSG_ERROR([* * * freetype(2) is required * * *])
+ ])
+ AC_CHECK_HEADER(ft2build.h,[
+-	WMF_FT_CFLAGS="$freetype_cflags"
+-	WMF_FT_CONFIG_CFLAGS="$freetype_cflags"
++	WMF_FT_CFLAGS="$FREETYPE2_CFLAGS"
++	WMF_FT_CONFIG_CFLAGS="$FREETYPE2_CFLAGS"
+ ],[	AC_MSG_ERROR([* * * freetype(2) is required * * *])
+ ])
+ 
+-- 
+1.9.0
+EOF
+  autoconf
   CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
     --libdir=/usr/$LIBSDIR || return 1
   make || return 1
@@ -26,4 +84,3 @@ build(){
   cd ../ || return 1
   rm -rf $DIR || return 1
 }
-

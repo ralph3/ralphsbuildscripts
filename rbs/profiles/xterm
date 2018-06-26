@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="331"
+VERSION="333"
 
 DIR="xterm-${VERSION}"
 TARBALL="xterm-${VERSION}.tgz"
@@ -12,7 +12,7 @@ https://invisible-mirror.net/archives/xterm/${TARBALL}
 )
 
 MD5SUMS=(
-e08455ab7d4fe8acbb0480dfc8d990f3
+32a810c436db81775706f9cbe7efc290
 )
 
 build(){

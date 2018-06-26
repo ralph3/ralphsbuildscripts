@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.2.0"
+VERSION="0.4.2"
 
 DIR="gegl-${VERSION}"
 TARBALL="gegl-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://download.gimp.org/pub/gegl/$(cut -f-2 -d'.' <<< $VERSION)/${TARBALL}
 )
 
 MD5SUMS=(
-32b00002f1f1e316115c4ed922e1dec8
+47b8f88c466e0a38f5e8d6181bba89bd
 )
 
 build(){

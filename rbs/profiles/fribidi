@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.0.1"
+VERSION="1.0.4"
 
 DIR="fribidi-${VERSION}"
 TARBALL="fribidi-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ https://github.com/fribidi/fribidi/releases/download/v$VERSION/$TARBALL
 )
 
 MD5SUMS=(
-43dc37bd95551d69a7b04c05f1d95721
+00d058ac76e6c0f46a6671a63d31cf67
 )
 
 build(){

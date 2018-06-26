@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.170"
+VERSION="0.172"
 
 DIR="elfutils-${VERSION}"
 TARBALL="elfutils-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ ftp://sourceware.org/pub/elfutils/$VERSION/${TARBALL}
 )
 
 MD5SUMS=(
-03599aee98c9b726c7a732a2dd0245d5
+01e87ab4c5a6a249c04e22a97a4221d3
 )
 
 build(){

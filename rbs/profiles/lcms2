@@ -1,0 +1,34 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="2.9"
+
+DIR="lcms2-${VERSION}"
+TARBALL="lcms2-${VERSION}.tar.gz"
+
+SRC1=(
+https://downloads.sourceforge.net/lcms/${TARBALL}
+)
+
+MD5SUMS=(
+8de1b7724f578d2995c8fdfa35c3ad0e
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/usr/$LIBSDIR --disable-static || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+#version_check_info(){
+#  ADDRESS='http://sourceforge.net/projects/lcms/files/lcms/%version%/'
+#  VERSION_STRING='lcms-%version%.tar.gz'
+#  MINOR_VERSION=1
+#  VERSION_FILTERS='or he ^\. load to'
+#}

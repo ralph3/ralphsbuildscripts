@@ -1,0 +1,37 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="0.26"
+
+DIR="exiv2-${VERSION}"
+TARBALL="exiv2-${VERSION}-trunk.tar.gz"
+
+SRC1=(
+http://www.exiv2.org/builds/${TARBALL}
+)
+
+MD5SUMS=(
+5399e3b570d7f9205f0e76d47582da4c
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/exiv2* || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+    --libdir=/usr/$LIBSDIR --enable-video    \
+            --enable-webready \
+            --without-ssh     \
+            --disable-static || return 1
+  make || return 1
+  make install DESTDIR=$TMPROOT || return 1
+  chmod -v 755 $TMPROOT/usr/$LIBSDIR/libexiv2.so || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://www.exiv2.org/builds/'
+  VERSION_STRING='exiv2-%version%-trunk.tar.gz'
+  ##VERSION_FILTERS='[a-z]'
+}

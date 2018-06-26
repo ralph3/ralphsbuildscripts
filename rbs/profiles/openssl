@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.1.0g"
+VERSION="1.1.0h"
 
 DIR="openssl-${VERSION}"
 TARBALL="openssl-${VERSION}.tar.gz"
@@ -10,7 +10,7 @@ ftp://ftp.openssl.org/source/${TARBALL}
 )
 
 MD5SUMS=(
-ba5f1b8b835b88cadbce9b35ed9531a6
+5271477e4d93f4ea032b665ef095ff24
 )
 
 build(){
@@ -20,7 +20,7 @@ build(){
   --openssldir=/etc/ssl --libdir=$LIBSDIR shared zlib-dynamic || return 1
   make CC="$CC $BUILD" || return 1
   make MANSUFFIX=ssl DESTDIR=$TMPROOT install || return 1
-  rm $TMPROOT/usr/$LIBSDIR/*.a || return 1
+  ###############rm $TMPROOT/usr/$LIBSDIR/*.a || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }

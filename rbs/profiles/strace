@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="4.21"
+VERSION="4.23"
 
 ENABLE_MULTILIB=1
 
@@ -8,11 +8,11 @@ DIR="strace-${VERSION}"
 TARBALL="strace-${VERSION}.tar.xz"
 
 SRC1=(
-http://prdownloads.sourceforge.net/strace/${TARBALL}
+https://github.com/strace/strace/releases/download/v${VERSION}/${TARBALL}
 )
 
 MD5SUMS=(
-2f3d225b4de54ffe49a392f39923c5fd
+fad4bba0947553cef34d46a9fd78f039
 )
 
 build(){
@@ -31,6 +31,6 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://sourceforge.net/projects/strace/files/'
+  ADDRESS='https://github.com/strace/strace/releases'
   VERSION_STRING='strace-%version%.tar.xz'
 }

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.5.0"
+VERSION="1.5.1"
 
 DIR="imlib2-${VERSION}"
 TARBALL="imlib2-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ https://git.enlightenment.org/legacy/imlib2.git/snapshot/$TARBALL
 )
 
 MD5SUMS=(
-ae2f2c2dd03b0bf2ce547920f23321cb
+dd932e940669ab2f85d55210f79d0091
 )
 
 build(){

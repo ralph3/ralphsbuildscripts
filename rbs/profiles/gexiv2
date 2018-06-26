@@ -1,0 +1,35 @@
+#!/bin/bash
+
+DISABLE_MULTILIB=1
+
+VERSION="0.10.8"
+
+DIR="gexiv2-${VERSION}"
+TARBALL="gexiv2-${VERSION}.tar.xz"
+
+SRC1=(
+  $(gnome_mirrors gexiv2)
+)
+
+MD5SUMS=(
+fcbaa7233fc076a6743c22da746956be
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  rm -rf build
+  mkdir build || return 1
+  cd build || return 1
+  CC="$CC $BUILD" CXX="$CXX $BUILD" meson --prefix=/usr --libdir=/usr/$LIBSDIR || return 1
+  ninja || return 1
+  DESTDIR=$TMPROOT ninja install || return 1
+  cd ../../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='http://ftp.gnome.org/pub/GNOME/sources/gexiv2/%minor_version%/'
+  VERSION_STRING='gexiv2-%version%.tar.xz'
+  ONLY_EVEN_MINORS=1
+}

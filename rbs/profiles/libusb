@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.0.21"
+VERSION="1.0.22"
 
 DIR="libusb-${VERSION}"
 TARBALL="libusb-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://prdownloads.sourceforge.net/libusb/${TARBALL}
 )
 
 MD5SUMS=(
-1da9ea3c27b3858fa85c5f4466003e44
+466267889daead47674df933cea9cacb
 )
 
 build(){

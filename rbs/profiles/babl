@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="0.1.10"
+VERSION="0.1.50"
 
 DIR="babl-${VERSION}"
 TARBALL="babl-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://download.gimp.org/pub/babl/$(cut -f-2 -d'.' <<< $VERSION)/${TARBALL}
 )
 
 MD5SUMS=(
-9e1542ab5c0b12ea3af076a9a2f02d79
+e7b937608a758004af5a9c254c77069b
 )
 
 build(){

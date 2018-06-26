@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.9"
+VERSION="2.9.1"
 
 DIR="freetype-${VERSION}"
 TARBALL="freetype-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ http://prdownloads.sourceforge.net/freetype/${TARBALL}
 )
 
 MD5SUMS=(
-513c403c110016fdc7e537216a642b1d
+60ef7d8160cd4bf8cb118ee9d65367ca
 )
 
 build(){
@@ -20,7 +20,7 @@ build(){
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc --localstatedir=/var || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
-  set_multiarch $TMPROOT/usr/bin/freetype-config || return 1
+  #######set_multiarch $TMPROOT/usr/bin/freetype-config || return 1
   cd ../ || return 1
   rm -rf $DIR || return 1
 }

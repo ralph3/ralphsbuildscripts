@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.3"
+VERSION="3.10"
 
 ONLY32=1
 
@@ -16,7 +16,7 @@ https://dl.winehq.org/wine/source/$(echo $VERSION | cut -f-1 -d'.').x/$TARBALL
 )
 
 MD5SUMS=(
-aef9c9382bed65b07f243a54d199dcd3
+eec9261ac33b46709f99537d359bd4ee
 )
 
 build(){

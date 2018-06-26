@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="18.0.0"
+VERSION="18.0.1"
 
 DIR="xf86-video-ati-${VERSION}"
 TARBALL="xf86-video-ati-${VERSION}.tar.bz2"
@@ -12,7 +12,7 @@ http://xorg.freedesktop.org/releases/individual/driver/${TARBALL}
 )
 
 MD5SUMS=(
-4d41bfe860dc719654cad3f82d00f6f3
+40e7c0a5a69aba3d84e0958f58705ea7
 )
 
 build(){

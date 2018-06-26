@@ -28,12 +28,12 @@ build(){
   
   sed -i 's/.\x08//g' README_FILES/* || return 1
   
-  make CCARGS='-DUSE_TLS -I/usr/include/openssl/' \
+  make tidy
+  make CCARGS='-DUSE_TLS' \
     AUXLIBS='-lz -lm -lssl -lcrypto' \
     makefiles || return 1
   
-  make CC="$CC $BUILD" CXX="$CXX $BUILD" CCARGS='-DUSE_TLS -I/usr/include/openssl/' \
-    AUXLIBS='-lz -lm -lssl -lcrypto' || return 1
+  make CC="$CC $BUILD" CXX="$CXX $BUILD" || return 1
   
   
   sh postfix-install -non-interactive \

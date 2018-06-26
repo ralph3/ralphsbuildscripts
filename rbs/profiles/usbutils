@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="009"
+VERSION="010"
 
 DIR="usbutils-${VERSION}"
 TARBALL="usbutils-${VERSION}.tar.xz"
@@ -12,7 +12,7 @@ https://www.kernel.org/pub/linux/utils/usb/usbutils/${TARBALL}
 )
 
 MD5SUMS=(
-a7cf9e8903041987efa5e5e0080e0b4d
+938e3707593974be99a0dd6d1de76671
 )
 
 build(){

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="0.9.9"
+VERSION="0.9.10"
 
 DIR="libunistring-${VERSION}"
 TARBALL="libunistring-${VERSION}.tar.xz"
@@ -10,7 +10,7 @@ https://ftp.gnu.org/gnu/libunistring/$TARBALL
 )
 
 MD5SUMS=(
-e4ecbf169a07ef021f89132e3fe55c02
+db08bb384e81968957f997ec9808926e
 )
 
 build(){

@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="1.2.5"
+VERSION="1.3.0.2"
 
 DIR="libfm-${VERSION}"
 TARBALL="libfm-${VERSION}.tar.xz"
@@ -12,7 +12,7 @@ http://prdownloads.sourceforge.net/pcmanfm/${TARBALL}
 )
 
 MD5SUMS=(
-a1ba9ae5e920f38b647dd511edd6c807
+02a024714d51e0d37afc7bd596a44f3b
 )
 
 build(){

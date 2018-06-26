@@ -18,7 +18,6 @@ fontsproto
 glproto
 inputproto
 kbproto
-randrproto
 renderproto
 scrnsaverproto
 trapproto
@@ -35,6 +34,7 @@ xf86vidmodeproto
 xineramaproto
 dri3proto
 presentproto
+xorgproto
 
 xproto
 xproxymanagementprotocol

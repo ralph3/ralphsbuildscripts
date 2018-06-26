@@ -1,0 +1,40 @@
+#!/bin/bash
+
+VERSION="1.8.2"
+
+DIR="ninja-${VERSION}"
+TARBALL="ninja-${VERSION}.tar.gz"
+
+SRC1=(
+https://github.com/ninja-build/ninja/archive/v${VERSION}/$TARBALL
+)
+
+MD5SUMS=(
+5fdb04461cc7f5d02536b3bfc0300166
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  python3 configure.py --bootstrap || return 1
+  python3 configure.py || return 1
+  ./ninja ninja_test || return 1
+  ./ninja_test --gtest_filter=-SubprocessTest.SetWithLots || return 1
+  
+  mkdir -vp $TMPROOT/usr/{bin,share/{bash-completion/completions,zsh/site-functions/_ninja}} || return 1
+  
+  install -vm755 ninja $TMPROOT/usr/bin/ || return 1
+  install -vDm644 misc/ninja.vim \
+                  $TMPROOT/usr/share/vim/vim80/syntax/ninja.vim || return 1
+  install -vDm644 misc/bash-completion \
+                  $TMPROOT/usr/share/bash-completion/completions/ninja || return 1
+  install -vDm644 misc/zsh-completion \
+                  $TMPROOT/usr/share/zsh/site-functions/_ninja || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+#version_check_info(){
+#  ADDRESS='https://github.com/mesonbuild/meson/releases/'
+#  VERSION_STRING='meson-%version%.tar.gz'
+#}

@@ -1,0 +1,31 @@
+#!/bin/bash
+
+VERSION="0.46.1"
+
+DIR="meson-${VERSION}"
+TARBALL="meson-${VERSION}.tar.gz"
+
+SRC1=(
+https://github.com/mesonbuild/meson/releases/download/$VERSION/$TARBALL
+)
+
+MD5SUMS=(
+1698f6526574839de5dcdc45e3f7d582
+)
+
+build(){
+  unpack_tarball $TARBALL || return 1
+  cd $SRCDIR/$DIR || return 1
+  python3 setup.py install --prefix=/usr  \
+			--install-lib=/usr/$LIBSDIR/python3/lib/$(basename $(find /usr/$LIBSDIR/python3/lib/python3.? -maxdepth 0))/site-packages \
+                        --optimize=1   \
+                        --install-data=/usr/share \
+			--root $TMPROOT || return 1
+  cd ../ || return 1
+  rm -rf $DIR || return 1
+}
+
+version_check_info(){
+  ADDRESS='https://github.com/mesonbuild/meson/releases/'
+  VERSION_STRING='meson-%version%.tar.gz'
+}

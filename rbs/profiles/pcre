@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="8.41"
+VERSION="8.42"
 
 DIR="pcre-${VERSION}"
 TARBALL="pcre-${VERSION}.tar.bz2"
@@ -10,7 +10,7 @@ ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/${TARBALL}
 )
 
 MD5SUMS=(
-c160d22723b1670447341b08c58981c1
+085b6aa253e0f91cae70b3cdbe8c1ac2
 )
 
 build(){

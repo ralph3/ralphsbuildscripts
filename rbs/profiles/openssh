@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="7.6p1"
+VERSION="7.6p1" ##7.7p1 needs a diff openssl 1.1.0 patch.
 
 DIR="openssh-$VERSION"
 TARBALL="openssh-${VERSION}.tar.gz"

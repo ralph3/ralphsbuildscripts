@@ -33,6 +33,7 @@ build(){
 version_check_info(){
   ADDRESS='http://www.oracle.com/technetwork/database/database-technologies/berkeleydb/downloads/index.html'
   VERSION_STRING='DB %version%.tar.gz'
+  MINOR_VERSION='6.2'
   VERSION_FILTERS='[a-z] [A-Z]'
 }
 
