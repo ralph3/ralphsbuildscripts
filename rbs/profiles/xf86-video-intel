@@ -2,25 +2,26 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="2.21.15"
+VERSION="20180223"
 
 DIR="xf86-video-intel-${VERSION}"
-TARBALL="xf86-video-intel-${VERSION}.tar.bz2"
+TARBALL="xf86-video-intel-${VERSION}.tar.xz"
 
 SRC1=(
-http://xorg.freedesktop.org/releases/individual/driver/${TARBALL}
+http://anduin.linuxfromscratch.org/BLFS/xf86-video-intel/${TARBALL}
 )
 
 MD5SUMS=(
-8b646d257ace8197d6ab4e5ddeb8efb2
+bca9c6bbada7dc5a19252e930c1bc587
 )
 
 build(){
   unpack_tarball $TARBALL || return 1
   cd $SRCDIR/$DIR || return 1
-  CC="$CC $BUILD" CXX="$CXX $BUILD" ./configure --prefix=/usr \
+  CC="$CC $BUILD" CXX="$CXX $BUILD" ./autogen.sh --prefix=/usr \
     --libdir=/usr/$LIBSDIR --sysconfdir=/etc --localstatedir=/var \
-    --with-xorg-module-dir=/usr/$LIBSDIR/X11/modules || return 1
+    --with-xorg-module-dir=/usr/$LIBSDIR/X11/modules --enable-kms-only \
+    --enable-uxa || return 1
   make || return 1
   make install DESTDIR=$TMPROOT || return 1
   cd ../ || return 1
@@ -28,7 +29,7 @@ build(){
 }
 
 version_check_info(){
-  ADDRESS='http://xorg.freedesktop.org/releases/individual/driver/'
-  VERSION_FILTERS='.90 .99'
-  VERSION_STRING='xf86-video-intel-%version%.tar.bz2'
+  ADDRESS='http://anduin.linuxfromscratch.org/BLFS/xf86-video-intel/'
+  #VERSION_FILTERS='.90 .99'
+  VERSION_STRING='xf86-video-intel-%version%.tar.xz'
 }
