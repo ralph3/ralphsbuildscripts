@@ -71,6 +71,7 @@ xz
 zip
 bootscripts
 wireless_tools
+wpa_supplicant
 gpm
 expat
 libffi
