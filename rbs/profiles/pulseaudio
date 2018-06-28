@@ -3,7 +3,7 @@
 DONT_REMOVE=1
 DISABLE_MULTILIB=1
 
-VERSION="11.99.1"
+VERSION="12.0"
 
 DIR="pulseaudio-${VERSION}"
 TARBALL="pulseaudio-${VERSION}.tar.xz"
@@ -13,7 +13,7 @@ https://www.freedesktop.org/software/pulseaudio/releases/${TARBALL}
 )
 
 MD5SUMS=(
-28fa96ae95e5ab12f7f577f8c01ab195
+0
 )
 
 build(){
