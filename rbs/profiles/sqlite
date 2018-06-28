@@ -12,7 +12,7 @@ http://ftp.lfs-matrix.net/pub/blfs/conglomeration/sqlite/${TARBALL}
 )
 
 MD5SUMS=(
-0
+dcd96fb9bbb603d29f6b0ad9554932ee
 )
 
 build(){

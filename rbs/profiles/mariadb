@@ -13,7 +13,7 @@ http://mirrors.n-ix.net/mariadb/mariadb-${VERSION}/source/$TARBALL
 )
 
 MD5SUMS=(
-0
+234156a94f8ea6cff92c4751880b8316
 )
 
 build(){

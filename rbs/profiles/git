@@ -8,12 +8,12 @@ DIR="git-${VERSION}"
 TARBALL="git-${VERSION}.tar.xz"
 
 SRC1=(
+https://mirrors.edge.kernel.org/pub/software/scm/git/
 http://kernel.org/pub/software/scm/git/${TARBALL}
-http://mirror.anl.gov/pub/software/scm/git/$TARBALL
 )
 
 MD5SUMS=(
-0
+7a668403aa7807d0db37e8573299d471
 )
 
 build(){

@@ -11,7 +11,7 @@ http://ftp.gnu.org/gnu/gdbm/${TARBALL}
 )
 
 MD5SUMS=(
-0
+05ee82b8f9188a8228c2384f4b9f2eac
 )
 
 build(){

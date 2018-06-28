@@ -12,7 +12,7 @@ http://us.php.net/distributions/${TARBALL}
 )
 
 MD5SUMS=(
-0
+3714de04f777c1925abb0f7d6646e99d
 )
 
 build(){

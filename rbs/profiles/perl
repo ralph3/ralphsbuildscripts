@@ -13,7 +13,7 @@ http://www.cpan.org/src/5.0/${TARBALL}
 )
 
 MD5SUMS=(
-0
+c7c63781745e280e08401a306a83bfb8
 )
 
 Tools_Build(){

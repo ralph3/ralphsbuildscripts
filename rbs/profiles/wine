@@ -16,7 +16,7 @@ https://dl.winehq.org/wine/source/$(echo $VERSION | cut -f-1 -d'.').x/$TARBALL
 )
 
 MD5SUMS=(
-0
+34ffa2f1177207bdd92bafbc480db105
 )
 
 build(){

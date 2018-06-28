@@ -8,11 +8,11 @@ DIR="icu4c-${VERSION}"
 TARBALL="icu4c-${VERSION}-src.tgz"
 
 SRC1=(
-http://download.icu-project.org/files/icu4c/61.1/${TARBALL}
+http://download.icu-project.org/files/icu4c/62.1/${TARBALL}
 )
 
 MD5SUMS=(
-0
+490ad9d920158e0314e10ba74ae9a150
 )
 
 build(){

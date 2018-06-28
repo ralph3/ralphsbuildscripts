@@ -13,7 +13,7 @@ http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_${VERSION}_RTM/
 )
 
 MD5SUMS=(
-0
+cd649be8ee61fe15d64d7bef361b37ba
 )
 
 build(){

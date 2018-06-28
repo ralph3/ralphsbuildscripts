@@ -13,7 +13,7 @@ ftp://ftp.imagemagick.org/pub/ImageMagick/${TARBALL}
 )
 
 MD5SUMS=(
-0
+d98d4a737d3059934d9a538da84e6854
 )
 
 build(){

@@ -10,7 +10,7 @@ http://www.python.org/ftp/python/${VERSION}/${TARBALL}
 )
 
 MD5SUMS=(
-0
+eb8c2a6b1447d50813c02714af4681f3
 )
 
 build(){
