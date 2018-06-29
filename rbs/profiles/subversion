@@ -20,10 +20,11 @@ build(){
   cd $SRCDIR/$DIR || return 1
   groupadd svn
   useradd -c "SVN Owner" -d /home/svn -m -g svn -s /bin/false svn
-  CC="$CC $BUILD -std=gnu99" CXX="$CXX $BUILD -std=gnu99" \
+  CC="$CC $BUILD" CXX="$CXX $BUILD" \
     ./configure --prefix=/usr --libdir=/usr/$LIBSDIR --with-serf=/usr \
     --with-lz4=internal \
-    --with-utf8proc=internal || return 1
+    --with-utf8proc=internal \
+    --with-apache-libexecdir=/usr/$LIBSDIR/httpd || return 1
   make || return 1
   make swig-pl || return 1
   make install DESTDIR=$TMPROOT || return 1
