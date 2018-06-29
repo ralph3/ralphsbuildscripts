@@ -2,7 +2,7 @@
 
 DISABLE_MULTILIB=1
 
-VERSION="3.0.5"
+VERSION="3.0.12"
 
 DIR="swig-${VERSION}"
 TARBALL="swig-${VERSION}.tar.gz"
@@ -12,7 +12,7 @@ http://downloads.sourceforge.net/swig/${TARBALL}
 )
 
 MD5SUMS=(
-dcb9638324461b9baba8e044fe59031d
+82133dfa7bba75ff9ad98a7046be687c
 )
 
 build(){
